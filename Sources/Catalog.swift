@@ -16,6 +16,28 @@ struct Package: Identifiable, Hashable, Codable {
     let availability: String
     let sourceNumbers: [Int]
     let formulaLicense: String?
+    let github: String?
+    let githubSource: String?
+    let githubPurpose: String?
+    let homepageSource: String?
+    let version: String?
+    static func webURL(_ value: String?) -> URL? {
+        guard let value, let url = URL(string: value),
+              ["http", "https"].contains(url.scheme?.lowercased() ?? ""),
+              let host = url.host, !host.isEmpty,
+              url.user == nil, url.password == nil else { return nil }
+        return url
+    }
+    var websiteURL: URL? { Self.webURL(homepage) }
+    var githubURL: URL? {
+        guard let url = Self.webURL(github), url.scheme == "https", url.host?.lowercased() == "github.com",
+              url.pathComponents.count == 3 else { return nil }
+        return url
+    }
+    var catalogURL: URL? {
+        guard !token.hasPrefix("manual-") else { return nil }
+        return URL(string: "https://formulae.brew.sh/\(cask ? "cask" : "formula")/\(token)")
+    }
     var id: String { (token.hasPrefix("manual-") ? "manual:" : cask ? "cask:" : "brew:") + token }
     var installable: Bool { availability.isEmpty && !token.hasPrefix("manual-") }
     var category: String { placements.first?.category ?? "Other" }

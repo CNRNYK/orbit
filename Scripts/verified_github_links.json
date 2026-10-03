@@ -1,0 +1,294 @@
+{
+  "Raycast": [
+    "https://github.com/raycast/extensions",
+    "Extensions"
+  ],
+  "AlDente": [
+    "https://github.com/AppHouseKitchen/AlDente-Battery_Care_and_Monitoring",
+    "Project resources"
+  ],
+  "Firefox": [
+    "https://github.com/mozilla-firefox/firefox",
+    "Source repository"
+  ],
+  "Firefox Developer Edition": [
+    "https://github.com/mozilla-firefox/firefox",
+    "Source repository"
+  ],
+  "Chromium": [
+    "https://github.com/chromium/chromium",
+    "Source mirror"
+  ],
+  "Mullvad Browser": [
+    "https://github.com/mullvad/mullvad-browser",
+    "Project resources"
+  ],
+  "Claude Code": [
+    "https://github.com/anthropics/claude-code",
+    "Project resources"
+  ],
+  "Continue": [
+    "https://github.com/continuedev/continue",
+    "Source repository"
+  ],
+  "Visual Studio Code": [
+    "https://github.com/microsoft/vscode",
+    "Code OSS source"
+  ],
+  "IntelliJ IDEA": [
+    "https://github.com/JetBrains/intellij-community",
+    "Community source"
+  ],
+  "PyCharm": [
+    "https://github.com/JetBrains/intellij-community",
+    "Community source"
+  ],
+  "Emacs": [
+    "https://github.com/emacs-mirror/emacs",
+    "Source mirror"
+  ],
+  "Ghostty": [
+    "https://github.com/ghostty-org/ghostty",
+    "Source repository"
+  ],
+  "Zsh": [
+    "https://github.com/zsh-users/zsh",
+    "Source mirror"
+  ],
+  "GitHub Desktop": [
+    "https://github.com/desktop/desktop",
+    "Source repository"
+  ],
+  "Docker Desktop": [
+    "https://github.com/docker/for-mac",
+    "Issue tracker"
+  ],
+  "OrbStack": [
+    "https://github.com/orbstack/orbstack",
+    "Issue tracker"
+  ],
+  "QEMU": [
+    "https://github.com/qemu/qemu",
+    "Source mirror"
+  ],
+  "Postman": [
+    "https://github.com/postmanlabs/postman-app-support",
+    "Issue tracker"
+  ],
+  "DBeaver Community": [
+    "https://github.com/dbeaver/dbeaver",
+    "Source repository"
+  ],
+  "psql": [
+    "https://github.com/postgres/postgres",
+    "Source mirror"
+  ],
+  "MongoDB Compass": [
+    "https://github.com/mongodb-js/compass",
+    "Source repository"
+  ],
+  "Redis Insight": [
+    "https://github.com/redis/RedisInsight",
+    "Source repository"
+  ],
+  "SQLiteStudio": [
+    "https://github.com/pawelsalawa/letos",
+    "Source repository"
+  ],
+  "sqlite": [
+    "https://github.com/sqlite/sqlite",
+    "Source mirror"
+  ],
+  "Lens": [
+    "https://github.com/lensapp/lens",
+    "Project resources"
+  ],
+  "nmap": [
+    "https://github.com/nmap/nmap",
+    "Source repository"
+  ],
+  "Python 3.14": [
+    "https://github.com/python/cpython",
+    "Source repository"
+  ],
+  "Maven": [
+    "https://github.com/apache/maven",
+    "Source repository"
+  ],
+  "Lua": [
+    "https://github.com/lua/lua",
+    "Source mirror"
+  ],
+  "WireGuard": [
+    "https://github.com/WireGuard/wireguard-apple",
+    "Apple source mirror"
+  ],
+  "Proton VPN": [
+    "https://github.com/ProtonVPN/ios-mac-app",
+    "Apple app source"
+  ],
+  "Penpot": [
+    "https://github.com/penpot/penpot",
+    "Source repository"
+  ],
+  "Excalidraw": [
+    "https://github.com/excalidraw/excalidraw",
+    "Source repository"
+  ],
+  "RawTherapee": [
+    "https://github.com/RawTherapee/RawTherapee",
+    "Source repository"
+  ],
+  "ImageGlass": [
+    "https://github.com/d2phap/ImageGlass",
+    "Source repository"
+  ],
+  "BlackHole 2ch": [
+    "https://github.com/ExistentialAudio/BlackHole",
+    "Source repository"
+  ],
+  "BlackHole 16ch": [
+    "https://github.com/ExistentialAudio/BlackHole",
+    "Source repository"
+  ],
+  "Strawberry": [
+    "https://github.com/strawberrymusicplayer/strawberry",
+    "Source repository"
+  ],
+  "Anytype": [
+    "https://github.com/anyproto/anytype-ts",
+    "Desktop source"
+  ],
+  "Zotero": [
+    "https://github.com/zotero/zotero",
+    "Source repository"
+  ],
+  "Telegram": [
+    "https://github.com/overtake/TelegramSwift",
+    "Mac app source"
+  ],
+  "Signal": [
+    "https://github.com/signalapp/Signal-Desktop",
+    "Desktop source"
+  ],
+  "Element": [
+    "https://github.com/element-hq/element-desktop",
+    "Desktop source"
+  ],
+  "VeraCrypt": [
+    "https://github.com/veracrypt/VeraCrypt",
+    "Source repository"
+  ],
+  "qBittorrent": [
+    "https://github.com/qbittorrent/qBittorrent",
+    "Source repository"
+  ],
+  "Fritzing": [
+    "https://github.com/fritzing/fritzing-app",
+    "Source repository"
+  ],
+  "QGIS": [
+    "https://github.com/qgis/QGIS",
+    "Source mirror"
+  ],
+  "RStudio": [
+    "https://github.com/rstudio/rstudio",
+    "Source repository"
+  ],
+  "JupyterLab": [
+    "https://github.com/jupyterlab/jupyterlab",
+    "Source repository"
+  ],
+  "Geogebra": [
+    "https://github.com/geogebra/geogebra",
+    "Source mirror"
+  ],
+  "Flutter": [
+    "https://github.com/flutter/flutter",
+    "Source repository"
+  ],
+  "React Native tooling": [
+    "https://github.com/react/react-native",
+    "Source repository"
+  ],
+  "Expo CLI": [
+    "https://github.com/expo/expo",
+    "Project repository"
+  ],
+  "Ventoy": [
+    "https://github.com/ventoy/Ventoy",
+    "Source repository"
+  ],
+  "Mullvad VPN": [
+    "https://github.com/mullvad/mullvadvpn-app",
+    "App source"
+  ],
+  "Tailscale": [
+    "https://github.com/tailscale/tailscale",
+    "Core networking source"
+  ],
+  "Wireshark": [
+    "https://github.com/wireshark/wireshark",
+    "Source mirror"
+  ],
+  "Inkscape": [
+    "https://github.com/inkscape/inkscape",
+    "Project resources"
+  ],
+  "GIMP": [
+    "https://github.com/GNOME/gimp",
+    "Source mirror"
+  ],
+  "Krita": [
+    "https://github.com/KDE/krita",
+    "Source mirror"
+  ],
+  "Blender": [
+    "https://github.com/blender/blender",
+    "Source mirror"
+  ],
+  "Wings 3D": [
+    "https://github.com/dgud/wings",
+    "Source repository"
+  ],
+  "digiKam": [
+    "https://github.com/KDE/digikam",
+    "Source mirror"
+  ],
+  "ExifTool": [
+    "https://github.com/exiftool/exiftool",
+    "Source repository"
+  ],
+  "VLC": [
+    "https://github.com/videolan/vlc",
+    "Source mirror"
+  ],
+  "Kdenlive": [
+    "https://github.com/KDE/kdenlive",
+    "Source mirror"
+  ],
+  "LibreOffice": [
+    "https://github.com/LibreOffice/core",
+    "Source mirror"
+  ],
+  "GnuPG": [
+    "https://github.com/gpg/gnupg",
+    "Source mirror"
+  ],
+  "GNU Octave": [
+    "https://github.com/gnu-octave/octave",
+    "Source mirror"
+  ],
+  "Heroku CLI": [
+    "https://github.com/heroku/cli",
+    "Source repository"
+  ],
+  "Marta": [
+    "https://github.com/marta-file-manager/marta-issues",
+    "Issue tracker"
+  ],
+  "Deluge": [
+    "https://github.com/deluge-torrent/deluge",
+    "Source repository"
+  ]
+}

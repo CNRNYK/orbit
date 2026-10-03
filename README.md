@@ -16,6 +16,14 @@ Homebrew runs as your user, not as root. For individual installers requiring adm
 
 Installation is sequential. Logs are visible in **Operation details**. A failed package does not stop subsequent packages. **Stop after current app** waits for the running installer to finish instead of terminating it. Quitting during an installation is blocked. No extra cleanup, forced reinstall, automatic adoption, or automatic upgrade commands are used. Dependencies and vendor installers may still make changes as part of normal installation.
 
+## App details and links
+
+Click an app's icon, name, description, or info button to open its detail sheet. It shows a description, every category placement, installation availability, catalog version, package license when provided by Homebrew, and official links. Viewing details never starts installation or removal. The checkbox remains a separate selection control.
+
+All 432 entries include an official website or project page. 314 have evidence-backed GitHub links. Source mirrors, extension collections, and issue trackers are labeled separately from source repositories. Unverified GitHub links are not guessed. GitHub links do not imply that the installed application itself is open source. Homebrew package pages are also linked when available.
+
+Link provenance is stored in the catalog. `Scripts/update_package_links.py --metadata-dir /path/to/cache` can refresh links from official Homebrew API snapshots and package homepages; reviewed repository links are stored in `Scripts/verified_github_links.json`. External links open in the default browser; only HTTP(S) URLs without embedded credentials are accepted.
+
 ## Categories and starter selections
 
 Expand a sidebar category to browse its subcategories, or use the section picker. Search includes package names, descriptions, categories, and subcategories. In All Apps, each package appears once; inside a category, repeated tools appear in their relevant category placement but share one selection and installation ID.

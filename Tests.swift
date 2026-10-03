@@ -15,6 +15,19 @@ import Foundation
         precondition(Catalog.loadError == nil && Catalog.packages.count > 400)
         precondition(Set(Catalog.packages.flatMap(\.sourceNumbers)) == Set(1...437))
         precondition(Catalog.packages.flatMap(\.sourceNumbers).count == 437)
+        precondition(Catalog.packages.allSatisfy { $0.websiteURL != nil && $0.homepageSource != nil })
+        precondition(Catalog.packages.filter { $0.github != nil }.allSatisfy { $0.githubURL != nil && $0.githubSource != nil })
+        precondition(Package.webURL("javascript:alert(1)") == nil)
+        precondition(Package.webURL("file:///tmp/untrusted") == nil)
+        precondition(Package.webURL("https://user:password@example.com") == nil)
+        precondition(Package.webURL("https://github.com/microsoft/vscode") != nil)
+        let vscode = Catalog.packages.first { $0.token == "visual-studio-code" }!
+        precondition(vscode.githubURL?.absoluteString == "https://github.com/microsoft/vscode")
+        model.detailPackage = vscode
+        precondition(model.selected.isEmpty || model.detailPackage?.id == vscode.id)
+        let previousSelection = model.selected
+        model.detailPackage = Catalog.packages.first
+        precondition(model.selected == previousSelection, "Opening details must not change selection")
         for ids in Catalog.presets.values {
             precondition(ids.allSatisfy { id in Catalog.packages.contains { $0.id == id && $0.installable } })
         }
@@ -57,6 +70,6 @@ import Foundation
         precondition(Store.removalArguments(formula) == ["uninstall", "--formula", formula.token])
         precondition(!Store.removalArguments(app).contains("--zap"))
         precondition(!Store.removalArguments(formula).contains("--ignore-dependencies"))
-        print("PASS: process runner, 437 source entries, category placements, starter presets, manual-package blocking, install/uninstall planning")
+        print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, presets, install/uninstall planning")
     }
 }
