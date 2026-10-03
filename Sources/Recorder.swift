@@ -35,6 +35,10 @@ import UniformTypeIdentifiers
     var controlsVisible: Bool { hud?.isVisible == true }
     var canBegin: () -> Bool = { true }
     var preview = false
+    var requestSources: () async throws -> RecorderSourceSnapshot = {
+        let content = try await SCShareableContent.excludingDesktopWindows(true,onScreenWindowsOnly:true)
+        return RecorderSourceSnapshot(displays:content.displays,windows:content.windows)
+    }
     private var engine: RecorderEngine?, destination: URL?, directory: URL?
     private var startTask: Task<Void,Never>?, token = UUID(), ticker: Timer?, hud: NSPanel?
     private let tracker = RecorderInputTracker(), picker = RecorderRegionPicker()
@@ -60,14 +64,17 @@ import UniformTypeIdentifiers
         guard !preview, !loadingSources else { return false }
         loadingSources = true; defer { loadingSources = false }
         do {
-            guard CGPreflightScreenCaptureAccess() || CGRequestScreenCaptureAccess() else { throw RecorderProblem(message:"Allow Screen Recording for Orbit in System Settings, then refresh sources. macOS may ask you to reopen Orbit.") }
-            let content = try await SCShareableContent.excludingDesktopWindows(true,onScreenWindowsOnly:true)
+            notice = nil
+            let content = try await requestSources()
             displays = content.displays
             windows = content.windows.filter { $0.owningApplication?.processID != ProcessInfo.processInfo.processIdentifier && $0.frame.width >= 40 && $0.frame.height >= 40 && $0.windowLayer == 0 }.sorted { ($0.owningApplication?.applicationName ?? "").localizedCaseInsensitiveCompare($1.owningApplication?.applicationName ?? "") == .orderedAscending }
             if selectedDisplay == nil { displayID = displays.first(where:{ $0.displayID == CGMainDisplayID() })?.displayID ?? displays.first?.displayID ?? 0; area = nil }
             if selectedWindow == nil { windowID = 0 }
             status = "Choose your capture source and effects. Audio and camera are optional."; return true
-        } catch { notice = error.localizedDescription; return false }
+        } catch {
+            displays = []; windows = []; displayID = 0; windowID = 0; area = nil; options.masks = []
+            notice = RecorderCaptureAccess.message(error); status = "Screen sources could not be refreshed."; return false
+        }
     }
     func modeChanged() { area = nil; options.masks = [] }
     func chooseArea() async {
@@ -318,5 +325,19 @@ struct RecorderPlayerView: NSViewRepresentable {
     static func dismantleNSView(_ view: AVPlayerView, coordinator: ()) {
         view.player?.pause()
         view.player = nil
+    }
+}
+
+// ScreenCaptureKit is the authority for this capture path. A legacy CoreGraphics
+// preflight must not reject access before ScreenCaptureKit is queried.
+struct RecorderSourceSnapshot { var displays: [SCDisplay]; var windows: [SCWindow] }
+enum RecorderCaptureAccess {
+    static func message(_ error: Error) -> String {
+        let native = error as NSError
+        let diagnostic = "macOS error: \(native.domain) (\(native.code))."
+        if native.domain == SCStreamErrorDomain && native.code == SCStreamError.Code.userDeclined.rawValue {
+            return "macOS denied screen access to this running copy of Orbit. If Orbit is already enabled in Screen & System Audio Recording, quit Orbit completely and reopen the copy in Applications. If it still fails, remove only Orbit from that permission list and add /Applications/Orbit.app again.\n" + diagnostic
+        }
+        return "ScreenCaptureKit could not load capture sources: \(native.localizedDescription)\n" + diagnostic
     }
 }
