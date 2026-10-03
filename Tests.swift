@@ -119,6 +119,7 @@ import Foundation
             print("PASS: read-only live Homebrew JSON parsed (\(updates.count) catalog updates)")
         }
         await LifecycleTests.run()
+        await RepairTests.run()
         print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, official bundled icon decoding and size limits, presets, install/uninstall planning")
     }
 }

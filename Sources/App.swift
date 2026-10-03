@@ -115,6 +115,7 @@ struct ContentView: View {
         .background(Color(nsColor: .windowBackgroundColor))
         .task { if !store.preview { await LogoStore.shared.start() } }
         .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.refresh() } }
+        .sheet(item: $store.repairReview) { repair in RemovalRepairView(store: store, repair: repair) }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
         .sheet(isPresented: $store.showUpdateReview) { UpdateReviewView(store: store) }
         .sheet(isPresented: $store.showRemovalReview) { RemovalReviewView(store: store) }
@@ -222,12 +223,18 @@ struct ContentView: View {
                     Link(destination: url) { Image(systemName: "arrow.up.right.square") }.help("Open official setup page")
                 }
             }
+            if store.uninstallMode && store.repairOptions[app.id] != nil {
+                Button("Repair & Retry") { Task { await store.prepareRepair(app.id) } }.controlSize(.small).disabled(store.locked)
+            }
+            if store.uninstallMode, store.repairOptions[app.id] == nil, let message = store.failureMessages[app.id] {
+                Button("View error") { store.notice = message }.controlSize(.small)
+            }
             let status = store.statuses[app.id] ?? (store.installed.contains(app.id) ? "Installed" : app.manualAppExists ? "On this Mac" : "")
             if !status.isEmpty {
-                Text(status).font(.caption).foregroundStyle(status == "Failed" ? Color.red : status == "Installed" ? Color.green : Color.secondary).padding(.horizontal, 9).padding(.vertical, 5).background(Color.primary.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 6))
+                Text(status).font(.caption).foregroundStyle((status == "Failed" || status == "Repair failed") ? Color.red : status == "Installed" ? Color.green : status == "Repair available" ? Color.orange : Color.secondary).padding(.horizontal, 9).padding(.vertical, 5).background(Color.primary.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 6))
             }
             Button { store.detailPackage = app } label: { Image(systemName: "info.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help("App details and links").accessibilityLabel("Details for \(app.name)")
-        }.padding(.horizontal, 14).padding(.vertical, 12)
+        }.padding(.horizontal, 14).padding(.vertical, 12).help(store.failureMessages[app.id] ?? "View app details")
     }
     var selectionPanel: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -472,6 +479,11 @@ struct MacSetupApp: App {
                 previewStore.updates = Catalog.packages.filter { ["git", "blender", "google-chrome"].contains($0.token) }.map { UpdateItem(package: $0, installedVersion: "1.0", availableVersion: "2.0") }
                 root = AnyView(ContentView(store: previewStore))
             }
+            if CommandLine.arguments.contains("--repair-preview") {
+                let package = Catalog.packages.first { $0.token == "figma" }!
+                let repair = RemovalRepair(package: package, caskroom: "/opt/homebrew/Caskroom", source: "/opt/homebrew/Caskroom/figma/126.9.11/Figma.app", inode: 0, device: 0, cleanup: [])
+                root = AnyView(RemovalRepairView(store: previewStore, repair: repair)); size = NSSize(width: 700, height: 520)
+            }
             if CommandLine.arguments.contains("--clean") {
                 let package = Catalog.packages.first { $0.token == "blender" }!
                 previewStore.removalPlan = [package]; previewStore.cleanRemoval = true
@@ -598,5 +610,31 @@ struct UpdateReviewView: View {
                 Button("Update \(store.updateQueue.count) apps") { Task { await store.upgrade() } }.buttonStyle(.borderedProminent)
             }
         }.padding(24).frame(width: 700, height: 500).background(Color(nsColor: .windowBackgroundColor))
+    }
+}
+
+struct RemovalRepairView: View {
+    @ObservedObject var store: Store
+    let repair: RemovalRepair
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Label("Repair removal of " + repair.package.name + "?", systemImage: "wrench.and.screwdriver").font(.title2.bold())
+            Text("The app is missing from Applications, but Homebrew still has a stored copy and an installed record.").foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Conflicting stored app").bold()
+                Text(repair.source).font(.caption).textSelection(.enabled)
+            }.padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Color.primary.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius: 9))
+            Text("Repair & Retry asks Homebrew to force removal of this app only, including the conflicting stored copy. It does not reinstall the app or bypass formula dependency checks.")
+            Text(repair.cleanup.isEmpty ? "No extra data cleanup is selected." : "After verified removal, the \(repair.cleanup.count) leftover items you previously selected will move to Trash. No new paths will be added.").font(.caption).foregroundStyle(.secondary)
+            if !repair.cleanup.isEmpty {
+                ScrollView { ForEach(repair.cleanup) { item in Text(item.path + " · " + item.size).font(.caption).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 3) } }
+            } else { Spacer() }
+            HStack {
+                Button("Cancel") { store.repairReview = nil }.keyboardShortcut(.cancelAction)
+                Button("Operation details") { store.repairReview = nil; store.showLog = true }
+                Spacer()
+                Button(store.preparing ? "Checking…" : "Repair & Retry", role: .destructive) { Task { await store.repairAndRetry() } }.buttonStyle(.borderedProminent).tint(.red).disabled(store.locked)
+            }
+        }.padding(24).frame(width: 700, height: 520).background(Color(nsColor: .windowBackgroundColor))
     }
 }
