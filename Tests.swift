@@ -11,7 +11,7 @@ import Foundation
         precondition(missing.0 == -1 && !missing.1.isEmpty)
         let largeOutput = await BrewRunner.run("/usr/bin/head", ["-c", "200000", "/dev/zero"])
         precondition(largeOutput.0 == 0 && largeOutput.1.count == 200000, "Output larger than a pipe buffer must not deadlock")
-        let model = Store()
+        let model = Store(persistSelection: false)
         precondition(Catalog.loadError == nil && Catalog.packages.count > 400)
         precondition(Set(Catalog.packages.flatMap(\.sourceNumbers)) == Set(1...437))
         precondition(Catalog.packages.flatMap(\.sourceNumbers).count == 437)
@@ -80,6 +80,7 @@ import Foundation
         precondition(Store.removalArguments(formula) == ["uninstall", "--formula", formula.token])
         precondition(!Store.removalArguments(app).contains("--zap"))
         precondition(!Store.removalArguments(formula).contains("--ignore-dependencies"))
+        await LifecycleTests.run()
         print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, official bundled icon decoding and size limits, presets, install/uninstall planning")
     }
 }

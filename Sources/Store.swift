@@ -33,6 +33,8 @@ enum BrewRunner {
             env["HOMEBREW_NO_INSTALL_UPGRADE"] = "1"
             env["HOMEBREW_NO_COLOR"] = "1"
             env["HOMEBREW_NO_AUTOREMOVE"] = "1"
+            env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY")
+            env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY_CASKS")
             if let helper = Bundle.main.path(forResource: "askpass", ofType: "sh") { env["SUDO_ASKPASS"] = helper }
             process.environment = env
             process.standardInput = FileHandle.nullDevice
@@ -53,8 +55,31 @@ enum BrewRunner {
     }
 }
 
+protocol CommandExecuting: Sendable {
+    func run(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String)
+}
+struct SystemCommands: CommandExecuting {
+    func run(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String) {
+        await BrewRunner.run(executable, arguments, log: log)
+    }
+}
+
 @MainActor final class Store: ObservableObject {
-    @Published var uninstallMode = false
+    @Published var mode = ActionMode.install
+    var uninstallMode: Bool { get { mode == .uninstall } set { mode = newValue ? .uninstall : .install } }
+    var updateMode: Bool { mode == .updates }
+    @Published var updates = [UpdateItem]()
+    @Published var selectedUpdates = Set<String>()
+    @Published var updateQueue = [UpdateItem]()
+    @Published var includeSelfUpdating = false
+    @Published var updatesChecked = false
+    @Published var showUpdateReview = false
+    @Published var cleanRemoval = false
+    @Published var leftovers = [Leftover]()
+    @Published var selectedLeftovers = Set<String>()
+    @Published var cleanupMessages = [String]()
+    @Published var checkingAppRelease = false
+    @Published var appReleaseStatus = "Check published releases for Mac Setup updates."
     @Published var removalPlan = [Package]()
     @Published var showRemovalReview = false
     @Published var category = "All Apps"
@@ -62,7 +87,7 @@ enum BrewRunner {
     @Published var detailPackage: Package?
     @Published var search = ""
     @Published var selected = Set<String>() {
-        didSet { UserDefaults.standard.set(Array(selected), forKey: "selection") }
+        didSet { if persistSelection { UserDefaults.standard.set(Array(selected), forKey: "selection") } }
     }
     @Published var installed = Set<String>()
     @Published var inventoryKnown = false
@@ -80,13 +105,25 @@ enum BrewRunner {
     @Published var showLog = false
     @Published var notice: String?
     @Published var headline = "Choose your apps. Make it yours."
-    var brew: String? { BrewRunner.path }
+    var commandRunner: any CommandExecuting = SystemCommands()
+    var brewExecutable: String?
+    var scanLeftovers: @Sendable ([Package]) -> [Leftover] = { Cleanup.scan($0) }
+    var trashLeftover: (Leftover) throws -> Void = { try Cleanup.trash($0) }
+    var brew: String? { brewExecutable ?? BrewRunner.path }
+    func runCommand(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void = { _ in }) async -> (Int32, String) {
+        await commandRunner.run(executable, arguments, log: log)
+    }
+    var visibleUpdates: [UpdateItem] { updates.filter { search.isEmpty || ($0.package.name + " " + $0.package.detail).localizedCaseInsensitiveContains(search) } }
     var selection: [Package] { Catalog.packages.filter { selected.contains($0.id) } }
     var visible: [Package] {
         Catalog.packages.filter { (!uninstallMode || (inventoryKnown && installed.contains($0.id))) && (category == "All Apps" || $0.belongs(to: category, subcategory: subcategory)) && (search.isEmpty || ($0.name + " " + $0.detail + " " + $0.placements.map { $0.category + " " + $0.subcategory }.joined(separator: " ")).localizedCaseInsensitiveContains(search)) }
     }
     var locked: Bool { busy || preparing || refreshing }
-    init(preview: Bool = false) {
+    let preview: Bool
+    private let persistSelection: Bool
+    init(preview: Bool = false, persistSelection: Bool = true) {
+        self.preview = preview
+        self.persistSelection = persistSelection && !preview
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
         } else { selected = Set(UserDefaults.standard.stringArray(forKey: "selection") ?? []).intersection(Set(Catalog.packages.filter(\.installable).map(\.id))) }
@@ -107,8 +144,8 @@ enum BrewRunner {
         guard !refreshing, let brew else { return }
         refreshing = true
         defer { refreshing = false }
-        let formulas = await BrewRunner.run(brew, ["list", "--formula", "-1"])
-        let casks = await BrewRunner.run(brew, ["list", "--cask", "-1"])
+        let formulas = await runCommand(brew, ["list", "--formula", "-1"])
+        let casks = await runCommand(brew, ["list", "--cask", "-1"])
         guard formulas.0 == 0, casks.0 == 0 else {
             inventoryKnown = false; notice = "Could not read Homebrew's installed packages. Open installation details for the error."
             appendLog(formulas.1 + casks.1); return
@@ -158,12 +195,21 @@ enum BrewRunner {
         await refresh()
         guard inventoryKnown else { return }
         removalPlan = removable
+        leftovers = []; selectedLeftovers = []; cleanupMessages = []
+        if cleanRemoval {
+            let packages = removalPlan
+            let scanner = scanLeftovers
+            leftovers = await Task.detached { scanner(packages) }.value
+            selectedLeftovers = Set(leftovers.filter { !$0.dataSensitive }.map(\.id))
+        }
         if removalPlan.isEmpty { notice = "None of the selected apps are currently managed by Homebrew." }
         else { showRemovalReview = true }
     }
     func uninstall() async {
         guard !busy, !preparing, showRemovalReview, let brew else { return }
         let queue = removalPlan
+        let clean = cleanRemoval
+        let cleanupQueue = leftovers.filter { selectedLeftovers.contains($0.id) }
         guard !queue.isEmpty else { return }
         showRemovalReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; output = ""; statuses = [:]
         defer { busy = false }
@@ -173,15 +219,31 @@ enum BrewRunner {
             if stopRequested { break }
             headline = "Uninstalling \(package.name)…"; statuses[package.id] = "Uninstalling"
             appendLog("\n—— Uninstall \(package.name) ——\n")
-            let result = await BrewRunner.run(brew, Self.removalArguments(package)) { [weak self] chunk in
+            let result = await runCommand(brew, Self.removalArguments(package)) { [weak self] chunk in
                 Task { @MainActor in self?.appendLog(chunk) }
             }
-            if result.0 == 0 { statuses[package.id] = "Removed"; installed.remove(package.id); selected.remove(package.id) }
+            if result.0 == 0 {
+                statuses[package.id] = "Removed"; installed.remove(package.id); selected.remove(package.id)
+                if clean {
+                    for item in cleanupQueue where item.packageID == package.id {
+                        if !FileManager.default.fileExists(atPath: item.path) { continue }
+                        do {
+                            try trashLeftover(item)
+                            let message = "Moved to Trash: " + item.path
+                            cleanupMessages.append(message); appendLog(message + "\n")
+                        } catch {
+                            statuses[package.id] = "Removed; cleanup incomplete"
+                            let message = "Cleanup skipped: " + item.path + " — " + error.localizedDescription
+                            cleanupMessages.append(message); appendLog(message + "\n"); failures += 1
+                        }
+                    }
+                }
+            }
             else { statuses[package.id] = "Failed"; failures += 1; appendLog("\nExit status: \(result.0)\n") }
             completed += 1
         }
         for package in queue where statuses[package.id] == "Waiting" { statuses[package.id] = "Skipped" }
-        headline = stopRequested ? "Stopped after the current operation." : failures == 0 ? "Selected apps were removed." : "Finished with \(failures) failed removal\(failures == 1 ? "" : "s"). Open details to review."
+        headline = stopRequested ? "Stopped after the current operation." : failures == 0 ? "Selected apps were removed." : "Finished with \(failures) removal or cleanup error\(failures == 1 ? "" : "s"). Open details to review."
         await refresh()
     }
     func install() async {
@@ -201,7 +263,7 @@ enum BrewRunner {
             if shouldAdopt && item.manual && !item.installer { args.append("--adopt") }
             args.append(item.package.token)
             appendLog("\n—— \(item.package.name) ——\n")
-            let result = await BrewRunner.run(brew, args) { [weak self] chunk in
+            let result = await runCommand(brew, args) { [weak self] chunk in
                 Task { @MainActor in self?.appendLog(chunk) }
             }
             if result.0 == 0 { statuses[item.id] = "Installed"; installed.insert(item.id) }
