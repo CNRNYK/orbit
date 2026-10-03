@@ -38,7 +38,7 @@ struct RemovalRepair: Identifiable {
         if text.localizedCaseInsensitiveContains("running") || text.localizedCaseInsensitiveContains("quit") { return "The app or a background helper may still be running. Close it and review Operation details." }
         return "Homebrew could not remove this app. Open Operation details to review the error."
     }
-    var arguments: [String] { ["uninstall", "--cask", "--force", package.token] }
+    var arguments: [String] { ["uninstall", "--cask", "--force", package.operationToken] }
 }
 
 @MainActor extension Store {

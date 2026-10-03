@@ -100,7 +100,17 @@ struct SystemCommands: CommandExecuting {
     @Published var notInstalledOnly = false
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
-    @Published var showMaintenance = false
+    let maintenanceState = MaintenanceState()
+    @Published var explorePackages = [Package]()
+    @Published var exploreSearch = ""
+    @Published var exploreKind = "All"
+    @Published var exploreAvailableOnly = true
+    @Published var exploreFetched: Date?
+    @Published var exploreMessage = ""
+    @Published var loadingExplore = false
+    var exploreLoader: @Sendable () async throws -> ExploreSnapshot = { try await OfficialCatalog.fetchAll() }
+    @Published var personalPackages = [Package]() { didSet { if personalPersistence { preferences.set(try? JSONEncoder().encode(personalPackages), forKey: "personal-packages-v1") } } }
+    @Published var myAppIDs = Set<String>() { didSet { if personalPersistence { preferences.set(Array(myAppIDs), forKey: "my-apps-v1") } } }
     @Published var showStartup = false
     @Published var checkingStartup = false
     @Published var startupChecks = [StartupCheck]()
@@ -113,7 +123,7 @@ struct SystemCommands: CommandExecuting {
     @Published var fetchingPopularity = false
     @Published var exportSearch = ""
     var appPresent: (Package) -> Bool = { $0.manualAppExists }
-    var appScanner: @Sendable () -> [LocalApp] = { AppScanner.scan() }
+    var appScanner: (@Sendable () -> [LocalApp])?
     @Published var mode = ActionMode.install
     var uninstallMode: Bool { get { mode == .uninstall } set { mode = newValue ? .uninstall : .install } }
     var updateMode: Bool { mode == .updates }
@@ -136,7 +146,7 @@ struct SystemCommands: CommandExecuting {
     @Published var detailPackage: Package?
     @Published var search = ""
     @Published var selected = Set<String>() {
-        didSet { if persistSelection { UserDefaults.standard.set(Array(selected), forKey: "selection") } }
+        didSet { if persistSelection { preferences.set(Array(selected), forKey: "selection") } }
     }
     @Published var installed = Set<String>()
     @Published var inventoryKnown = false
@@ -166,16 +176,16 @@ struct SystemCommands: CommandExecuting {
         await commandRunner.runJSON(executable, arguments) { [weak self] chunk in Task { @MainActor in self?.appendLog(chunk) } }
     }
     var visibleUpdates: [UpdateItem] { updates.filter { search.isEmpty || ($0.package.name + " " + $0.package.detail).localizedCaseInsensitiveContains(search) } }
-    var selection: [Package] { Catalog.packages.filter { selected.contains($0.id) } }
+    var selection: [Package] { packages.filter { selected.contains($0.id) } }
     var browsingPackages: [Package] {
-        Catalog.packages.filter { package in
+        packages.filter { package in
             (!uninstallMode || (inventoryKnown && installed.contains(package.id))) &&
             (!notInstalledOnly || uninstallMode || (!installed.contains(package.id) && !appPresent(package) && !localApps.contains { $0.package?.id == package.id })) &&
             (search.isEmpty || (package.name + " " + package.detail + " " + package.placements.map { $0.category + " " + $0.subcategory }.joined(separator: " ")).localizedCaseInsensitiveContains(search))
         }
     }
     var visible: [Package] {
-        browsingPackages.filter { category == "All Apps" || $0.belongs(to: category, subcategory: subcategory) }
+        browsingPackages.filter { category == "All Apps" || (category == "My apps" ? myAppIDs.contains($0.id) : $0.belongs(to: category, subcategory: subcategory)) }
     }
     func count(in category: String, section: String = "All") -> Int {
         if uninstallMode && manualTab {
@@ -185,7 +195,7 @@ struct SystemCommands: CommandExecuting {
     }
     func navigate(_ mode: ActionMode, category: String = "All Apps") {
         guard !locked else { return }
-        if self.mode != mode { selected.removeAll(); statuses.removeAll() }
+        if (self.mode == .uninstall) != (mode == .uninstall) { selected.removeAll(); statuses.removeAll() }
         self.mode = mode; self.category = category; subcategory = "All"
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
@@ -193,16 +203,28 @@ struct SystemCommands: CommandExecuting {
     var locked: Bool { busy || preparing || refreshing || checkingStartup }
     let preview: Bool
     private let persistSelection: Bool
-    init(preview: Bool = false, persistSelection: Bool = true) {
+    private let preferences: UserDefaults
+    var personalPersistence: Bool { persistSelection }
+    init(preview: Bool = false, persistSelection: Bool = true, preferences: UserDefaults = .standard) {
+        self.preferences = preferences
         self.preview = preview
         self.persistSelection = persistSelection && !preview
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
-        } else { selected = Set(UserDefaults.standard.stringArray(forKey: "selection") ?? []).intersection(Set(Catalog.packages.filter(\.installable).map(\.id))) }
+        } else {
+            if self.persistSelection {
+                personalPackages = OfficialCatalog.saved(preferences.data(forKey: "personal-packages-v1"))
+                myAppIDs = Set(preferences.stringArray(forKey: "my-apps-v1") ?? []).intersection(Set(packages.map(\.id)))
+            }
+            selected = Set(preferences.stringArray(forKey: "selection") ?? []).intersection(Set(packages.filter(\.installable).map(\.id)))
+        }
     }
     func toggle(_ package: Package) {
         guard uninstallMode ? inventoryKnown && installed.contains(package.id) : canInstall(package) else { return }
-        if selected.contains(package.id) { selected.remove(package.id) } else { selected.insert(package.id) }
+        if selected.contains(package.id) { selected.remove(package.id) } else {
+            registerPersonal(package)
+            if packages.contains(where: { $0.id == package.id }) { selected.insert(package.id) }
+        }
     }
     func selectPreset(_ name: String) {
         guard !locked, !uninstallMode else { return }
@@ -224,7 +246,8 @@ struct SystemCommands: CommandExecuting {
         }
         installed = Set(formulas.1.split(whereSeparator: \.isNewline).map { "brew:" + $0 }).union(casks.1.split(whereSeparator: \.isNewline).map { "cask:" + $0 })
         inventoryKnown = true
-        let scanner = appScanner
+        let knownPackages = packages
+        let scanner: @Sendable () -> [LocalApp] = appScanner ?? { AppScanner.scan(packages: knownPackages) }
         localApps = await Task.detached { scanner() }.value
         sanitizeInstallSelection()
     }
@@ -247,6 +270,7 @@ struct SystemCommands: CommandExecuting {
                 let (data, response) = try await URLSession.shared.data(for: request)
                 guard (response as? HTTPURLResponse)?.statusCode == 200,
                       let info = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw NSError(domain: "Catalog", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not verify package in the official catalog."]) }
+                guard !OfficialCatalog.validSaved(package) || ((info[package.cask ? "token" : "name"] as? String) == package.token && info["tap"] as? String == (package.cask ? "homebrew/cask" : "homebrew/core")) else { throw URLError(.cannotParseResponse) }
                 let disabled = (info["disabled"] as? Bool == true) || (info["deprecated"] as? Bool == true)
                 let artifacts = info["artifacts"] as? [[String: Any]] ?? []
                 let installer = artifacts.contains { $0["pkg"] != nil || $0["installer"] != nil }
@@ -261,7 +285,7 @@ struct SystemCommands: CommandExecuting {
     var actionable: [ReviewItem] { review.filter { $0.problem == nil && !$0.managed && !$0.manual } }
     var removable: [Package] { inventoryKnown ? selection.filter { installed.contains($0.id) } : [] }
     static func removalArguments(_ package: Package) -> [String] {
-        ["uninstall"] + (package.cask ? ["--cask"] : ["--formula"]) + [package.token]
+        ["uninstall"] + (package.cask ? ["--cask"] : ["--formula"]) + [package.operationToken]
     }
     func prepareRemoval() async {
         guard !locked, startupReady, !selection.isEmpty, brew != nil else { return }
@@ -338,9 +362,9 @@ struct SystemCommands: CommandExecuting {
             statuses[item.id] = "Installing"
             if !canInstall(item.package) { statuses[item.id] = "Already on this Mac — skipped"; completed += 1; continue }
             var args = ["install"]
-            if item.package.cask { args.append("--cask") }
+            if item.package.cask { args.append("--cask") } else if OfficialCatalog.validSaved(item.package) { args.append("--formula") }
             if shouldAdopt && item.manual && !item.installer { args.append("--adopt") }
-            args.append(item.package.token)
+            args.append(item.package.operationToken)
             appendLog("\n—— \(item.package.name) ——\n")
             let result = await runCommand(brew, args) { [weak self] chunk in
                 Task { @MainActor in self?.appendLog(chunk) }
@@ -358,16 +382,16 @@ struct SystemCommands: CommandExecuting {
     func exportFile() {
         let panel = NSSavePanel(); panel.nameFieldStringValue = "Brewfile"
         guard panel.runModal() == .OK, let url = panel.url else { return }
-        do { try Catalog.export(Catalog.packages.filter { exportSelected.contains($0.id) }).write(to: url, atomically: true, encoding: .utf8) }
+        do { try Catalog.export(packages.filter { exportSelected.contains($0.id) }).write(to: url, atomically: true, encoding: .utf8) }
         catch { notice = error.localizedDescription }
     }
     func importFile() {
         let panel = NSOpenPanel(); panel.allowsMultipleSelection = false
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            let result = Catalog.parse(try String(contentsOf: url, encoding: .utf8))
+            let result = Catalog.parse(try String(contentsOf: url, encoding: .utf8), packages: packages)
             exportSelected = result.0
-            selected = Set(Catalog.packages.filter { result.0.contains($0.id) && canInstall($0) }.map(\.id))
+            selected = Set(packages.filter { result.0.contains($0.id) && canInstall($0) }.map(\.id))
             notice = "Imported \(result.0.count) apps into setup export. \(selected.count) apps selected for installation." + (result.1.isEmpty ? "" : "\n\nThese entries are outside this app's catalog or unsupported and were not imported:\n" + result.1.joined(separator: "\n"))
         } catch { notice = error.localizedDescription }
     }

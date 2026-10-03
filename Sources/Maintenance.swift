@@ -103,20 +103,20 @@ enum MaintenanceScan {
 }
 struct MaintenanceView: View {
     @ObservedObject var store: Store
-    @StateObject private var state = MaintenanceState()
+    @ObservedObject private var state: MaintenanceState
     init(store: Store) {
         self.store = store
-        let model = MaintenanceState()
+        let model = store.maintenanceState
         if store.preview {
             model.scanned = true; model.status = "Preview data · no files were scanned."
             model.items = [MaintenanceItem(path: "/Users/example/Library/Caches/Homebrew/downloads", group: "Homebrew cache", bytes: 920_000_000, inode: 0, device: 0, removable: true), MaintenanceItem(path: "/Users/example/Library/Caches/com.example.app", group: "App caches & logs", bytes: 180_000_000, inode: 0, device: 0, removable: true), MaintenanceItem(path: "/Users/example/Downloads/Archive.zip", group: "Large files", bytes: 1_250_000_000, inode: 0, device: 0, removable: false)]
         }
-        _state = StateObject(wrappedValue: model)
+        _state = ObservedObject(wrappedValue: model)
     }
     var selection: [MaintenanceItem] { state.items.filter { $0.removable && state.selected.contains($0.id) } }
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack { Text("Cleanup").font(.largeTitle.bold()); Spacer(); Button("Done") { store.showMaintenance = false }.disabled(state.working) }
+            Text("Cleanup").font(.largeTitle.bold())
             Text("Review caches and logs, then move selected items to Trash. Close affected apps first. Caches may be recreated; developer builds may take longer afterward.").foregroundStyle(.secondary)
             HStack {
                 Toggle("Include Xcode build caches", isOn: $state.developer).disabled(state.working)
@@ -158,7 +158,7 @@ struct MaintenanceView: View {
                 Button("Move to Trash") { state.confirm = true }.buttonStyle(.borderedProminent).disabled(selection.isEmpty || state.working || store.locked)
             }
             if state.showDetails { ScrollView { Text(store.output.isEmpty ? "No cleanup operation has run yet." : store.output).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }.frame(height: 120) }
-        }.padding(24).frame(width: 960, height: 700).background(Color(nsColor: .windowBackgroundColor))
+        }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(nsColor: .windowBackgroundColor))
         .alert("Move selected files to Trash?", isPresented: $state.confirm) {
             Button("Cancel", role: .cancel) {}
             Button("Move to Trash", role: .destructive) { Task { await clean() } }

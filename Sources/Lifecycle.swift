@@ -1,7 +1,7 @@
 import Foundation
 import AppKit
 
-enum ActionMode: String { case install, uninstall, updates }
+enum ActionMode: String { case install, uninstall, updates, cleanup, explore }
 
 struct UpdateItem: Identifiable, Hashable {
     let package: Package
@@ -10,7 +10,7 @@ struct UpdateItem: Identifiable, Hashable {
     var id: String { package.id }
 }
 enum UpdatePlan {
-    static func parse(_ data: Data) throws -> [UpdateItem] {
+    static func parse(_ data: Data, packages: [Package] = Catalog.packages) throws -> [UpdateItem] {
         guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let formulas = root["formulae"] as? [[String: Any]], let casks = root["casks"] as? [[String: Any]] else {
             throw NSError(domain: "Updates", code: 1, userInfo: [NSLocalizedDescriptionKey: "Homebrew returned an invalid update list."])
@@ -20,7 +20,7 @@ enum UpdatePlan {
             for row in rows {
                 guard row["pinned"] as? Bool != true,
                       let name = row["name"] as? String,
-                      let package = Catalog.packages.first(where: { $0.token == name && $0.cask == cask && $0.installable }),
+                      let package = packages.first(where: { $0.cask == cask && ($0.token == name || $0.operationToken == name) && $0.installable }),
                       let current = row["current_version"] as? String, current != "latest", !current.isEmpty else { continue }
                 let installed = (row["installed_versions"] as? [String])?.joined(separator: ", ") ?? row["installed_versions"] as? String ?? "Unknown"
                 // Self-updating apps can be newer than Homebrew's receipt. Skip when the app's actual version is not older.
@@ -41,7 +41,7 @@ enum UpdatePlan {
         return nil
     }
     static func arguments(_ item: UpdateItem) -> [String] {
-        ["upgrade", item.package.cask ? "--cask" : "--formula"] + (item.package.cask ? ["--greedy-auto-updates"] : []) + [item.package.token]
+        ["upgrade", item.package.cask ? "--cask" : "--formula"] + (item.package.cask ? ["--greedy-auto-updates"] : []) + [item.package.operationToken]
     }
 }
 
@@ -140,7 +140,7 @@ enum Cleanup {
         let result = await runJSONCommand(brew, args)
         do {
             guard result.0 == 0 || result.0 == 1 else { throw NSError(domain: "Updates", code: 1, userInfo: [NSLocalizedDescriptionKey: result.1]) }
-            updates = try UpdatePlan.parse(Data(result.1.utf8)).filter { installed.contains($0.id) }
+            updates = try UpdatePlan.parse(Data(result.1.utf8), packages: packages).filter { installed.contains($0.id) }
             updatesChecked = true; headline = updates.isEmpty ? "No updates found for apps in this catalog." : "\(updates.count) updates available."
         } catch { appendLog(result.1); notice = "Could not read Homebrew’s update list. Open Operation details for diagnostics, then try again." }
     }

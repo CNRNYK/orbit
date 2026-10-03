@@ -109,7 +109,7 @@ enum Catalog {
         var seen = Set<String>()
         return "# Created with Mac Setup\n# Install with: brew bundle --file=./Brewfile\n\n" + packages.filter { $0.installable && seen.insert($0.id).inserted }.map(\.brewLine).joined(separator: "\n") + "\n"
     }
-    static func parse(_ text: String) -> (Set<String>, [String]) {
+    static func parse(_ text: String, packages: [Package] = Catalog.packages) -> (Set<String>, [String]) {
         let regex = try! NSRegularExpression(pattern: #"^\s*(brew|cask)\s+[\"]([a-z0-9@+._/-]+)[\"]\s*(?:#.*)?$"#)
         var selected = Set<String>(); var unsupported = [String]()
         for line in text.components(separatedBy: .newlines) {

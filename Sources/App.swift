@@ -7,6 +7,9 @@ struct ContentView: View {
         HStack(spacing: 0) {
             sidebar.frame(width: 245).disabled(store.locked)
             Divider()
+            if store.mode == .cleanup { MaintenanceView(store: store) }
+            else if store.mode == .explore { ExploreView(store: store) }
+            else {
             VStack(spacing: 0) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
@@ -24,7 +27,7 @@ struct ContentView: View {
                 }.padding(24)
                 if store.uninstallMode {
                     Picker("Installed apps", selection: $store.manualTab) {
-                        Text("Managed by Homebrew · \(Catalog.packages.filter { store.installed.contains($0.id) }.count)").tag(false)
+                        Text("Managed by Homebrew · \(store.packages.filter { store.installed.contains($0.id) }.count)").tag(false)
                         Text("Installed manually · \(store.manualApps.count)").tag(true)
                     }.pickerStyle(.segmented).padding(.horizontal, 24).padding(.bottom, 12).disabled(store.locked)
                 }
@@ -33,7 +36,7 @@ struct ContentView: View {
                 } else if store.uninstallMode && store.manualTab {
                     ManualAppsView(store: store)
                 } else {
-                if store.category != "All Apps" {
+                if store.category != "All Apps" && store.category != "My apps" {
                     HStack {
                         if store.uninstallMode { Label("Installed", systemImage: "checkmark.circle").font(.caption).foregroundStyle(.secondary) }
                         Picker("Section", selection: $store.subcategory) {
@@ -80,7 +83,7 @@ struct ContentView: View {
                 }.font(.caption).buttonStyle(.borderless).padding(.horizontal, 24).padding(.vertical, 10).disabled(store.locked)
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 22) {
-                        if store.category == "All Apps" || !store.search.isEmpty {
+                        if store.category == "All Apps" || store.category == "My apps" || !store.search.isEmpty {
                             LazyVStack(spacing: 0) {
                                 ForEach(store.orderedPackages(store.visible)) { app in
                                     row(app)
@@ -91,6 +94,8 @@ struct ContentView: View {
                         if store.visible.isEmpty {
                             if store.uninstallMode && store.search.isEmpty {
                                 ContentUnavailableView("No Homebrew-managed apps in this catalog", systemImage: "shippingbox", description: Text("Refresh or switch to Installed manually to manage existing apps."))
+                            } else if store.category == "My apps" && store.search.isEmpty {
+                                ContentUnavailableView("Build your own app list", systemImage: "star", description: Text("Find packages in Explore Homebrew and add them to My apps."))
                             } else { ContentUnavailableView.search(text: store.search) }
                         }
                     }.padding(.horizontal, 24).padding(.bottom, 24)
@@ -125,8 +130,9 @@ struct ContentView: View {
                 }.padding(18)
                 }
             }
-            Divider()
-            if !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
+            }
+            if store.mode != .cleanup && store.mode != .explore { Divider() }
+            if store.mode != .cleanup && store.mode != .explore && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
         .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
@@ -134,7 +140,6 @@ struct ContentView: View {
         .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.startup() } }
         .sheet(isPresented: $store.showStartup) { StartupView(store: store).interactiveDismissDisabled() }
         .sheet(isPresented: $store.showAdoptionReview) { AdoptionReviewView(store: store) }
-        .sheet(isPresented: $store.showMaintenance) { MaintenanceView(store: store).interactiveDismissDisabled() }
         .sheet(isPresented: $store.showSetupExport) { SetupExportView(store: store) }
         .sheet(item: $store.repairReview) { repair in RemovalRepairView(store: store, repair: repair) }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
@@ -159,10 +164,12 @@ struct ContentView: View {
     var sidebar: some View {
         VStack(alignment: .leading, spacing: 7) {
             Label("Mac Setup", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
-            destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(Catalog.packages.count))
-            destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(Catalog.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
+            destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(store.packages.count))
+            destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
-            Button { store.showMaintenance = true } label: { Label("Cleanup", systemImage: "sparkles").font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain)
+            destinationButton("Cleanup", symbol: "sparkles", mode: .cleanup, count: "")
+            destinationButton("Explore Homebrew", symbol: "globe", mode: .explore, count: "")
+            Button { store.navigate(.install, category: "My apps") } label: { HStack { Label("My apps", systemImage: "star"); Spacer(); Text(String(store.myAppIDs.count)).font(.caption) }.font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain).background(store.category == "My apps" && store.mode == .install ? Color.accentColor.opacity(0.15) : .clear).clipShape(RoundedRectangle(cornerRadius:8))
             Divider().padding(.vertical, 10)
             Text("CATEGORIES").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary).padding(.horizontal, 8)
             ScrollView {
@@ -179,7 +186,7 @@ struct ContentView: View {
         }.padding(16).background(.thinMaterial)
     }
     func destinationButton(_ title: String, symbol: String, mode: ActionMode, count: String) -> some View {
-        let active = store.mode == mode && (mode == .updates || store.category == "All Apps")
+        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || store.category == "All Apps")
         return Button { store.navigate(mode) } label: {
             HStack(spacing: 9) {
                 Image(systemName: symbol).frame(width: 18)
@@ -190,8 +197,8 @@ struct ContentView: View {
         }.buttonStyle(.plain).background(active ? Color.accentColor : .clear).foregroundStyle(active ? .white : .primary).clipShape(RoundedRectangle(cornerRadius: 8))
     }
     func navigationButton(_ category: String) -> some View {
-        let active = !store.updateMode && store.category == category
-        return Button { store.navigate(store.updateMode ? .install : store.mode, category: category) } label: {
+        let active = (store.mode == .install || store.mode == .uninstall) && store.category == category
+        return Button { store.navigate(store.mode == .uninstall ? .uninstall : .install, category: category) } label: {
             HStack(spacing: 9) {
                 Image(systemName: Catalog.symbols[category] ?? "square.grid.2x2").frame(width: 18)
                 Text(category).font(.system(size: 12)).multilineTextAlignment(.leading)
@@ -349,7 +356,8 @@ struct PackageDetailView: View {
                         } else { Text("No verified public GitHub repository link.").font(.subheadline).foregroundStyle(.secondary) }
                         if let url = package.catalogURL { detailLink("Homebrew package", symbol: "shippingbox", url: url) }
                         if let url = package.officialLogoURL { detailLink("Official site icon", symbol: "photo", url: url) }
-                        if let date = Catalog.data?.verifiedDate { Text("Catalog metadata checked: " + date + ". Live availability is checked before installation.").font(.caption).foregroundStyle(.secondary) }
+                        if package.sourceNumbers.isEmpty { Text("Official Homebrew API metadata. Live availability is checked before installation.").font(.caption).foregroundStyle(.secondary) }
+                        else if let date = Catalog.data?.verifiedDate { Text("Catalog metadata checked: " + date + ". Live availability is checked before installation.").font(.caption).foregroundStyle(.secondary) }
                     }
                 }.padding(.vertical, 6)
             }
@@ -357,7 +365,8 @@ struct PackageDetailView: View {
             HStack {
                 Text("Opening links or viewing details does not install or remove apps.").font(.caption).foregroundStyle(.secondary)
                 Spacer()
-                if store.mode == .install && store.canInstall(package) {
+                Button(store.myAppIDs.contains(package.id) ? "Remove from My apps" : "Add to My apps") { if store.myAppIDs.contains(package.id) { store.removeFavorite(package) } else { store.registerPersonal(package, favorite: true) } }.disabled(store.locked || (!package.installable && !store.myAppIDs.contains(package.id)))
+                if (store.mode == .install || store.mode == .explore) && store.canInstall(package) {
                     Button(store.selected.contains(package.id) ? "Remove from selection" : "Add to selection") { store.toggle(package) }.disabled(store.locked)
                 }
             }
@@ -495,12 +504,17 @@ struct MacSetupApp: App {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
             }
+            if CommandLine.arguments.contains("--explore-preview") {
+                previewStore.navigate(.explore); previewStore.inventoryKnown = true; previewStore.appPresent = { _ in false }
+                previewStore.explorePackages = try! OfficialCatalog.parse(Data(#"[{"token":"fixture-studio","tap":"homebrew/cask","name":["Fixture Studio"],"desc":"Preview app from the official catalog.","version":"2.0","homepage":"https://example.com"}]"#.utf8), cask: true) + Array(Catalog.packages.filter { $0.installable }.prefix(15))
+                previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
+            }
             if CommandLine.arguments.contains("--startup-preview") {
                 previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Mac Setup is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]
                 root = AnyView(StartupView(store: previewStore)); size = NSSize(width: 680, height: 680)
             }
             if CommandLine.arguments.contains("--cleanup-preview") {
-                root = AnyView(MaintenanceView(store: previewStore)); size = NSSize(width: 960, height: 700)
+                previewStore.navigate(.cleanup); root = AnyView(ContentView(store: previewStore)); size = NSSize(width: 1180, height: 780)
             }
             if CommandLine.arguments.contains("--category-preview") {
                 previewStore.navigate(.install, category: "Development")
@@ -760,11 +774,11 @@ struct SetupExportView: View {
             Text("This selection only creates a Brewfile. It does not install or remove anything on this Mac.").foregroundStyle(.secondary)
             TextField("Search setup apps", text: $store.exportSearch).textFieldStyle(.roundedBorder)
             HStack {
-                Button("Add Homebrew-managed apps") { store.exportSelected.formUnion(Catalog.packages.filter { $0.installable && store.installed.contains($0.id) }.map(\.id)) }
+                Button("Add Homebrew-managed apps") { store.exportSelected.formUnion(store.packages.filter { $0.installable && store.installed.contains($0.id) }.map(\.id)) }
                 Button("Clear") { store.exportSelected = [] }
             }
             ScrollView {
-                ForEach(Catalog.packages.filter { $0.installable && (store.exportSearch.isEmpty || $0.name.localizedCaseInsensitiveContains(store.exportSearch)) }.sorted { $0.name < $1.name }) { package in
+                ForEach(store.packages.filter { $0.installable && (store.exportSearch.isEmpty || $0.name.localizedCaseInsensitiveContains(store.exportSearch)) }.sorted { $0.name < $1.name }) { package in
                     Toggle(package.name, isOn: Binding(get: { store.exportSelected.contains(package.id) }, set: { value in if value { store.exportSelected.insert(package.id) } else { store.exportSelected.remove(package.id) } })).padding(.vertical, 4).frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
