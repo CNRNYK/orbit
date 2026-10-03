@@ -5,6 +5,8 @@ app="dist/Mac Setup.app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" .build/module-cache
 architecture="$(uname -m)"
 xcrun swiftc -swift-version 5 -O -parse-as-library -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache Sources/*.swift -o "$app/Contents/MacOS/MacSetup"
+xcrun swiftc -swift-version 5 -O -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache Helpers/Askpass.swift -o "$app/Contents/Resources/MacSetupAskpass"
+codesign --force --sign "${MACSETUP_SIGNING_IDENTITY:--}" "$app/Contents/Resources/MacSetupAskpass"
 cp Resources/askpass.sh "$app/Contents/Resources/askpass.sh"
 rm -rf "$app/Contents/Resources/Logos"
 cp -R Resources/Logos "$app/Contents/Resources/Logos"
@@ -20,13 +22,13 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleName</key><string>Mac Setup</string>
 <key>CFBundleDisplayName</key><string>Mac Setup</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.8.0</string>
-<key>CFBundleVersion</key><string>10</string>
+<key>CFBundleShortVersionString</key><string>0.9.0</string>
+<key>CFBundleVersion</key><string>11</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
-<key>NSAppleEventsUsageDescription</key><string>Mac Setup displays a password dialog when Homebrew needs administrator permission.</string>
+
 </dict></plist>
 PLIST
-codesign --force --sign - "$app"
+codesign --force --sign "${MACSETUP_SIGNING_IDENTITY:--}" "$app"
 "$app/Contents/MacOS/MacSetup" --self-test
 printf 'Built %s\n' "$app"
