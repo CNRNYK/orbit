@@ -2,7 +2,7 @@ import AppKit
 let application = NSApplication.shared
 application.setActivationPolicy(.accessory)
 let alert = NSAlert()
-alert.messageText = "Mac Setup · Administrator permission"
+alert.messageText = "Orbit · Administrator permission"
 alert.informativeText = "Homebrew needs administrator permission for the selected operation. Your password is sent directly to sudo and is not saved."
 alert.addButton(withTitle: "Allow operation")
 alert.addButton(withTitle: "Cancel")

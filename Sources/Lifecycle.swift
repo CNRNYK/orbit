@@ -175,7 +175,7 @@ enum Cleanup {
         guard !checkingAppRelease else { return }; checkingAppRelease = true
         defer { checkingAppRelease = false }
         do {
-            var request = URLRequest(url: URL(string: "https://api.github.com/repos/CNRNYK/mac-setup-app/releases/latest")!)
+            var request = URLRequest(url: URL(string: "https://api.github.com/repos/CNRNYK/orbit/releases/latest")!)
             request.timeoutInterval = 15; request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
             let (data, response) = try await URLSession.shared.data(for: request)
             guard (response as? HTTPURLResponse)?.statusCode == 200,
@@ -184,7 +184,7 @@ enum Cleanup {
             }
             let version = tag.hasPrefix("v") ? String(tag.dropFirst()) : tag
             let current = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.6.0"
-            appReleaseStatus = version.compare(current, options: .numeric) == .orderedDescending ? "Mac Setup \(version) is available. Open releases to download it." : "Mac Setup is up to date (\(current))."
+            appReleaseStatus = version.compare(current, options: .numeric) == .orderedDescending ? "Orbit \(version) is available. Open releases to download it." : "Orbit is up to date (\(current))."
         } catch { appReleaseStatus = "Could not check releases. Open releases to check manually." }
     }
 }

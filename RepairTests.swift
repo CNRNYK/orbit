@@ -33,7 +33,7 @@ enum RepairTests {
     @MainActor static func run() async {
         let original = Catalog.packages.first { $0.token == "figma" }!
         var object = try! JSONSerialization.jsonObject(with: JSONEncoder().encode(original)) as! [String: Any]
-        object["appName"] = "MacSetupRepairFixture-" + UUID().uuidString
+        object["appName"] = "OrbitRepairFixture-" + UUID().uuidString
         let package = try! JSONDecoder().decode(Package.self, from: JSONSerialization.data(withJSONObject: object))
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).resolvingSymlinksInPath().path
         defer { try? FileManager.default.removeItem(atPath: directory) }

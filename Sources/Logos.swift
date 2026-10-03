@@ -13,7 +13,7 @@ import ImageIO
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = 8
         configuration.timeoutIntervalForResource = 15
-        configuration.httpAdditionalHeaders = ["User-Agent": "MacSetup/0.5"]
+        configuration.httpAdditionalHeaders = ["User-Agent": "Orbit/0.5"]
         return URLSession(configuration: configuration)
     }()
     static func decode(_ data: Data) -> NSImage? {

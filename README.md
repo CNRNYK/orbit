@@ -1,14 +1,14 @@
-# Mac Setup
+# Orbit
 
 **Set up your Mac. Manage your apps. Clear the clutter.**
 
 A native macOS app for discovering, installing, updating, and uninstalling Homebrew packages—with reviewed cleanup and reusable Brewfiles. Pick the apps you want, review the plan, and let Homebrew handle the installation.
 
-![Mac Setup app catalog with categories and installation selections](docs/images/catalog.png)
+![Orbit app catalog with categories and installation selections](docs/images/catalog.png)
 
 ## One place for your Mac apps
 
-| What you need | What Mac Setup does |
+| What you need | What Orbit does |
 | --- | --- |
 | Set up a new Mac | Browse 432 curated entries, use starter selections, and install the missing apps you choose. |
 | Find something new | Search the official Homebrew catalog in **Explore Homebrew** and save favorites in **My apps**. |
@@ -41,13 +41,13 @@ Requires **macOS 14 or later**. Homebrew must be installed to perform package op
 To build from source, install Apple Command Line Tools, clone this repository, then run:
 
 ```sh
-git clone https://github.com/CNRNYK/mac-setup-app.git
-cd mac-setup-app
+git clone https://github.com/CNRNYK/orbit.git
+cd orbit
 bash build.sh
-open "dist/Mac Setup.app"
+open "dist/Orbit.app"
 ```
 
-The repository is currently private, so cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Mac Setup are not currently published.
+The repository is currently private, so cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published.
 
 ## You choose the changes
 
@@ -57,7 +57,7 @@ The repository is currently private, so cloning requires access. Builds target y
 - Homebrew runs as your user. Individual vendor installers may request administrator permission through the bundled native password dialog.
 - **Operation details** shows progress and errors; **Stop after current app** lets the current operation finish.
 
-App licenses, subscriptions, and vendor sign-in are separate. Mac Setup does not restore application settings or install App Store products.
+App licenses, subscriptions, and vendor sign-in are separate. Orbit does not restore application settings or install App Store products.
 
 ## More details
 
@@ -70,4 +70,4 @@ For automated validation, run `bash test.sh`. Tests use simulated commands and t
 
 ## License
 
-[MIT](LICENSE) for the source code. Third-party apps, icons, and trademarks retain their respective owners' terms. Mac Setup is independent of Homebrew and application vendors.
+[MIT](LICENSE) for the source code. Third-party apps, icons, and trademarks retain their respective owners' terms. Orbit is independent of Homebrew and application vendors.

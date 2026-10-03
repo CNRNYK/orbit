@@ -1,10 +1,10 @@
-# Mac Setup feature reference
+# Orbit feature reference
 
 A native SwiftUI application for selecting, installing, and uninstalling Homebrew packages on macOS. English interface; MIT licensed source code.
 
 ## Use
 
-Open **Mac Setup.app**. Browse categories, search, select apps, then choose **Install**. Review the plan before running it. Each package is checked against Homebrew's official JSON catalog before installation. Disabled, deprecated, and unverified packages are skipped.
+Open **Orbit.app**. Browse categories, search, select apps, then choose **Install**. Review the plan before running it. Each package is checked against Homebrew's official JSON catalog before installation. Disabled, deprecated, and unverified packages are skipped.
 
 The catalog integrates the supplied Mac Power User / Developer / Designer / Creator toolkit. It contains 432 unique catalog entries across 10 purpose-based categories, with icon-based section filters: 373 active Homebrew packages (246 casks and 127 formulas) and 59 manual or unavailable entries. All 437 numbered source entries are represented, including duplicates through shared category placements. The original application catalog is retained. It uses local application icons when available and native category icons otherwise. Selection is saved locally.
 
@@ -12,7 +12,7 @@ Homebrew must already be installed at `/opt/homebrew/bin/brew` or `/usr/local/bi
 
 Already managed packages and detected local apps cannot be selected for installation. Manage selected existing apps through **Installed → Installed manually → Manage with Homebrew**. App-bundle adoption requires identical contents; verified vendor installers are disclosed separately in review. Licenses, subscriptions, and sign-in are handled separately by each vendor.
 
-Homebrew runs as your user, not as root. For individual installers requiring administrator access, Homebrew uses the bundled `SUDO_ASKPASS` helper. This is a native AppKit secure-text dialog labeled **Mac Setup · Administrator permission**, not a system authorization sheet. Its password output goes directly to sudo, is not saved or included in the application's logs. Canceling the dialog causes that installation to fail. The helper does not use System Events or request Automation permission.
+Homebrew runs as your user, not as root. For individual installers requiring administrator access, Homebrew uses the bundled `SUDO_ASKPASS` helper. This is a native AppKit secure-text dialog labeled **Orbit · Administrator permission**, not a system authorization sheet. Its password output goes directly to sudo, is not saved or included in the application's logs. Canceling the dialog causes that installation to fail. The helper does not use System Events or request Automation permission.
 
 Installation is sequential. Logs are visible in **Operation details**. A failed package does not stop subsequent packages. **Stop after current app** waits for the running installer to finish instead of terminating it. Quitting during an installation is blocked. No extra cleanup, forced reinstall, automatic adoption, or automatic upgrade commands are used. Dependencies and vendor installers may still make changes as part of normal installation.
 
@@ -53,7 +53,7 @@ Requires macOS 14 or later and Apple Command Line Tools with a Swift compiler. N
 ```sh
 chmod +x build.sh
 ./build.sh
-open "dist/Mac Setup.app"
+open "dist/Orbit.app"
 ```
 
 The build targets the current Mac architecture. The delivered build targets Apple Silicon. Local builds use ad-hoc signing; public distribution still needs an Apple Developer identity, notarization, and release testing.
@@ -63,7 +63,7 @@ The build targets the current Mac architecture. The delivered build targets Appl
 The executable includes a non-installing self-test:
 
 ```sh
-"dist/Mac Setup.app/Contents/MacOS/MacSetup" --self-test
+"dist/Orbit.app/Contents/MacOS/Orbit" --self-test
 ```
 
 Tests check all 437 source entries, catalog uniqueness, available-package export/import round trips, manual-entry blocking, cross-category membership, starter preset deduplication, rejection of executable Brewfile input, and installer disclosure. Run `bash test.sh` for additional process-runner and installation-plan tests, including literal argument handling, launch failures, large output, and skip/adoption logic. Additional removal tests check installed inventory gating, installed-only filtering, and exact cask/formula removal arguments. Actual package installation, uninstallation, and the administrator password dialog are not exercised by these tests.
@@ -94,7 +94,7 @@ Run `python3 Scripts/update_app_logos.py` to rediscover icons from official home
 
 **Updates** refreshes Homebrew metadata, lists installed outdated packages in this curated catalog with current/available versions, and upgrades only the checked list after a separate review. Self-updating casks are opt-in; unversioned `latest` casks and pinned packages are excluded. Where an app bundle exposes its actual version, that version is checked when planning and again before upgrade so newer self-updated apps are skipped. This is a conservative numeric comparison, not a universal vendor-version parser. Homebrew may update or repair dependencies as part of an upgrade. Failures remain in Operation details, and stopping waits for the current operation. Searches filter the update list.
 
-Mac Setup's own **Check app release** checks GitHub's latest release endpoint and links to the release page for manual download. The current private repository is unavailable to anonymous API requests; the app explains this and offers the browser page where the user can sign in. It does not collect GitHub credentials or automatically replace the running app. No published GitHub release is assumed.
+Orbit's own **Check app release** checks GitHub's latest release endpoint and links to the release page for manual download. The current private repository is unavailable to anonymous API requests; the app explains this and offers the browser page where the user can sign in. It does not collect GitHub credentials or automatically replace the running app. No published GitHub release is assumed.
 
 **Uninstall & Clean** scans existing application bundle identifiers before removal. It reviews matching caches, logs, preferences, support folders, saved state, containers, HTTP storage, WebKit data, scripts, and cookies under the current user's Library. A small reviewed mapping adds app-specific paths for Chrome, VS Code, Blender, and Slack from the official Homebrew cask definitions. Shared group containers, vendor-wide folders, wildcard matches, system locations, and unrelated files are excluded; formulas have no guessed data cleanup. Cache/log entries are initially checked; settings and possible user data are unchecked. The user sees every path and its estimated size and can change the selection.
 
@@ -130,7 +130,7 @@ Tests additionally cover local bundle scanning and identifiers, unknown apps, in
 
 Package details fetch published Homebrew installation events for 30/90/365 days from the official package API. The source generation date and fetch time are shown. These are anonymous reported events, not total downloads or unique users. Most installed sorts each visible list/section by the official 30-day formula/cask installation reports; unknown entries sort last. Refresh stats reloads reports, and unavailable reports retain old data or fall back to names. Sorting never selects or installs packages.
 
-Administrator password requests now use a bundled native AppKit secure-text dialog, with a fixed Mac Setup title. No AppleScript or System Events Automation permission is requested. Cancel exits without supplying a password; stdout is passed directly to sudo, without logging or persistence. This is not blanket administrator authorization. Existing Automation permissions can be removed in System Settings. Build with `MACSETUP_SIGNING_IDENTITY` to sign both executables with your Developer ID; the default remains ad hoc because no valid signing identity is available on this development machine. Keep one copy named Mac Setup.app in Applications to avoid numbered Finder copies.
+Administrator password requests now use a bundled native AppKit secure-text dialog, with a fixed Orbit title. No AppleScript or System Events Automation permission is requested. Cancel exits without supplying a password; stdout is passed directly to sudo, without logging or persistence. This is not blanket administrator authorization. Existing Automation permissions can be removed in System Settings. Build with `ORBIT_SIGNING_IDENTITY` to sign both executables with your Developer ID; the default remains ad hoc because no valid signing identity is available on this development machine. Keep one copy named Orbit.app in Applications to avoid numbered Finder copies.
 
 Cleanup opens a dedicated scan/review screen. It lists direct children of the user's Homebrew cache, app cache/log folders, and optionally Xcode DerivedData. Known absent-app reference identifiers label cache/log leftovers; other app data is reviewed by Uninstall & Clean. Downloads/Desktop regular files at least 500 MB are discovery-only and can be revealed in Finder, never selected for deletion. The scan excludes symlink paths, omits unreadable/incomplete candidates, and uses a per-directory enumeration limit. System paths, user documents, project folders, credentials, application support, and preferences are not cleanup targets.
 
@@ -140,7 +140,7 @@ Validation adds official API fixtures, malformed/missing statistics, popularity 
 
 ## First-launch setup check (v0.9.1)
 
-The first launch opens Welcome to Mac Setup after read-only checks for Homebrew (`--version`), the selected Apple developer tools directory (`xcode-select -p`), macOS guidance, application location, and bundled executable password helpers. Missing Homebrew links to the official installation guide. Missing tools offer Copy tools setup command and Open Terminal; no command is executed for the user. Moving the app to Applications is suggested without modifying it. Permissions are explained and requested only when needed by later operations.
+The first launch opens Welcome to Orbit after read-only checks for Homebrew (`--version`), the selected Apple developer tools directory (`xcode-select -p`), macOS guidance, application location, and bundled executable password helpers. Missing Homebrew links to the official installation guide. Missing tools offer Copy tools setup command and Open Terminal; no command is executed for the user. Moving the app to Applications is suggested without modifying it. Permissions are explained and requested only when needed by later operations.
 
 Check again reruns detection after setup. Continue (or Browse apps for now when prerequisites are missing) records completion locally. Later launches perform the same checks but show the screen automatically only if setup was never completed or Homebrew/password helper checks fail. Optional developer-tools, location, and OS recommendations do not repeatedly interrupt completed setups. Setup check in the sidebar reopens the screen. Homebrew inventory refresh runs after leaving the screen when Homebrew can start; browsing is available without Homebrew, while Homebrew operations require the required setup checks to pass and installation still requires known Homebrew inventory.
 
@@ -157,3 +157,7 @@ Add to My apps saves a favorite without installing it. Select to install registe
 Only explicitly selected packages are registered/exported; dependency lists are never converted into direct selections. Dynamic tokens and persisted metadata are validated, disabled/deprecated entries cannot be added, and dynamic lifecycle commands qualify official taps to avoid ambiguous package names. Live metadata is checked again before installation. Existing installed/local-app selection guards and vendor-installer disclosure apply. Export setup remains independent and can include installed personal packages.
 
 Tests cover official-only API parsing, invalid tokens/taps, metadata deduplication, persistent-record sanitization, favorites, navigation selection preservation, dynamic mocked installation/update/removal, independent Brewfile round trips, dependency exclusion, offline refresh/filtering and retained inline Cleanup state. A separate optional check parses downloaded official API snapshots without installing software.
+
+## Orbit naming (v0.11)
+
+The app, executable, helper, interface, and documentation now use Orbit. The existing internal bundle identifier and cache directory (`io.macsetup.desktop`) are retained to preserve local preferences, favorites, and caches when upgrading.
