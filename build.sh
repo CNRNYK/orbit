@@ -6,6 +6,8 @@ mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" .build/module-cache
 architecture="$(uname -m)"
 xcrun swiftc -swift-version 5 -O -parse-as-library -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache Sources/*.swift -o "$app/Contents/MacOS/MacSetup"
 cp Resources/askpass.sh "$app/Contents/Resources/askpass.sh"
+rm -rf "$app/Contents/Resources/Logos"
+cp -R Resources/Logos "$app/Contents/Resources/Logos"
 cp Resources/catalog.json "$app/Contents/Resources/catalog.json"
 chmod 755 "$app/Contents/Resources/askpass.sh"
 cat > "$app/Contents/Info.plist" <<'PLIST'
@@ -17,8 +19,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleName</key><string>Mac Setup</string>
 <key>CFBundleDisplayName</key><string>Mac Setup</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.4.0</string>
-<key>CFBundleVersion</key><string>4</string>
+<key>CFBundleShortVersionString</key><string>0.5.0</string>
+<key>CFBundleVersion</key><string>5</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
 <key>NSAppleEventsUsageDescription</key><string>Mac Setup displays a password dialog when Homebrew needs administrator permission.</string>

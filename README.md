@@ -81,3 +81,11 @@ This is an initial working version with a curated catalog, not the entire Homebr
 ## License
 
 MIT. Application names belong to their respective owners; third-party applications retain their own license terms. This project is independent of Homebrew and the application vendors.
+
+## Official application icons (v0.5)
+
+App rows and detail sheets show the installed application's icon first, then an official-site icon, then the bundled category symbol. The catalog includes 344 raster icons: 335 discovered from icon links published by official homepages and nine from logo links in verified GitHub repository READMEs, with their asset URL and source-page provenance. These include site favicons and touch icons; a site icon can represent a vendor rather than a particular product. Generic GitHub, GitLab, and App Store hosting icons are excluded.
+
+All 344 assets ship in the app for immediate offline display. At launch four background workers refresh them from the recorded HTTPS URLs, without blocking Homebrew checks or interaction. Downloaded icons are cached for 30 days under `~/Library/Caches/io.macsetup.desktop/Logos`. Requests time out, responses are limited to 1 MB, and ImageIO decodes bounded 256-pixel thumbnails. Failed requests keep the bundled icon. The detail sheet links to the original icon asset. No third-party icon lookup service is used.
+
+Run `python3 Scripts/update_app_logos.py` to rediscover icons from official homepage links and verified repository README logo links. The script only accepts PNG, JPEG, and ICO payloads. Application logos and trademarks remain owned by their respective vendors; the project MIT license applies to its code, not these assets.

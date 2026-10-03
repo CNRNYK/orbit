@@ -21,6 +21,16 @@ import Foundation
         precondition(Package.webURL("file:///tmp/untrusted") == nil)
         precondition(Package.webURL("https://user:password@example.com") == nil)
         precondition(Package.webURL("https://github.com/microsoft/vscode") != nil)
+        precondition(LogoStore.decode(Data("not an image".utf8)) == nil)
+        precondition(LogoStore.decode(Data(repeating: 0, count: 1_000_001)) == nil)
+        let logoPackages = Catalog.packages.filter { $0.logoAsset != nil }
+        precondition(logoPackages.count > 250)
+        for package in logoPackages {
+            precondition(package.officialLogoURL != nil && Package.webURL(package.logoSource) != nil && package.logoFilename != nil)
+            let file = URL(fileURLWithPath: "Resources/Logos").appendingPathComponent(package.logoFilename!)
+            let data = try! Data(contentsOf: file)
+            precondition(LogoStore.decode(data) != nil, "Bundled icon must decode: " + package.token)
+        }
         let vscode = Catalog.packages.first { $0.token == "visual-studio-code" }!
         precondition(vscode.githubURL?.absoluteString == "https://github.com/microsoft/vscode")
         model.detailPackage = vscode
@@ -70,6 +80,6 @@ import Foundation
         precondition(Store.removalArguments(formula) == ["uninstall", "--formula", formula.token])
         precondition(!Store.removalArguments(app).contains("--zap"))
         precondition(!Store.removalArguments(formula).contains("--ignore-dependencies"))
-        print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, presets, install/uninstall planning")
+        print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, official bundled icon decoding and size limits, presets, install/uninstall planning")
     }
 }

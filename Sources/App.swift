@@ -106,6 +106,7 @@ struct ContentView: View {
             selectionPanel.frame(width: 255)
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
+        .task { await LogoStore.shared.start() }
         .task { if let error = Catalog.loadError { store.notice = error } else { await store.refresh() } }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
         .sheet(isPresented: $store.showRemovalReview) { RemovalReviewView(store: store) }
@@ -234,6 +235,7 @@ struct ContentView: View {
 
 struct AppIcon: View {
     let package: Package
+    @ObservedObject private var logos = LogoStore.shared
     var localIcon: NSImage? {
         guard let name = package.appName else { return nil }
         for base in ["/Applications", NSHomeDirectory() + "/Applications"] {
@@ -243,7 +245,7 @@ struct AppIcon: View {
         return nil
     }
     var body: some View {
-        if let icon = localIcon { Image(nsImage: icon).resizable().scaledToFit() }
+        if let icon = localIcon ?? logos.image(for: package) { Image(nsImage: icon).resizable().scaledToFit() }
         else { Image(systemName: package.symbol).font(.system(size: 21)).foregroundStyle(Color.accentColor).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.accentColor.opacity(0.09)).clipShape(RoundedRectangle(cornerRadius: 8)) }
     }
 }
@@ -287,6 +289,7 @@ struct PackageDetailView: View {
                             detailLink("GitHub" + (package.githubPurpose.map { " · " + $0 } ?? ""), symbol: "chevron.left.forwardslash.chevron.right", url: url)
                         } else { Text("No verified public GitHub repository link.").font(.subheadline).foregroundStyle(.secondary) }
                         if let url = package.catalogURL { detailLink("Homebrew package", symbol: "shippingbox", url: url) }
+                        if let url = package.officialLogoURL { detailLink("Official site icon", symbol: "photo", url: url) }
                         if let date = Catalog.data?.verifiedDate { Text("Catalog metadata checked: " + date + ". Live availability is checked before installation.").font(.caption).foregroundStyle(.secondary) }
                     }
                 }.padding(.vertical, 6)
