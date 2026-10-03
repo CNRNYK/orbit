@@ -241,7 +241,7 @@ struct RecorderView: View {
                     if let player = state.player, let url = state.recordingURL {
                         GroupBox("Preview & trim") {
                             VStack(alignment:.leading,spacing:12) {
-                                VideoPlayer(player:player).frame(height:280)
+                                RecorderPlayerView(player:player).frame(height:280)
                                 HStack { Text(url.lastPathComponent).lineLimit(1); Spacer(); Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }; Button("Copy file") { state.copyFile() } }
                                 if state.duration > 0.2 {
                                     HStack { Text("Start").frame(width:40,alignment:.leading); Slider(value:$state.trimStart,in:0...max(0,state.trimEnd-0.1)).onChange(of:state.trimStart) { _,value in player.seek(to:CMTime(seconds:value,preferredTimescale:600)) }; Text(String(format:"%.1fs",state.trimStart)).frame(width:55) }
@@ -265,5 +265,25 @@ struct RecorderView: View {
             }
         }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor))
         .alert("Screen Recorder",isPresented:Binding(get:{ state.notice != nil },set:{ if !$0 { state.notice = nil } })) { Button("OK") { state.notice = nil }; Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) } } message: { Text(state.notice ?? "") }
+    }
+}
+
+// Avoid the SwiftUI AVKit overlay: its VideoPlayer superclass metadata can abort
+// on macOS 27. Host the native macOS player directly and retain standard controls.
+struct RecorderPlayerView: NSViewRepresentable {
+    let player: AVPlayer
+    func makeNSView(context: Context) -> AVPlayerView {
+        let view = AVPlayerView()
+        view.controlsStyle = .inline
+        view.videoGravity = .resizeAspect
+        view.player = player
+        return view
+    }
+    func updateNSView(_ view: AVPlayerView, context: Context) {
+        if view.player !== player { view.player?.pause(); view.player = player }
+    }
+    static func dismantleNSView(_ view: AVPlayerView, coordinator: ()) {
+        view.player?.pause()
+        view.player = nil
     }
 }
