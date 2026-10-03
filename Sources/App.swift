@@ -9,6 +9,7 @@ struct ContentView: View {
             Divider()
             if store.mode == .cleanup { MaintenanceView(store: store) }
             else if store.mode == .explore { ExploreView(store: store) }
+            else if store.mode == .terminal { TerminalSetupView(store: store, state: store.terminalState) }
             else {
             VStack(spacing: 0) {
                 HStack(alignment: .top) {
@@ -131,8 +132,8 @@ struct ContentView: View {
                 }
             }
             }
-            if store.mode != .cleanup && store.mode != .explore { Divider() }
-            if store.mode != .cleanup && store.mode != .explore && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal { Divider() }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
         .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
@@ -168,6 +169,7 @@ struct ContentView: View {
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
             destinationButton("Cleanup", symbol: "sparkles", mode: .cleanup, count: "")
+            destinationButton("Terminal Setup", symbol: "terminal", mode: .terminal, count: "")
             destinationButton("Explore Homebrew", symbol: "globe", mode: .explore, count: "")
             Button { store.navigate(.install, category: "My apps") } label: { HStack { Label("My apps", systemImage: "star"); Spacer(); Text(String(store.myAppIDs.count)).font(.caption) }.font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain).background(store.category == "My apps" && store.mode == .install ? Color.accentColor.opacity(0.15) : .clear).clipShape(RoundedRectangle(cornerRadius:8))
             Divider().padding(.vertical, 10)
@@ -186,7 +188,7 @@ struct ContentView: View {
         }.padding(16).background(.thinMaterial)
     }
     func destinationButton(_ title: String, symbol: String, mode: ActionMode, count: String) -> some View {
-        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || store.category == "All Apps")
+        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || mode == .terminal || store.category == "All Apps")
         return Button { store.navigate(mode) } label: {
             HStack(spacing: 9) {
                 Image(systemName: symbol).frame(width: 18)
@@ -510,6 +512,9 @@ struct OrbitApp: App {
                 previewStore.navigate(.explore); previewStore.inventoryKnown = true; previewStore.appPresent = { _ in false }
                 previewStore.explorePackages = Array(Catalog.packages.filter { $0.installable }.prefix(15))
                 previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
+            }
+            if CommandLine.arguments.contains("--terminal-preview") {
+                previewStore.navigate(.terminal); previewStore.terminalState.scanned = true; previewStore.terminalState.selected.formUnion(["python", "node"]); previewStore.terminalState.message = "Demonstration data · no profiles were read or modified."; previewStore.terminalState.missing = ["uv"]; root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--startup-preview") {
                 previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Orbit is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]

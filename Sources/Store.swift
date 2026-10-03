@@ -101,6 +101,7 @@ struct SystemCommands: CommandExecuting {
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
     let maintenanceState = MaintenanceState()
+    let terminalState = TerminalState()
     @Published var explorePackages = [Package]()
     @Published var exploreSearch = ""
     @Published var exploreKind = "All"

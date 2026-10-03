@@ -18,6 +18,7 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Keep apps current | Check available updates and upgrade only your selected packages. |
 | Remove an app | Review removal and optionally select app-specific leftovers to move to Trash. |
 | Review clutter | Inspect caches, logs, and optional developer caches before moving selected items to Trash. |
+| Prepare your terminal | Choose Zsh essentials and language environments, review changes, and apply with private backups. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
 ## Discover apps beyond the starter list
@@ -36,11 +37,19 @@ Cleanup does not empty Trash or promise to remove every trace of an application.
 
 *Screenshots use demonstration data rendered by the app. No real installation or cleanup was performed to create them.*
 
+## Prepare your developer terminal
+
+**Terminal Setup** offers checkbox selections for Homebrew, completion, history, aliases, and optional Node/NVM, Python + uv, Java 21, Go, Rustup, and Ruby/rbenv environments. Starship, fzf, suggestions, and highlighting are optional.
+
+Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Existing content is preserved, changes are backed up, and repeating the same selection does not duplicate settings. Missing tools join the ordinary install selection; profile changes never install software. Restore is blocked if you edited a profile after applying it.
+
+![Terminal Setup checkbox groups with developer and language options](docs/images/terminal.png)
+
 ## Get started
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.12.0/Orbit-0.12.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.12.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.13.0/Orbit-0.13.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.13.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
