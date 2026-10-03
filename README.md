@@ -45,11 +45,19 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 ![Terminal Setup checkbox groups with developer and language options](docs/images/terminal.png)
 
+## Orbit, one click away
+
+Orbit lives in the macOS menu bar with a small monochrome orbit icon. Open its compact panel to check available updates, jump to Cleanup or review operation details. During app operations it shows the current app, processed and remaining counts, and **Stop after current app**.
+
+Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock icon brings the same window back; **Quit Orbit** exits. Active operations must finish before quitting. Update checks run on request; installing, updating and cleaning still use the normal reviewed flows.
+
+<img src="docs/images/menu-bar.png" alt="Orbit menu bar panel with status and quick actions" width="340">
+
 ## Get started
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.14.0/Orbit-0.14.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.14.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.15.0/Orbit-0.15.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.15.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

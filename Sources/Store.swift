@@ -135,6 +135,7 @@ struct SystemCommands: CommandExecuting {
     @Published var updateQueue = [UpdateItem]()
     @Published var includeSelfUpdating = false
     @Published var updatesChecked = false
+    @Published var lastUpdateCheck: Date?
     @Published var showUpdateReview = false
     @Published var cleanRemoval = false
     @Published var leftovers = [Leftover]()

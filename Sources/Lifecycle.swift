@@ -141,7 +141,7 @@ enum Cleanup {
         do {
             guard result.0 == 0 || result.0 == 1 else { throw NSError(domain: "Updates", code: 1, userInfo: [NSLocalizedDescriptionKey: result.1]) }
             updates = try UpdatePlan.parse(Data(result.1.utf8), packages: packages).filter { installed.contains($0.id) }
-            updatesChecked = true; headline = updates.isEmpty ? "No updates found for apps in this catalog." : "\(updates.count) updates available."
+            updatesChecked = true; lastUpdateCheck = Date(); headline = updates.isEmpty ? "No updates found for apps in this catalog." : "\(updates.count) updates available."
         } catch { appendLog(result.1); notice = "Could not read Homebrew’s update list. Open Operation details for diagnostics, then try again." }
     }
     func prepareUpdates() {
