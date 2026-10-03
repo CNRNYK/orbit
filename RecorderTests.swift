@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import AVKit
+import ScreenCaptureKit
 import AppKit
 import CoreImage
 import AVFoundation
@@ -8,6 +9,26 @@ import AudioToolbox
 
 @MainActor enum RecorderTests {
     static func run() async throws {
+        var captureRequests = 0
+        let accessState = RecorderState()
+        accessState.notice = "Previous permission warning"
+        accessState.requestSources = { captureRequests += 1; return RecorderSourceSnapshot(displays:[],windows:[]) }
+        let refreshed = await accessState.loadSources()
+        precondition(refreshed && captureRequests == 1 && accessState.notice == nil && !accessState.loadingSources, "Actual source refresh must accept ScreenCaptureKit success without a legacy gate")
+        let denied = NSError(domain:SCStreamErrorDomain,code:SCStreamError.Code.userDeclined.rawValue)
+        accessState.requestSources = { throw denied }
+        accessState.displayID = 99; accessState.windowID = 42; accessState.area = CGRect(x:0,y:0,width:100,height:100); accessState.options.masks = [RecorderMask(rect:CGRect(x:0,y:0,width:0.5,height:0.5),cover:true)]
+        let refused = await accessState.loadSources()
+        precondition(!refused && !accessState.loadingSources && accessState.displayID == 0 && accessState.windowID == 0 && accessState.area == nil && accessState.options.masks.isEmpty)
+        precondition(accessState.notice?.contains("running copy") == true && accessState.notice?.contains("-3801") == true)
+        let unrelated = NSError(domain:NSCocoaErrorDomain,code:42,userInfo:[NSLocalizedDescriptionKey:"Source unavailable"])
+        accessState.requestSources = { throw unrelated }
+        let unavailable = await accessState.loadSources()
+        precondition(!unavailable && accessState.notice?.contains("Source unavailable") == true && accessState.notice?.contains("denied screen access") == false, "Source failures must not be mislabeled as denied permission")
+        accessState.requestSources = { RecorderSourceSnapshot(displays:[],windows:[]) }
+        let retry = await accessState.loadSources()
+        precondition(retry && accessState.notice == nil, "Successful retry must clear stale errors")
+        print("PASS: actual recorder source refresh, success/retry, denied access diagnostics, non-permission errors and stale-selection clearing")
         let defaults = RecorderOptions()
         precondition(!defaults.microphone && !defaults.systemAudio && !defaults.webcam && !defaults.shortcuts && !defaults.zoom)
         let frame = CGRect(x:-1280,y:50,width:1280,height:720)
