@@ -22,7 +22,7 @@ enum BrewRunner {
     static var path: String? {
         ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"].first { FileManager.default.isExecutableFile(atPath: $0) }
     }
-    static func run(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void = { _ in }) async -> (Int32, String) {
+    static func run(_ executable: String, _ arguments: [String], separateError: Bool = false, log: @escaping @Sendable (String) -> Void = { _ in }) async -> (Int32, String) {
         await Task.detached(priority: .userInitiated) {
             let process = Process(); let pipe = Pipe()
             process.executableURL = URL(fileURLWithPath: executable)
@@ -38,7 +38,18 @@ enum BrewRunner {
             if let helper = Bundle.main.path(forResource: "askpass", ofType: "sh") { env["SUDO_ASKPASS"] = helper }
             process.environment = env
             process.standardInput = FileHandle.nullDevice
-            process.standardOutput = pipe; process.standardError = pipe
+            process.standardOutput = pipe
+            let errorURL = FileManager.default.temporaryDirectory.appendingPathComponent("macsetup-stderr-" + UUID().uuidString)
+            var errorHandle: FileHandle?
+            if separateError {
+                guard FileManager.default.createFile(atPath: errorURL.path, contents: nil, attributes: [.posixPermissions: 0o600]),
+                      let handle = try? FileHandle(forWritingTo: errorURL) else { return (-1, "Could not capture Homebrew diagnostics.") }
+                errorHandle = handle; process.standardError = handle
+            } else { process.standardError = pipe }
+            defer {
+                try? errorHandle?.close()
+                if separateError { try? FileManager.default.removeItem(at: errorURL) }
+            }
             do {
                 try process.run()
                 var data = Data()
@@ -49,6 +60,9 @@ enum BrewRunner {
                     log(String(decoding: chunk, as: UTF8.self))
                 }
                 process.waitUntilExit()
+                if separateError, let diagnostics = try? Data(contentsOf: errorURL), !diagnostics.isEmpty {
+                    log(String(decoding: diagnostics, as: UTF8.self))
+                }
                 return (process.terminationStatus, String(decoding: data, as: UTF8.self))
             } catch { return (-1, error.localizedDescription) }
         }.value
@@ -57,8 +71,17 @@ enum BrewRunner {
 
 protocol CommandExecuting: Sendable {
     func run(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String)
+    func runJSON(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String)
+}
+extension CommandExecuting {
+    func runJSON(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String) {
+        await run(executable, arguments, log: log)
+    }
 }
 struct SystemCommands: CommandExecuting {
+    func runJSON(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String) {
+        await BrewRunner.run(executable, arguments, separateError: true, log: log)
+    }
     func run(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void) async -> (Int32, String) {
         await BrewRunner.run(executable, arguments, log: log)
     }
@@ -113,6 +136,9 @@ struct SystemCommands: CommandExecuting {
     func runCommand(_ executable: String, _ arguments: [String], log: @escaping @Sendable (String) -> Void = { _ in }) async -> (Int32, String) {
         await commandRunner.run(executable, arguments, log: log)
     }
+    func runJSONCommand(_ executable: String, _ arguments: [String]) async -> (Int32, String) {
+        await commandRunner.runJSON(executable, arguments) { [weak self] chunk in Task { @MainActor in self?.appendLog(chunk) } }
+    }
     var visibleUpdates: [UpdateItem] { updates.filter { search.isEmpty || ($0.package.name + " " + $0.package.detail).localizedCaseInsensitiveContains(search) } }
     var selection: [Package] { Catalog.packages.filter { selected.contains($0.id) } }
     var visible: [Package] {
@@ -144,8 +170,8 @@ struct SystemCommands: CommandExecuting {
         guard !refreshing, let brew else { return }
         refreshing = true
         defer { refreshing = false }
-        let formulas = await runCommand(brew, ["list", "--formula", "-1"])
-        let casks = await runCommand(brew, ["list", "--cask", "-1"])
+        let formulas = await runJSONCommand(brew, ["list", "--formula", "-1"])
+        let casks = await runJSONCommand(brew, ["list", "--cask", "-1"])
         guard formulas.0 == 0, casks.0 == 0 else {
             inventoryKnown = false; notice = "Could not read Homebrew's installed packages. Open installation details for the error."
             appendLog(formulas.1 + casks.1); return
