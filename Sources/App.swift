@@ -444,13 +444,19 @@ struct RemovalReviewView: View {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+@MainActor final class AppDelegate: NSObject, NSApplicationDelegate {
+    var menuBar: MenuBarController?
     func applicationDidFinishLaunching(_ notification: Notification) {
+        menuBar = MenuBarController(store: OrbitApp.store)
+        menuBar?.install()
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
     }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { menuBar?.openWindow(); return false }
+    func applicationWillTerminate(_ notification: Notification) { menuBar?.remove() }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        guard OrbitApp.store.busy else { return .terminateNow }
+        guard MenuBarState(store: OrbitApp.store).operating else { return .terminateNow }
         let alert = NSAlert(); alert.messageText = "An operation is running"
         alert.informativeText = "Wait for the current operation to finish before quitting. For app operations, you can use Stop after current app."
         alert.addButton(withTitle: "Continue"); alert.runModal()
@@ -470,6 +476,44 @@ struct OrbitApp: App {
 
 @main enum Entry {
     @MainActor static func main() {
+        if CommandLine.arguments.contains("--menu-bar-smoke-test") {
+            let app = NSApplication.shared; app.setActivationPolicy(.regular); app.finishLaunching()
+            func pump(_ seconds: TimeInterval) {
+                let end = Date().addingTimeInterval(seconds)
+                while Date() < end { if let event = app.nextEvent(matching: .any, until: min(end, Date().addingTimeInterval(0.02)), inMode: .default, dequeue: true) { app.sendEvent(event) } }
+            }
+            let store = Store(preview: true, persistSelection: false)
+            let controller = MenuBarController(store: store)
+            let window = NSWindow(contentRect: NSRect(x: 100, y: 100, width: 1180, height: 780), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            window.title = "Orbit"; window.contentView = NSHostingView(rootView: ContentView(store: store)); window.isReleasedWhenClosed = false
+            controller.install(); controller.popover.animates = false; controller.remember(window); window.makeKeyAndOrderFront(nil)
+            pump(0.2)
+            window.performClose(nil); precondition(!window.isVisible && controller.statusItem != nil)
+            controller.openWindow(); precondition(window.isVisible)
+            window.miniaturize(nil); controller.openWindow(); precondition(!window.isMiniaturized)
+            controller.perform(.cleanup); precondition(store.mode == .cleanup && window.isVisible)
+            controller.perform(.updates); precondition(store.mode == .updates)
+            controller.perform(.details); precondition(store.showLog && window.isVisible); store.showLog = false
+            pump(0.8)
+            controller.statusItem?.button?.performClick(nil); pump(0.4); precondition(controller.popover.isShown)
+            let idleHeight = controller.popover.contentSize.height
+            store.busy = true; store.total = 5; store.completed = 2; store.headline = "Updating preview app…"
+            pump(0.4)
+            precondition(controller.popover.contentSize.height > idleHeight, "The panel must grow to fit operation progress")
+            store.busy = false; pump(0.4)
+            precondition(controller.popover.isShown, "The panel should remain open across progress changes")
+            controller.statusItem?.button?.performClick(nil); pump(0.4); precondition(!controller.popover.isShown)
+            controller.togglePanel(); pump(0.2)
+            let escape = NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: [], timestamp: 0, windowNumber: controller.popover.contentViewController!.view.window!.windowNumber, context: nil, characters: "\u{1b}", charactersIgnoringModifiers: "\u{1b}", isARepeat: false, keyCode: 53)!
+            app.postEvent(escape, atStart: false); pump(0.2); precondition(!controller.popover.isShown, "Escape should dismiss the panel")
+            controller.togglePanel(); pump(0.2)
+            let outside = NSEvent.mouseEvent(with: .leftMouseDown, location: NSPoint(x: 20, y: 20), modifierFlags: [], timestamp: 0, windowNumber: window.windowNumber, context: nil, eventNumber: 1, clickCount: 1, pressure: 1)!
+            app.postEvent(outside, atStart: false); pump(0.2); precondition(!controller.popover.isShown, "Clicking outside should dismiss the panel")
+            controller.remove(); precondition(controller.statusItem == nil)
+            window.orderOut(nil)
+            print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation and details")
+            return
+        }
         if let index = CommandLine.arguments.firstIndex(of: "--render-preview"), CommandLine.arguments.count > index + 1 {
             let app = NSApplication.shared
             app.setActivationPolicy(.accessory)
@@ -518,6 +562,10 @@ struct OrbitApp: App {
                 let p = Catalog.packages.first { $0.token == "figma" }!
                 previewStore.localApps = [LocalApp(path: "/Applications/Figma.app", name: "Figma", identifier: "com.figma.Desktop", version: "126.9.11", package: p, identityMatched: false, inode: 0), LocalApp(path: "/Applications/Example.app", name: "Example", identifier: "org.example.app", version: "1.0", package: nil, identityMatched: false, inode: 0)]
                 root = AnyView(ContentView(store: previewStore))
+            }
+            if CommandLine.arguments.contains("--menu-bar-preview") {
+                previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 400)
+                if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }
             }
             if CommandLine.arguments.contains("--export-preview") { root = AnyView(SetupExportView(store: previewStore)); size = NSSize(width: 650, height: 620) }
             if CommandLine.arguments.contains("--repair-preview") {
