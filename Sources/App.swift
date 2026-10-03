@@ -5,13 +5,13 @@ struct ContentView: View {
     @ObservedObject var store: Store
     var body: some View {
         HStack(spacing: 0) {
-            sidebar.frame(width: 215).disabled(store.updateMode || store.locked)
+            sidebar.frame(width: 245).disabled(store.locked)
             Divider()
             VStack(spacing: 0) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(store.updateMode ? "Updates" : store.category == "All Apps" ? (store.uninstallMode ? "Manage installed apps" : "Set up your Mac") : store.category).font(.system(size: 28, weight: .bold))
-                        Text(store.headline).font(.subheadline).foregroundStyle(.secondary)
+                        Text(store.updateMode ? "Updates" : store.category == "All Apps" ? (store.uninstallMode ? "Installed" : "All Apps") : store.category).font(.system(size: 28, weight: .bold))
+                        Text(store.updateMode || store.category == "All Apps" ? store.headline : Catalog.categoryDescriptions[store.category] ?? store.headline).font(.subheadline).foregroundStyle(.secondary)
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 10) {
@@ -22,25 +22,18 @@ struct ContentView: View {
                         }.disabled(store.locked)
                     }
                 }.padding(24)
-                Picker("Action", selection: $store.mode) {
-                    Text("Install apps").tag(ActionMode.install)
-                    Text("Uninstall apps").tag(ActionMode.uninstall)
-                    Text("Updates").tag(ActionMode.updates)
-                }.pickerStyle(.segmented).frame(width: 410).padding(.horizontal, 24).padding(.bottom, 12).disabled(store.locked)
-                .onChange(of: store.mode) { _, mode in
-                    store.selected.removeAll()
-                    store.statuses.removeAll()
-                    store.headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select Homebrew-managed apps to remove." : "Choose your apps. Make it yours."
-                }
                 if store.updateMode {
                     UpdatesView(store: store)
                 } else {
                 if store.category != "All Apps" {
                     HStack {
+                        if store.uninstallMode { Label("Installed", systemImage: "checkmark.circle").font(.caption).foregroundStyle(.secondary) }
                         Picker("Section", selection: $store.subcategory) {
-                            Text("All sections").tag("All")
-                            ForEach(Catalog.subcategories(in: store.category), id: \.self) { Text($0).tag($0) }
-                        }.frame(maxWidth: 350)
+                            Label("All sections · \(store.count(in: store.category))", systemImage: "square.grid.2x2").tag("All")
+                            ForEach(Catalog.subcategories(in: store.category), id: \.self) { section in
+                                Label(section + " · " + String(store.count(in: store.category, section: section)), systemImage: Catalog.sectionSymbol(section)).tag(section)
+                            }
+                        }.frame(maxWidth: 430)
                         Spacer()
                     }.padding(.horizontal, 24).padding(.bottom, 8)
                 }
@@ -71,9 +64,14 @@ struct ContentView: View {
                 }.font(.caption).buttonStyle(.borderless).padding(.horizontal, 24).padding(.vertical, 10).disabled(store.locked)
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 22) {
-                        ForEach(Catalog.categories, id: \.self) { category in
-                            if store.category == "All Apps" || store.category == category { categoryBlock(category) }
-                        }
+                        if store.category == "All Apps" || !store.search.isEmpty {
+                            LazyVStack(spacing: 0) {
+                                ForEach(store.visible.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }) { app in
+                                    row(app)
+                                    Divider().padding(.leading, 48)
+                                }
+                            }.background(Color(nsColor: .controlBackgroundColor)).clipShape(RoundedRectangle(cornerRadius: 12))
+                        } else { categoryBlock(store.category) }
                         if store.visible.isEmpty {
                             if store.uninstallMode && store.search.isEmpty {
                                 ContentUnavailableView("No managed apps in this catalog", systemImage: "shippingbox", description: Text("Refresh to check Homebrew. Manually installed apps are not included."))
@@ -93,6 +91,7 @@ struct ContentView: View {
                 }
                 Divider()
                 if store.uninstallMode {
+                    Text("Installed · Homebrew-managed apps in this catalog").font(.caption).foregroundStyle(.secondary).padding(.top, 10)
                     Toggle("Uninstall & Clean — review leftover files", isOn: $store.cleanRemoval).padding(.horizontal, 24).padding(.top, 10).disabled(store.locked)
                 }
                 HStack {
@@ -136,35 +135,45 @@ struct ContentView: View {
         } message: { Text(store.notice ?? "") }
     }
     var sidebar: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Label("Mac Setup", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 25).padding(.top, 18)
-            navigationButton("All Apps")
+        VStack(alignment: .leading, spacing: 7) {
+            Label("Mac Setup", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
+            destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(Catalog.packages.count))
+            destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(Catalog.packages.filter { store.installed.contains($0.id) }.count) : "—")
+            destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
+            Divider().padding(.vertical, 10)
+            Text("CATEGORIES").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary).padding(.horizontal, 8)
             ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(Catalog.categories, id: \.self) { category in
-                        DisclosureGroup {
-                            ForEach(Catalog.subcategories(in: category), id: \.self) { section in
-                                navigationButton(category, section: section).padding(.leading, 6)
-                            }
-                        } label: { navigationButton(category) }
-                    }
-                }.padding(.vertical, 8)
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(Catalog.categories, id: \.self) { category in navigationButton(category) }
+                }.padding(.vertical, 6)
             }
-            Link(destination: URL(string: "https://formulae.brew.sh")!) { Label("Homebrew catalog", systemImage: "arrow.up.right.square") }.padding(.bottom, 15)
+            Link(destination: URL(string: "https://formulae.brew.sh")!) { Label("Homebrew catalog", systemImage: "arrow.up.right.square") }.font(.caption).padding(.bottom, 12)
             HStack(spacing: 8) {
                 Circle().fill(store.brew == nil ? Color.orange : Color.green).frame(width: 8, height: 8)
                 Text(store.brew == nil ? "Homebrew not found" : store.refreshing ? "Checking installed apps…" : "Homebrew ready").font(.caption).foregroundStyle(.secondary)
             }
         }.padding(16).background(.thinMaterial)
     }
-    func navigationButton(_ category: String, section: String = "All") -> some View {
-        let active = store.category == category && store.subcategory == section
-        return Button { store.category = category; store.subcategory = section } label: {
-            HStack(spacing: 8) {
-                if section == "All" { Image(systemName: Catalog.symbols[category] ?? "square.grid.2x2").frame(width: 18) }
-                Text(section == "All" ? category : section).font(.system(size: section == "All" ? 12 : 11)).multilineTextAlignment(.leading)
+    func destinationButton(_ title: String, symbol: String, mode: ActionMode, count: String) -> some View {
+        let active = store.mode == mode && (mode == .updates || store.category == "All Apps")
+        return Button { store.navigate(mode) } label: {
+            HStack(spacing: 9) {
+                Image(systemName: symbol).frame(width: 18)
+                Text(title).font(.system(size: 13, weight: .medium))
                 Spacer(minLength: 0)
-            }.padding(.horizontal, 8).padding(.vertical, 8).contentShape(Rectangle())
+                Text(count).font(.caption).monospacedDigit().opacity(0.7)
+            }.padding(.horizontal, 9).padding(.vertical, 10).contentShape(Rectangle())
+        }.buttonStyle(.plain).background(active ? Color.accentColor : .clear).foregroundStyle(active ? .white : .primary).clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+    func navigationButton(_ category: String) -> some View {
+        let active = !store.updateMode && store.category == category
+        return Button { store.navigate(store.updateMode ? .install : store.mode, category: category) } label: {
+            HStack(spacing: 9) {
+                Image(systemName: Catalog.symbols[category] ?? "square.grid.2x2").frame(width: 18)
+                Text(category).font(.system(size: 12)).multilineTextAlignment(.leading)
+                Spacer(minLength: 0)
+                Text(String(store.updateMode ? Catalog.packages.filter { $0.belongs(to: category) }.count : store.count(in: category))).font(.caption2).monospacedDigit().opacity(0.65)
+            }.padding(.horizontal, 9).padding(.vertical, 9).contentShape(Rectangle())
         }.buttonStyle(.plain).background(active ? Color.accentColor : .clear).foregroundStyle(active ? .white : .primary).clipShape(RoundedRectangle(cornerRadius: 8))
     }
     @ViewBuilder func categoryBlock(_ category: String) -> some View {
@@ -173,10 +182,10 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(category.uppercased()).font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
                 ForEach(Catalog.subcategories(in: category), id: \.self) { section in
-                    let entries = apps.filter { $0.section(in: category) == section }
+                    let entries = apps.filter { store.subcategory == "All" ? $0.section(in: category) == section : section == store.subcategory && $0.belongs(to: category, subcategory: section) }
                     if !entries.isEmpty {
                         VStack(alignment: .leading, spacing: 7) {
-                            Text(section).font(.system(size: 13, weight: .semibold))
+                            Label(section + " · " + String(entries.count), systemImage: Catalog.sectionSymbol(section)).font(.system(size: 13, weight: .semibold))
                             LazyVStack(spacing: 0) {
                                 ForEach(entries) { app in
                                     row(app)
@@ -198,6 +207,9 @@ struct ContentView: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text(app.name).font(.system(size: 14, weight: .semibold))
                         Text(app.detail).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(2)
+                        if store.category == "All Apps" || !store.search.isEmpty {
+                            Text(app.category + " › " + app.section(in: app.category)).font(.system(size: 10)).foregroundStyle(.secondary)
+                        }
                     }
                     Spacer(minLength: 4)
                 }.contentShape(Rectangle())
@@ -219,7 +231,7 @@ struct ContentView: View {
     }
     var selectionPanel: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Your selection").font(.title2.bold())
+            Text(store.uninstallMode ? "Removal selection" : "Your selection").font(.title2.bold())
             Text("\(store.selection.count) apps selected").foregroundStyle(.secondary)
             ScrollView {
                 VStack(alignment: .leading, spacing: 17) {
@@ -444,6 +456,16 @@ struct MacSetupApp: App {
                let package = Catalog.packages.first(where: { $0.token == CommandLine.arguments[detailIndex + 1] }) {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
+            }
+            if CommandLine.arguments.contains("--category-preview") {
+                previewStore.navigate(.install, category: "Development")
+                root = AnyView(ContentView(store: previewStore))
+            }
+            if CommandLine.arguments.contains("--installed-preview") {
+                previewStore.inventoryKnown = true
+                previewStore.installed = Set(Catalog.packages.filter { ["google-chrome", "google-drive", "docker", "git"].contains($0.token) }.map(\.id))
+                previewStore.navigate(.uninstall)
+                root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--updates") {
                 previewStore.mode = .updates; previewStore.updatesChecked = true; previewStore.headline = "3 updates available."

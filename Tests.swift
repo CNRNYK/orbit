@@ -45,7 +45,7 @@ import Foundation
         for ids in Catalog.presets.values {
             precondition(ids.allSatisfy { id in Catalog.packages.contains { $0.id == id && $0.installable } })
         }
-        let repeated = Catalog.packages.first { $0.sourceNumbers.count > 1 }!
+        let repeated = Catalog.packages.first { $0.placements.count > 1 }!
         precondition(repeated.placements.count > 1)
         for place in repeated.placements {
             model.category = place.category; model.subcategory = place.subcategory
@@ -84,6 +84,34 @@ import Foundation
         precondition(Store.removalArguments(formula) == ["uninstall", "--formula", formula.token])
         precondition(!Store.removalArguments(app).contains("--zap"))
         precondition(!Store.removalArguments(formula).contains("--ignore-dependencies"))
+        precondition(Catalog.categories.count == 10 && !Catalog.categories.contains("Google"))
+        precondition(Catalog.categoryDescriptions.count == 10)
+        precondition(Catalog.subcategories(in: "Development").first == "Code Editors & IDEs")
+        precondition(Catalog.packages.allSatisfy { !$0.placements.isEmpty && Set($0.placements).count == $0.placements.count && $0.placements.allSatisfy { Catalog.categories.contains($0.category) && Catalog.data?.subcategorySymbols?[$0.subcategory] != nil } })
+        let chrome = Catalog.packages.first { $0.token == "google-chrome" }!
+        let drive = Catalog.packages.first { $0.token == "google-drive" }!
+        precondition(chrome.category == "Browsers & Internet" && drive.category == "Files & Storage")
+        let docker = Catalog.packages.first { $0.token == "docker" }!
+        model.navigate(.install, category: "Cloud & Databases"); model.search = ""; model.selected = []
+        model.toggle(docker)
+        precondition(model.visible.contains(docker))
+        model.navigate(.install, category: "Development")
+        precondition(model.selected == [docker.id] && model.visible.contains(docker) && model.selection.count == 1)
+        model.category = "All Apps"
+        precondition(model.visible.count == Set(model.visible.map(\.id)).count)
+        model.search = "docker"
+        precondition(model.visible.filter { $0.id == docker.id }.count == 1)
+        model.search = ""; model.installed = [chrome.id, drive.id]; model.inventoryKnown = true
+        model.navigate(.uninstall)
+        precondition(Set(model.visible.map(\.id)) == [chrome.id, drive.id])
+        precondition(model.count(in: "Browsers & Internet") == 1 && model.count(in: "Development") == 0)
+        model.navigate(.uninstall, category: "Files & Storage")
+        model.selected = [drive.id]
+        model.navigate(.uninstall, category: "Browsers & Internet")
+        precondition(model.selected == [drive.id], "Category navigation preserves the shared removal selection")
+        precondition(model.visible.map(\.id) == [chrome.id])
+        precondition(Catalog.parse(Catalog.export([docker, docker])).0 == [docker.id])
+        print("PASS: ten-category taxonomy, icon metadata, Google redistribution, cross-category selection, unique lists/export, installed filtering and category counts")
         if CommandLine.arguments.contains("--live-updates"), let brew = BrewRunner.path {
             let live = await BrewRunner.run(brew, ["outdated", "--json=v2"], separateError: true)
             precondition(live.0 == 0 || live.0 == 1)

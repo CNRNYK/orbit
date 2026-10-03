@@ -141,8 +141,20 @@ struct SystemCommands: CommandExecuting {
     }
     var visibleUpdates: [UpdateItem] { updates.filter { search.isEmpty || ($0.package.name + " " + $0.package.detail).localizedCaseInsensitiveContains(search) } }
     var selection: [Package] { Catalog.packages.filter { selected.contains($0.id) } }
+    var browsingPackages: [Package] {
+        Catalog.packages.filter { (!uninstallMode || (inventoryKnown && installed.contains($0.id))) && (search.isEmpty || ($0.name + " " + $0.detail + " " + $0.placements.map { $0.category + " " + $0.subcategory }.joined(separator: " ")).localizedCaseInsensitiveContains(search)) }
+    }
     var visible: [Package] {
-        Catalog.packages.filter { (!uninstallMode || (inventoryKnown && installed.contains($0.id))) && (category == "All Apps" || $0.belongs(to: category, subcategory: subcategory)) && (search.isEmpty || ($0.name + " " + $0.detail + " " + $0.placements.map { $0.category + " " + $0.subcategory }.joined(separator: " ")).localizedCaseInsensitiveContains(search)) }
+        browsingPackages.filter { category == "All Apps" || $0.belongs(to: category, subcategory: subcategory) }
+    }
+    func count(in category: String, section: String = "All") -> Int {
+        browsingPackages.filter { $0.belongs(to: category, subcategory: section) }.count
+    }
+    func navigate(_ mode: ActionMode, category: String = "All Apps") {
+        guard !locked else { return }
+        if self.mode != mode { selected.removeAll(); statuses.removeAll() }
+        self.mode = mode; self.category = category; subcategory = "All"
+        headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var locked: Bool { busy || preparing || refreshing }
     let preview: Bool

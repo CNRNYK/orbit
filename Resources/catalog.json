@@ -2,62 +2,28 @@
   "verifiedDate": "2026-10-03",
   "sourceEntryCount": 437,
   "categories": [
-    "Google",
-    "Mac Power Tools",
-    "System Utilities",
-    "Files & Compression",
-    "Browsers & Internet",
-    "AI & LLM",
+    "AI",
     "Development",
-    "Database",
-    "DevOps & Cloud",
-    "CLI Power Tools",
-    "Languages & Runtimes",
-    "Networking & Debugging",
-    "Design",
-    "3D & CAD",
-    "Photography",
-    "Video Production",
-    "Audio & Music",
-    "Notes & Knowledge",
-    "Office & PDF",
+    "Cloud & Databases",
+    "Design & Media",
+    "Productivity",
     "Communication",
-    "Security & Passwords",
-    "Screen Capture",
-    "Download Managers",
-    "Electronics & Engineering",
-    "GIS & Science",
-    "Mobile Development",
-    "Hardware & Remote Access"
+    "Browsers & Internet",
+    "Files & Storage",
+    "Mac Utilities",
+    "Security & Networking"
   ],
   "symbols": {
-    "Google": "globe",
-    "Mac Power Tools": "command",
-    "System Utilities": "wrench.and.screwdriver",
-    "Files & Compression": "folder",
-    "Browsers & Internet": "globe",
-    "AI & LLM": "sparkles",
+    "AI": "sparkles",
     "Development": "chevron.left.forwardslash.chevron.right",
-    "Database": "externaldrive",
-    "DevOps & Cloud": "cloud",
-    "CLI Power Tools": "terminal",
-    "Languages & Runtimes": "curlybraces",
-    "Networking & Debugging": "network",
-    "Design": "paintpalette",
-    "3D & CAD": "cube",
-    "Photography": "camera",
-    "Video Production": "film",
-    "Audio & Music": "waveform",
-    "Notes & Knowledge": "note.text",
-    "Office & PDF": "doc",
+    "Cloud & Databases": "cloud",
+    "Design & Media": "paintpalette",
+    "Productivity": "checkmark.circle",
     "Communication": "bubble.left.and.bubble.right",
-    "Security & Passwords": "lock.shield",
-    "Screen Capture": "viewfinder",
-    "Download Managers": "arrow.down.circle",
-    "Electronics & Engineering": "cpu",
-    "GIS & Science": "map",
-    "Mobile Development": "iphone",
-    "Hardware & Remote Access": "desktopcomputer"
+    "Browsers & Internet": "globe",
+    "Files & Storage": "folder",
+    "Mac Utilities": "slider.horizontal.3",
+    "Security & Networking": "lock.shield"
   },
   "packages": [
     {
@@ -68,8 +34,8 @@
       "appName": "Raycast",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Launcher / Search / Command Center"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://raycast.com/",
@@ -95,8 +61,8 @@
       "appName": "Alfred 5",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Launcher / Search / Command Center"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://www.alfredapp.com/",
@@ -121,8 +87,8 @@
       "appName": "LaunchBar",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Launcher / Search / Command Center"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://www.obdev.at/products/launchbar/index.html",
@@ -147,8 +113,8 @@
       "appName": "Quicksilver",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Launcher / Search / Command Center"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://qsapp.com/",
@@ -170,8 +136,8 @@
       "appName": "Sol",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Launcher / Search / Command Center"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/ospfranco/sol",
@@ -193,8 +159,8 @@
       "appName": "Rectangle",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://rectangleapp.com/",
@@ -219,8 +185,8 @@
       "appName": "Rectangle Pro",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://rectangleapp.com/pro",
@@ -245,8 +211,8 @@
       "appName": "Amethyst",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://ianyh.com/amethyst/",
@@ -271,8 +237,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/nikitabobko/AeroSpace",
@@ -293,8 +259,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/koekeishiya/yabai",
@@ -315,8 +281,8 @@
       "appName": "Loop",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/MrKai77/Loop",
@@ -338,8 +304,8 @@
       "appName": "AltTab",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Window Management"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://alt-tab.app/",
@@ -361,8 +327,8 @@
       "appName": "Maccy",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Clipboard"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://maccy.app/",
@@ -387,8 +353,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Clipboard"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://indiegoodies.com/pastepal",
@@ -412,8 +378,8 @@
       "appName": "CopyQ",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Clipboard"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://hluk.github.io/CopyQ/",
@@ -438,8 +404,8 @@
       "appName": "Clipy",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Clipboard"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://clipy-app.com/",
@@ -464,8 +430,8 @@
       "appName": "Flycut",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Clipboard"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/TermiT/Flycut",
@@ -487,8 +453,8 @@
       "appName": "Ice",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://icemenubar.app/",
@@ -513,8 +479,8 @@
       "appName": "Hidden Bar",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/dwarvesf/hidden/",
@@ -536,12 +502,12 @@
       "appName": "Stats",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         },
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/exelban/stats",
@@ -564,8 +530,8 @@
       "appName": "SwiftBar",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://swiftbar.app/",
@@ -587,8 +553,8 @@
       "appName": "xbar",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://xbarapp.com/",
@@ -613,8 +579,8 @@
       "appName": "MenuMeters",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "Menu Bar"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://member.ipmu.jp/yuji.tachikawa/MenuMetersElCapitan/",
@@ -639,8 +605,8 @@
       "appName": "Hammerspoon",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://www.hammerspoon.org/",
@@ -665,8 +631,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://karabiner-elements.pqrs.org/",
@@ -691,8 +657,8 @@
       "appName": "BetterTouchTool",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://folivora.ai/",
@@ -717,8 +683,8 @@
       "appName": "Keyboard Maestro",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://www.keyboardmaestro.com/main/",
@@ -743,8 +709,8 @@
       "appName": "Shortcat",
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://shortcat.app/",
@@ -769,8 +735,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://www.bluem.net/jump/cliclick/",
@@ -795,8 +761,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mac Power Tools",
-          "subcategory": "macOS Automation"
+          "category": "Mac Utilities",
+          "subcategory": "Customization & Automation"
         }
       ],
       "homepage": "https://github.com/koekeishiya/skhd",
@@ -817,8 +783,8 @@
       "appName": "iStat Menus",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://bjango.com/mac/istatmenus/",
@@ -843,8 +809,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/aristocratos/btop",
@@ -869,8 +835,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://htop.dev/",
@@ -895,8 +861,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://nicolargo.github.io/glances/",
@@ -921,12 +887,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         },
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://clementtsang.github.io/bottom/",
@@ -952,8 +918,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "System Monitoring"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://tlkh.github.io/asitop/",
@@ -975,8 +941,8 @@
       "appName": "AppCleaner",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Cleaning / Maintenance"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://freemacsoft.net/appcleaner/",
@@ -998,8 +964,8 @@
       "appName": "Pearcleaner",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Cleaning / Maintenance"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://itsalin.com/appInfo/?id=pearcleaner",
@@ -1021,8 +987,8 @@
       "appName": "OnyX",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Cleaning / Maintenance"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://www.titanium-software.fr/en/onyx.html",
@@ -1047,8 +1013,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Cleaning / Maintenance"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://www.bleachbit.org",
@@ -1072,8 +1038,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Cleaning / Maintenance"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://mole.fit",
@@ -1098,8 +1064,8 @@
       "appName": "AlDente",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Battery"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://apphousekitchen.com/",
@@ -1125,8 +1091,8 @@
       "appName": "coconutBattery",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Battery"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://www.coconut-flavour.com/coconutbattery/",
@@ -1151,8 +1117,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Battery"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/mhaeuser/Battery-Toolkit",
@@ -1173,8 +1139,8 @@
       "appName": "BatFi",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Battery"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://micropixels.software/batfi",
@@ -1199,8 +1165,8 @@
       "appName": "KeepingYouAwake",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Sleep / Power"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://keepingyouawake.app/",
@@ -1225,8 +1191,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Sleep / Power"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/x74353/Amphetamine-Enhancer",
@@ -1247,8 +1213,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Sleep / Power"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://prevent-mac-from-sleeping.3bitlab.com/prevent_mac_sleep_help.html",
@@ -1269,8 +1235,8 @@
       "appName": "BetterDisplay",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Display / Monitor"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://betterdisplay.pro/",
@@ -1295,8 +1261,8 @@
       "appName": "MonitorControl",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Display / Monitor"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/MonitorControl/MonitorControl",
@@ -1321,8 +1287,8 @@
       "appName": "Lunar",
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Display / Monitor"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://lunar.fyi/",
@@ -1347,8 +1313,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Display / Monitor"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://www.synaptics.com/products/displaylink-graphics",
@@ -1373,8 +1339,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "System Utilities",
-          "subcategory": "Display / Monitor"
+          "category": "Mac Utilities",
+          "subcategory": "System & Maintenance"
         }
       ],
       "homepage": "https://github.com/waydabber/BetterDisplay",
@@ -1395,8 +1361,8 @@
       "appName": "ForkLift",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Managers"
+          "category": "Files & Storage",
+          "subcategory": "File Management"
         }
       ],
       "homepage": "https://binarynights.com/",
@@ -1421,8 +1387,8 @@
       "appName": "Commander One",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Managers"
+          "category": "Files & Storage",
+          "subcategory": "File Management"
         }
       ],
       "homepage": "https://mac.eltima.com/file-manager.html",
@@ -1447,8 +1413,8 @@
       "appName": "Double Commander",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Managers"
+          "category": "Files & Storage",
+          "subcategory": "File Management"
         }
       ],
       "homepage": "https://doublecmd.sourceforge.io/",
@@ -1473,8 +1439,8 @@
       "appName": "Marta",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Managers"
+          "category": "Files & Storage",
+          "subcategory": "File Management"
         }
       ],
       "homepage": "https://marta.sh/",
@@ -1500,8 +1466,8 @@
       "appName": "muCommander",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Managers"
+          "category": "Files & Storage",
+          "subcategory": "File Management"
         }
       ],
       "homepage": "https://www.mucommander.com/",
@@ -1526,7 +1492,7 @@
       "appName": "Keka",
       "placements": [
         {
-          "category": "Files & Compression",
+          "category": "Files & Storage",
           "subcategory": "Compression"
         }
       ],
@@ -1552,7 +1518,7 @@
       "appName": "The Unarchiver",
       "placements": [
         {
-          "category": "Files & Compression",
+          "category": "Files & Storage",
           "subcategory": "Compression"
         }
       ],
@@ -1578,7 +1544,7 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
+          "category": "Files & Storage",
           "subcategory": "Compression"
         }
       ],
@@ -1603,7 +1569,7 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
+          "category": "Files & Storage",
           "subcategory": "Compression"
         }
       ],
@@ -1629,7 +1595,7 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
+          "category": "Files & Storage",
           "subcategory": "Compression"
         }
       ],
@@ -1655,8 +1621,8 @@
       "appName": "GrandPerspective",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "Disk / Storage"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://grandperspectiv.sourceforge.net/",
@@ -1681,8 +1647,8 @@
       "appName": "Disk Inventory X",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "Disk / Storage"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://www.derlien.com/",
@@ -1707,12 +1673,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "Disk / Storage"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         },
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/muesli/duf",
@@ -1735,8 +1701,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "Disk / Storage"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://dev.yorhel.nl/ncdu",
@@ -1761,12 +1727,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "Disk / Storage"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         },
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/bootandy/dust",
@@ -1789,8 +1755,8 @@
       "appName": "LocalSend",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://localsend.org/",
@@ -1815,8 +1781,8 @@
       "appName": "Cyberduck",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://cyberduck.io/",
@@ -1841,8 +1807,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://filezilla-project.org",
@@ -1866,8 +1832,8 @@
       "appName": "Transmit",
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://panic.com/transmit/",
@@ -1892,8 +1858,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://rsync.samba.org/",
@@ -1915,8 +1881,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Files & Compression",
-          "subcategory": "File Transfer"
+          "category": "Files & Storage",
+          "subcategory": "Storage & Transfer"
         }
       ],
       "homepage": "https://rclone.org/",
@@ -1941,12 +1907,8 @@
       "appName": "Google Chrome",
       "placements": [
         {
-          "category": "Google",
-          "subcategory": "Everyday apps"
-        },
-        {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.google.com/chrome/",
@@ -1972,7 +1934,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.mozilla.org/firefox/",
@@ -1999,7 +1961,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://brave.com/",
@@ -2025,7 +1987,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.microsoft.com/en-us/edge?form=",
@@ -2051,7 +2013,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://vivaldi.com/",
@@ -2077,7 +2039,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.opera.com/",
@@ -2103,7 +2065,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Main Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.chromium.org/Home",
@@ -2130,7 +2092,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Privacy Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.torproject.org/",
@@ -2156,7 +2118,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Privacy Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://librewolf.net/",
@@ -2182,7 +2144,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Privacy Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://mullvad.net/browser",
@@ -2209,7 +2171,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Developer / Alternative Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.mozilla.org/firefox/developer/",
@@ -2236,7 +2198,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Developer / Alternative Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.google.com/chrome/canary/",
@@ -2262,7 +2224,7 @@
       "placements": [
         {
           "category": "Browsers & Internet",
-          "subcategory": "Developer / Alternative Browsers"
+          "subcategory": "Web Browsers"
         }
       ],
       "homepage": "https://www.microsoft.com/en-us/edge/download/insider?form=",
@@ -2287,8 +2249,8 @@
       "appName": "ChatGPT",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Desktop Assistants"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://chatgpt.com/",
@@ -2313,8 +2275,8 @@
       "appName": "Claude",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Desktop Assistants"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://claude.com/download",
@@ -2339,8 +2301,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Desktop Assistants"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://copilot.microsoft.com",
@@ -2364,8 +2326,8 @@
       "appName": "Perplexity",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Desktop Assistants"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://www.perplexity.ai/personal-computer",
@@ -2390,8 +2352,8 @@
       "appName": "Msty",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Desktop Assistants"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://msty.app/",
@@ -2413,8 +2375,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Coding Agents"
+          "category": "AI",
+          "subcategory": "Coding Agents"
+        },
+        {
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/openai/codex",
@@ -2436,8 +2402,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Coding Agents"
+          "category": "AI",
+          "subcategory": "Coding Agents"
+        },
+        {
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://claude.com/product/claude-code",
@@ -2463,8 +2433,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Coding Agents"
+          "category": "AI",
+          "subcategory": "Coding Agents"
         }
       ],
       "homepage": "https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli",
@@ -2489,8 +2459,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Coding Agents"
+          "category": "AI",
+          "subcategory": "Coding Agents"
         }
       ],
       "homepage": "https://opencode.ai",
@@ -2515,8 +2485,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Coding Agents"
+          "category": "AI",
+          "subcategory": "Coding Agents"
         }
       ],
       "homepage": "https://aider.chat/",
@@ -2538,8 +2508,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://ollama.com/",
@@ -2564,8 +2534,8 @@
       "appName": "LM Studio",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://lmstudio.ai/",
@@ -2590,8 +2560,8 @@
       "appName": "Jan",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://jan.ai/",
@@ -2613,8 +2583,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://www.nomic.ai/gpt4all/",
@@ -2639,8 +2609,8 @@
       "appName": "AnythingLLM",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://anythingllm.com/",
@@ -2665,8 +2635,8 @@
       "appName": "Open WebUI",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://openwebui.com/",
@@ -2691,8 +2661,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "Local LLM"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://llama.app",
@@ -2714,8 +2684,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Developer Infrastructure"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://www.continue.dev",
@@ -2740,8 +2710,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Developer Infrastructure"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://github.com/langgenius/dify",
@@ -2762,8 +2732,8 @@
       "appName": "Langflow ",
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Developer Infrastructure"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://www.langflow.org/desktop",
@@ -2788,8 +2758,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Developer Infrastructure"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://github.com/FlowiseAI/Flowise",
@@ -2813,8 +2783,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "AI & LLM",
-          "subcategory": "AI Developer Infrastructure"
+          "category": "AI",
+          "subcategory": "Local AI & Infrastructure"
         }
       ],
       "homepage": "https://github.com/OpenInterpreter/open-interpreter",
@@ -2866,8 +2836,8 @@
           "subcategory": "Code Editors & IDEs"
         },
         {
-          "category": "AI & LLM",
-          "subcategory": "Everyday apps"
+          "category": "AI",
+          "subcategory": "Assistants"
         }
       ],
       "homepage": "https://www.cursor.com/",
@@ -3155,8 +3125,8 @@
           "subcategory": "Code Editors & IDEs"
         },
         {
-          "category": "Mobile Development",
-          "subcategory": "Android"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://developer.android.com/studio/",
@@ -3314,7 +3284,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://ghostty.org/",
@@ -3341,7 +3311,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://iterm2.com/",
@@ -3367,7 +3337,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://www.warp.dev/terminal",
@@ -3393,7 +3363,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://wezterm.org/",
@@ -3419,7 +3389,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/alacritty/alacritty/",
@@ -3442,7 +3412,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/kovidgoyal/kitty",
@@ -3465,7 +3435,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Terminal Emulators"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://eugeny.github.io/tabby/",
@@ -3488,7 +3458,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://www.zsh.org/",
@@ -3515,7 +3485,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://fishshell.com",
@@ -3541,7 +3511,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://www.gnu.org/software/bash/",
@@ -3567,7 +3537,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://starship.rs/",
@@ -3593,7 +3563,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://ohmyposh.dev",
@@ -3619,7 +3589,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://tmux.github.io/",
@@ -3642,7 +3612,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Shell Environment"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://zellij.dev",
@@ -3668,7 +3638,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://git-scm.com",
@@ -3694,7 +3664,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://cli.github.com/",
@@ -3720,7 +3690,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://aka.ms/gcm",
@@ -3743,7 +3713,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://github.com/jesseduffield/lazygit/",
@@ -3766,7 +3736,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://www.gitkraken.com/",
@@ -3792,7 +3762,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://fork.dev/",
@@ -3818,7 +3788,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://www.sourcetreeapp.com/",
@@ -3841,7 +3811,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://desktop.github.com/",
@@ -3865,7 +3835,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://jonas.github.io/tig/",
@@ -3891,7 +3861,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Git & Source Control"
+          "subcategory": "Git & Version Control"
         }
       ],
       "homepage": "https://dandavison.github.io/delta/",
@@ -3916,8 +3886,8 @@
       "appName": "Docker",
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://www.docker.com/products/docker-desktop",
@@ -3943,8 +3913,8 @@
       "appName": "OrbStack",
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://orbstack.dev/",
@@ -3970,8 +3940,12 @@
       "appName": null,
       "placements": [
         {
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
+        },
+        {
           "category": "Development",
-          "subcategory": "Containers"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://colima.run",
@@ -3996,8 +3970,8 @@
       "appName": "Podman Desktop",
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://podman-desktop.io/",
@@ -4022,8 +3996,8 @@
       "appName": "Rancher Desktop",
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://rancherdesktop.io/",
@@ -4048,8 +4022,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://lima-vm.io/",
@@ -4071,8 +4045,12 @@
       "appName": null,
       "placements": [
         {
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
+        },
+        {
           "category": "Development",
-          "subcategory": "Containers"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://www.docker.com/",
@@ -4097,8 +4075,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Containers"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://docs.docker.com/compose/",
@@ -4123,8 +4101,8 @@
       "appName": "UTM",
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://mac.getutm.app/",
@@ -4149,8 +4127,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://www.virtualbox.org/",
@@ -4175,8 +4153,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion",
@@ -4200,8 +4178,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://www.vagrantup.com/",
@@ -4226,8 +4204,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://www.qemu.org/",
@@ -4253,8 +4231,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Development",
-          "subcategory": "Virtualization"
+          "category": "Cloud & Databases",
+          "subcategory": "Containers & Virtualization"
         }
       ],
       "homepage": "https://github.com/canonical/multipass/",
@@ -4277,7 +4255,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://www.postman.com/",
@@ -4304,7 +4282,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://www.usebruno.com/",
@@ -4330,7 +4308,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://insomnia.rest/",
@@ -4356,7 +4334,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://httpie.io/product",
@@ -4382,7 +4360,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://hoppscotch.com/",
@@ -4408,7 +4386,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://paw.cloud/",
@@ -4434,7 +4412,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "API Development"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://yaak.app/",
@@ -4460,7 +4438,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "CLI API Tools"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://httpie.io/",
@@ -4486,11 +4464,11 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "CLI API Tools"
+          "subcategory": "Testing & Debugging"
         },
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://curl.se",
@@ -4517,7 +4495,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "CLI API Tools"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://github.com/ducaale/xh",
@@ -4540,7 +4518,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "CLI API Tools"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://www.fullstory.com/resources/content/fullstory-engineering-blog/",
@@ -4566,7 +4544,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "CLI API Tools"
+          "subcategory": "Testing & Debugging"
         }
       ],
       "homepage": "https://github.com/vi/websocat",
@@ -4588,8 +4566,8 @@
       "appName": "DBeaver",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Universal DB Clients"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://dbeaver.io/",
@@ -4615,8 +4593,8 @@
       "appName": "TablePlus",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Universal DB Clients"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://tableplus.com/",
@@ -4641,8 +4619,8 @@
       "appName": "Beekeeper Studio",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Universal DB Clients"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.beekeeperstudio.io/",
@@ -4667,8 +4645,8 @@
       "appName": "DataGrip",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Universal DB Clients"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.jetbrains.com/datagrip/",
@@ -4693,8 +4671,8 @@
       "appName": "Sequel Ace",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Universal DB Clients"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://github.com/Sequel-Ace/Sequel-Ace",
@@ -4716,8 +4694,8 @@
       "appName": "Postgres",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "PostgreSQL"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://postgresapp.com/",
@@ -4739,8 +4717,8 @@
       "appName": "pgAdmin 4",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "PostgreSQL"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.pgadmin.org/",
@@ -4765,8 +4743,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "PostgreSQL"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.postgresql.org/docs/current/libpq.html",
@@ -4792,8 +4770,8 @@
       "appName": "MongoDB Compass",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "MongoDB"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.mongodb.com/products/compass",
@@ -4819,8 +4797,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "MongoDB"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://www.mongodb.com/try/download/shell",
@@ -4845,8 +4823,8 @@
       "appName": "Redis Insight",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Redis"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://redis.io/insight/",
@@ -4872,8 +4850,8 @@
       "appName": "Medis",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "Redis"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://getmedis.com/",
@@ -4898,8 +4876,8 @@
       "appName": "DB Browser for SQLite",
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "SQLite"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://sqlitebrowser.org/",
@@ -4924,8 +4902,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "SQLite"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://sqlitestudio.pl",
@@ -4950,8 +4928,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Database",
-          "subcategory": "SQLite"
+          "category": "Cloud & Databases",
+          "subcategory": "Databases"
         }
       ],
       "homepage": "https://sqlite.org/index.html",
@@ -4977,8 +4955,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Cloud CLI"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://aws.amazon.com/cli/",
@@ -5003,8 +4981,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Cloud CLI"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://cloud.google.com/cli/",
@@ -5026,8 +5004,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Cloud CLI"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://docs.microsoft.com/cli/azure/overview",
@@ -5052,8 +5030,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Cloud CLI"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://docs.digitalocean.com/reference/doctl/",
@@ -5078,8 +5056,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Cloud CLI"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://www.npmjs.com/package/heroku/",
@@ -5102,8 +5080,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://kubernetes.io/docs/reference/kubectl/",
@@ -5128,8 +5106,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://k9scli.io/",
@@ -5154,8 +5132,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://helm.sh/",
@@ -5180,8 +5158,8 @@
       "appName": "Lens",
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://lenshq.io/",
@@ -5207,8 +5185,8 @@
       "appName": "OpenLens",
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://github.com/MuhammedKalkan/OpenLens/",
@@ -5230,8 +5208,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://github.com/ahmetb/kubectx",
@@ -5253,8 +5231,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://github.com/stern/stern",
@@ -5276,8 +5254,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://github.com/kubernetes-sigs/kustomize",
@@ -5299,8 +5277,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://minikube.sigs.k8s.io/",
@@ -5325,8 +5303,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Kubernetes"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://kind.sigs.k8s.io/",
@@ -5351,8 +5329,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://developer.hashicorp.com/terraform/install",
@@ -5376,8 +5354,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://opentofu.org/",
@@ -5402,8 +5380,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://terragrunt.gruntwork.io/",
@@ -5428,8 +5406,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://www.ansible.com/",
@@ -5454,8 +5432,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://www.pulumi.com/",
@@ -5480,8 +5458,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "DevOps & Cloud",
-          "subcategory": "Infrastructure as Code"
+          "category": "Cloud & Databases",
+          "subcategory": "Cloud & Infrastructure"
         }
       ],
       "homepage": "https://developer.hashicorp.com/packer/install",
@@ -5505,8 +5483,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Search / Navigation"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/BurntSushi/ripgrep",
@@ -5528,8 +5506,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Search / Navigation"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/sharkdp/fd",
@@ -5551,8 +5529,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Search / Navigation"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://junegunn.github.io/fzf/",
@@ -5577,8 +5555,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Search / Navigation"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/ajeetdsouza/zoxide",
@@ -5600,8 +5578,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Search / Navigation"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://oldmanprogrammer.net/source.php?dir=projects/tree",
@@ -5623,8 +5601,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/sharkdp/bat",
@@ -5646,8 +5624,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://eza.rocks",
@@ -5669,8 +5647,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/dalance/procs",
@@ -5692,8 +5670,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/chmln/sd",
@@ -5715,8 +5693,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/theryangeary/choose",
@@ -5738,8 +5716,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Better Unix Commands"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://doggo.mrkaran.dev/",
@@ -5761,8 +5739,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "JSON / YAML / Data"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://jqlang.github.io/jq/",
@@ -5787,8 +5765,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "JSON / YAML / Data"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/mikefarah/yq",
@@ -5810,8 +5788,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "JSON / YAML / Data"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://daseldocs.tomwright.me",
@@ -5836,8 +5814,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "JSON / YAML / Data"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/kellyjonbrazil/jc",
@@ -5859,8 +5837,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "JSON / YAML / Data"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://fx.wtf",
@@ -5885,8 +5863,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://www.gnu.org/software/wget/",
@@ -5911,12 +5889,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         },
         {
-          "category": "Download Managers",
-          "subcategory": "General"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://aria2.github.io/",
@@ -5942,12 +5920,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         },
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Network Inspection"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://nmap.org/",
@@ -5974,12 +5952,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         },
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Network Inspection"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.bitwizard.nl/mtr/",
@@ -6005,12 +5983,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         },
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Network Inspection"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://github.com/esnet/iperf",
@@ -6036,8 +6014,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://thekelleys.org.uk/dnsmasq/doc.html",
@@ -6062,8 +6040,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://github.com/rfc1036/whois",
@@ -6085,12 +6063,12 @@
       "appName": null,
       "placements": [
         {
-          "category": "CLI Power Tools",
-          "subcategory": "Network"
+          "category": "Development",
+          "subcategory": "Terminal & CLI"
         },
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Network Inspection"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.tcpdump.org/",
@@ -6116,8 +6094,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://nodejs.org/",
@@ -6142,8 +6120,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://github.com/nvm-sh/nvm",
@@ -6165,8 +6143,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://pnpm.io/",
@@ -6191,8 +6169,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://yarnpkg.com/",
@@ -6214,8 +6192,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://bun.com/",
@@ -6240,8 +6218,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "JavaScript / TypeScript"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://deno.com/",
@@ -6266,8 +6244,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Python"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.python.org/",
@@ -6293,8 +6271,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Python"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://github.com/pyenv/pyenv",
@@ -6316,8 +6294,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Python"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://docs.astral.sh/uv/",
@@ -6342,8 +6320,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Python"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://pipx.pypa.io",
@@ -6368,8 +6346,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Python"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://python-poetry.org/",
@@ -6394,8 +6372,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://adoptium.net/",
@@ -6420,8 +6398,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://adoptium.net/",
@@ -6446,8 +6424,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://openjdk.org/",
@@ -6472,8 +6450,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://maven.apache.org/",
@@ -6496,8 +6474,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.gradle.org/",
@@ -6522,8 +6500,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Java"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://github.com/jenv/jenv",
@@ -6545,8 +6523,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://go.dev/",
@@ -6571,8 +6549,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.rust-lang.org/",
@@ -6597,8 +6575,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.ruby-lang.org/",
@@ -6623,8 +6601,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.php.net/",
@@ -6649,8 +6627,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://kotlinlang.org/",
@@ -6675,8 +6653,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://github.com/nicklockwood/SwiftFormat",
@@ -6701,8 +6679,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://github.com/realm/SwiftLint",
@@ -6724,8 +6702,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Languages & Runtimes",
-          "subcategory": "Other Languages"
+          "category": "Development",
+          "subcategory": "Languages & Runtimes"
         }
       ],
       "homepage": "https://www.lua.org/",
@@ -6751,8 +6729,8 @@
       "appName": "Proxyman",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "HTTP Proxy / Debugging"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://proxyman.com/",
@@ -6777,8 +6755,8 @@
       "appName": "Charles",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "HTTP Proxy / Debugging"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.charlesproxy.com/",
@@ -6803,8 +6781,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "HTTP Proxy / Debugging"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://mitmproxy.org/",
@@ -6829,8 +6807,8 @@
       "appName": "HTTP Toolkit",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "HTTP Proxy / Debugging"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://httptoolkit.tech/",
@@ -6855,8 +6833,8 @@
       "appName": "Wireshark",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Network Inspection"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.wireshark.org/",
@@ -6882,8 +6860,8 @@
       "appName": "Burp Suite",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Security Testing"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://portswigger.net/burp/",
@@ -6908,8 +6886,8 @@
       "appName": "ZAP",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Security Testing"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.zaproxy.org/",
@@ -6934,8 +6912,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Security Testing"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://github.com/NationalSecurityAgency/ghidra",
@@ -6957,8 +6935,8 @@
       "appName": "Hopper Disassembler",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Security Testing"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://www.hopperapp.com/",
@@ -6983,8 +6961,8 @@
       "appName": "Binary Ninja",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "Security Testing"
+          "category": "Security & Networking",
+          "subcategory": "Network Tools"
         }
       ],
       "homepage": "https://binary.ninja/",
@@ -7009,8 +6987,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "VPN / Network"
+          "category": "Security & Networking",
+          "subcategory": "VPN & Privacy"
         }
       ],
       "homepage": "https://tailscale.com/",
@@ -7036,8 +7014,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "VPN / Network"
+          "category": "Security & Networking",
+          "subcategory": "VPN & Privacy"
         }
       ],
       "homepage": "https://www.wireguard.com/install",
@@ -7062,8 +7040,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "VPN / Network"
+          "category": "Security & Networking",
+          "subcategory": "VPN & Privacy"
         }
       ],
       "homepage": "https://openvpn.net/client-connect-vpn-for-mac-os/",
@@ -7088,8 +7066,8 @@
       "appName": "ProtonVPN",
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "VPN / Network"
+          "category": "Security & Networking",
+          "subcategory": "VPN & Privacy"
         }
       ],
       "homepage": "https://protonvpn.com/",
@@ -7112,8 +7090,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Networking & Debugging",
-          "subcategory": "VPN / Network"
+          "category": "Security & Networking",
+          "subcategory": "VPN & Privacy"
         }
       ],
       "homepage": "https://cloudflarewarp.com/",
@@ -7138,8 +7116,8 @@
       "appName": "Figma",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "UI / UX"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://www.figma.com/",
@@ -7164,8 +7142,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "UI / UX"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://penpot.app",
@@ -7190,8 +7168,8 @@
       "appName": "Sketch",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "UI / UX"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://www.sketch.com/",
@@ -7216,8 +7194,8 @@
       "appName": "Lunacy",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "UI / UX"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://icons8.com/lunacy",
@@ -7242,8 +7220,8 @@
       "appName": "Inkscape",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Vector Graphics"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://inkscape.org/",
@@ -7269,8 +7247,8 @@
       "appName": "Affinity Designer 2",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Vector Graphics"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://affinity.serif.com/en-us/designer/",
@@ -7295,8 +7273,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Vector Graphics"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://www.linearity.io/curve",
@@ -7320,8 +7298,8 @@
       "appName": "GIMP",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Raster / Image Editing"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://www.gimp.org/",
@@ -7347,8 +7325,8 @@
       "appName": "Krita",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Raster / Image Editing"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://krita.org/",
@@ -7374,8 +7352,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Raster / Image Editing"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://www.pixelmator.com/pro",
@@ -7399,8 +7377,8 @@
       "appName": "Affinity Photo 2",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Raster / Image Editing"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://affinity.serif.com/en-us/photo/",
@@ -7425,8 +7403,8 @@
       "appName": "draw.io",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://www.diagrams.net/",
@@ -7451,8 +7429,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://excalidraw.com",
@@ -7477,8 +7455,8 @@
       "appName": "Pencil",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://pencil.evolus.vn/",
@@ -7503,8 +7481,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://plantuml.com/",
@@ -7529,8 +7507,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://graphviz.org/",
@@ -7555,8 +7533,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Diagram / Architecture"
+          "category": "Design & Media",
+          "subcategory": "Diagrams"
         }
       ],
       "homepage": "https://github.com/mermaid-js/mermaid-cli",
@@ -7578,8 +7556,8 @@
       "appName": "Blender",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.blender.org/",
@@ -7605,8 +7583,8 @@
       "appName": "FreeCAD",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.freecad.org/",
@@ -7631,8 +7609,8 @@
       "appName": "OpenSCAD-2021.01",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.openscad.org/",
@@ -7657,8 +7635,8 @@
       "appName": "Wings3D",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.wings3d.com/",
@@ -7684,8 +7662,8 @@
       "appName": "MeshLab2025.07",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.meshlab.net/",
@@ -7710,8 +7688,8 @@
       "appName": "Sweet Home 3D",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "Architecture"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.sweethome3d.com/",
@@ -7736,8 +7714,8 @@
       "appName": "QCAD",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "Architecture"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.qcad.org/",
@@ -7762,8 +7740,8 @@
       "appName": "LibreCAD",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "Architecture"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://librecad.org/",
@@ -7788,8 +7766,8 @@
       "appName": "UltiMaker Cura",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D Printing"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://ultimaker.com/software/ultimaker-cura",
@@ -7814,8 +7792,8 @@
       "appName": "PrusaSlicer",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D Printing"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://www.prusa3d.com/slic3r-prusa-edition/",
@@ -7840,8 +7818,8 @@
       "appName": "OrcaSlicer",
       "placements": [
         {
-          "category": "3D & CAD",
-          "subcategory": "3D Printing"
+          "category": "Design & Media",
+          "subcategory": "3D & CAD"
         }
       ],
       "homepage": "https://github.com/OrcaSlicer/OrcaSlicer",
@@ -7863,8 +7841,8 @@
       "appName": "darktable",
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "RAW Processing"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://www.darktable.org/",
@@ -7889,8 +7867,8 @@
       "appName": "RawTherapee",
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "RAW Processing"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://rawtherapee.com/",
@@ -7916,8 +7894,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "RAW Processing"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://www.digikam.org/",
@@ -7943,8 +7921,8 @@
       "appName": "ImageOptim",
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://imageoptim.com/mac",
@@ -7969,8 +7947,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://imagemagick.org",
@@ -7995,8 +7973,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://exiftool.org",
@@ -8022,8 +8000,8 @@
       "appName": "XnViewMP",
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://www.xnview.com/en/xnviewmp/",
@@ -8048,8 +8026,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://imageglass.org",
@@ -8071,8 +8049,8 @@
       "appName": "Upscayl",
       "placements": [
         {
-          "category": "Photography",
-          "subcategory": "Image Utilities"
+          "category": "Design & Media",
+          "subcategory": "Photography"
         }
       ],
       "homepage": "https://upscayl.org/",
@@ -8097,8 +8075,8 @@
       "appName": "IINA",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Playback"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://iina.io/",
@@ -8123,12 +8101,12 @@
       "appName": "VLC",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Playback"
+          "category": "Design & Media",
+          "subcategory": "Video"
         },
         {
-          "category": "Audio & Music",
-          "subcategory": "Music Players"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://www.videolan.org/vlc/",
@@ -8155,8 +8133,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Playback"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://mpv.io",
@@ -8181,8 +8159,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Editing"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://www.blackmagicdesign.com/products/davinciresolve",
@@ -8206,8 +8184,8 @@
       "appName": "kdenlive",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Editing"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://kdenlive.org/",
@@ -8233,8 +8211,8 @@
       "appName": "Shotcut",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Editing"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://www.shotcut.org/",
@@ -8259,8 +8237,8 @@
       "appName": "OpenShot Video Editor",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Editing"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://openshot.org/",
@@ -8285,8 +8263,8 @@
       "appName": "LosslessCut",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Editing"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://github.com/mifi/lossless-cut",
@@ -8308,8 +8286,8 @@
       "appName": "HandBrake",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Encoding / Conversion"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://handbrake.fr/",
@@ -8334,8 +8312,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Encoding / Conversion"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://ffmpeg.org/",
@@ -8360,8 +8338,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Encoding / Conversion"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://www.shutterencoder.com/",
@@ -8386,8 +8364,8 @@
       "appName": "OBS",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Screen Recording"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://obsproject.com/",
@@ -8412,12 +8390,12 @@
       "appName": "Kap",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Screen Recording"
+          "category": "Design & Media",
+          "subcategory": "Video"
         },
         {
-          "category": "Screen Capture",
-          "subcategory": "GIF"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://getkap.co/",
@@ -8443,8 +8421,8 @@
       "appName": "Screen Studio",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Screen Recording"
+          "category": "Design & Media",
+          "subcategory": "Video"
         }
       ],
       "homepage": "https://screen.studio/",
@@ -8469,12 +8447,12 @@
       "appName": "Shottr",
       "placements": [
         {
-          "category": "Video Production",
-          "subcategory": "Screen Recording"
+          "category": "Design & Media",
+          "subcategory": "Video"
         },
         {
-          "category": "Screen Capture",
-          "subcategory": "Screenshot"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://shottr.cc/",
@@ -8500,8 +8478,8 @@
       "appName": "Audacity 4",
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Editing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://www.audacityteam.org/",
@@ -8526,8 +8504,8 @@
       "appName": "ocenaudio",
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Editing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://www.ocenaudio.com/en",
@@ -8552,8 +8530,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Editing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://ardour.org",
@@ -8577,8 +8555,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Routing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://existential.audio/blackhole/",
@@ -8604,8 +8582,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Routing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://existential.audio/blackhole/",
@@ -8631,8 +8609,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Audio Routing"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://github.com/kyleneideck/BackgroundMusic",
@@ -8657,8 +8635,8 @@
       "appName": "Spotify",
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Music Players"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://www.spotify.com/",
@@ -8683,8 +8661,8 @@
       "appName": "foobar2000",
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Music Players"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://www.foobar2000.org/mac",
@@ -8709,8 +8687,8 @@
       "appName": "Strawberry",
       "placements": [
         {
-          "category": "Audio & Music",
-          "subcategory": "Music Players"
+          "category": "Design & Media",
+          "subcategory": "Audio"
         }
       ],
       "homepage": "https://strawberrybrowser.com/",
@@ -8736,8 +8714,8 @@
       "appName": "Obsidian",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://obsidian.md/",
@@ -8762,8 +8740,8 @@
       "appName": "Notion",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://www.notion.com/",
@@ -8788,8 +8766,8 @@
       "appName": "Joplin",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://joplinapp.org/",
@@ -8814,8 +8792,8 @@
       "appName": "Logseq",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://github.com/logseq/logseq",
@@ -8837,8 +8815,8 @@
       "appName": "Anytype",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://anytype.io/",
@@ -8864,8 +8842,8 @@
       "appName": "Standard Notes",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Knowledge Base"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://standardnotes.com/",
@@ -8890,8 +8868,8 @@
       "appName": "Typora",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Markdown"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://typora.io/",
@@ -8916,8 +8894,8 @@
       "appName": "MarkText",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Markdown"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://github.com/marktext/marktext",
@@ -8942,8 +8920,8 @@
       "appName": "MacDown",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Markdown"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://macdown.uranusjr.com/",
@@ -8965,8 +8943,8 @@
       "appName": "Zettlr",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Markdown"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://www.zettlr.com/",
@@ -8991,8 +8969,8 @@
       "appName": "Zotero",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Research"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://www.zotero.org/",
@@ -9018,8 +8996,8 @@
       "appName": "JabRef",
       "placements": [
         {
-          "category": "Notes & Knowledge",
-          "subcategory": "Research"
+          "category": "Productivity",
+          "subcategory": "Notes & Knowledge"
         }
       ],
       "homepage": "https://www.jabref.org/",
@@ -9044,8 +9022,8 @@
       "appName": "LibreOffice",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Office"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.libreoffice.org/",
@@ -9071,8 +9049,8 @@
       "appName": "ONLYOFFICE",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Office"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.onlyoffice.com/",
@@ -9097,8 +9075,8 @@
       "appName": "OpenOffice",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Office"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.openoffice.org/",
@@ -9123,8 +9101,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "PDF"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.adobe.com/acrobat/pdf-reader.html",
@@ -9146,8 +9124,8 @@
       "appName": "Skim",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "PDF"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://skim-app.sourceforge.io/",
@@ -9172,8 +9150,8 @@
       "appName": "PDFsam Basic",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "PDF"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://pdfsam.org/",
@@ -9198,8 +9176,8 @@
       "appName": "Stirling PDF",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "PDF"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://stirling.com/",
@@ -9224,8 +9202,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Document Conversion"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://pandoc.org/",
@@ -9247,8 +9225,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Document Conversion"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://poppler.freedesktop.org/",
@@ -9270,8 +9248,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Document Conversion"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.ghostscript.com/",
@@ -9297,7 +9275,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Work"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://slack.com/",
@@ -9323,7 +9301,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Work"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://www.microsoft.com/en/microsoft-teams/group-chat-software/",
@@ -9349,7 +9327,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Work"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://www.zoom.us/",
@@ -9375,7 +9353,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Work"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://www.webex.com/",
@@ -9398,7 +9376,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Work"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://discord.com/",
@@ -9421,7 +9399,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Messaging"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://macos.telegram.org/",
@@ -9448,7 +9426,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Messaging"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://signal.org/",
@@ -9475,7 +9453,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Messaging"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://www.whatsapp.com/",
@@ -9498,7 +9476,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Messaging"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://element.io/get-started",
@@ -9522,7 +9500,7 @@
       "placements": [
         {
           "category": "Communication",
-          "subcategory": "Messaging"
+          "subcategory": "Messaging & Meetings"
         }
       ],
       "homepage": "https://www.viber.com/",
@@ -9547,8 +9525,8 @@
       "appName": "1Password",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Password Managers"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://1password.com/",
@@ -9573,8 +9551,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Password Managers"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://developer.1password.com/docs/cli",
@@ -9599,8 +9577,8 @@
       "appName": "Bitwarden",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Password Managers"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://bitwarden.com/",
@@ -9625,8 +9603,8 @@
       "appName": "KeePassXC",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Password Managers"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://keepassxc.org/",
@@ -9651,8 +9629,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Encryption / Security"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://gpgtools.org/",
@@ -9677,8 +9655,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Encryption / Security"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://gnupg.org/",
@@ -9704,8 +9682,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Encryption / Security"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://veracrypt.io/",
@@ -9731,8 +9709,8 @@
       "appName": "Cryptomator",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Encryption / Security"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://cryptomator.org/",
@@ -9757,8 +9735,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Encryption / Security"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://github.com/FiloSottile/age",
@@ -9780,8 +9758,8 @@
       "appName": "Flameshot",
       "placements": [
         {
-          "category": "Screen Capture",
-          "subcategory": "Screenshot"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://flameshot.org/",
@@ -9806,8 +9784,8 @@
       "appName": "CleanShot X",
       "placements": [
         {
-          "category": "Screen Capture",
-          "subcategory": "Screenshot"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://cleanshot.com/",
@@ -9832,8 +9810,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Screen Capture",
-          "subcategory": "Screenshot"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://xnipapp.com",
@@ -9857,8 +9835,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Screen Capture",
-          "subcategory": "GIF"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://gif.ski/",
@@ -9883,8 +9861,8 @@
       "appName": "LICEcap",
       "placements": [
         {
-          "category": "Screen Capture",
-          "subcategory": "GIF"
+          "category": "Design & Media",
+          "subcategory": "Screen Capture"
         }
       ],
       "homepage": "https://www.cockos.com/licecap/",
@@ -9909,8 +9887,8 @@
       "appName": "Motrix",
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "General"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://motrix.app/",
@@ -9935,8 +9913,8 @@
       "appName": "Free Download Manager",
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "General"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://www.freedownloadmanager.org/",
@@ -9961,8 +9939,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "General"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://jdownloader.org/",
@@ -9987,8 +9965,8 @@
       "appName": "qBittorrent",
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "Torrent"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://www.qbittorrent.org/",
@@ -10014,8 +9992,8 @@
       "appName": "Transmission",
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "Torrent"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://transmissionbt.com/",
@@ -10040,8 +10018,8 @@
       "appName": "Deluge",
       "placements": [
         {
-          "category": "Download Managers",
-          "subcategory": "Torrent"
+          "category": "Browsers & Internet",
+          "subcategory": "Downloads"
         }
       ],
       "homepage": "https://deluge-torrent.org/",
@@ -10064,8 +10042,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "PCB"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://kicad.org/",
@@ -10090,8 +10068,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "PCB"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://fritzing.org",
@@ -10116,8 +10094,8 @@
       "appName": "Arduino IDE",
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "Arduino / Embedded"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://www.arduino.cc/en/software",
@@ -10142,8 +10120,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "Arduino / Embedded"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://platformio.org/",
@@ -10168,8 +10146,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "Arduino / Embedded"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://thonny.org/",
@@ -10194,8 +10172,8 @@
       "appName": "CoolTerm",
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "Serial"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://freeware.the-meiers.org/",
@@ -10220,8 +10198,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Electronics & Engineering",
-          "subcategory": "Serial"
+          "category": "Development",
+          "subcategory": "Hardware & Embedded"
         }
       ],
       "homepage": "https://apps.apple.com/app/serialtools/id611021963",
@@ -10242,8 +10220,8 @@
       "appName": "QGIS-final-4_2_3",
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "GIS"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://www.qgis.org/",
@@ -10269,8 +10247,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "GIS"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://www.google.com/earth/",
@@ -10295,8 +10273,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://octave.org/index.html",
@@ -10322,8 +10300,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://www.r-project.org/",
@@ -10348,8 +10326,8 @@
       "appName": "RStudio",
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://posit.co/products/open-source/rstudio/",
@@ -10375,8 +10353,8 @@
       "appName": "Julia-1.13",
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://julialang.org/",
@@ -10401,8 +10379,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://jupyter.org/",
@@ -10428,8 +10406,8 @@
       "appName": "GeoGebra Classic 6",
       "placements": [
         {
-          "category": "GIS & Science",
-          "subcategory": "Mathematics / Science"
+          "category": "Productivity",
+          "subcategory": "Science & Research"
         }
       ],
       "homepage": "https://www.geogebra.org/",
@@ -10455,8 +10433,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Android"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://developer.android.com/tools/releases/platform-tools",
@@ -10481,8 +10459,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Android"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://developer.android.com/studio",
@@ -10507,8 +10485,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Android"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://github.com/Genymobile/scrcpy",
@@ -10530,8 +10508,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Cross Platform"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://flutter.dev/",
@@ -10557,8 +10535,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Cross Platform"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://reactnative.dev/docs/set-up-your-environment",
@@ -10583,8 +10561,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Cross Platform"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://docs.expo.dev/more/expo-cli",
@@ -10609,8 +10587,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Mobile Development",
-          "subcategory": "Cross Platform"
+          "category": "Development",
+          "subcategory": "Mobile Development"
         }
       ],
       "homepage": "https://ionicframework.com/docs/cli",
@@ -10634,8 +10612,8 @@
       "appName": "balenaEtcher",
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "USB / Boot"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://balena.io/etcher",
@@ -10660,8 +10638,8 @@
       "appName": "Raspberry Pi Imager",
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "USB / Boot"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://www.raspberrypi.com/software/",
@@ -10683,8 +10661,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "USB / Boot"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://www.ventoy.net",
@@ -10709,8 +10687,8 @@
       "appName": "RustDesk",
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Remote Desktop"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://rustdesk.com/",
@@ -10735,8 +10713,8 @@
       "appName": "AnyDesk",
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Remote Desktop"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://anydesk.com/",
@@ -10761,8 +10739,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Remote Desktop"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://www.teamviewer.com/",
@@ -10787,8 +10765,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Remote Desktop"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://aka.ms/WindowsApp",
@@ -10813,8 +10791,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Remote Desktop"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://parsec.app/",
@@ -10839,8 +10817,8 @@
       "appName": "OpenRGB",
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Device / Hardware"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://openrgb.org/",
@@ -10865,8 +10843,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Device / Hardware"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://www.logitech.com/en-us/software/logi-options-plus.html",
@@ -10891,8 +10869,8 @@
       "appName": null,
       "placements": [
         {
-          "category": "Hardware & Remote Access",
-          "subcategory": "Device / Hardware"
+          "category": "Mac Utilities",
+          "subcategory": "Hardware & Remote Access"
         }
       ],
       "homepage": "https://www.logitechg.com/en-us/innovation/g-hub.html",
@@ -10917,8 +10895,8 @@
       "appName": "Google Drive",
       "placements": [
         {
-          "category": "Google",
-          "subcategory": "Everyday apps"
+          "category": "Files & Storage",
+          "subcategory": "Cloud Storage & Sync"
         }
       ],
       "homepage": "https://www.google.com/drive/",
@@ -10942,7 +10920,7 @@
       "placements": [
         {
           "category": "Development",
-          "subcategory": "Command-line tools"
+          "subcategory": "Terminal & CLI"
         }
       ],
       "homepage": "https://openjdk.org/",
@@ -10965,8 +10943,8 @@
       "appName": "Miro",
       "placements": [
         {
-          "category": "Design",
-          "subcategory": "Everyday apps"
+          "category": "Design & Media",
+          "subcategory": "UI & Graphic Design"
         }
       ],
       "homepage": "https://miro.com/",
@@ -10989,8 +10967,8 @@
       "appName": "Loom",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Everyday apps"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.loom.com/",
@@ -11013,8 +10991,8 @@
       "appName": "Microsoft Word",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Everyday apps"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/word",
@@ -11037,8 +11015,8 @@
       "appName": "Microsoft Excel",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Everyday apps"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/excel",
@@ -11061,8 +11039,8 @@
       "appName": "Microsoft PowerPoint",
       "placements": [
         {
-          "category": "Office & PDF",
-          "subcategory": "Everyday apps"
+          "category": "Productivity",
+          "subcategory": "Office & PDF"
         }
       ],
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/powerpoint",
@@ -11085,8 +11063,8 @@
       "appName": "Mullvad VPN",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Everyday apps"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://mullvad.net/",
@@ -11110,8 +11088,8 @@
       "appName": "Twingate",
       "placements": [
         {
-          "category": "Security & Passwords",
-          "subcategory": "Everyday apps"
+          "category": "Security & Networking",
+          "subcategory": "Passwords & Security"
         }
       ],
       "homepage": "https://twingate.com/",
@@ -11218,6 +11196,115 @@
       "cask:lm-studio",
       "cask:imageoptim",
       "cask:iina"
+    ]
+  },
+  "taxonomyVersion": 1,
+  "categoryDescriptions": {
+    "AI": "Assistants, coding agents and tools for working with AI.",
+    "Development": "Editors, languages and tools for building software.",
+    "Cloud & Databases": "Containers, cloud infrastructure and database tools.",
+    "Design & Media": "Create and edit graphics, photos, video, audio and 3D.",
+    "Productivity": "Notes, documents and tools for everyday work.",
+    "Communication": "Messaging, meetings and tools for staying connected.",
+    "Browsers & Internet": "Browse the web and manage downloads.",
+    "Files & Storage": "Organize, sync, transfer and archive your files.",
+    "Mac Utilities": "Customize, automate and maintain your Mac.",
+    "Security & Networking": "Passwords, privacy, VPNs and network diagnostics."
+  },
+  "subcategorySymbols": {
+    "Assistants": "sparkles",
+    "Coding Agents": "chevron.left.forwardslash.chevron.right",
+    "Local AI & Infrastructure": "cpu",
+    "Code Editors & IDEs": "curlybraces",
+    "Languages & Runtimes": "terminal",
+    "Git & Version Control": "arrow.triangle.branch",
+    "Terminal & CLI": "terminal",
+    "Testing & Debugging": "ladybug",
+    "Hardware & Embedded": "cpu",
+    "Mobile Development": "iphone",
+    "Containers & Virtualization": "shippingbox",
+    "Cloud & Infrastructure": "cloud",
+    "Databases": "externaldrive",
+    "UI & Graphic Design": "paintpalette",
+    "Diagrams": "point.3.connected.trianglepath.dotted",
+    "Photography": "camera",
+    "Video": "film",
+    "Audio": "music.note",
+    "3D & CAD": "cube",
+    "Screen Capture": "viewfinder",
+    "Notes & Knowledge": "note.text",
+    "Office & PDF": "doc.text",
+    "Science & Research": "function",
+    "Messaging & Meetings": "bubble.left.and.bubble.right",
+    "Web Browsers": "globe",
+    "Downloads": "arrow.down.circle",
+    "File Management": "folder",
+    "Cloud Storage & Sync": "icloud",
+    "Compression": "archivebox",
+    "Storage & Transfer": "externaldrive",
+    "Customization & Automation": "command",
+    "System & Maintenance": "wrench.and.screwdriver",
+    "Hardware & Remote Access": "desktopcomputer",
+    "Passwords & Security": "key",
+    "VPN & Privacy": "lock.shield",
+    "Network Tools": "network"
+  },
+  "subcategoryOrder": {
+    "AI": [
+      "Assistants",
+      "Coding Agents",
+      "Local AI & Infrastructure"
+    ],
+    "Development": [
+      "Code Editors & IDEs",
+      "Languages & Runtimes",
+      "Git & Version Control",
+      "Terminal & CLI",
+      "Testing & Debugging",
+      "Mobile Development",
+      "Hardware & Embedded"
+    ],
+    "Cloud & Databases": [
+      "Containers & Virtualization",
+      "Cloud & Infrastructure",
+      "Databases"
+    ],
+    "Design & Media": [
+      "UI & Graphic Design",
+      "Diagrams",
+      "Photography",
+      "Video",
+      "Audio",
+      "3D & CAD",
+      "Screen Capture"
+    ],
+    "Productivity": [
+      "Notes & Knowledge",
+      "Office & PDF",
+      "Science & Research"
+    ],
+    "Communication": [
+      "Messaging & Meetings"
+    ],
+    "Browsers & Internet": [
+      "Web Browsers",
+      "Downloads"
+    ],
+    "Files & Storage": [
+      "Cloud Storage & Sync",
+      "File Management",
+      "Storage & Transfer",
+      "Compression"
+    ],
+    "Mac Utilities": [
+      "Customization & Automation",
+      "System & Maintenance",
+      "Hardware & Remote Access"
+    ],
+    "Security & Networking": [
+      "Passwords & Security",
+      "VPN & Privacy",
+      "Network Tools"
     ]
   }
 }

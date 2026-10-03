@@ -6,7 +6,7 @@ A native SwiftUI application for selecting, installing, and uninstalling Homebre
 
 Open **Mac Setup.app**. Browse categories, search, select apps, then choose **Install**. Review the plan before running it. Each package is checked against Homebrew's official JSON catalog before installation. Disabled, deprecated, and unverified packages are skipped.
 
-Version 0.3 integrates the supplied Mac Power User / Developer / Designer / Creator toolkit. It contains 432 unique catalog entries across 27 categories, with expandable subcategories: 373 active Homebrew packages (246 casks and 127 formulas) and 59 manual or unavailable entries. All 437 numbered source entries are represented, including duplicates through shared category placements. The original application catalog is retained. It uses local application icons when available and native category icons otherwise. Selection is saved locally.
+The catalog integrates the supplied Mac Power User / Developer / Designer / Creator toolkit. It contains 432 unique catalog entries across 10 purpose-based categories, with icon-based section filters: 373 active Homebrew packages (246 casks and 127 formulas) and 59 manual or unavailable entries. All 437 numbered source entries are represented, including duplicates through shared category placements. The original application catalog is retained. It uses local application icons when available and native category icons otherwise. Selection is saved locally.
 
 Homebrew must already be installed at `/opt/homebrew/bin/brew` or `/usr/local/bin/brew`. If it is missing, the application links to the official Homebrew setup instructions. After setting it up, use Refresh. The app does not install Homebrew automatically.
 
@@ -26,7 +26,7 @@ Link provenance is stored in the catalog. `Scripts/update_package_links.py --met
 
 ## Categories and starter selections
 
-Expand a sidebar category to browse its subcategories, or use the section picker. Search includes package names, descriptions, categories, and subcategories. In All Apps, each package appears once; inside a category, repeated tools appear in their relevant category placement but share one selection and installation ID.
+Choose a sidebar category, then use the icon-based section picker in the content area. Category and section counts follow the current installed/search filter. Search includes package names, descriptions, categories, and subcategories. In All Apps, each package appears once; inside a category, repeated tools appear in their relevant category placement but share one selection and installation ID.
 
 **Starter selections** includes the supplied Core Mac Stack groups (Mac, AI, Development, CLI, Creative, Media, Productivity, and Network), plus Discover 20. Presets add choices to your current selection; they never start an installation. Unavailable packages cannot be selected or exported. **Select all** includes only supported entries in the visible category or search result.
 
@@ -36,7 +36,7 @@ The app's bundled `Resources/catalog.json` is editable and contains package name
 
 ## Uninstall apps
 
-Switch to **Uninstall apps** to see Homebrew-managed installed packages within the curated catalog. Select apps, click **Uninstall**, and review the exact list. Nothing is removed until you confirm the removal screen. Switching between install and uninstall clears the selection to avoid carrying an install selection into removal.
+Open **Installed** in the sidebar to see Homebrew-managed installed packages within the curated catalog. Select apps, click **Uninstall**, and review the exact list. Nothing is removed until you confirm the removal screen. Switching between install and uninstall clears the selection to avoid carrying an install selection into removal.
 
 Removal uses `brew uninstall --cask <token>` for casks and `brew uninstall --formula <token>` for formulas. Normal removal does not request extra cleanup (`--zap`), dependency overrides, or forced removal. Optional **Uninstall & Clean** separately reviews app-specific leftovers and moves checked items to Trash after successful removal. Automatic orphan dependency removal is disabled with `HOMEBREW_NO_AUTOREMOVE=1`. Homebrew can refuse to remove a formula required by other packages. Failures appear in Operation details; later selected packages continue. Vendor uninstallers may still remove app data or request administrator permission.
 
@@ -101,3 +101,9 @@ Mac Setup's own **Check app release** checks GitHub's latest release endpoint an
 Only checked leftovers belonging to a successfully removed app are moved to Trash. Canonical paths and filesystem identity are rechecked immediately before each move; changed paths and symbolic links are rejected. Permission or Trash errors are shown separately from app removal. Users can restore trashed files. This is targeted cleanup and does not guarantee removal of every trace or service.
 
 `bash test.sh` additionally uses simulated command results and isolated temporary fixtures to verify update parsing, selected upgrade arguments, invalid responses, pinned/latest exclusion, cleanup matching and sizes, data-sensitive defaults, symlink/replacement rejection, and successful-removal gating. Tests do not install, upgrade, uninstall, or trash existing applications or user files. Preview rendering skips Homebrew refresh and icon downloads.
+
+## Simplified navigation (v0.7)
+
+All Apps, Installed, and Updates sit above ten purpose-based categories. The separate Google category is removed: Chrome lives under Browsers & Internet, and Drive under Files & Storage. Each category has a short English description; subcategories are ordered, icon-labeled content filters rather than nested sidebar menus. Installed keeps category filters and provides Uninstall and optional Uninstall & Clean actions.
+
+A package can retain multiple category placements with one shared selection ID. Category changes preserve the selection; changing between installation/removal workflows clears it. All Apps and search render each matching catalog record once, with its primary category breadcrumb. Export and operation plans deduplicate selections. All existing package metadata, source entry mappings, presets, official links, and icon assets are retained. `Scripts/simplify_categories.py` documents the original taxonomy migration.
