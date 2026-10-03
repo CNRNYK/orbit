@@ -59,7 +59,7 @@ enum RepairTests {
         try! Data("fixture".utf8).write(to: URL(fileURLWithPath: dataPath))
         let leftover = Leftover(packageID: package.id, appName: package.name, path: dataPath, kind: "Caches", bytes: 7, inode: 0, device: 0, dataSensitive: false)
         let commands = RepairCommands(package: package, root: root, source: source, finishRemoval: true)
-        let store = Store(persistSelection: false); store.brewExecutable = "/mock/brew"; store.commandRunner = commands
+        let store = Store(persistSelection: false); store.mode = .uninstall; store.brewExecutable = "/mock/brew"; store.commandRunner = commands
         store.removalPlan = [package]; store.selected = [package.id]; store.cleanRemoval = true
         store.leftovers = [leftover]; store.selectedLeftovers = [leftover.id]; store.showRemovalReview = true
         var cleaned = [String](); store.trashLeftover = { cleaned.append($0.id) }

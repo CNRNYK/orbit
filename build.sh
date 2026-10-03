@@ -8,6 +8,7 @@ xcrun swiftc -swift-version 5 -O -parse-as-library -target "${architecture}-appl
 cp Resources/askpass.sh "$app/Contents/Resources/askpass.sh"
 rm -rf "$app/Contents/Resources/Logos"
 cp -R Resources/Logos "$app/Contents/Resources/Logos"
+cp Resources/app-identifiers.json "$app/Contents/Resources/app-identifiers.json"
 cp Resources/catalog.json "$app/Contents/Resources/catalog.json"
 chmod 755 "$app/Contents/Resources/askpass.sh"
 cat > "$app/Contents/Info.plist" <<'PLIST'
@@ -19,8 +20,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleName</key><string>Mac Setup</string>
 <key>CFBundleDisplayName</key><string>Mac Setup</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.7.1</string>
-<key>CFBundleVersion</key><string>9</string>
+<key>CFBundleShortVersionString</key><string>0.8.0</string>
+<key>CFBundleVersion</key><string>10</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
 <key>NSAppleEventsUsageDescription</key><string>Mac Setup displays a password dialog when Homebrew needs administrator permission.</string>
