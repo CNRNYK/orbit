@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 import AppKit
 
 struct ContentView: View {
@@ -571,6 +572,7 @@ struct OrbitApp: App {
                 root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--recorder-preview") { previewStore.navigate(.recorder); root = AnyView(ContentView(store: previewStore)) }
+            if CommandLine.arguments.contains("--recorder-playback-preview") { previewStore.navigate(.recorder); previewStore.recorderState.player = AVPlayer(); previewStore.recorderState.recordingURL = URL(fileURLWithPath:"/private/tmp/Orbit-preview.mp4"); previewStore.recorderState.duration = 5; previewStore.recorderState.trimEnd = 5; root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--menu-bar-preview") {
                 previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 400)
                 if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }

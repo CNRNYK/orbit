@@ -1,4 +1,6 @@
 import Foundation
+import SwiftUI
+import AVKit
 import AppKit
 import CoreImage
 import AVFoundation
@@ -86,6 +88,41 @@ import AudioToolbox
         for index in 0..<10 { await silentEngine.syntheticFrame(input,at:CMTime(seconds:20+Double(index)/30,preferredTimescale:600)); try await Task.sleep(nanoseconds:10_000_000) }
         try await silentEngine.finish(); try await RecorderFiles.export(silentRaw,to:silentMP4,mixAudio:true)
         let silentTracks = try await AVURLAsset(url:silentMP4).loadTracks(withMediaType:.audio); precondition(silentTracks.isEmpty, "Default recording must export successfully without audio")
+        // Exercise the post-recording SwiftUI branch that previously aborted in
+        // _AVKit_SwiftUI; codec-only tests never instantiated its player view.
+        _ = NSApplication.shared
+        let previewState = RecorderState()
+        previewState.preview = true
+        previewState.player = AVPlayer(url:output)
+        previewState.recordingURL = output
+        previewState.duration = duration
+        previewState.trimEnd = duration
+        let hosting = NSHostingView(rootView:RecorderView(state:previewState))
+        hosting.frame = NSRect(x:0,y:0,width:1180,height:1100)
+        hosting.layoutSubtreeIfNeeded()
+        try await Task.sleep(nanoseconds:100_000_000)
+        func players(in view:NSView) -> [AVPlayerView] { (view as? AVPlayerView).map { [$0] } ?? view.subviews.flatMap { players(in:$0) } }
+        let nativePlayers = players(in:hosting)
+        precondition(nativePlayers.count == 1 && nativePlayers[0].player === previewState.player, "Completed-recording UI must host its native player")
+        precondition(nativePlayers[0].controlsStyle == .inline)
+        let originalPlayer = previewState.player!
+        for _ in 0..<30 {
+            if originalPlayer.currentItem?.status != .unknown { break }
+            try await Task.sleep(nanoseconds:100_000_000)
+        }
+        precondition(originalPlayer.currentItem?.status == .readyToPlay, "Generated MP4 must become playable in the preview")
+        originalPlayer.isMuted = true
+        originalPlayer.play()
+        try await Task.sleep(nanoseconds:250_000_000)
+        precondition(originalPlayer.currentTime().seconds > 0, "Preview playback must advance")
+        previewState.player = AVPlayer(url:trimmed)
+        hosting.layoutSubtreeIfNeeded()
+        try await Task.sleep(nanoseconds:100_000_000)
+        precondition(players(in:hosting).first?.player === previewState.player && originalPlayer.rate == 0, "Changing the recording must update the player")
+        let detached = players(in:hosting).first!
+        RecorderPlayerView.dismantleNSView(detached,coordinator:())
+        precondition(detached.player == nil, "Closing preview must release playback")
+        print("PASS: completed-recording player UI, native playback controls, recording replacement and playback teardown")
         let store = Store(preview:true,persistSelection:false); store.recorderState.phase = .recording; store.recorderState.elapsed = 65
         precondition(store.locked && MenuBarState(store:store).operating && store.recorderState.elapsedLabel == "01:05")
         store.recorderState.phase = .idle; store.busy = true; precondition(!store.recorderState.canBegin())
