@@ -16,14 +16,14 @@ struct TerminalOption: Identifiable {
     static let all: [TerminalOption] = [
         .init("brew", "Homebrew environment", "Make Homebrew tools available in login and interactive shells.", detection: ["brew shellenv"], rc: #"[[ -n ${HOMEBREW_PREFIX:-} ]] || { [[ ! -x /opt/homebrew/bin/brew ]] || eval "$(/opt/homebrew/bin/brew shellenv)"; [[ -n ${HOMEBREW_PREFIX:-} || ! -x /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"; }"#, profile: #"if [[ -x /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; elif [[ -x /usr/local/bin/brew ]]; then eval "$(/usr/local/bin/brew shellenv)"; fi"#),
         .init("completion", "Command completion", "Enable Tab completion. Existing frameworks are left in charge.", detection: ["compinit", "oh-my-zsh", "zinit", "antidote", "sheldon", "prezto"], rc: "autoload -Uz compinit\ncompinit"),
-        .init("history", "History improvements", "Keep 20,000 entries, avoid consecutive duplicates; do not share sessions.", detection: ["HISTSIZE", "SAVEHIST", "HISTFILE", "setopt.*HIST"], rc: "HISTFILE=\"$HOME/.zsh_history\"\nHISTSIZE=20000\nSAVEHIST=20000\nsetopt APPEND_HISTORY HIST_IGNORE_DUPS HIST_REDUCE_BLANKS"),
-        .init("aliases", "Useful aliases", "ll lists hidden files; .. moves up one directory.", detection: ["alias ll=", "alias \\..="], rc: "alias ll='ls -lah'\nalias ..='cd ..'"),
-        .init("git", "Git shortcuts", "gs: status · gd: diff · gl: recent graph. No destructive shortcuts.", packages: ["git"], detection: ["alias gs=", "alias gd=", "alias gl="], rc: "alias gs='git status -sb'\nalias gd='git diff'\nalias gl='git log --oneline --graph -20'"),
+        .init("history", "History improvements", "Keep 20,000 entries, avoid consecutive duplicates; do not share sessions.", detection: ["HISTSIZE", "SAVEHIST", "HISTFILE", "setopt.*HIST", "oh-my-zsh", "prezto"], rc: "HISTFILE=\"$HOME/.zsh_history\"\nHISTSIZE=20000\nSAVEHIST=20000\nsetopt APPEND_HISTORY HIST_IGNORE_DUPS HIST_REDUCE_BLANKS"),
+        .init("aliases", "Useful aliases", "ll lists hidden files; .. moves up one directory.", detection: ["alias ll=", "alias \\..=", "function ll", "ll\\s*\\(\\)", "oh-my-zsh", "prezto"], rc: "alias ll='ls -lah'\nalias ..='cd ..'"),
+        .init("git", "Git shortcuts", "gs: status · gd: diff · gl: recent graph. No destructive shortcuts.", packages: ["git"], detection: ["alias gs=", "alias gd=", "alias gl=", "function gs", "function gd", "function gl", "\\b(gs|gd|gl)\\s*\\(\\)", "oh-my-zsh"], rc: "alias gs='git status -sb'\nalias gd='git diff'\nalias gl='git log --oneline --graph -20'"),
         .init("node", "Node.js with NVM", "Use project-specific Node versions. No Homebrew Node or automatic downloads.", "Languages", packages: ["nvm"], detection: ["NVM_DIR", "nvm.sh", "\\bnvm\\b", "fnm", "volta", "asdf", "mise"], rc: #"""
         export NVM_DIR="$HOME/.nvm"
         if [[ -s "$NVM_DIR/nvm.sh" ]]; then source "$NVM_DIR/nvm.sh"; elif [[ -n ${HOMEBREW_PREFIX:-} && -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; fi
         """#),
-        .init("python", "Python development", "Python 3.14 + uv. Project virtual environments; no system Python changes.", "Languages", packages: ["python@3.14", "uv"], detection: ["pyenv", "conda", "mamba", "asdf", "mise", "function ov", "ov\\(\\)"], rc: #"""
+        .init("python", "Python development", "Python 3.14 + uv. Project virtual environments; no system Python changes.", "Languages", packages: ["python@3.14", "uv"], detection: ["pyenv", "conda", "mamba", "asdf", "mise", "function ov", "function oa", "alias ov=", "alias oa=", "o[va]\\s*\\(\\)"], rc: #"""
         # Run inside your project. No automatic activation or global pip installs.
         ov() { command uv venv .venv; }
         oa() { if [[ -f .venv/bin/activate ]]; then source .venv/bin/activate; else print 'Create a project environment first with ov.'; fi; }
@@ -143,6 +143,7 @@ final class ProfileEngine {
                 after = String(old[..<start.lowerBound]) + block + String(old[endIndex...])
             }
             let data = Data(after.utf8)
+            guard data.count <= 1_000_000 else { throw fail("\(name) would exceed the supported profile size. No changes were made.") }
             if data != (snapshot.data ?? Data()) { changes.append(.init(before: snapshot, after: data, block: block)) }
         }
         return .init(changes: changes, options: selected)
@@ -172,8 +173,14 @@ final class ProfileEngine {
     func write(_ data: Data?, snapshot: ProfileSnapshot) throws {
         let url = home.appendingPathComponent(snapshot.name)
         if let data {
-            try data.write(to: url, options: .atomic)
-            try FileManager.default.setAttributes([.posixPermissions: snapshot.permissions], ofItemAtPath: url.path)
+            let temporary = home.appendingPathComponent(".orbit-profile-temp-" + UUID().uuidString)
+            let descriptor = Darwin.open(temporary.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, mode_t(snapshot.permissions))
+            guard descriptor >= 0 else { throw fail("Cannot create a private profile replacement.") }
+            let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+            defer { try? handle.close(); try? FileManager.default.removeItem(at: temporary) }
+            try handle.write(contentsOf: data)
+            guard fchmod(descriptor, mode_t(snapshot.permissions)) == 0, fsync(descriptor) == 0 else { throw fail("Could not save profile contents and permissions.") }
+            guard Darwin.rename(temporary.path, url.path) == 0 else { throw fail("Could not replace \(snapshot.name).") }
         } else { try FileManager.default.removeItem(at: url) }
     }
     @discardableResult func apply(_ plan: TerminalPlan) throws -> URL {
@@ -202,7 +209,10 @@ final class ProfileEngine {
             }
             try FileManager.default.moveItem(at: receiptURL, to: directory.appendingPathComponent("receipt.json"))
         } catch {
-            for change in written.reversed() where (try? inspect(change.before.name).data) == change.after { try? write(change.before.data, snapshot: change.before) }
+            for change in written.reversed() {
+                guard let observed = try? inspect(change.before.name), observed.data == change.after else { continue }
+                try? write(change.before.data, snapshot: change.before)
+            }
             throw fail("Apply could not finish. Backup retained at \(directory.path). \(error.localizedDescription)")
         }
         return directory
@@ -223,7 +233,7 @@ final class ProfileEngine {
         let (directory, receipt) = try latestReceipt()
         let current = try receipt.originals.map { try inspect($0.name) }
         for snapshot in current {
-            guard let data = snapshot.data, Self.digest(data) == receipt.applied[snapshot.name] else { throw fail("\(snapshot.name) was edited after Orbit applied it. Restore is blocked to preserve those edits. The backup remains available.") }
+            guard let data = snapshot.data, Self.digest(data) == receipt.applied[snapshot.name], snapshot.permissions == receipt.originals.first(where: { $0.name == snapshot.name })?.permissions else { throw fail("\(snapshot.name) was edited after Orbit applied it. Restore is blocked to preserve those edits. The backup remains available.") }
         }
         var restored: [ProfileSnapshot] = []
         do {
@@ -233,7 +243,8 @@ final class ProfileEngine {
             }
             try FileManager.default.moveItem(at: directory, to: backupRoot.appendingPathComponent("restored-" + directory.lastPathComponent))
         } catch {
-            for original in restored.reversed() where (try? inspect(original.name).data) == original.data {
+            for original in restored.reversed() {
+                guard let observed = try? inspect(original.name), observed.data == original.data else { continue }
                 if let snapshot = current.first(where: { $0.name == original.name }) { try? write(snapshot.data, snapshot: snapshot) }
             }
             throw fail("Restore could not finish. Backup retained. \(error.localizedDescription)")

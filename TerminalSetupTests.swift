@@ -34,6 +34,10 @@ import Darwin
         let current = try engine.inspect(".zshrc").data!
         try (current + Data("# user edit\n".utf8)).write(to: directory.appendingPathComponent(".zshrc"))
         precondition((try? engine.restore()) == nil, "Post-apply edits must block restore")
+        let permissionHome = try home("permission-edit"), permission = ProfileEngine(home: permissionHome)
+        _ = try permission.apply(permission.plan(["history"]))
+        try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: permissionHome.appendingPathComponent(".zshrc").path)
+        precondition((try? permission.restore()) == nil, "Post-apply permission changes must also block restore")
         let staleHome = try home("stale"), stale = ProfileEngine(home: staleHome)
         let stalePlan = try stale.plan(["history"])
         try Data("export KEEP=1\n".utf8).write(to: staleHome.appendingPathComponent(".zshrc"))
@@ -43,6 +47,9 @@ import Darwin
         let envPlan = try env.plan(["python"])
         try Data("export ZDOTDIR=/another/place\n".utf8).write(to: envHome.appendingPathComponent(".zshenv"))
         precondition((try? env.apply(envPlan)) == nil)
+        let largeHome = try home("large"), large = ProfileEngine(home: largeHome)
+        try Data(("#" + String(repeating: "x", count: 999_995) + "\n").utf8).write(to: largeHome.appendingPathComponent(".zshrc"))
+        precondition((try? large.plan(["history"])) == nil, "Apply must never produce an oversized, unrestorable profile")
         let invalidHome = try home("invalid"), invalid = ProfileEngine(home: invalidHome)
         try Data("if then\n".utf8).write(to: invalidHome.appendingPathComponent(".zshrc"))
         precondition((try? invalid.apply(invalid.plan(["history"]))) == nil, "Syntax error must leave files untouched")
@@ -61,6 +68,7 @@ import Darwin
         let existingHome = try home("existing"), existing = ProfileEngine(home: existingHome)
         try Data("export NVM_DIR=\"$HOME/.nvm\"\neval \"$(starship init zsh)\"\n".utf8).write(to: existingHome.appendingPathComponent(".zshrc"))
         precondition((try? existing.plan(["node"])) == nil && (try? existing.plan(["starship"])) == nil)
+        precondition(ProfileEngine.conflicts(TerminalOption.all.first { $0.id == "python" }!, outside: "oa() { echo custom; }"))
         let state = TerminalState(engine: existing); state.scan()
         precondition(state.scanned && !state.selected.contains("node"))
         let runtimeOptions = TerminalOption.all.filter { $0.group == "Languages" }
