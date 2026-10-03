@@ -10,7 +10,7 @@ The catalog integrates the supplied Mac Power User / Developer / Designer / Crea
 
 Homebrew must already be installed at `/opt/homebrew/bin/brew` or `/usr/local/bin/brew`. If it is missing, the application links to the official Homebrew setup instructions. After setting it up, use Refresh. The app does not install Homebrew automatically.
 
-Already managed packages are skipped. Existing manually installed `.app` bundles are skipped unless you enable adoption. Adoption requires identical contents. Vendor `.pkg` and custom installers can run even when an app already exists; this is disclosed in the review screen. Licenses, subscriptions, and sign-in are handled separately by each vendor.
+Already managed packages and detected local apps cannot be selected for installation. Manage selected existing apps through **Installed → Installed manually → Manage with Homebrew**. App-bundle adoption requires identical contents; verified vendor installers are disclosed separately in review. Licenses, subscriptions, and sign-in are handled separately by each vendor.
 
 Homebrew runs as your user, not as root. For individual installers requiring administrator access, Homebrew uses the bundled `SUDO_ASKPASS` helper. This is an AppleScript password dialog labeled **Mac Setup · Administrator permission**, not a system authorization sheet. Its password output goes directly to sudo, is not saved or included in the application's logs. Canceling the dialog causes that installation to fail. macOS may request automation permission for System Events.
 
@@ -44,7 +44,7 @@ The stop button waits for the current removal to complete. Installed state is re
 
 ## Brewfiles
 
-Export writes selected formulas and casks. Import recognizes plain `brew "token"` and `cask "token"` entries from this application's curated catalog. Comments and duplicate entries are handled. Ruby code is never evaluated. Unsupported entries, taps, VS Code extensions, and packages outside the catalog are reported rather than silently installed. Import replaces the current selection.
+**Export setup** has an independent selection that can include installed formulas and casks. Import recognizes plain `brew "token"` and `cask "token"` entries from this application's curated catalog. Comments and duplicate entries are handled. Ruby code is never evaluated. Unsupported entries, taps, VS Code extensions, and packages outside the catalog are reported rather than silently installed. Import populates the export selection and selects only missing apps for installation.
 
 ## Build
 
@@ -115,3 +115,13 @@ A failed normal cask removal can offer **Repair & Retry** when Homebrew reports 
 Repair is never automatic. Its review shows the stored app path and the exact previously selected cleanup paths. After explicit confirmation, the Caskroom location and stored app filesystem identity are rechecked, and only `brew uninstall --cask --force <that-token>` is run. The app then verifies successful exit, installed inventory, and absence of the stored/application bundles before declaring removal complete or performing selected leftover cleanup. Verification failure leaves cleanup untouched and reports an error; formula dependency protection is never overridden. Changed paths and symlinks are rejected.
 
 Repair tests use isolated generated app directories and simulated commands. They cover conflict recognition, unrelated errors, wrong roots, symlink/inode replacement, no force without consent, exact retry arguments, retained cleanup selection, verified success, command failures, and nominal success with a still-installed record. No existing app is forcibly removed by validation.
+
+## Installation, setup export, and manual app management (v0.8)
+
+Installation checkboxes now mean install only. Already Homebrew-managed or locally detected apps show a checkmark and cannot join the installation selection; starter selections, Select all, imported Brewfiles, installation counts, and execution guards follow the same rule. Refresh removes stale installation selections. The optional Not installed filter hides existing apps. Export setup has its own independent selection and can include installed apps for a future Mac without installing anything now; imported entries also populate that export selection.
+
+Installed has Managed by Homebrew and Installed manually tabs. The local scan reads bundle identifiers, versions, paths, and filesystem identity under `/Applications` and the user's Applications folder, including shallow utility folders; it skips symlinks and bundle internals. Matching is limited to this curated catalog. Known identifiers in `app-identifiers.json` were read from existing Homebrew-managed app bundles; an exact bundle filename can also suggest a candidate, but does not by itself authorize replacing that app. Unknown or unsupported apps remain visible and unselectable for management.
+
+Only the user's selected candidates enter a separate review. Live `brew info --json=v2 --cask` verifies the package and app artifact. App-bundle adoption uses `--adopt` with the actual app directory and relies on Homebrew's complete content comparison; different contents are never force-overwritten. Vendor package/installer cases require a reference bundle identifier match, are labeled explicitly in review, may modify the existing app, and are blocked if its version is newer. Unverified installer identities are blocked. The app identity is rechecked before execution, no force flags are used, and refreshed Homebrew inventory verifies the result. Failures stay visible in Operation details. Selecting candidates or opening review never starts installation.
+
+Tests additionally cover local bundle scanning and identifiers, unknown apps, installed selection exclusion, independent setup export, review-only behavior, exact adoption arguments, preserved bundles on simulated adoption failure, and installer identity blocking. All command execution tests use simulated results and temporary fixtures; no existing application was adopted or reinstalled during validation.

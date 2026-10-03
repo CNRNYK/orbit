@@ -56,14 +56,14 @@ enum LifecycleTests {
         precondition(!Cleanup.unchanged(cache, home: home))
 
         func removalStore(_ replies: [(Int32, String)]) -> (Store, FakeCommands) {
-            let store = Store(persistSelection: false); let commands = FakeCommands(replies)
+            let store = Store(persistSelection: false); store.mode = .uninstall; let commands = FakeCommands(replies)
             store.brewExecutable = "/mock/brew"; store.commandRunner = commands
             store.inventoryKnown = true; store.installed = [app.id]; store.selected = [app.id]
             store.removalPlan = [app]; store.cleanRemoval = true; store.leftovers = [cache, settings]
             store.selectedLeftovers = [cache.id]; store.showRemovalReview = true
             return (store, commands)
         }
-        let preparing = Store(persistSelection: false)
+        let preparing = Store(persistSelection: false); preparing.mode = .uninstall
         preparing.brewExecutable = "/mock/brew"; preparing.commandRunner = FakeCommands([(0, ""), (0, "blender\n")])
         preparing.selected = [app.id]; preparing.cleanRemoval = true; preparing.scanLeftovers = { _ in found }
         await preparing.prepareRemoval()

@@ -16,6 +16,7 @@ import Foundation
         let stderrFlood = await BrewRunner.run("/bin/sh", ["-c", "head -c 200000 /dev/zero >&2; printf '{\"formulae\":[],\"casks\":[]}'"], separateError: true)
         precondition(stderrFlood.0 == 0 && (try! UpdatePlan.parse(Data(stderrFlood.1.utf8))).isEmpty, "Large stderr must not deadlock or contaminate JSON")
         let model = Store(persistSelection: false)
+        model.inventoryKnown = true; model.appPresent = { _ in false }; model.appScanner = { [] }
         precondition(Catalog.loadError == nil && Catalog.packages.count > 400)
         precondition(Set(Catalog.packages.flatMap(\.sourceNumbers)) == Set(1...437))
         precondition(Catalog.packages.flatMap(\.sourceNumbers).count == 437)
@@ -68,9 +69,9 @@ import Foundation
         let unavailable = ReviewItem(package: app, managed: false, manual: false, installer: false, version: "", problem: "Unavailable")
         model.review = [managed, manual, installer, unavailable]
         model.adopt = false
-        precondition(model.actionable.count == 1 && model.actionable[0].installer)
+        precondition(model.actionable.isEmpty)
         model.adopt = true
-        precondition(model.actionable.count == 2)
+        precondition(model.actionable.isEmpty)
         model.selected = Set(Catalog.packages.prefix(3).map(\.id))
         model.installed = [app.id]
         model.inventoryKnown = false
@@ -120,6 +121,7 @@ import Foundation
         }
         await LifecycleTests.run()
         await RepairTests.run()
+        await AdoptionTests.run()
         print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, official bundled icon decoding and size limits, presets, install/uninstall planning")
     }
 }
