@@ -76,3 +76,14 @@ import ImageIO
         } catch { /* Bundled and local icons remain available when offline. */ }
     }
 }
+
+struct OrbitBrandIcon: View {
+    var size: CGFloat = 30
+    private static let image: NSImage? = Bundle.main.url(forResource: "Orbit", withExtension: "png").flatMap { NSImage(contentsOf: $0) }
+    var body: some View {
+        Group {
+            if let image = Self.image { Image(nsImage: image).resizable().scaledToFit() }
+            else { Image(systemName: "circle.circle").resizable().scaledToFit() }
+        }.frame(width: size, height: size).accessibilityLabel("Orbit logo")
+    }
+}

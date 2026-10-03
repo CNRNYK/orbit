@@ -1,5 +1,7 @@
 # Orbit
 
+<img src="Resources/Branding/Orbit.png" alt="Orbit icon" width="104">
+
 **Set up your Mac. Manage your apps. Clear the clutter.**
 
 A native macOS app for discovering, installing, updating, and uninstalling Homebrew packages—with reviewed cleanup and reusable Brewfiles. Pick the apps you want, review the plan, and let Homebrew handle the installation.
@@ -38,6 +40,10 @@ Cleanup does not empty Trash or promise to remove every trace of an application.
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.12.0/Orbit-0.12.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.12.0)
+
+Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
+
 To build from source, install Apple Command Line Tools, clone this repository, then run:
 
 ```sh
@@ -47,7 +53,7 @@ bash build.sh
 open "dist/Orbit.app"
 ```
 
-The repository is currently private, so cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published.
+The repository is currently private, so cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published. The DMG is available to repository members through Releases.
 
 ## You choose the changes
 
@@ -65,6 +71,8 @@ App licenses, subscriptions, and vendor sign-in are separate. Orbit does not res
 - [Catalog mapping and unavailable entries](CATALOG-NOTES.md)
 - [Install Homebrew](https://brew.sh)
 - [Homebrew documentation](https://docs.brew.sh/Manpage)
+
+To package a local build as a DMG, run `bash package-dmg.sh` after building. The script creates a compressed image with Orbit, an Applications shortcut, installation notes, and a SHA-256 checksum.
 
 For automated validation, run `bash test.sh`. Tests use simulated commands and temporary fixtures; they do not install or remove your applications.
 

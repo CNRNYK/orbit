@@ -74,7 +74,7 @@ struct StartupView: View {
     var ready: Bool { !store.startupChecks.isEmpty && store.startupChecks.allSatisfy { !$0.required || $0.ready } }
     var body: some View {
         VStack(alignment:.leading,spacing:18) {
-            Label("Welcome to Orbit",systemImage:"shippingbox.fill").font(.title.bold())
+            Label { Text("Welcome to Orbit") } icon: { OrbitBrandIcon(size: 48) }.font(.title.bold())
             Text("A few checks before you choose your apps.").foregroundStyle(.secondary)
             if store.checkingStartup { ProgressView("Checking your Mac…") }
             ScrollView {
