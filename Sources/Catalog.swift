@@ -21,6 +21,17 @@ struct Package: Identifiable, Hashable, Codable {
     let githubPurpose: String?
     let homepageSource: String?
     let version: String?
+    let logoURL: String?
+    let logoSource: String?
+    let logoAsset: String?
+    var officialLogoURL: URL? {
+        guard let url = Self.webURL(logoURL), url.scheme == "https" else { return nil }
+        return url
+    }
+    var logoFilename: String? {
+        guard let logoAsset, logoAsset.range(of: #"^[a-f0-9]{24}\.(png|ico|jpg)$"#, options: .regularExpression) != nil else { return nil }
+        return logoAsset
+    }
     static func webURL(_ value: String?) -> URL? {
         guard let value, let url = URL(string: value),
               ["http", "https"].contains(url.scheme?.lowercased() ?? ""),

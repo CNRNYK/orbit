@@ -82,7 +82,10 @@
       "githubSource": "https://github.com/raycast/extensions",
       "homepageSource": "https://formulae.brew.sh/api/cask/raycast.json",
       "version": "2.6.2.0",
-      "githubPurpose": "Extensions"
+      "githubPurpose": "Extensions",
+      "logoURL": "https://www.raycast.com/favicon-production.png",
+      "logoSource": "https://www.raycast.com/",
+      "logoAsset": "a028936d91b82b285ae64a65.png"
     },
     {
       "token": "alfred",
@@ -105,7 +108,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/alfred.json",
-      "version": "5.8.1,2349"
+      "version": "5.8.1,2349",
+      "logoURL": "https://www.alfredapp.com/apple-touch-icon.png",
+      "logoSource": "https://www.alfredapp.com/",
+      "logoAsset": "7b2b547ab5377906300c69cd.png"
     },
     {
       "token": "launchbar",
@@ -128,7 +134,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/launchbar.json",
-      "version": "6.24"
+      "version": "6.24",
+      "logoURL": "https://www.obdev.at/apple-touch-icon.png",
+      "logoSource": "https://www.obdev.at/products/launchbar/index.html",
+      "logoAsset": "d81f9783c610db6d6960c892.png"
     },
     {
       "token": "quicksilver",
@@ -197,7 +206,10 @@
       "github": "https://github.com/rxhanson/Rectangle",
       "githubSource": "https://formulae.brew.sh/api/cask/rectangle.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/rectangle.json",
-      "version": "2.0.2"
+      "version": "2.0.2",
+      "logoURL": "https://rectangleapp.com/favicon.ico",
+      "logoSource": "https://rectangleapp.com/",
+      "logoAsset": "32dfed947e8bca93c393bba8.ico"
     },
     {
       "token": "rectangle-pro",
@@ -220,7 +232,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/rectangle-pro.json",
-      "version": "3.92"
+      "version": "3.92",
+      "logoURL": "https://rectangleapp.com/favicon.ico",
+      "logoSource": "https://rectangleapp.com/pro/",
+      "logoAsset": "c90692140f639f84d09aac17.ico"
     },
     {
       "token": "amethyst",
@@ -243,7 +258,10 @@
       "github": "https://github.com/ianyh/Amethyst",
       "githubSource": "https://formulae.brew.sh/api/cask/amethyst.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/amethyst.json",
-      "version": "0.24.3"
+      "version": "0.24.3",
+      "logoURL": "https://ianyh.com/images/amethyst.png",
+      "logoSource": "https://ianyh.com/amethyst/",
+      "logoAsset": "88670bf6f7563a74404a67a9.png"
     },
     {
       "token": "manual-aerospace",
@@ -356,7 +374,10 @@
       "github": "https://github.com/p0deje/Maccy",
       "githubSource": "https://formulae.brew.sh/api/cask/maccy.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/maccy.json",
-      "version": "2.7.1"
+      "version": "2.7.1",
+      "logoURL": "https://maccy.app/Logo-favicon-16w.png",
+      "logoSource": "https://maccy.app/",
+      "logoAsset": "ac08eeb2c03b8a16ec7dd932.png"
     },
     {
       "token": "manual-pastepal",
@@ -378,7 +399,10 @@
       "formulaLicense": null,
       "github": "https://github.com/IndieGoodies/PastePal",
       "githubSource": "https://indiegoodies.com/pastepal",
-      "homepageSource": "https://indiegoodies.com/pastepal"
+      "homepageSource": "https://indiegoodies.com/pastepal",
+      "logoURL": "https://indiegoodies.com/icons/pastepal.png",
+      "logoSource": "https://indiegoodies.com/pastepal",
+      "logoAsset": "f0e767a9bb497e2fbbe1daad.png"
     },
     {
       "token": "copyq",
@@ -401,7 +425,10 @@
       "github": "https://github.com/hluk/CopyQ",
       "githubSource": "https://formulae.brew.sh/api/cask/copyq.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/copyq.json",
-      "version": "16.0.0"
+      "version": "16.0.0",
+      "logoURL": "https://raw.githubusercontent.com/hluk/CopyQ/master/src/images/icon.ico",
+      "logoSource": "https://hluk.github.io/CopyQ/",
+      "logoAsset": "682c6b639e5c67d5a61fa708.ico"
     },
     {
       "token": "clipy",
@@ -424,7 +451,10 @@
       "github": "https://github.com/Clipy/Clipy",
       "githubSource": "https://formulae.brew.sh/api/cask/clipy.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/clipy.json",
-      "version": "1.3.0"
+      "version": "1.3.0",
+      "logoURL": "https://clipy-app.com/favicon.png",
+      "logoSource": "https://clipy-app.com/",
+      "logoAsset": "d2dba453015b92779be252ef.png"
     },
     {
       "token": "flycut",
@@ -470,7 +500,10 @@
       "github": "https://github.com/jordanbaird/ice-releases",
       "githubSource": "https://formulae.brew.sh/api/cask/jordanbaird-ice.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/jordanbaird-ice.json",
-      "version": "0.11.12"
+      "version": "0.11.12",
+      "logoURL": "https://icemenubar.app/gallery/favicons/favicon.ico",
+      "logoSource": "https://icemenubar.app/",
+      "logoAsset": "79af1c0c29b4eacbf9c4d19c.ico"
     },
     {
       "token": "hiddenbar",
@@ -567,7 +600,10 @@
       "github": "https://github.com/matryer/xbar",
       "githubSource": "https://formulae.brew.sh/api/cask/xbar.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/xbar.json",
-      "version": "2.1.7-beta"
+      "version": "2.1.7-beta",
+      "logoURL": "https://xbarapp.com/public/img/xbar-2048.png",
+      "logoSource": "https://xbarapp.com/",
+      "logoAsset": "2d7639d0f5b9fd32edcb7c7e.png"
     },
     {
       "token": "menumeters",
@@ -590,7 +626,10 @@
       "github": "https://github.com/yujitach/MenuMeters",
       "githubSource": "https://formulae.brew.sh/api/cask/menumeters.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/menumeters.json",
-      "version": "2.1.6.1"
+      "version": "2.1.6.1",
+      "logoURL": "https://member.ipmu.jp/favicon.ico",
+      "logoSource": "https://member.ipmu.jp/yuji.tachikawa/MenuMetersElCapitan/",
+      "logoAsset": "0d6f014c5c4df087f92f355d.ico"
     },
     {
       "token": "hammerspoon",
@@ -613,7 +652,10 @@
       "github": "https://github.com/Hammerspoon/hammerspoon",
       "githubSource": "https://formulae.brew.sh/api/cask/hammerspoon.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/hammerspoon.json",
-      "version": "1.1.1"
+      "version": "1.1.1",
+      "logoURL": "https://www.hammerspoon.org/images/hammerspoon.ico",
+      "logoSource": "https://www.hammerspoon.org/",
+      "logoAsset": "71cab604c41ed7ffbf6cdbc3.ico"
     },
     {
       "token": "karabiner-elements",
@@ -636,7 +678,10 @@
       "github": "https://github.com/pqrs-org/Karabiner-Elements",
       "githubSource": "https://formulae.brew.sh/api/cask/karabiner-elements.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/karabiner-elements.json",
-      "version": "16.3.0"
+      "version": "16.3.0",
+      "logoURL": "https://karabiner-elements.pqrs.org/favicons/apple-touch-icon-180x180.png",
+      "logoSource": "https://karabiner-elements.pqrs.org/",
+      "logoAsset": "940c4c1bacf38423047c864b.png"
     },
     {
       "token": "bettertouchtool",
@@ -659,7 +704,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/bettertouchtool.json",
-      "version": "6.885,2026100205"
+      "version": "6.885,2026100205",
+      "logoURL": "https://folivora.ai/folivora/favicon-180.png",
+      "logoSource": "https://folivora.ai/",
+      "logoAsset": "c99ae8fbad58d06ffcfd6090.png"
     },
     {
       "token": "keyboard-maestro",
@@ -682,7 +730,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/keyboard-maestro.json",
-      "version": "11.1.1,1111"
+      "version": "11.1.1,1111",
+      "logoURL": "https://www.keyboardmaestro.com/favicon.ico",
+      "logoSource": "https://www.keyboardmaestro.com/main/",
+      "logoAsset": "19a7b49b0e769375353233a9.ico"
     },
     {
       "token": "shortcat",
@@ -705,7 +756,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/shortcat.json",
-      "version": "0.12.2"
+      "version": "0.12.2",
+      "logoURL": "https://shortcat.app/img/favicon.png",
+      "logoSource": "https://shortcat.app/",
+      "logoAsset": "bb31b597e070022b953280a7.png"
     },
     {
       "token": "cliclick",
@@ -728,7 +782,10 @@
       "github": "https://github.com/BlueM/cliclick",
       "githubSource": "https://formulae.brew.sh/api/formula/cliclick.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/cliclick.json",
-      "version": "5.1"
+      "version": "5.1",
+      "logoURL": "https://www.bluem.net/favicon.ico",
+      "logoSource": "https://www.bluem.net/",
+      "logoAsset": "540b6c109b709e0fbbdc9a09.ico"
     },
     {
       "token": "manual-skhd",
@@ -773,7 +830,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/istat-menus.json",
-      "version": "7.50.1"
+      "version": "7.50.1",
+      "logoURL": "https://bjango.com/images/site-icons/icon-152.png",
+      "logoSource": "https://bjango.com/mac/istatmenus/",
+      "logoAsset": "3deb5630168729d1f6f235f4.png"
     },
     {
       "token": "btop",
@@ -796,7 +856,10 @@
       "github": "https://github.com/aristocratos/btop",
       "githubSource": "https://formulae.brew.sh/api/formula/btop.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/btop.json",
-      "version": "1.4.7"
+      "version": "1.4.7",
+      "logoURL": "https://raw.githubusercontent.com/aristocratos/btop/main/Img/logo.png",
+      "logoSource": "https://raw.githubusercontent.com/aristocratos/btop/main/README.md",
+      "logoAsset": "e7fcf220b1d437f0cf23445a.png"
     },
     {
       "token": "htop",
@@ -819,7 +882,10 @@
       "github": "https://github.com/htop-dev/htop",
       "githubSource": "https://formulae.brew.sh/api/formula/htop.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/htop.json",
-      "version": "3.5.3"
+      "version": "3.5.3",
+      "logoURL": "https://htop.dev/images/htop.ico",
+      "logoSource": "https://htop.dev/",
+      "logoAsset": "275c60bb296f3003c8f70a48.ico"
     },
     {
       "token": "glances",
@@ -842,7 +908,10 @@
       "github": "https://github.com/nicolargo/glances",
       "githubSource": "https://formulae.brew.sh/api/formula/glances.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/glances.json",
-      "version": "4.5.7"
+      "version": "4.5.7",
+      "logoURL": "https://nicolargo.github.io/glances/favicon.ico",
+      "logoSource": "https://nicolargo.github.io/glances/",
+      "logoAsset": "7016c75168673a11d353c25c.ico"
     },
     {
       "token": "bottom",
@@ -870,7 +939,10 @@
       "github": "https://github.com/ClementTsang/bottom",
       "githubSource": "https://formulae.brew.sh/api/formula/bottom.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/bottom.json",
-      "version": "0.14.9"
+      "version": "0.14.9",
+      "logoURL": "https://clementtsang.github.io/favicon.ico",
+      "logoSource": "https://clementtsang.github.io/bottom/",
+      "logoAsset": "be9b7607e070383c083b082c.ico"
     },
     {
       "token": "asitop",
@@ -962,7 +1034,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/onyx.json",
-      "version": "5.1.0"
+      "version": "5.1.0",
+      "logoURL": "https://www.titanium-software.fr/apple-icon-114x114.png",
+      "logoSource": "https://www.titanium-software.fr/en/onyx.html",
+      "logoAsset": "1c5483264189feefd17a23c6.png"
     },
     {
       "token": "manual-bleachbit",
@@ -984,7 +1059,10 @@
       "formulaLicense": null,
       "github": "https://github.com/bleachbit/bleachbit",
       "githubSource": "https://www.bleachbit.org",
-      "homepageSource": "https://www.bleachbit.org"
+      "homepageSource": "https://www.bleachbit.org",
+      "logoURL": "https://www.bleachbit.org/images/apple-touch-icon.png",
+      "logoSource": "https://www.bleachbit.org",
+      "logoAsset": "affd436c1deefe08e768a029.png"
     },
     {
       "token": "mole",
@@ -1007,7 +1085,10 @@
       "github": "https://github.com/tw93/Mole",
       "githubSource": "https://formulae.brew.sh/api/formula/mole.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/mole.json",
-      "version": "1.56.1"
+      "version": "1.56.1",
+      "logoURL": "https://mole.fit/img/favicon-mole-192-ba32c29d.png",
+      "logoSource": "https://mole.fit",
+      "logoAsset": "e18ebaabb9f2fba0f9acbcf8.png"
     },
     {
       "token": "aldente",
@@ -1031,7 +1112,10 @@
       "githubSource": "https://github.com/AppHouseKitchen/AlDente-Battery_Care_and_Monitoring",
       "homepageSource": "https://formulae.brew.sh/api/cask/aldente.json",
       "version": "1.39.4",
-      "githubPurpose": "Project resources"
+      "githubPurpose": "Project resources",
+      "logoURL": "https://apphousekitchen.com/wp-content/uploads/2026/10/cropped-AHK-Favicon-2026-180x180.png",
+      "logoSource": "https://apphousekitchen.com/",
+      "logoAsset": "379cec794882b658affb9651.png"
     },
     {
       "token": "coconutbattery",
@@ -1054,7 +1138,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/coconutbattery.json",
-      "version": "4.4.0,265"
+      "version": "4.4.0,265",
+      "logoURL": "https://www.coconut-flavour.com/favicon.png",
+      "logoSource": "https://www.coconut-flavour.com/coconutbattery/",
+      "logoAsset": "a9473678f5ce324fd0721904.png"
     },
     {
       "token": "manual-battery-toolkit",
@@ -1099,7 +1186,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/batfi.json",
-      "version": "4.0.2"
+      "version": "4.0.2",
+      "logoURL": "https://images.squarespace-cdn.com/content/64a865e543585e48da0b6350/7c3d81f8-aab9-4935-8f82-43cbea886cd5/small.jpg?format=100w&content-type=image%2Fjpeg",
+      "logoSource": "https://micropixels.software/batfi",
+      "logoAsset": "d86b42ea360690cffdd554cb.jpg"
     },
     {
       "token": "keepingyouawake",
@@ -1122,7 +1212,10 @@
       "github": "https://github.com/newmarcel/KeepingYouAwake",
       "githubSource": "https://formulae.brew.sh/api/cask/keepingyouawake.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/keepingyouawake.json",
-      "version": "1.6.8"
+      "version": "1.6.8",
+      "logoURL": "https://keepingyouawake.app/icon.png",
+      "logoSource": "https://keepingyouawake.app/",
+      "logoAsset": "c06937fe7e247d20628ea913.png"
     },
     {
       "token": "manual-amphetamine-enhancer",
@@ -1189,7 +1282,10 @@
       "github": "https://github.com/waydabber/BetterDisplay",
       "githubSource": "https://formulae.brew.sh/api/cask/betterdisplay.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/betterdisplay.json",
-      "version": "5.0.6"
+      "version": "5.0.6",
+      "logoURL": "https://betterdisplay.pro/favicon.ico",
+      "logoSource": "https://betterdisplay.pro/",
+      "logoAsset": "e2e9779b0eb3c91a07ca3a55.ico"
     },
     {
       "token": "monitorcontrol",
@@ -1212,7 +1308,10 @@
       "github": "https://github.com/MonitorControl/MonitorControl",
       "githubSource": "https://formulae.brew.sh/api/cask/monitorcontrol.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/monitorcontrol.json",
-      "version": "4.4.0"
+      "version": "4.4.0",
+      "logoURL": "https://raw.githubusercontent.com/MonitorControl/MonitorControl/main/.github/Icon-cropped.png",
+      "logoSource": "https://raw.githubusercontent.com/MonitorControl/MonitorControl/main/README.md",
+      "logoAsset": "5aee2bfe674bd8980ba0e0eb.png"
     },
     {
       "token": "lunar",
@@ -1235,7 +1334,10 @@
       "github": "https://github.com/alin23/Lunar",
       "githubSource": "https://lunar.fyi/",
       "homepageSource": "https://formulae.brew.sh/api/cask/lunar.json",
-      "version": "6.11.0"
+      "version": "6.11.0",
+      "logoURL": "https://lunar.fyi/favicon.ico",
+      "logoSource": "https://lunar.fyi/",
+      "logoAsset": "9738b6bf3ae32f433b04b1c3.png"
     },
     {
       "token": "displaylink",
@@ -1258,7 +1360,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/displaylink.json",
-      "version": "17.0,2026-09"
+      "version": "17.0,2026-09",
+      "logoURL": "https://www.synaptics.com/sites/default/files/synaptics-bean-only-logo-all-blue_0.png",
+      "logoSource": "https://www.synaptics.com/products/displaylink-graphics",
+      "logoAsset": "e7ec8d6ded469aa4cd0199fd.png"
     },
     {
       "token": "manual-betterdummy",
@@ -1303,7 +1408,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/forklift.json",
-      "version": "4.7.6"
+      "version": "4.7.6",
+      "logoURL": "https://binarynights.com/images/touchicon.png",
+      "logoSource": "https://binarynights.com/",
+      "logoAsset": "5d3d318a749ef73cac182950.png"
     },
     {
       "token": "commander-one",
@@ -1326,7 +1434,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/commander-one.json",
-      "version": "3.18"
+      "version": "3.18",
+      "logoURL": "https://mac.eltima.com/apple-icon-114x114.png",
+      "logoSource": "https://mac.eltima.com/file-manager.html",
+      "logoAsset": "859c9922d467c6780e966e5c.png"
     },
     {
       "token": "double-commander",
@@ -1349,7 +1460,10 @@
       "github": "https://github.com/doublecmd/doublecmd",
       "githubSource": "https://formulae.brew.sh/api/cask/double-commander.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/double-commander.json",
-      "version": "1.2.8"
+      "version": "1.2.8",
+      "logoURL": "https://doublecmd.sourceforge.io/favicon.ico",
+      "logoSource": "https://doublecmd.sourceforge.io/",
+      "logoAsset": "d31c52f3ca58aaadc2b0d71b.ico"
     },
     {
       "token": "marta",
@@ -1373,7 +1487,10 @@
       "githubSource": "https://github.com/marta-file-manager/marta-issues",
       "homepageSource": "https://formulae.brew.sh/api/cask/marta.json",
       "version": "0.8.2",
-      "githubPurpose": "Issue tracker"
+      "githubPurpose": "Issue tracker",
+      "logoURL": "https://marta.sh/images/favicon/favicon-16x16.png",
+      "logoSource": "https://marta.sh/",
+      "logoAsset": "e420eb81d1179e1d06fa9d50.png"
     },
     {
       "token": "mucommander",
@@ -1396,7 +1513,10 @@
       "github": "https://github.com/mucommander/mucommander",
       "githubSource": "https://formulae.brew.sh/api/cask/mucommander.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/mucommander.json",
-      "version": "1.6.2-1"
+      "version": "1.6.2-1",
+      "logoURL": "https://www.mucommander.com/images/favicon.png",
+      "logoSource": "https://www.mucommander.com/",
+      "logoAsset": "04c8d848f2c7cd80cf6ea3d7.png"
     },
     {
       "token": "keka",
@@ -1419,7 +1539,10 @@
       "github": "https://github.com/aonez/Keka",
       "githubSource": "https://formulae.brew.sh/api/cask/keka.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/keka.json",
-      "version": "1.6.8"
+      "version": "1.6.8",
+      "logoURL": "https://www.keka.io/favicon.ico",
+      "logoSource": "https://www.keka.io/",
+      "logoAsset": "0ce9aff717bb6e367ea7b739.ico"
     },
     {
       "token": "the-unarchiver",
@@ -1442,7 +1565,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/the-unarchiver.json",
-      "version": "4.3.9,147,1742287964"
+      "version": "4.3.9,147,1742287964",
+      "logoURL": "https://cdn.theunarchiver.com/img/the-unarchiver-144x144.png",
+      "logoSource": "https://theunarchiver.com/",
+      "logoAsset": "d361cc657578e61df39aeeac.png"
     },
     {
       "token": "manual-peazip",
@@ -1464,7 +1590,10 @@
       "formulaLicense": null,
       "github": "https://github.com/peazip/PeaZip",
       "githubSource": "https://peazip.github.io",
-      "homepageSource": "https://peazip.github.io"
+      "homepageSource": "https://peazip.github.io",
+      "logoURL": "https://peazip.github.io/favicon.ico",
+      "logoSource": "https://peazip.github.io",
+      "logoAsset": "b0559529bbd66ce0b87c4c3d.ico"
     },
     {
       "token": "sevenzip",
@@ -1487,7 +1616,10 @@
       "github": "https://github.com/ip7z/7zip",
       "githubSource": "https://formulae.brew.sh/api/formula/sevenzip.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/sevenzip.json",
-      "version": "26.03"
+      "version": "26.03",
+      "logoURL": "https://7-zip.org/favicon.ico",
+      "logoSource": "https://7-zip.org",
+      "logoAsset": "588b15564a2529346ce397b3.ico"
     },
     {
       "token": "unar",
@@ -1510,7 +1642,10 @@
       "github": "https://github.com/MacPaw/XADMaster",
       "githubSource": "https://formulae.brew.sh/api/formula/unar.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/unar.json",
-      "version": "1.10.8"
+      "version": "1.10.8",
+      "logoURL": "https://cdn.theunarchiver.com/img/the-unarchiver-144x144.png",
+      "logoSource": "https://theunarchiver.com/command-line",
+      "logoAsset": "621ee4ac34200e5941837cb2.png"
     },
     {
       "token": "grandperspective",
@@ -1533,7 +1668,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/grandperspective.json",
-      "version": "3.8.1"
+      "version": "3.8.1",
+      "logoURL": "https://grandperspectiv.sourceforge.net/favicon.ico",
+      "logoSource": "https://grandperspectiv.sourceforge.net/",
+      "logoAsset": "fffa9de02c85f4b1475e9723.ico"
     },
     {
       "token": "disk-inventory-x",
@@ -1556,7 +1694,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/disk-inventory-x.json",
-      "version": "1.3"
+      "version": "1.3",
+      "logoURL": "https://www.derlien.com/favicon.png",
+      "logoSource": "https://www.derlien.com/",
+      "logoAsset": "1eb55435a6dd0c91b8c02981.png"
     },
     {
       "token": "duf",
@@ -1607,7 +1748,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/formula/ncdu.json",
-      "version": "2.9.2"
+      "version": "2.9.2",
+      "logoURL": "https://dev.yorhel.nl/favicon.ico",
+      "logoSource": "https://dev.yorhel.nl/ncdu",
+      "logoAsset": "1e42844fe20d852cf46e09ba.ico"
     },
     {
       "token": "dust",
@@ -1658,7 +1802,10 @@
       "github": "https://github.com/localsend/localsend",
       "githubSource": "https://formulae.brew.sh/api/cask/localsend.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/localsend.json",
-      "version": "1.18.2"
+      "version": "1.18.2",
+      "logoURL": "https://localsend.org/apple-touch-icon.png",
+      "logoSource": "https://localsend.org/",
+      "logoAsset": "a81b836768a25e551b27933f.png"
     },
     {
       "token": "cyberduck",
@@ -1681,7 +1828,10 @@
       "github": "https://github.com/iterate-ch/cyberduck",
       "githubSource": "https://cyberduck.io/",
       "homepageSource": "https://formulae.brew.sh/api/cask/cyberduck.json",
-      "version": "9.5.4,45528"
+      "version": "9.5.4,45528",
+      "logoURL": "https://cdn.cyberduck.io/img/cyberduck-icon-rect-32.png",
+      "logoSource": "https://cyberduck.io/",
+      "logoAsset": "c7b34ffe31fbf85893d627d2.png"
     },
     {
       "token": "manual-filezilla",
@@ -1703,7 +1853,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://filezilla-project.org"
+      "homepageSource": "https://filezilla-project.org",
+      "logoURL": "https://filezilla-project.org/favicon.ico",
+      "logoSource": "https://filezilla-project.org",
+      "logoAsset": "8c0962189e0f38d17b368e3b.ico"
     },
     {
       "token": "transmit",
@@ -1726,7 +1879,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/transmit.json",
-      "version": "5.11.7"
+      "version": "5.11.7",
+      "logoURL": "https://panic.com/transmit/images/touch-icon-pay-120.png",
+      "logoSource": "https://panic.com/transmit/",
+      "logoAsset": "d4db189c0eaacca0fbf5a58b.png"
     },
     {
       "token": "rsync",
@@ -1772,7 +1928,10 @@
       "github": "https://github.com/rclone/rclone",
       "githubSource": "https://formulae.brew.sh/api/formula/rclone.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/rclone.json",
-      "version": "1.75.1"
+      "version": "1.75.1",
+      "logoURL": "https://rclone.org/img/rclone-32x32.png",
+      "logoSource": "https://rclone.org/",
+      "logoAsset": "d20d4b5e7f2ab15d675ecaa9.png"
     },
     {
       "token": "google-chrome",
@@ -1799,7 +1958,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/google-chrome.json",
-      "version": "154.0.8037.98"
+      "version": "154.0.8037.98",
+      "logoURL": "https://www.google.com/chrome/static/images/favicons/apple-icon-114x114.png",
+      "logoSource": "https://www.google.com/chrome/",
+      "logoAsset": "ed8416960b9e67871366b876.png"
     },
     {
       "token": "firefox",
@@ -1823,7 +1985,10 @@
       "githubSource": "https://github.com/mozilla-firefox/firefox",
       "homepageSource": "https://formulae.brew.sh/api/cask/firefox.json",
       "version": "157.0",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.firefox.com/media/img/favicons/firefox/browser/apple-touch-icon.79c2abeb4e35.png",
+      "logoSource": "https://www.firefox.com/",
+      "logoAsset": "16e5f60f207a1a0073451c35.png"
     },
     {
       "token": "brave-browser",
@@ -1846,7 +2011,10 @@
       "github": "https://github.com/brave/brave-browser",
       "githubSource": "https://brave.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/brave-browser.json",
-      "version": "1.96.61.0"
+      "version": "1.96.61.0",
+      "logoURL": "https://brave.com/static-assets/images/cropped-brave_appicon_release-180x180.png",
+      "logoSource": "https://brave.com/",
+      "logoAsset": "368506ad119c50f3354b419a.png"
     },
     {
       "token": "microsoft-edge",
@@ -1869,7 +2037,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-edge.json",
-      "version": "154.0.4258.53,559421d7-1ab9-4b4d-bbe2-6578175c72ec"
+      "version": "154.0.4258.53,559421d7-1ab9-4b4d-bbe2-6578175c72ec",
+      "logoURL": "https://explore.microsoft.com/apple-touch-icon.png",
+      "logoSource": "https://explore.microsoft.com/en-us/edge/?form=",
+      "logoAsset": "817fcab0871bb88411ca619c.png"
     },
     {
       "token": "vivaldi",
@@ -1892,7 +2063,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/vivaldi.json",
-      "version": "8.2.4133.80"
+      "version": "8.2.4133.80",
+      "logoURL": "https://vivaldi.com/wp-content/uploads/cropped-favicon-180x180.png",
+      "logoSource": "https://vivaldi.com/",
+      "logoAsset": "14a47bae6a4c59ac4ce8c957.png"
     },
     {
       "token": "opera",
@@ -1915,7 +2089,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/opera.json",
-      "version": "136.0.6008.80"
+      "version": "136.0.6008.80",
+      "logoURL": "https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/favicon/opera/apple-touch-icon-120x120.83ce850a6a9a.png",
+      "logoSource": "https://www.opera.com/",
+      "logoAsset": "f79926c01dc6dfc2c3b56207.png"
     },
     {
       "token": "chromium",
@@ -1939,7 +2116,10 @@
       "githubSource": "https://github.com/chromium/chromium",
       "homepageSource": "https://formulae.brew.sh/api/cask/chromium.json",
       "version": "latest",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.chromium.org/favicon.ico",
+      "logoSource": "https://www.chromium.org/Home/",
+      "logoAsset": "ddf8d310d21693308b1ed655.png"
     },
     {
       "token": "tor-browser",
@@ -1962,7 +2142,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/tor-browser.json",
-      "version": "15.0.24"
+      "version": "15.0.24",
+      "logoURL": "https://www.torproject.org/static/images/favicon/favicon.ico",
+      "logoSource": "https://www.torproject.org/",
+      "logoAsset": "c9361dbd1c68d37e1380889f.ico"
     },
     {
       "token": "librewolf",
@@ -1985,7 +2168,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/librewolf.json",
-      "version": "157.0,1"
+      "version": "157.0,1",
+      "logoURL": "https://librewolf.net/favicon.ico",
+      "logoSource": "https://librewolf.net/",
+      "logoAsset": "92dffea38e7ee307337fafa6.ico"
     },
     {
       "token": "mullvad-browser",
@@ -2009,7 +2195,10 @@
       "githubSource": "https://github.com/mullvad/mullvad-browser",
       "homepageSource": "https://formulae.brew.sh/api/cask/mullvad-browser.json",
       "version": "15.0.24",
-      "githubPurpose": "Project resources"
+      "githubPurpose": "Project resources",
+      "logoURL": "https://mullvad.net/apple-touch-icon.png",
+      "logoSource": "https://mullvad.net/en/browser",
+      "logoAsset": "3fa142cdcaaa4e195f46f0a5.png"
     },
     {
       "token": "firefox@developer-edition",
@@ -2033,7 +2222,10 @@
       "githubSource": "https://github.com/mozilla-firefox/firefox",
       "homepageSource": "https://formulae.brew.sh/api/cask/firefox@developer-edition.json",
       "version": "158.0b3",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.firefox.com/media/img/favicons/firefox/browser/developer/apple-touch-icon.a01db37f9d0e.png",
+      "logoSource": "https://www.firefox.com/en-US/channel/desktop/developer/?redirect_source=mozilla-org",
+      "logoAsset": "4262417da37475e3c24529af.png"
     },
     {
       "token": "google-chrome@canary",
@@ -2056,7 +2248,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/google-chrome@canary.json",
-      "version": "157.0.8084.0"
+      "version": "157.0.8084.0",
+      "logoURL": "https://www.google.com/chrome/static/images/favicons/apple-icon-114x114.png",
+      "logoSource": "https://www.google.com/chrome/canary/",
+      "logoAsset": "8ad2a122d6bf2ebf3c063441.png"
     },
     {
       "token": "microsoft-edge@beta",
@@ -2079,7 +2274,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-edge@beta.json",
-      "version": "155.0.4283.33,b30567c5-b5a7-42d1-8ed7-7f6aecf11cec"
+      "version": "155.0.4283.33,b30567c5-b5a7-42d1-8ed7-7f6aecf11cec",
+      "logoURL": "https://explore.microsoft.com/apple-touch-icon.png",
+      "logoSource": "https://explore.microsoft.com/en-us/edge/download/insider?cc=1&form&cs=1416392112",
+      "logoAsset": "3e1a637ca2ba1f459b8b2c77.png"
     },
     {
       "token": "chatgpt",
@@ -2102,7 +2300,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/chatgpt.json",
-      "version": "26.930.31730"
+      "version": "26.930.31730",
+      "logoURL": "https://chatgpt.com/cdn/assets/favicon-eex17e9e.ico",
+      "logoSource": "https://chatgpt.com/",
+      "logoAsset": "60965168ce762e949600281b.ico"
     },
     {
       "token": "claude",
@@ -2125,7 +2326,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/claude.json",
-      "version": "2.19675.0,5706e5524dba58b23e105c31c358df8ab0a95852"
+      "version": "2.19675.0,5706e5524dba58b23e105c31c358df8ab0a95852",
+      "logoURL": "https://assets.claude.com/95a868946ac8a31e5ff832e2899f294aa368b836.png?w=32&h=32",
+      "logoSource": "https://claude.com/download",
+      "logoAsset": "c857d09db23e6822e3600bc0.png"
     },
     {
       "token": "manual-microsoft-copilot",
@@ -2147,7 +2351,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://copilot.microsoft.com"
+      "homepageSource": "https://copilot.microsoft.com",
+      "logoURL": "https://copilot.microsoft.com/static/cmc/favicon.ico",
+      "logoSource": "https://copilot.microsoft.com",
+      "logoAsset": "9f15bdee2d14b3b20b6de927.ico"
     },
     {
       "token": "perplexity",
@@ -2170,7 +2377,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/perplexity.json",
-      "version": "26.38.0"
+      "version": "26.38.0",
+      "logoURL": "https://www.perplexity.ai/favicon.ico",
+      "logoSource": "https://www.perplexity.ai/personal-computer",
+      "logoAsset": "45d780f82c9247fc1142f8b6.ico"
     },
     {
       "token": "msty",
@@ -2240,7 +2450,10 @@
       "githubSource": "https://github.com/anthropics/claude-code",
       "homepageSource": "https://formulae.brew.sh/api/cask/claude-code.json",
       "version": "2.1.285",
-      "githubPurpose": "Project resources"
+      "githubPurpose": "Project resources",
+      "logoURL": "https://assets.claude.com/95a868946ac8a31e5ff832e2899f294aa368b836.png?w=32&h=32",
+      "logoSource": "https://claude.com/product/claude-code",
+      "logoAsset": "28e174396028f226b3bead25.png"
     },
     {
       "token": "copilot-cli",
@@ -2263,7 +2476,10 @@
       "github": "https://github.com/github/copilot-cli",
       "githubSource": "https://formulae.brew.sh/api/cask/copilot-cli.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/copilot-cli.json",
-      "version": "1.0.91"
+      "version": "1.0.91",
+      "logoURL": "https://docs.github.com/assets/cb-345/images/site/favicon.png",
+      "logoSource": "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli",
+      "logoAsset": "52c00f3309a8f31bb5c0b61c.png"
     },
     {
       "token": "opencode",
@@ -2286,7 +2502,10 @@
       "github": "https://github.com/anomalyco/opencode",
       "githubSource": "https://formulae.brew.sh/api/formula/opencode.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/opencode.json",
-      "version": "2.0.20"
+      "version": "2.0.20",
+      "logoURL": "https://opencode.ai/apple-touch-icon-v3.png",
+      "logoSource": "https://opencode.ai",
+      "logoAsset": "62f8e1ec095e1857446d403d.png"
     },
     {
       "token": "aider",
@@ -2332,7 +2551,10 @@
       "github": "https://github.com/ollama/ollama",
       "githubSource": "https://formulae.brew.sh/api/formula/ollama.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/ollama.json",
-      "version": "0.35.1"
+      "version": "0.35.1",
+      "logoURL": "https://ollama.com/public/apple-touch-icon.png",
+      "logoSource": "https://ollama.com/",
+      "logoAsset": "76e3c7bfe641ea125c0c2e1c.png"
     },
     {
       "token": "lm-studio",
@@ -2355,7 +2577,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/lm-studio.json",
-      "version": "0.4.25,1"
+      "version": "0.4.25,1",
+      "logoURL": "https://lmstudio.ai/assets/marketing/logo-192x192.png",
+      "logoSource": "https://lmstudio.ai/",
+      "logoAsset": "fc5710d9d89a9132f60115f6.png"
     },
     {
       "token": "jan",
@@ -2401,7 +2626,10 @@
       "github": "https://github.com/nomic-ai/gpt4all",
       "githubSource": "https://formulae.brew.sh/api/cask/gpt4all.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/gpt4all.json",
-      "version": "3.10.0"
+      "version": "3.10.0",
+      "logoURL": "https://www.nomic.ai/images/webclip.png",
+      "logoSource": "https://www.nomic.ai/gpt4all",
+      "logoAsset": "0bb68ac52a24e5ba2a5b1b9c.png"
     },
     {
       "token": "anythingllm",
@@ -2424,7 +2652,10 @@
       "github": "https://github.com/Mintplex-Labs/anything-llm",
       "githubSource": "https://anythingllm.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/anythingllm.json",
-      "version": "1.17.0"
+      "version": "1.17.0",
+      "logoURL": "https://anythingllm.com/icon.png?0a59f488e9ddf54c",
+      "logoSource": "https://anythingllm.com/",
+      "logoAsset": "c6b4b2bbb3ebebad02861ee4.png"
     },
     {
       "token": "open-webui",
@@ -2447,7 +2678,10 @@
       "github": "https://github.com/open-webui/desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/open-webui.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/open-webui.json",
-      "version": "0.0.20"
+      "version": "0.0.20",
+      "logoURL": "https://openwebui.com/favicon.png",
+      "logoSource": "https://openwebui.com/",
+      "logoAsset": "d496c82198e4f3360f2a8433.png"
     },
     {
       "token": "llama.cpp",
@@ -2493,7 +2727,10 @@
       "github": "https://github.com/continuedev/continue",
       "githubSource": "https://github.com/continuedev/continue",
       "homepageSource": "https://www.continue.dev",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://continue.dev/favicon.png",
+      "logoSource": "https://continue.dev/",
+      "logoAsset": "a4fcc00c2419e1f7167001c0.png"
     },
     {
       "token": "manual-dify",
@@ -2538,7 +2775,10 @@
       "github": "https://github.com/langflow-ai/langflow",
       "githubSource": "https://formulae.brew.sh/api/cask/langflow.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/langflow.json",
-      "version": "1.12.0,v1.12.0"
+      "version": "1.12.0,v1.12.0",
+      "logoURL": "https://www.langflow.org/favicon.ico",
+      "logoSource": "https://www.langflow.org/desktop/",
+      "logoAsset": "d213f5bd125d7c3e733638a0.ico"
     },
     {
       "token": "manual-flowise",
@@ -2560,7 +2800,10 @@
       "formulaLicense": null,
       "github": "https://github.com/FlowiseAI/Flowise",
       "githubSource": "https://github.com/FlowiseAI/Flowise",
-      "homepageSource": "https://github.com/FlowiseAI/Flowise"
+      "homepageSource": "https://github.com/FlowiseAI/Flowise",
+      "logoURL": "https://elest.io/images/logos/deploy-to-elestio-btn.png",
+      "logoSource": "https://raw.githubusercontent.com/FlowiseAI/Flowise/main/README.md",
+      "logoAsset": "989444354caecef498b701d9.png"
     },
     {
       "token": "manual-open-interpreter",
@@ -2606,7 +2849,10 @@
       "githubSource": "https://github.com/microsoft/vscode",
       "homepageSource": "https://formulae.brew.sh/api/cask/visual-studio-code.json",
       "version": "1.140.0",
-      "githubPurpose": "Code OSS source"
+      "githubPurpose": "Code OSS source",
+      "logoURL": "https://code.visualstudio.com/assets/apple-touch-icon.png",
+      "logoSource": "https://code.visualstudio.com/",
+      "logoAsset": "f4d56c251c2fef87c7b694c8.png"
     },
     {
       "token": "cursor",
@@ -2633,7 +2879,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/cursor.json",
-      "version": "3.23.12,2d29876d567da1607532b23bbf2cd5ddbca496fe"
+      "version": "3.23.12,2d29876d567da1607532b23bbf2cd5ddbca496fe",
+      "logoURL": "https://cursor.com/marketing-static/apple-touch-icon-light.png",
+      "logoSource": "https://cursor.com/",
+      "logoAsset": "46a4eebd20d881ecfc0ecb54.png"
     },
     {
       "token": "zed",
@@ -2679,7 +2928,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/sublime-text.json",
-      "version": "4215"
+      "version": "4215",
+      "logoURL": "https://www.sublimetext.com/images/icon.png",
+      "logoSource": "https://www.sublimetext.com/",
+      "logoAsset": "a653da9a3bca14dca362ebb5.png"
     },
     {
       "token": "nova",
@@ -2702,7 +2954,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/nova.json",
-      "version": "14.1"
+      "version": "14.1",
+      "logoURL": "https://nova.app/apple-touch-icon.png",
+      "logoSource": "https://nova.app/",
+      "logoAsset": "19e05df6b2e5fb94f3ee7eed.png"
     },
     {
       "token": "jetbrains-toolbox",
@@ -2725,7 +2980,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/jetbrains-toolbox.json",
-      "version": "3.8.1,3.8.1.88030"
+      "version": "3.8.1,3.8.1.88030",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/toolbox-app/",
+      "logoAsset": "6425622f5b3edc795cd560fc.png"
     },
     {
       "token": "intellij-idea",
@@ -2749,7 +3007,10 @@
       "githubSource": "https://github.com/JetBrains/intellij-community",
       "homepageSource": "https://formulae.brew.sh/api/cask/intellij-idea.json",
       "version": "2026.2.3,262.10968.63",
-      "githubPurpose": "Community source"
+      "githubPurpose": "Community source",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/idea/",
+      "logoAsset": "41e08e18af8a538c079c49f7.png"
     },
     {
       "token": "pycharm",
@@ -2773,7 +3034,10 @@
       "githubSource": "https://github.com/JetBrains/intellij-community",
       "homepageSource": "https://formulae.brew.sh/api/cask/pycharm.json",
       "version": "2026.2.3,262.10968.92",
-      "githubPurpose": "Community source"
+      "githubPurpose": "Community source",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/pycharm/",
+      "logoAsset": "fe798171f07a9d14f6954d9d.png"
     },
     {
       "token": "webstorm",
@@ -2796,7 +3060,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/webstorm.json",
-      "version": "2026.2.3,262.10968.77"
+      "version": "2026.2.3,262.10968.77",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/webstorm/",
+      "logoAsset": "0265a7c13bbb3afa745dcacb.png"
     },
     {
       "token": "goland",
@@ -2819,7 +3086,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/goland.json",
-      "version": "2026.2.3,262.10968.67"
+      "version": "2026.2.3,262.10968.67",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/go/",
+      "logoAsset": "a69e48f2233b2314b19ff712.png"
     },
     {
       "token": "rider",
@@ -2842,7 +3112,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/rider.json",
-      "version": "2026.2.3.1,262.10968.170"
+      "version": "2026.2.3.1,262.10968.170",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/rider/",
+      "logoAsset": "5b6c5e019d0ca317aa0711c7.png"
     },
     {
       "token": "clion",
@@ -2865,7 +3138,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/clion.json",
-      "version": "2026.2.3.1,262.10968.176"
+      "version": "2026.2.3.1,262.10968.176",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/clion/",
+      "logoAsset": "5d428a8f9090cc6f056010ae.png"
     },
     {
       "token": "android-studio",
@@ -2893,7 +3169,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/android-studio.json",
-      "version": "2026.2.1.8,rabbit1"
+      "version": "2026.2.1.8,rabbit1",
+      "logoURL": "https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/android/images/touchicon-180.png",
+      "logoSource": "https://developer.android.com/studio/",
+      "logoAsset": "ecd27a20ff7370469aab3197.png"
     },
     {
       "token": "eclipse-ide",
@@ -2916,7 +3195,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/eclipse-ide.json",
-      "version": "4.41,2026-09"
+      "version": "4.41,2026-09",
+      "logoURL": "https://www.eclipse.org/favicon.ico",
+      "logoSource": "https://www.eclipse.org/",
+      "logoAsset": "0479f940513d866f886e2363.ico"
     },
     {
       "token": "netbeans",
@@ -2939,7 +3221,10 @@
       "github": "https://github.com/Friends-of-Apache-NetBeans/netbeans-installers",
       "githubSource": "https://formulae.brew.sh/api/cask/netbeans.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/netbeans.json",
-      "version": "31"
+      "version": "31",
+      "logoURL": "https://netbeans.apache.org/_/images/fav/apple-touch-icon.png",
+      "logoSource": "https://netbeans.apache.org/front/main/index.html",
+      "logoAsset": "8fe3e9ceae5d4e98d4c5c468.png"
     },
     {
       "token": "neovim",
@@ -2962,7 +3247,10 @@
       "github": "https://github.com/neovim/neovim",
       "githubSource": "https://formulae.brew.sh/api/formula/neovim.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/neovim.json",
-      "version": "0.12.5"
+      "version": "0.12.5",
+      "logoURL": "https://neovim.io/favicon.ico",
+      "logoSource": "https://neovim.io/",
+      "logoAsset": "7e57cecf381181b5101e7594.ico"
     },
     {
       "token": "vim",
@@ -2985,7 +3273,10 @@
       "github": "https://github.com/vim/vim",
       "githubSource": "https://formulae.brew.sh/api/formula/vim.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/vim.json",
-      "version": "9.2.1150"
+      "version": "9.2.1150",
+      "logoURL": "https://www.vim.org/images/vim_shortcut.ico",
+      "logoSource": "https://www.vim.org/",
+      "logoAsset": "0f2ed9e33d29ff4f3b0f664c.ico"
     },
     {
       "token": "emacs-app",
@@ -3009,7 +3300,10 @@
       "githubSource": "https://github.com/emacs-mirror/emacs",
       "homepageSource": "https://formulae.brew.sh/api/cask/emacs-app.json",
       "version": "31.1",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://emacsformacosx.com/favicon.ico",
+      "logoSource": "https://emacsformacosx.com/",
+      "logoAsset": "ae7896ff179c63d0a6d0bdc5.ico"
     },
     {
       "token": "ghostty",
@@ -3033,7 +3327,10 @@
       "githubSource": "https://github.com/ghostty-org/ghostty",
       "homepageSource": "https://formulae.brew.sh/api/cask/ghostty.json",
       "version": "1.3.1",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://ghostty.org/favicon-16.png",
+      "logoSource": "https://ghostty.org/",
+      "logoAsset": "ed730d3acad9907c761f237d.png"
     },
     {
       "token": "iterm2",
@@ -3056,7 +3353,10 @@
       "github": "https://github.com/gnachman/iTerm2",
       "githubSource": "https://iterm2.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/iterm2.json",
-      "version": "3.7.3"
+      "version": "3.7.3",
+      "logoURL": "https://iterm2.com/favicon.ico",
+      "logoSource": "https://iterm2.com/",
+      "logoAsset": "f5666199a8f200f18ffc9bfe.jpg"
     },
     {
       "token": "warp",
@@ -3079,7 +3379,10 @@
       "github": "https://github.com/warpdotdev/warp",
       "githubSource": "https://www.warp.dev/terminal",
       "homepageSource": "https://formulae.brew.sh/api/cask/warp.json",
-      "version": "0.2026.09.30.08.29.stable_01"
+      "version": "0.2026.09.30.08.29.stable_01",
+      "logoURL": "https://www.warp.dev/apple-touch-icon-114x114.png",
+      "logoSource": "https://www.warp.dev/terminal",
+      "logoAsset": "da9e96b401da78ec09432e2d.png"
     },
     {
       "token": "wezterm",
@@ -3102,7 +3405,10 @@
       "github": "https://github.com/wezterm/wezterm",
       "githubSource": "https://formulae.brew.sh/api/cask/wezterm.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/wezterm.json",
-      "version": "20240203-110809,5046fc22"
+      "version": "20240203-110809,5046fc22",
+      "logoURL": "https://wezterm.org/favicon.png",
+      "logoSource": "https://wezterm.org/",
+      "logoAsset": "52819e90ca7190bc2923b2ac.png"
     },
     {
       "token": "alacritty",
@@ -3195,7 +3501,10 @@
       "githubSource": "https://github.com/zsh-users/zsh",
       "homepageSource": "https://formulae.brew.sh/api/formula/zsh.json",
       "version": "5.9.2",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.zsh.org/favicon.png",
+      "logoSource": "https://www.zsh.org/",
+      "logoAsset": "a26e37654285af42c469d2b5.png"
     },
     {
       "token": "fish",
@@ -3218,7 +3527,10 @@
       "github": "https://github.com/fish-shell/fish-shell",
       "githubSource": "https://formulae.brew.sh/api/formula/fish.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/fish.json",
-      "version": "4.9.3"
+      "version": "4.9.3",
+      "logoURL": "https://fishshell.com/favicon.ico",
+      "logoSource": "https://fishshell.com",
+      "logoAsset": "b474a99a2705e23cf905a484.ico"
     },
     {
       "token": "bash",
@@ -3241,7 +3553,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/formula/bash.json",
-      "version": "5.3.20"
+      "version": "5.3.20",
+      "logoURL": "https://www.gnu.org/graphics/gnu-head-mini.png",
+      "logoSource": "https://www.gnu.org/software/bash/",
+      "logoAsset": "37d2b12d5d9abc2a364ef944.png"
     },
     {
       "token": "starship",
@@ -3264,7 +3579,10 @@
       "github": "https://github.com/starship/starship",
       "githubSource": "https://formulae.brew.sh/api/formula/starship.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/starship.json",
-      "version": "1.26.0"
+      "version": "1.26.0",
+      "logoURL": "https://starship.rs/icon.png",
+      "logoSource": "https://starship.rs/",
+      "logoAsset": "9e7f3375709b613eac449f47.png"
     },
     {
       "token": "oh-my-posh",
@@ -3287,7 +3605,10 @@
       "github": "https://github.com/JanDeDobbeleer/oh-my-posh",
       "githubSource": "https://formulae.brew.sh/api/formula/oh-my-posh.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/oh-my-posh.json",
-      "version": "31.4.0"
+      "version": "31.4.0",
+      "logoURL": "https://raw.githubusercontent.com/jandedobbeleer/oh-my-posh/main/website/static/img/logo.png",
+      "logoSource": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/README.md",
+      "logoAsset": "f9e5f36d9af5eb7b7b6e7ec7.png"
     },
     {
       "token": "tmux",
@@ -3333,7 +3654,10 @@
       "github": "https://github.com/zellij-org/zellij",
       "githubSource": "https://formulae.brew.sh/api/formula/zellij.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/zellij.json",
-      "version": "0.45.1"
+      "version": "0.45.1",
+      "logoURL": "https://zellij.dev/favicon.ico",
+      "logoSource": "https://zellij.dev",
+      "logoAsset": "2aba4e52c86cd04ef759ef48.ico"
     },
     {
       "token": "git",
@@ -3356,7 +3680,10 @@
       "github": "https://github.com/git/git",
       "githubSource": "https://formulae.brew.sh/api/formula/git.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/git.json",
-      "version": "2.56.0"
+      "version": "2.56.0",
+      "logoURL": "https://git-scm.com/favicon.ico",
+      "logoSource": "https://git-scm.com",
+      "logoAsset": "9a881b9b9f23849475296a8c.ico"
     },
     {
       "token": "gh",
@@ -3379,7 +3706,10 @@
       "github": "https://github.com/cli/cli",
       "githubSource": "https://formulae.brew.sh/api/formula/gh.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/gh.json",
-      "version": "2.102.0"
+      "version": "2.102.0",
+      "logoURL": "https://github.githubassets.com/favicon.ico",
+      "logoSource": "https://cli.github.com/",
+      "logoAsset": "fb2b7fce0940161406a6aa3e.ico"
     },
     {
       "token": "git-credential-manager",
@@ -3448,7 +3778,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/gitkraken.json",
-      "version": "12.6.0"
+      "version": "12.6.0",
+      "logoURL": "https://gitkraken.com/wp-content/uploads/2021/03/android-chrome-144x144-1.png",
+      "logoSource": "https://gitkraken.com/",
+      "logoAsset": "584040d5c12e24cf23613fa1.png"
     },
     {
       "token": "fork",
@@ -3471,7 +3804,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/fork.json",
-      "version": "2.70.2"
+      "version": "2.70.2",
+      "logoURL": "https://fork.dev/favicon.ico",
+      "logoSource": "https://fork.dev/",
+      "logoAsset": "8d0c7ac992af2f4913b47d42.png"
     },
     {
       "token": "sourcetree",
@@ -3541,7 +3877,10 @@
       "github": "https://github.com/jonas/tig",
       "githubSource": "https://formulae.brew.sh/api/formula/tig.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/tig.json",
-      "version": "2.6.1"
+      "version": "2.6.1",
+      "logoURL": "https://jonas.github.io/tig/gitbook/images/apple-touch-icon-precomposed-152.png",
+      "logoSource": "https://jonas.github.io/tig/",
+      "logoAsset": "61daa82e47c5ce57acb5a032.png"
     },
     {
       "token": "git-delta",
@@ -3564,7 +3903,10 @@
       "github": "https://github.com/dandavison/delta",
       "githubSource": "https://formulae.brew.sh/api/formula/git-delta.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/git-delta.json",
-      "version": "0.19.2"
+      "version": "0.19.2",
+      "logoURL": "https://dandavison.github.io/delta/favicon.png",
+      "logoSource": "https://dandavison.github.io/delta/",
+      "logoAsset": "cdb320fb6add6b566209be5a.png"
     },
     {
       "token": "docker-desktop",
@@ -3588,7 +3930,10 @@
       "githubSource": "https://github.com/docker/for-mac",
       "homepageSource": "https://formulae.brew.sh/api/cask/docker-desktop.json",
       "version": "4.93.0,240920",
-      "githubPurpose": "Issue tracker"
+      "githubPurpose": "Issue tracker",
+      "logoURL": "https://www.docker.com/app/uploads/2024/02/cropped-docker-logo-favicon-180x180.png",
+      "logoSource": "https://www.docker.com/products/docker-desktop/",
+      "logoAsset": "ba080d849081ade50bd3c508.png"
     },
     {
       "token": "orbstack",
@@ -3612,7 +3957,10 @@
       "githubSource": "https://github.com/orbstack/orbstack",
       "homepageSource": "https://formulae.brew.sh/api/cask/orbstack.json",
       "version": "2.2.3,20963",
-      "githubPurpose": "Issue tracker"
+      "githubPurpose": "Issue tracker",
+      "logoURL": "https://orbstack.dev/img/icon128.png",
+      "logoSource": "https://orbstack.dev/",
+      "logoAsset": "2d89b732b01a00a2d1675ed3.png"
     },
     {
       "token": "colima",
@@ -3635,7 +3983,10 @@
       "github": "https://github.com/abiosoft/colima",
       "githubSource": "https://formulae.brew.sh/api/formula/colima.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/colima.json",
-      "version": "0.10.3"
+      "version": "0.10.3",
+      "logoURL": "https://raw.githubusercontent.com/abiosoft/colima/main/colima.png",
+      "logoSource": "https://raw.githubusercontent.com/abiosoft/colima/main/README.md",
+      "logoAsset": "f24fd3749c1368328e2b149b.png"
     },
     {
       "token": "podman-desktop",
@@ -3658,7 +4009,10 @@
       "github": "https://github.com/containers/podman-desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/podman-desktop.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/podman-desktop.json",
-      "version": "1.29.3"
+      "version": "1.29.3",
+      "logoURL": "https://podman-desktop.io/img/favicon.ico",
+      "logoSource": "https://podman-desktop.io/",
+      "logoAsset": "a7b66d9751859d3eff78dd40.ico"
     },
     {
       "token": "rancher",
@@ -3681,7 +4035,10 @@
       "github": "https://github.com/rancher-sandbox/rancher-desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/rancher.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/rancher.json",
-      "version": "1.24.0"
+      "version": "1.24.0",
+      "logoURL": "https://rancherdesktop.io/favicon-16x16.png",
+      "logoSource": "https://rancherdesktop.io/",
+      "logoAsset": "01b937b34ac988003e7eccf9.png"
     },
     {
       "token": "lima",
@@ -3727,7 +4084,10 @@
       "github": "https://github.com/docker/cli",
       "githubSource": "https://formulae.brew.sh/api/formula/docker.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/docker.json",
-      "version": "29.8.2"
+      "version": "29.8.2",
+      "logoURL": "https://www.docker.com/app/uploads/2024/02/cropped-docker-logo-favicon-180x180.png",
+      "logoSource": "https://www.docker.com/",
+      "logoAsset": "d548c5b83fa61d8e3bd86ad4.png"
     },
     {
       "token": "docker-compose",
@@ -3750,7 +4110,10 @@
       "github": "https://github.com/docker/compose",
       "githubSource": "https://formulae.brew.sh/api/formula/docker-compose.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/docker-compose.json",
-      "version": "5.6.0"
+      "version": "5.6.0",
+      "logoURL": "https://docs.docker.com/apple-touch-icon.png",
+      "logoSource": "https://docs.docker.com/compose/",
+      "logoAsset": "b0a8281e9466910e5f09502e.png"
     },
     {
       "token": "utm",
@@ -3773,7 +4136,10 @@
       "github": "https://github.com/utmapp/UTM",
       "githubSource": "https://formulae.brew.sh/api/cask/utm.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/utm.json",
-      "version": "4.7.5"
+      "version": "4.7.5",
+      "logoURL": "https://mac.getutm.app/favicon.png",
+      "logoSource": "https://mac.getutm.app/",
+      "logoAsset": "39d90059cd42062566aa0fd2.png"
     },
     {
       "token": "virtualbox",
@@ -3796,7 +4162,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/virtualbox.json",
-      "version": "7.2.20,175154"
+      "version": "7.2.20,175154",
+      "logoURL": "https://www.virtualbox.org/favicon.ico",
+      "logoSource": "https://www.virtualbox.org/",
+      "logoAsset": "87b10da3eb8711ae74935e6e.ico"
     },
     {
       "token": "manual-vmware-fusion",
@@ -3818,7 +4187,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion"
+      "homepageSource": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion",
+      "logoURL": "https://www.vmware.com/vm-favicon-48x48.png",
+      "logoSource": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion",
+      "logoAsset": "823fdd4df73e4f3ad5d0e602.png"
     },
     {
       "token": "vagrant",
@@ -3841,7 +4213,10 @@
       "github": "https://github.com/hashicorp/vagrant",
       "githubSource": "https://www.vagrantup.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/vagrant.json",
-      "version": "2.4.9"
+      "version": "2.4.9",
+      "logoURL": "https://developer.hashicorp.com/favicon.ico",
+      "logoSource": "https://developer.hashicorp.com/vagrant",
+      "logoAsset": "9756da65fe52aefb7651f526.ico"
     },
     {
       "token": "qemu",
@@ -3865,7 +4240,10 @@
       "githubSource": "https://github.com/qemu/qemu",
       "homepageSource": "https://formulae.brew.sh/api/formula/qemu.json",
       "version": "11.1.2",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.qemu.org/assets/favicons/apple-touch-icon.png",
+      "logoSource": "https://www.qemu.org/",
+      "logoAsset": "4d09264a5878d69746e6712c.png"
     },
     {
       "token": "multipass",
@@ -3912,7 +4290,10 @@
       "githubSource": "https://github.com/postmanlabs/postman-app-support",
       "homepageSource": "https://formulae.brew.sh/api/cask/postman.json",
       "version": "12.30.6",
-      "githubPurpose": "Issue tracker"
+      "githubPurpose": "Issue tracker",
+      "logoURL": "https://www.postman.com/_mk-www-next/icons/android-chrome-192x192.png",
+      "logoSource": "https://www.postman.com/",
+      "logoAsset": "045ddeb7f631b771488698c8.png"
     },
     {
       "token": "bruno",
@@ -3935,7 +4316,10 @@
       "github": "https://github.com/usebruno/bruno",
       "githubSource": "https://formulae.brew.sh/api/cask/bruno.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/bruno.json",
-      "version": "4.2.1"
+      "version": "4.2.1",
+      "logoURL": "https://www.usebruno.com/favicon-48x48.png",
+      "logoSource": "https://www.usebruno.com/",
+      "logoAsset": "ccc68482d9e0eee0789e64c7.png"
     },
     {
       "token": "insomnia",
@@ -3958,7 +4342,10 @@
       "github": "https://github.com/Kong/insomnia",
       "githubSource": "https://formulae.brew.sh/api/cask/insomnia.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/insomnia.json",
-      "version": "13.3.0"
+      "version": "13.3.0",
+      "logoURL": "https://insomnia.rest/favicon.ico",
+      "logoSource": "https://insomnia.rest/",
+      "logoAsset": "75eb93fd0de5cc3546585e96.ico"
     },
     {
       "token": "httpie-desktop",
@@ -3981,7 +4368,10 @@
       "github": "https://github.com/httpie/desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/httpie-desktop.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/httpie-desktop.json",
-      "version": "2025.2.0"
+      "version": "2025.2.0",
+      "logoURL": "https://httpie.io/Brand/Favicons/Black/apple-icon-114x114.png",
+      "logoSource": "https://httpie.io/desktop",
+      "logoAsset": "abe10f0410893a968c444355.png"
     },
     {
       "token": "hoppscotch",
@@ -4004,7 +4394,10 @@
       "github": "https://github.com/hoppscotch/releases",
       "githubSource": "https://formulae.brew.sh/api/cask/hoppscotch.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/hoppscotch.json",
-      "version": "26.9.0-0"
+      "version": "26.9.0-0",
+      "logoURL": "https://hoppscotch.com/favicon.ico",
+      "logoSource": "https://hoppscotch.com/",
+      "logoAsset": "5849d4af26867f0f5d37e812.ico"
     },
     {
       "token": "rapidapi",
@@ -4027,7 +4420,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/rapidapi.json",
-      "version": "4.5.5"
+      "version": "4.5.5",
+      "logoURL": "https://cdn-static.paw.cloud/img/favicons/apple-touch-icon-bca26f2b6a.png",
+      "logoSource": "https://paw.cloud/",
+      "logoAsset": "a29842c746ccee6f1c9f82c5.png"
     },
     {
       "token": "yaak",
@@ -4050,7 +4446,10 @@
       "github": "https://github.com/mountain-loop/yaak",
       "githubSource": "https://formulae.brew.sh/api/cask/yaak.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/yaak.json",
-      "version": "2026.8.1"
+      "version": "2026.8.1",
+      "logoURL": "https://yaak.app/static/favicon/apple-touch-icon.png?c=1790699182185",
+      "logoSource": "https://yaak.app/",
+      "logoAsset": "d37580fd541532d014ba40a7.png"
     },
     {
       "token": "httpie",
@@ -4073,7 +4472,10 @@
       "github": "https://github.com/httpie/cli",
       "githubSource": "https://formulae.brew.sh/api/formula/httpie.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/httpie.json",
-      "version": "3.2.4"
+      "version": "3.2.4",
+      "logoURL": "https://httpie.io/Brand/Favicons/Black/apple-icon-114x114.png",
+      "logoSource": "https://httpie.io/",
+      "logoAsset": "4a7fe0d7d51d96e275b9e84b.png"
     },
     {
       "token": "curl",
@@ -4101,7 +4503,10 @@
       "github": "https://github.com/curl/curl",
       "githubSource": "https://formulae.brew.sh/api/formula/curl.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/curl.json",
-      "version": "8.22.0"
+      "version": "8.22.0",
+      "logoURL": "https://curl.se/favicon.ico",
+      "logoSource": "https://curl.se",
+      "logoAsset": "427e4b79b1f0fc90306cbe06.ico"
     },
     {
       "token": "xh",
@@ -4147,7 +4552,10 @@
       "github": "https://github.com/fullstorydev/grpcurl",
       "githubSource": "https://formulae.brew.sh/api/formula/grpcurl.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/grpcurl.json",
-      "version": "1.9.4"
+      "version": "1.9.4",
+      "logoURL": "https://www.fullstory.com/icons/icon-144x144.png?v=7cac1bc6d731746740d72903d25cd5bf",
+      "logoSource": "https://www.fullstory.com/resources/content/fullstory-engineering-blog/",
+      "logoAsset": "721fe9a99d8fe54b49fc2f08.png"
     },
     {
       "token": "websocat",
@@ -4194,7 +4602,10 @@
       "githubSource": "https://github.com/dbeaver/dbeaver",
       "homepageSource": "https://formulae.brew.sh/api/cask/dbeaver-community.json",
       "version": "26.2.1",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://dbeaver.io/wp-content/uploads/2016/07/beaver_icon_32x32.png",
+      "logoSource": "https://dbeaver.io/",
+      "logoAsset": "87821594b6106041f35d7317.png"
     },
     {
       "token": "tableplus",
@@ -4217,7 +4628,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/tableplus.json",
-      "version": "26.10.22,802"
+      "version": "26.10.22,802",
+      "logoURL": "https://tableplus.com/resources/favicons/apple-icon-114x114.png",
+      "logoSource": "https://tableplus.com/",
+      "logoAsset": "2404461211c2e9d961a5adc0.png"
     },
     {
       "token": "beekeeper-studio",
@@ -4240,7 +4654,10 @@
       "github": "https://github.com/beekeeper-studio/beekeeper-studio",
       "githubSource": "https://formulae.brew.sh/api/cask/beekeeper-studio.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/beekeeper-studio.json",
-      "version": "6.1.5"
+      "version": "6.1.5",
+      "logoURL": "https://www.beekeeperstudio.io/static/favicon/apple-icon-114x114.png",
+      "logoSource": "https://www.beekeeperstudio.io/",
+      "logoAsset": "0db6040f98356914808324fd.png"
     },
     {
       "token": "datagrip",
@@ -4263,7 +4680,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/datagrip.json",
-      "version": "2026.2.6,262.10968.148"
+      "version": "2026.2.6,262.10968.148",
+      "logoURL": "https://www.jetbrains.com/apple-touch-icon.png?r=1234",
+      "logoSource": "https://www.jetbrains.com/datagrip/",
+      "logoAsset": "cb101520c7b3521f108edd3a.png"
     },
     {
       "token": "sequel-ace",
@@ -4332,7 +4752,10 @@
       "github": "https://github.com/pgadmin-org/pgadmin4",
       "githubSource": "https://www.pgadmin.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/pgadmin4.json",
-      "version": "9.18"
+      "version": "9.18",
+      "logoURL": "https://www.pgadmin.org/static/COMPILED/assets/img/favicon.ico",
+      "logoSource": "https://www.pgadmin.org/",
+      "logoAsset": "2c859cafdfa3b5027b3c1bd6.ico"
     },
     {
       "token": "libpq",
@@ -4356,7 +4779,10 @@
       "githubSource": "https://github.com/postgres/postgres",
       "homepageSource": "https://formulae.brew.sh/api/formula/libpq.json",
       "version": "18.6",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.postgresql.org/favicon.ico",
+      "logoSource": "https://www.postgresql.org/docs/current/libpq.html",
+      "logoAsset": "bb3d6ec5e351dba0646b5aab.ico"
     },
     {
       "token": "mongodb-compass",
@@ -4380,7 +4806,10 @@
       "githubSource": "https://github.com/mongodb-js/compass",
       "homepageSource": "https://formulae.brew.sh/api/cask/mongodb-compass.json",
       "version": "1.52.0",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.mongodb.com/assets/images/global/favicon.ico",
+      "logoSource": "https://www.mongodb.com/products/tools/compass",
+      "logoAsset": "84f57d7d67cb9b2b20237882.ico"
     },
     {
       "token": "mongosh",
@@ -4403,7 +4832,10 @@
       "github": "https://github.com/mongodb-js/mongosh",
       "githubSource": "https://www.mongodb.com/try/download/shell",
       "homepageSource": "https://formulae.brew.sh/api/formula/mongosh.json",
-      "version": "2.12.0"
+      "version": "2.12.0",
+      "logoURL": "https://www.mongodb.com/assets/images/global/favicon.ico",
+      "logoSource": "https://www.mongodb.com/try/download/shell",
+      "logoAsset": "aa580e62b7416f64c9a7e0da.ico"
     },
     {
       "token": "redis-insight",
@@ -4427,7 +4859,10 @@
       "githubSource": "https://github.com/redis/RedisInsight",
       "homepageSource": "https://formulae.brew.sh/api/cask/redis-insight.json",
       "version": "3.8.0",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://redis.io/apple-icon.png?apple-icon.0oi7qb05iiq_i.png",
+      "logoSource": "https://redis.io/insight/",
+      "logoAsset": "7efda070c10fac3db86d2370.png"
     },
     {
       "token": "medis",
@@ -4450,7 +4885,10 @@
       "github": "https://github.com/luin/medis",
       "githubSource": "https://getmedis.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/medis.json",
-      "version": "2.16.1"
+      "version": "2.16.1",
+      "logoURL": "https://getmedis.com/favicon.ico",
+      "logoSource": "https://getmedis.com/",
+      "logoAsset": "b419bcf82fa62b4f18c1498d.ico"
     },
     {
       "token": "db-browser-for-sqlite",
@@ -4473,7 +4911,10 @@
       "github": "https://github.com/sqlitebrowser/sqlitebrowser",
       "githubSource": "https://formulae.brew.sh/api/cask/db-browser-for-sqlite.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/db-browser-for-sqlite.json",
-      "version": "3.13.1"
+      "version": "3.13.1",
+      "logoURL": "https://sqlitebrowser.org/favicon.ico",
+      "logoSource": "https://sqlitebrowser.org/",
+      "logoAsset": "827d94227ac6e1397f52847e.ico"
     },
     {
       "token": "manual-sqlitestudio",
@@ -4496,7 +4937,10 @@
       "github": "https://github.com/pawelsalawa/letos",
       "githubSource": "https://github.com/pawelsalawa/letos",
       "homepageSource": "https://sqlitestudio.pl",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://letos.org/img/letos.png",
+      "logoSource": "https://letos.org/",
+      "logoAsset": "8d9cf797286d17e481fe1b00.png"
     },
     {
       "token": "sqlite",
@@ -4520,7 +4964,10 @@
       "githubSource": "https://github.com/sqlite/sqlite",
       "homepageSource": "https://formulae.brew.sh/api/formula/sqlite.json",
       "version": "3.53.4",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://sqlite.org/favicon.ico",
+      "logoSource": "https://sqlite.org/index.html",
+      "logoAsset": "0cd8666848bf286d951c3d23.ico"
     },
     {
       "token": "awscli",
@@ -4543,7 +4990,10 @@
       "github": "https://github.com/aws/aws-cli",
       "githubSource": "https://formulae.brew.sh/api/formula/awscli.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/awscli.json",
-      "version": "2.37.7"
+      "version": "2.37.7",
+      "logoURL": "https://a0.awsstatic.com/libra-css/images/site/touch-icon-ipad-144-smile.png",
+      "logoSource": "https://aws.amazon.com/cli/",
+      "logoAsset": "7f73346cfb85ff7dac92ee16.png"
     },
     {
       "token": "gcloud-cli",
@@ -4589,7 +5039,10 @@
       "github": "https://github.com/Azure/azure-cli",
       "githubSource": "https://formulae.brew.sh/api/formula/azure-cli.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/azure-cli.json",
-      "version": "2.90.0"
+      "version": "2.90.0",
+      "logoURL": "https://learn.microsoft.com/favicon.ico",
+      "logoSource": "https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest",
+      "logoAsset": "bdbffcddd1d00d3c0cd9b85c.ico"
     },
     {
       "token": "doctl",
@@ -4612,7 +5065,10 @@
       "github": "https://github.com/digitalocean/doctl",
       "githubSource": "https://formulae.brew.sh/api/formula/doctl.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/doctl.json",
-      "version": "1.177.0"
+      "version": "1.177.0",
+      "logoURL": "https://docs.digitalocean.com/apple-touch-icon.png",
+      "logoSource": "https://docs.digitalocean.com/reference/doctl/",
+      "logoAsset": "0cd6ae3115de0bceb2fef007.png"
     },
     {
       "token": "heroku",
@@ -4659,7 +5115,10 @@
       "github": "https://github.com/kubernetes/kubernetes",
       "githubSource": "https://formulae.brew.sh/api/formula/kubernetes-cli.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/kubernetes-cli.json",
-      "version": "1.37.1"
+      "version": "1.37.1",
+      "logoURL": "https://kubernetes.io/icons/apple-touch-icon-120x120.png",
+      "logoSource": "https://kubernetes.io/docs/reference/kubectl/",
+      "logoAsset": "8b05c2ceea2892a977c7f543.png"
     },
     {
       "token": "k9s",
@@ -4682,7 +5141,10 @@
       "github": "https://github.com/derailed/k9s",
       "githubSource": "https://formulae.brew.sh/api/formula/k9s.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/k9s.json",
-      "version": "0.51.0"
+      "version": "0.51.0",
+      "logoURL": "https://k9scli.io/favicon.ico",
+      "logoSource": "https://k9scli.io/",
+      "logoAsset": "030c9a692e7a01e1d14a77b6.ico"
     },
     {
       "token": "helm",
@@ -4705,7 +5167,10 @@
       "github": "https://github.com/helm/helm",
       "githubSource": "https://formulae.brew.sh/api/formula/helm.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/helm.json",
-      "version": "4.3.0"
+      "version": "4.3.0",
+      "logoURL": "https://helm.sh/img/favicon.ico",
+      "logoSource": "https://helm.sh/",
+      "logoAsset": "ab14d3faa25e917efe6e7135.ico"
     },
     {
       "token": "lens",
@@ -4729,7 +5194,10 @@
       "githubSource": "https://github.com/lensapp/lens",
       "homepageSource": "https://formulae.brew.sh/api/cask/lens.json",
       "version": "2026.9.181013",
-      "githubPurpose": "Project resources"
+      "githubPurpose": "Project resources",
+      "logoURL": "https://lenshq.io/apple-icon.png?aa9a8b6b33b90fdf",
+      "logoSource": "https://lenshq.io/",
+      "logoAsset": "812b9215cd2f0e7ea41f32a8.png"
     },
     {
       "token": "openlens",
@@ -4844,7 +5312,10 @@
       "github": "https://github.com/kubernetes/minikube",
       "githubSource": "https://formulae.brew.sh/api/formula/minikube.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/minikube.json",
-      "version": "1.39.0"
+      "version": "1.39.0",
+      "logoURL": "https://minikube.sigs.k8s.io/favicons/apple-touch-icon-180x180.png",
+      "logoSource": "https://minikube.sigs.k8s.io/",
+      "logoAsset": "5086431107cae0151fdd8a23.png"
     },
     {
       "token": "kind",
@@ -4867,7 +5338,10 @@
       "github": "https://github.com/kubernetes-sigs/kind",
       "githubSource": "https://formulae.brew.sh/api/formula/kind.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/kind.json",
-      "version": "0.33.0"
+      "version": "0.33.0",
+      "logoURL": "https://kind.sigs.k8s.io/apple-touch-icon.png",
+      "logoSource": "https://kind.sigs.k8s.io/",
+      "logoAsset": "0b27c158feb36ab18a10ff68.png"
     },
     {
       "token": "manual-terraform",
@@ -4889,7 +5363,10 @@
       "formulaLicense": null,
       "github": "https://github.com/hashicorp/terraform",
       "githubSource": "https://developer.hashicorp.com/terraform/install",
-      "homepageSource": "https://developer.hashicorp.com/terraform/install"
+      "homepageSource": "https://developer.hashicorp.com/terraform/install",
+      "logoURL": "https://developer.hashicorp.com/favicon.ico",
+      "logoSource": "https://developer.hashicorp.com/terraform/install",
+      "logoAsset": "2332d9a5940ee3ab57d67b85.ico"
     },
     {
       "token": "opentofu",
@@ -4912,7 +5389,10 @@
       "github": "https://github.com/opentofu/opentofu",
       "githubSource": "https://formulae.brew.sh/api/formula/opentofu.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/opentofu.json",
-      "version": "1.13.1"
+      "version": "1.13.1",
+      "logoURL": "https://opentofu.org/favicons/apple-touch-icon.png",
+      "logoSource": "https://opentofu.org/",
+      "logoAsset": "73b2c1a72609e44c0764341d.png"
     },
     {
       "token": "terragrunt",
@@ -4935,7 +5415,10 @@
       "github": "https://github.com/gruntwork-io/terragrunt",
       "githubSource": "https://formulae.brew.sh/api/formula/terragrunt.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/terragrunt.json",
-      "version": "1.1.6"
+      "version": "1.1.6",
+      "logoURL": "https://terragrunt.com/favicon.ico",
+      "logoSource": "https://terragrunt.com/",
+      "logoAsset": "bd8736a0900c03f96eab6b0c.ico"
     },
     {
       "token": "ansible",
@@ -4958,7 +5441,10 @@
       "github": "https://github.com/ansible/ansible",
       "githubSource": "https://formulae.brew.sh/api/formula/ansible.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/ansible.json",
-      "version": "14.4.0"
+      "version": "14.4.0",
+      "logoURL": "https://www.redhat.com/favicon.ico",
+      "logoSource": "https://www.redhat.com/en/ansible-collaborative?intcmp=7015Y000003t7aWQAQ",
+      "logoAsset": "0cb87f727f31e5f5a59cca8a.ico"
     },
     {
       "token": "pulumi",
@@ -4981,7 +5467,10 @@
       "github": "https://github.com/pulumi/pulumi",
       "githubSource": "https://formulae.brew.sh/api/formula/pulumi.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/pulumi.json",
-      "version": "3.267.0"
+      "version": "3.267.0",
+      "logoURL": "https://www.pulumi.com/images/favicon.ico",
+      "logoSource": "https://www.pulumi.com/",
+      "logoAsset": "fbe2a04069387628783a3f90.ico"
     },
     {
       "token": "manual-packer",
@@ -5003,7 +5492,10 @@
       "formulaLicense": null,
       "github": "https://github.com/hashicorp/packer",
       "githubSource": "https://developer.hashicorp.com/packer/install",
-      "homepageSource": "https://developer.hashicorp.com/packer/install"
+      "homepageSource": "https://developer.hashicorp.com/packer/install",
+      "logoURL": "https://developer.hashicorp.com/favicon.ico",
+      "logoSource": "https://developer.hashicorp.com/packer/install",
+      "logoAsset": "8d939c8f6a72ec70e7710b4e.ico"
     },
     {
       "token": "ripgrep",
@@ -5072,7 +5564,10 @@
       "github": "https://github.com/junegunn/fzf",
       "githubSource": "https://formulae.brew.sh/api/formula/fzf.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/fzf.json",
-      "version": "0.74.4"
+      "version": "0.74.4",
+      "logoURL": "https://junegunn.github.io/favicon.ico",
+      "logoSource": "https://junegunn.github.io/fzf/",
+      "logoAsset": "efdb464cc861e35a08b50147.ico"
     },
     {
       "token": "zoxide",
@@ -5279,7 +5774,10 @@
       "github": "https://github.com/jqlang/jq",
       "githubSource": "https://formulae.brew.sh/api/formula/jq.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/jq.json",
-      "version": "1.8.2"
+      "version": "1.8.2",
+      "logoURL": "https://jqlang.org/icon.png",
+      "logoSource": "https://jqlang.org/",
+      "logoAsset": "c84d384f2a25cca2a8fde5eb.png"
     },
     {
       "token": "yq",
@@ -5325,7 +5823,10 @@
       "github": "https://github.com/TomWright/dasel",
       "githubSource": "https://formulae.brew.sh/api/formula/dasel.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/dasel.json",
-      "version": "3.11.2"
+      "version": "3.11.2",
+      "logoURL": "https://daseldocs.tomwright.me/~gitbook/icon?size=medium&theme=dark&border=false",
+      "logoSource": "https://daseldocs.tomwright.me",
+      "logoAsset": "6fb3b856e1615a0cd455fed9.png"
     },
     {
       "token": "jc",
@@ -5371,7 +5872,10 @@
       "github": "https://github.com/antonmedv/fx",
       "githubSource": "https://formulae.brew.sh/api/formula/fx.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/fx.json",
-      "version": "39.2.0"
+      "version": "39.2.0",
+      "logoURL": "https://fx.wtf/img/favicons/apple-touch-icon.png",
+      "logoSource": "https://fx.wtf",
+      "logoAsset": "6956e1dffd6851cfa0b54617.png"
     },
     {
       "token": "wget",
@@ -5394,7 +5898,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/formula/wget.json",
-      "version": "1.25.0"
+      "version": "1.25.0",
+      "logoURL": "https://www.gnu.org/graphics/gnu-head-mini.png",
+      "logoSource": "https://www.gnu.org/software/wget/",
+      "logoAsset": "570e342d0e4708dab94b2025.png"
     },
     {
       "token": "aria2",
@@ -5422,7 +5929,10 @@
       "github": "https://github.com/aria2/aria2",
       "githubSource": "https://formulae.brew.sh/api/formula/aria2.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/aria2.json",
-      "version": "1.37.0"
+      "version": "1.37.0",
+      "logoURL": "https://aria2.github.io/favicon.png",
+      "logoSource": "https://aria2.github.io/",
+      "logoAsset": "f83f271ae773dc6fe4a6454a.png"
     },
     {
       "token": "nmap",
@@ -5451,7 +5961,10 @@
       "githubSource": "https://github.com/nmap/nmap",
       "homepageSource": "https://formulae.brew.sh/api/formula/nmap.json",
       "version": "7.991",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://nmap.org/shared/images/tiny-eyeicon.png",
+      "logoSource": "https://nmap.org/",
+      "logoAsset": "5286b91aa11e48184da2c742.png"
     },
     {
       "token": "mtr",
@@ -5479,7 +5992,10 @@
       "github": "https://github.com/traviscross/mtr",
       "githubSource": "https://formulae.brew.sh/api/formula/mtr.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/mtr.json",
-      "version": "0.96"
+      "version": "0.96",
+      "logoURL": "https://www.bitwizard.nl/favicon.ico",
+      "logoSource": "https://www.bitwizard.nl/mtr/",
+      "logoAsset": "a39d3ae3da34f2b4c01193e6.ico"
     },
     {
       "token": "iperf3",
@@ -5507,7 +6023,10 @@
       "github": "https://github.com/esnet/iperf",
       "githubSource": "https://formulae.brew.sh/api/formula/iperf3.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/iperf3.json",
-      "version": "3.22"
+      "version": "3.22",
+      "logoURL": "https://raw.githubusercontent.com/esnet/iperf/master/images/iperf3-logos-0413_6.png",
+      "logoSource": "https://raw.githubusercontent.com/esnet/iperf/master/README.md",
+      "logoAsset": "3d385d5830d13c8834d021ce.png"
     },
     {
       "token": "dnsmasq",
@@ -5530,7 +6049,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/formula/dnsmasq.json",
-      "version": "2.93"
+      "version": "2.93",
+      "logoURL": "https://thekelleys.org.uk/favicon.ico",
+      "logoSource": "https://thekelleys.org.uk/dnsmasq/doc.html",
+      "logoAsset": "e243470295e7a4ed4c248443.ico"
     },
     {
       "token": "whois",
@@ -5581,7 +6103,10 @@
       "github": "https://github.com/the-tcpdump-group/tcpdump",
       "githubSource": "https://formulae.brew.sh/api/formula/tcpdump.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/tcpdump.json",
-      "version": "4.99.7"
+      "version": "4.99.7",
+      "logoURL": "https://www.tcpdump.org/images/T-32x32.png",
+      "logoSource": "https://www.tcpdump.org/",
+      "logoAsset": "3096fd17ccf8ee00173d4d75.png"
     },
     {
       "token": "node",
@@ -5604,7 +6129,10 @@
       "github": "https://github.com/nodejs/node",
       "githubSource": "https://formulae.brew.sh/api/formula/node.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/node.json",
-      "version": "26.10.0"
+      "version": "26.10.0",
+      "logoURL": "https://nodejs.org/static/images/favicons/favicon.png",
+      "logoSource": "https://nodejs.org/en",
+      "logoAsset": "545ea538461003efdc8c81c2.png"
     },
     {
       "token": "nvm",
@@ -5650,7 +6178,10 @@
       "github": "https://github.com/pnpm/pnpm",
       "githubSource": "https://formulae.brew.sh/api/formula/pnpm.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/pnpm.json",
-      "version": "12.8.1"
+      "version": "12.8.1",
+      "logoURL": "https://pnpm.io/img/favicon.png",
+      "logoSource": "https://pnpm.io/",
+      "logoAsset": "2e5aa0361aaffd9121d96520.png"
     },
     {
       "token": "yarn",
@@ -5696,7 +6227,10 @@
       "github": "https://github.com/oven-sh/bun",
       "githubSource": "https://formulae.brew.sh/api/formula/bun.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/bun.json",
-      "version": "1.4.2"
+      "version": "1.4.2",
+      "logoURL": "https://bun.com/icons/apple-touch-icon.png",
+      "logoSource": "https://bun.com/",
+      "logoAsset": "08d1082cc8d85a0833da8815.png"
     },
     {
       "token": "deno",
@@ -5719,7 +6253,10 @@
       "github": "https://github.com/denoland/deno",
       "githubSource": "https://formulae.brew.sh/api/formula/deno.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/deno.json",
-      "version": "2.9.7"
+      "version": "2.9.7",
+      "logoURL": "https://deno.com/favicon.ico?__frsh_c=7e8f41a6028a1acaa12f4ce9aeb52e1b44dc25ed",
+      "logoSource": "https://deno.com/",
+      "logoAsset": "e872e7bd2ae6abcf13a4c834.ico"
     },
     {
       "token": "python@3.14",
@@ -5743,7 +6280,10 @@
       "githubSource": "https://github.com/python/cpython",
       "homepageSource": "https://formulae.brew.sh/api/formula/python@3.14.json",
       "version": "3.14.8",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.python.org/favicon.ico",
+      "logoSource": "https://www.python.org/",
+      "logoAsset": "1e0a10d9c52d2b02d22c6bfb.ico"
     },
     {
       "token": "pyenv",
@@ -5789,7 +6329,10 @@
       "github": "https://github.com/astral-sh/uv",
       "githubSource": "https://formulae.brew.sh/api/formula/uv.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/uv.json",
-      "version": "0.12.22"
+      "version": "0.12.22",
+      "logoURL": "https://docs.astral.sh/static/apple-touch-icon.png",
+      "logoSource": "https://docs.astral.sh/uv/",
+      "logoAsset": "e6184ce10e266134fdcfa401.png"
     },
     {
       "token": "pipx",
@@ -5812,7 +6355,10 @@
       "github": "https://github.com/pypa/pipx",
       "githubSource": "https://formulae.brew.sh/api/formula/pipx.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/pipx.json",
-      "version": "1.17.9"
+      "version": "1.17.9",
+      "logoURL": "https://pipx.pypa.io/favicon.ico",
+      "logoSource": "https://pipx.pypa.io/stable/",
+      "logoAsset": "1e4ab8abb8b720c2e01cfa62.ico"
     },
     {
       "token": "poetry",
@@ -5835,7 +6381,10 @@
       "github": "https://github.com/python-poetry/poetry",
       "githubSource": "https://formulae.brew.sh/api/formula/poetry.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/poetry.json",
-      "version": "2.5.1"
+      "version": "2.5.1",
+      "logoURL": "https://python-poetry.org/images/favicon-origami-32.png",
+      "logoSource": "https://python-poetry.org/",
+      "logoAsset": "81c320ebd209ddddf590e3dd.png"
     },
     {
       "token": "temurin@17",
@@ -5858,7 +6407,10 @@
       "github": "https://github.com/adoptium/temurin17-binaries",
       "githubSource": "https://formulae.brew.sh/api/cask/temurin@17.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/temurin@17.json",
-      "version": "17.0.20.1,1"
+      "version": "17.0.20.1,1",
+      "logoURL": "https://adoptium.net/images/adoptium-icon.png",
+      "logoSource": "https://adoptium.net/",
+      "logoAsset": "b3870f335cdb4d5af7136e9a.png"
     },
     {
       "token": "temurin@21",
@@ -5881,7 +6433,10 @@
       "github": "https://github.com/adoptium/temurin21-binaries",
       "githubSource": "https://formulae.brew.sh/api/cask/temurin@21.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/temurin@21.json",
-      "version": "21.0.12.1,1"
+      "version": "21.0.12.1,1",
+      "logoURL": "https://adoptium.net/images/adoptium-icon.png",
+      "logoSource": "https://adoptium.net/",
+      "logoAsset": "ac87c22fdc1a44c619847a6e.png"
     },
     {
       "token": "openjdk",
@@ -5904,7 +6459,10 @@
       "github": "https://github.com/openjdk/jdk27u",
       "githubSource": "https://formulae.brew.sh/api/formula/openjdk.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/openjdk.json",
-      "version": "27"
+      "version": "27",
+      "logoURL": "https://openjdk.org/images/nanoduke.ico",
+      "logoSource": "https://openjdk.org/",
+      "logoAsset": "5663df92997f9d887e2b1a67.ico"
     },
     {
       "token": "maven",
@@ -5951,7 +6509,10 @@
       "github": "https://github.com/gradle/gradle",
       "githubSource": "https://www.gradle.org/",
       "homepageSource": "https://formulae.brew.sh/api/formula/gradle.json",
-      "version": "9.8.0"
+      "version": "9.8.0",
+      "logoURL": "https://gradle.org/assets/icon/apple-touch-icon.png",
+      "logoSource": "https://gradle.org/",
+      "logoAsset": "0e687aaa28b03552c11dca34.png"
     },
     {
       "token": "jenv",
@@ -5997,7 +6558,10 @@
       "github": "https://github.com/golang/go",
       "githubSource": "https://go.dev/",
       "homepageSource": "https://formulae.brew.sh/api/formula/go.json",
-      "version": "1.27.1"
+      "version": "1.27.1",
+      "logoURL": "https://go.dev/images/favicon-gopher-plain.png",
+      "logoSource": "https://go.dev/",
+      "logoAsset": "4cd0e21a9a0795a14ec9aa5f.png"
     },
     {
       "token": "rust",
@@ -6020,7 +6584,10 @@
       "github": "https://github.com/rust-lang/rust",
       "githubSource": "https://formulae.brew.sh/api/formula/rust.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/rust.json",
-      "version": "1.99.0"
+      "version": "1.99.0",
+      "logoURL": "https://rust-lang.org/static/images/apple-touch-icon.png?v=ngJW8jGAmR",
+      "logoSource": "https://rust-lang.org/",
+      "logoAsset": "521fe5c9ece1aa1f8b662281.png"
     },
     {
       "token": "ruby",
@@ -6043,7 +6610,10 @@
       "github": "https://github.com/ruby/ruby",
       "githubSource": "https://formulae.brew.sh/api/formula/ruby.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/ruby.json",
-      "version": "4.0.7"
+      "version": "4.0.7",
+      "logoURL": "https://www.ruby-lang.org/favicon.ico",
+      "logoSource": "https://www.ruby-lang.org/",
+      "logoAsset": "b9138194ffe9e7c8bb6d79d1.ico"
     },
     {
       "token": "php",
@@ -6066,7 +6636,10 @@
       "github": "https://github.com/php/php-src",
       "githubSource": "https://formulae.brew.sh/api/formula/php.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/php.json",
-      "version": "8.5.11"
+      "version": "8.5.11",
+      "logoURL": "https://www.php.net/favicon-16x16.png?v=2",
+      "logoSource": "https://www.php.net/",
+      "logoAsset": "12a5d18ee896e59954bdce0f.png"
     },
     {
       "token": "kotlin",
@@ -6089,7 +6662,10 @@
       "github": "https://github.com/JetBrains/kotlin",
       "githubSource": "https://formulae.brew.sh/api/formula/kotlin.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/kotlin.json",
-      "version": "2.4.20"
+      "version": "2.4.20",
+      "logoURL": "https://kotlinlang.org/images/favicon/apple-touch-icon-114x114.png",
+      "logoSource": "https://kotlinlang.org/",
+      "logoAsset": "19a67c2a53695668e4916e9e.png"
     },
     {
       "token": "swiftformat",
@@ -6112,7 +6688,10 @@
       "github": "https://github.com/nicklockwood/SwiftFormat",
       "githubSource": "https://formulae.brew.sh/api/formula/swiftformat.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/swiftformat.json",
-      "version": "0.63.1"
+      "version": "0.63.1",
+      "logoURL": "https://raw.githubusercontent.com/nicklockwood/SwiftFormat/main/EditorExtension/Application/Assets.xcassets/AppIcon.appiconset/icon_256x256.png",
+      "logoSource": "https://raw.githubusercontent.com/nicklockwood/SwiftFormat/main/README.md",
+      "logoAsset": "f392f44562c47aa527ecdebf.png"
     },
     {
       "token": "swiftlint",
@@ -6159,7 +6738,10 @@
       "githubSource": "https://github.com/lua/lua",
       "homepageSource": "https://formulae.brew.sh/api/formula/lua.json",
       "version": "5.5.1",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.lua.org/favicon.ico",
+      "logoSource": "https://www.lua.org/",
+      "logoAsset": "dc436b329f4da6c88b0b6ce7.png"
     },
     {
       "token": "proxyman",
@@ -6182,7 +6764,10 @@
       "github": "https://github.com/ProxymanApp/Proxyman",
       "githubSource": "https://proxyman.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/proxyman.json",
-      "version": "26.0.1,260001"
+      "version": "26.0.1,260001",
+      "logoURL": "https://proxyman.com/favicon/apple-touch-icon.png?v=4",
+      "logoSource": "https://proxyman.com/",
+      "logoAsset": "f37e8fbdcc8810b744100aee.png"
     },
     {
       "token": "charles",
@@ -6205,7 +6790,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/charles.json",
-      "version": "5.2.1"
+      "version": "5.2.1",
+      "logoURL": "https://www.charlesproxy.com/static/img/icon-CcEs46FV.png",
+      "logoSource": "https://www.charlesproxy.com/",
+      "logoAsset": "10fe82adb964fa73c3c60be2.png"
     },
     {
       "token": "mitmproxy",
@@ -6228,7 +6816,10 @@
       "github": "https://github.com/mitmproxy/mitmproxy",
       "githubSource": "https://mitmproxy.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/mitmproxy.json",
-      "version": "12.2.3"
+      "version": "12.2.3",
+      "logoURL": "https://www.mitmproxy.org/favicon.ico",
+      "logoSource": "https://www.mitmproxy.org/",
+      "logoAsset": "ce9f671e0613719d1ca3c3a4.ico"
     },
     {
       "token": "http-toolkit",
@@ -6251,7 +6842,10 @@
       "github": "https://github.com/httptoolkit/httptoolkit-desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/http-toolkit.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/http-toolkit.json",
-      "version": "1.27.2"
+      "version": "1.27.2",
+      "logoURL": "https://httptoolkit.com/apple-touch-icon.png",
+      "logoSource": "https://httptoolkit.com/",
+      "logoAsset": "9e4d831c842789a2cabfac38.png"
     },
     {
       "token": "wireshark-app",
@@ -6275,7 +6869,10 @@
       "githubSource": "https://github.com/wireshark/wireshark",
       "homepageSource": "https://formulae.brew.sh/api/cask/wireshark-app.json",
       "version": "4.6.9",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.wireshark.org/favicon.ico",
+      "logoSource": "https://www.wireshark.org/",
+      "logoAsset": "ec9eec5259e34d75fef3cc49.ico"
     },
     {
       "token": "burp-suite",
@@ -6298,7 +6895,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/burp-suite.json",
-      "version": "2026.8"
+      "version": "2026.8",
+      "logoURL": "https://portswigger.net/content/images/logos/apple-touch-icon.png",
+      "logoSource": "https://portswigger.net/burp",
+      "logoAsset": "7ec0ad5756ecb6bfe93dd5e8.png"
     },
     {
       "token": "zap",
@@ -6321,7 +6921,10 @@
       "github": "https://github.com/zaproxy/zaproxy",
       "githubSource": "https://formulae.brew.sh/api/cask/zap.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/zap.json",
-      "version": "2.17.0"
+      "version": "2.17.0",
+      "logoURL": "https://www.zaproxy.org/img/favicon.ico",
+      "logoSource": "https://www.zaproxy.org/",
+      "logoAsset": "b4c5ae2ae961fe88d12821bd.ico"
     },
     {
       "token": "ghidra",
@@ -6367,7 +6970,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/hopper-disassembler.json",
-      "version": "6.6.0"
+      "version": "6.6.0",
+      "logoURL": "https://www.hopperapp.com/favicons/apple-icon-114x114.png",
+      "logoSource": "https://www.hopperapp.com/",
+      "logoAsset": "f356469c426fdf05ab0e6cdb.png"
     },
     {
       "token": "binary-ninja-free",
@@ -6390,7 +6996,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/binary-ninja-free.json",
-      "version": "6.0.10601"
+      "version": "6.0.10601",
+      "logoURL": "https://binary.ninja/icons/apple-touch-icon.png",
+      "logoSource": "https://binary.ninja/",
+      "logoAsset": "2fb55052f197d48232196bed.png"
     },
     {
       "token": "tailscale-app",
@@ -6414,7 +7023,10 @@
       "githubSource": "https://github.com/tailscale/tailscale",
       "homepageSource": "https://formulae.brew.sh/api/cask/tailscale-app.json",
       "version": "1.102.4",
-      "githubPurpose": "Core networking source"
+      "githubPurpose": "Core networking source",
+      "logoURL": "https://tailscale.com/favicon.png",
+      "logoSource": "https://tailscale.com/",
+      "logoAsset": "4d181613e97f7fbc09a38a57.png"
     },
     {
       "token": "manual-wireguard",
@@ -6437,7 +7049,10 @@
       "github": "https://github.com/WireGuard/wireguard-apple",
       "githubSource": "https://github.com/WireGuard/wireguard-apple",
       "homepageSource": "https://www.wireguard.com/install",
-      "githubPurpose": "Apple source mirror"
+      "githubPurpose": "Apple source mirror",
+      "logoURL": "https://www.wireguard.com/img/icons/apple-touch-icon-114.png",
+      "logoSource": "https://www.wireguard.com/install/",
+      "logoAsset": "530841e6d725c0e970534371.png"
     },
     {
       "token": "openvpn-connect",
@@ -6460,7 +7075,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/openvpn-connect.json",
-      "version": "3.8.2,6009"
+      "version": "3.8.2,6009",
+      "logoURL": "https://openvpn.net/favicon.ico",
+      "logoSource": "https://openvpn.net/client/",
+      "logoAsset": "9a7f5cb50da132bd5da1821c.ico"
     },
     {
       "token": "protonvpn",
@@ -6507,7 +7125,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/cloudflare-warp.json",
-      "version": "2026.7.1376.0"
+      "version": "2026.7.1376.0",
+      "logoURL": "https://one.one.one.one/favicon.ico",
+      "logoSource": "https://one.one.one.one/",
+      "logoAsset": "690e05c15becd76c8f5510fc.ico"
     },
     {
       "token": "figma",
@@ -6530,7 +7151,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/figma.json",
-      "version": "126.9.11"
+      "version": "126.9.11",
+      "logoURL": "https://static.figma.com/app/icon/2/touch-120.png",
+      "logoSource": "https://www.figma.com/",
+      "logoAsset": "5b79d0d574eedd091c026920.png"
     },
     {
       "token": "manual-penpot",
@@ -6553,7 +7177,10 @@
       "github": "https://github.com/penpot/penpot",
       "githubSource": "https://github.com/penpot/penpot",
       "homepageSource": "https://penpot.app",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://penpot.app/favicon.ico",
+      "logoSource": "https://penpot.app",
+      "logoAsset": "dda3a9ec0513da9c2f017a55.ico"
     },
     {
       "token": "sketch",
@@ -6576,7 +7203,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/sketch.json",
-      "version": "2026.3.1,234013"
+      "version": "2026.3.1,234013",
+      "logoURL": "https://www.sketch.com/images/metadata/icon-152.png",
+      "logoSource": "https://www.sketch.com/",
+      "logoAsset": "f416b363c6c5f07011f5dc46.png"
     },
     {
       "token": "lunacy",
@@ -6599,7 +7229,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/lunacy.json",
-      "version": "14.1"
+      "version": "14.1",
+      "logoURL": "https://maxst.icons8.com/vue-static/landings/primary-landings/favs/apple-touch-icon.png",
+      "logoSource": "https://icons8.com/lunacy",
+      "logoAsset": "7a582b5a2c84720c76b7f91a.png"
     },
     {
       "token": "inkscape",
@@ -6623,7 +7256,10 @@
       "githubSource": "https://github.com/inkscape/inkscape",
       "homepageSource": "https://formulae.brew.sh/api/cask/inkscape.json",
       "version": "1.4.4",
-      "githubPurpose": "Project resources"
+      "githubPurpose": "Project resources",
+      "logoURL": "https://media.inkscape.org/static/images/inkscape-favicon.png",
+      "logoSource": "https://inkscape.org/",
+      "logoAsset": "2769cdab1cd69e1b54c9225a.png"
     },
     {
       "token": "affinity-designer",
@@ -6646,7 +7282,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/affinity-designer.json",
-      "version": "2.6.5,3782"
+      "version": "2.6.5,3782",
+      "logoURL": "https://static.canva.com/domain-assets/affinity/static/images/apple-touch-120x120-1.png",
+      "logoSource": "https://www.affinity.studio/graphic-design-software",
+      "logoAsset": "cd90265392fbd839941ca3a2.png"
     },
     {
       "token": "manual-linearity-curve",
@@ -6668,7 +7307,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://www.linearity.io/curve"
+      "homepageSource": "https://www.linearity.io/curve",
+      "logoURL": "https://www.linearity.io/apple-touch-icon.png?v=2",
+      "logoSource": "https://www.linearity.io/curve/",
+      "logoAsset": "0756116bd84015e7286786ff.png"
     },
     {
       "token": "gimp",
@@ -6692,7 +7334,10 @@
       "githubSource": "https://github.com/GNOME/gimp",
       "homepageSource": "https://formulae.brew.sh/api/cask/gimp.json",
       "version": "3.2.6",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.gimp.org/images/wilber32.png",
+      "logoSource": "https://www.gimp.org/",
+      "logoAsset": "8ae667fa85ed593085924d19.png"
     },
     {
       "token": "krita",
@@ -6716,7 +7361,10 @@
       "githubSource": "https://github.com/KDE/krita",
       "homepageSource": "https://formulae.brew.sh/api/cask/krita.json",
       "version": "5.3.4",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://krita.org/favicon.ico",
+      "logoSource": "https://krita.org/",
+      "logoAsset": "86cc3ab44d4e3c502acaf248.ico"
     },
     {
       "token": "manual-pixelmator-pro",
@@ -6738,7 +7386,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://www.pixelmator.com/pro"
+      "homepageSource": "https://www.pixelmator.com/pro",
+      "logoURL": "https://www.apple.com/favicon.ico",
+      "logoSource": "https://www.apple.com/pixelmator-pro/",
+      "logoAsset": "72926aafda9f7c9f39504cd6.ico"
     },
     {
       "token": "affinity-photo",
@@ -6761,7 +7412,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/affinity-photo.json",
-      "version": "2.6.5,3782"
+      "version": "2.6.5,3782",
+      "logoURL": "https://static.canva.com/domain-assets/affinity/static/images/apple-touch-120x120-1.png",
+      "logoSource": "https://www.affinity.studio/photo-editing-software",
+      "logoAsset": "a67f122b24169840b2a5e31a.png"
     },
     {
       "token": "drawio",
@@ -6784,7 +7438,10 @@
       "github": "https://github.com/jgraph/drawio-desktop",
       "githubSource": "https://formulae.brew.sh/api/cask/drawio.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/drawio.json",
-      "version": "31.7.0"
+      "version": "31.7.0",
+      "logoURL": "https://www.drawio.com/favicon.ico",
+      "logoSource": "https://www.drawio.com/",
+      "logoAsset": "52ee1a315816f42cd46b2fa5.ico"
     },
     {
       "token": "manual-excalidraw",
@@ -6807,7 +7464,10 @@
       "github": "https://github.com/excalidraw/excalidraw",
       "githubSource": "https://github.com/excalidraw/excalidraw",
       "homepageSource": "https://excalidraw.com",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://excalidraw.com/apple-touch-icon.png",
+      "logoSource": "https://excalidraw.com",
+      "logoAsset": "0638ff5337928d926a081424.png"
     },
     {
       "token": "pencil",
@@ -6830,7 +7490,10 @@
       "github": "https://github.com/evolus/pencil",
       "githubSource": "https://pencil.evolus.vn/",
       "homepageSource": "https://formulae.brew.sh/api/cask/pencil.json",
-      "version": "3.1.1"
+      "version": "3.1.1",
+      "logoURL": "https://pencil.evolus.vn/favicon.ico",
+      "logoSource": "https://pencil.evolus.vn/",
+      "logoAsset": "13809668fb436386706f67dc.ico"
     },
     {
       "token": "plantuml",
@@ -6853,7 +7516,10 @@
       "github": "https://github.com/plantuml/plantuml",
       "githubSource": "https://formulae.brew.sh/api/formula/plantuml.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/plantuml.json",
-      "version": "1.2026.8"
+      "version": "1.2026.8",
+      "logoURL": "https://plantuml.com/favicon.ico",
+      "logoSource": "https://plantuml.com/",
+      "logoAsset": "9136454766a01a0b0c15dbd6.ico"
     },
     {
       "token": "graphviz",
@@ -6876,7 +7542,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/formula/graphviz.json",
-      "version": "16.1.0"
+      "version": "16.1.0",
+      "logoURL": "https://graphviz.org/Resources/favicon.png",
+      "logoSource": "https://graphviz.org/",
+      "logoAsset": "74a87c2b6b9cca8b666883b7.png"
     },
     {
       "token": "mermaid-cli",
@@ -6923,7 +7592,10 @@
       "githubSource": "https://github.com/blender/blender",
       "homepageSource": "https://formulae.brew.sh/api/cask/blender.json",
       "version": "5.2.2",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.blender.org/wp-content/themes/bthree/assets/icons/apple-touch-icon.png",
+      "logoSource": "https://www.blender.org/",
+      "logoAsset": "5a80e4ba8e6d04259aafa416.png"
     },
     {
       "token": "freecad",
@@ -6946,7 +7618,10 @@
       "github": "https://github.com/FreeCAD/FreeCAD",
       "githubSource": "https://formulae.brew.sh/api/cask/freecad.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/freecad.json",
-      "version": "1.1.4"
+      "version": "1.1.4",
+      "logoURL": "https://www.freecad.org/images/favicon.ico",
+      "logoSource": "https://www.freecad.org/",
+      "logoAsset": "4ec90cb5a1d1b69299b71a63.ico"
     },
     {
       "token": "openscad",
@@ -6969,7 +7644,10 @@
       "github": "https://github.com/openscad/openscad",
       "githubSource": "https://www.openscad.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/openscad.json",
-      "version": "2021.01"
+      "version": "2021.01",
+      "logoURL": "https://openscad.org/favicon.ico",
+      "logoSource": "https://openscad.org/",
+      "logoAsset": "e03f03ca8be9ca08fb567acd.ico"
     },
     {
       "token": "wings3d",
@@ -6993,7 +7671,10 @@
       "githubSource": "https://github.com/dgud/wings",
       "homepageSource": "https://formulae.brew.sh/api/cask/wings3d.json",
       "version": "2.4.1",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.wings3d.com/favicon.ico",
+      "logoSource": "https://www.wings3d.com/",
+      "logoAsset": "f4364cc6adce6f98f0b67f1b.ico"
     },
     {
       "token": "meshlab",
@@ -7016,7 +7697,10 @@
       "github": "https://github.com/cnr-isti-vclab/meshlab",
       "githubSource": "https://formulae.brew.sh/api/cask/meshlab.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/meshlab.json",
-      "version": "2025.07"
+      "version": "2025.07",
+      "logoURL": "https://www.meshlab.net/img/meshlabjsLogo.png",
+      "logoSource": "https://www.meshlab.net/",
+      "logoAsset": "1b98b6fc34b72a40b0d403ba.png"
     },
     {
       "token": "sweet-home3d",
@@ -7039,7 +7723,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/sweet-home3d.json",
-      "version": "7.5"
+      "version": "7.5",
+      "logoURL": "https://www.sweethome3d.com/favicon.ico",
+      "logoSource": "https://www.sweethome3d.com/",
+      "logoAsset": "0b4dcd33cc79a5d793db8e5c.ico"
     },
     {
       "token": "qcad",
@@ -7062,7 +7749,10 @@
       "github": "https://github.com/qcad/qcad",
       "githubSource": "https://www.qcad.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/qcad.json",
-      "version": "3.33.1,13-26-qt6"
+      "version": "3.33.1,13-26-qt6",
+      "logoURL": "https://www.qcad.org/apple-touch-icon.png",
+      "logoSource": "https://www.qcad.org/en/",
+      "logoAsset": "544582bc2aa10dec8d3a94d1.png"
     },
     {
       "token": "librecad",
@@ -7085,7 +7775,10 @@
       "github": "https://github.com/LibreCAD/LibreCAD",
       "githubSource": "https://formulae.brew.sh/api/cask/librecad.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/librecad.json",
-      "version": "2.2.1.5"
+      "version": "2.2.1.5",
+      "logoURL": "https://librecad.org/favicon.ico",
+      "logoSource": "https://librecad.org/",
+      "logoAsset": "46b64f53eaf054aff2560c09.ico"
     },
     {
       "token": "ultimaker-cura",
@@ -7108,7 +7801,10 @@
       "github": "https://github.com/Ultimaker/Cura",
       "githubSource": "https://formulae.brew.sh/api/cask/ultimaker-cura.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/ultimaker-cura.json",
-      "version": "5.13.0"
+      "version": "5.13.0",
+      "logoURL": "https://ultimaker.com/wp-content/uploads/2023/04/cropped-UltiMaker-favicon-512-180x180.png",
+      "logoSource": "https://ultimaker.com/software/ultimaker-cura/",
+      "logoAsset": "63bbf6c432807fca25db75a2.png"
     },
     {
       "token": "prusaslicer",
@@ -7131,7 +7827,10 @@
       "github": "https://github.com/prusa3d/PrusaSlicer",
       "githubSource": "https://formulae.brew.sh/api/cask/prusaslicer.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/prusaslicer.json",
-      "version": "2.9.6"
+      "version": "2.9.6",
+      "logoURL": "https://www.prusa3d.com/favicon.ico",
+      "logoSource": "https://www.prusa3d.com/p/prusaslicer/",
+      "logoAsset": "69b21112c1551f9805b1470a.ico"
     },
     {
       "token": "orcaslicer",
@@ -7177,7 +7876,10 @@
       "github": "https://github.com/darktable-org/darktable",
       "githubSource": "https://formulae.brew.sh/api/cask/darktable.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/darktable.json",
-      "version": "5.6.1"
+      "version": "5.6.1",
+      "logoURL": "https://www.darktable.org/favicon.ico",
+      "logoSource": "https://www.darktable.org/",
+      "logoAsset": "ef22954e75274e79ba77293a.ico"
     },
     {
       "token": "rawtherapee",
@@ -7201,7 +7903,10 @@
       "githubSource": "https://github.com/RawTherapee/RawTherapee",
       "homepageSource": "https://formulae.brew.sh/api/cask/rawtherapee.json",
       "version": "5.13",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://rawtherapee.com/favicon.ico",
+      "logoSource": "https://rawtherapee.com/",
+      "logoAsset": "0bdcb399dc21faf9e99f3d7a.ico"
     },
     {
       "token": "digikam",
@@ -7225,7 +7930,10 @@
       "githubSource": "https://github.com/KDE/digikam",
       "homepageSource": "https://formulae.brew.sh/api/cask/digikam.json",
       "version": "9.1.0",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.digikam.org/favicon-16x16.png",
+      "logoSource": "https://www.digikam.org/",
+      "logoAsset": "8fd5d01fec67224fa04c85a6.png"
     },
     {
       "token": "imageoptim",
@@ -7248,7 +7956,10 @@
       "github": "https://github.com/ImageOptim/ImageOptim",
       "githubSource": "https://imageoptim.com/mac",
       "homepageSource": "https://formulae.brew.sh/api/cask/imageoptim.json",
-      "version": "1.9.3"
+      "version": "1.9.3",
+      "logoURL": "https://imageoptim.com/icon.png",
+      "logoSource": "https://imageoptim.com/mac",
+      "logoAsset": "7142d88f5fccfb51203601a9.png"
     },
     {
       "token": "imagemagick",
@@ -7271,7 +7982,10 @@
       "github": "https://github.com/ImageMagick/ImageMagick",
       "githubSource": "https://formulae.brew.sh/api/formula/imagemagick.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/imagemagick.json",
-      "version": "7.1.2-32"
+      "version": "7.1.2-32",
+      "logoURL": "https://imagemagick.org/image/wand.png",
+      "logoSource": "https://imagemagick.org",
+      "logoAsset": "8c29312571e4d5c9843de9f7.png"
     },
     {
       "token": "exiftool",
@@ -7295,7 +8009,10 @@
       "githubSource": "https://github.com/exiftool/exiftool",
       "homepageSource": "https://formulae.brew.sh/api/formula/exiftool.json",
       "version": "13.55",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://exiftool.org/favicon.ico",
+      "logoSource": "https://exiftool.org",
+      "logoAsset": "0747314e16d27a5ae07a3326.ico"
     },
     {
       "token": "xnviewmp",
@@ -7318,7 +8035,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/xnviewmp.json",
-      "version": "1.12.1"
+      "version": "1.12.1",
+      "logoURL": "https://www.xnview.com/ico/apple-touch-icon-114-precomposed.png",
+      "logoSource": "https://www.xnview.com/en/xnview/",
+      "logoAsset": "43d7a35734994c9f60b2a22e.png"
     },
     {
       "token": "manual-imageglass",
@@ -7364,7 +8084,10 @@
       "github": "https://github.com/upscayl/upscayl",
       "githubSource": "https://formulae.brew.sh/api/cask/upscayl.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/upscayl.json",
-      "version": "2.15.0"
+      "version": "2.15.0",
+      "logoURL": "https://upscayl.org/logo/64x64.png",
+      "logoSource": "https://upscayl.org/",
+      "logoAsset": "7d66dc401ff5be9c9e13129a.png"
     },
     {
       "token": "iina",
@@ -7387,7 +8110,10 @@
       "github": "https://github.com/iina/iina",
       "githubSource": "https://iina.io/",
       "homepageSource": "https://formulae.brew.sh/api/cask/iina.json",
-      "version": "1.4.4"
+      "version": "1.4.4",
+      "logoURL": "https://iina.io/img/icon.png",
+      "logoSource": "https://iina.io/",
+      "logoAsset": "fa2bb69b8c650176b2a6d3f2.png"
     },
     {
       "token": "vlc",
@@ -7416,7 +8142,10 @@
       "githubSource": "https://github.com/videolan/vlc",
       "homepageSource": "https://formulae.brew.sh/api/cask/vlc.json",
       "version": "3.0.24",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://images.videolan.org/images/favicon.ico",
+      "logoSource": "https://www.videolan.org/vlc/",
+      "logoAsset": "51c80ba0161295bb0ba04257.ico"
     },
     {
       "token": "mpv",
@@ -7439,7 +8168,10 @@
       "github": "https://github.com/mpv-player/mpv",
       "githubSource": "https://formulae.brew.sh/api/formula/mpv.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/mpv.json",
-      "version": "0.41.0"
+      "version": "0.41.0",
+      "logoURL": "https://mpv.io/images/favicon-5d3b2a52.png",
+      "logoSource": "https://mpv.io",
+      "logoAsset": "91c29761f7eef29e6dc06bf8.png"
     },
     {
       "token": "manual-davinci-resolve",
@@ -7461,7 +8193,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://www.blackmagicdesign.com/products/davinciresolve"
+      "homepageSource": "https://www.blackmagicdesign.com/products/davinciresolve",
+      "logoURL": "https://www.blackmagicdesign.com/favicon.ico",
+      "logoSource": "https://www.blackmagicdesign.com/products/davinciresolve",
+      "logoAsset": "296e228ebd4c276592eb3f9f.ico"
     },
     {
       "token": "kdenlive",
@@ -7485,7 +8220,10 @@
       "githubSource": "https://github.com/KDE/kdenlive",
       "homepageSource": "https://formulae.brew.sh/api/cask/kdenlive.json",
       "version": "26.08.1",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://kdenlive.org/apple-touch-icon.png",
+      "logoSource": "https://kdenlive.org/",
+      "logoAsset": "98250191a7e717cba5b533f9.png"
     },
     {
       "token": "shotcut",
@@ -7508,7 +8246,10 @@
       "github": "https://github.com/mltframework/shotcut",
       "githubSource": "https://formulae.brew.sh/api/cask/shotcut.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/shotcut.json",
-      "version": "26.9.28,26.9.27"
+      "version": "26.9.28,26.9.27",
+      "logoURL": "https://www.shotcut.org/assets/img/favicon.ico",
+      "logoSource": "https://www.shotcut.org/",
+      "logoAsset": "2f0f7f7368a3522022c29a8e.ico"
     },
     {
       "token": "openshot-video-editor",
@@ -7531,7 +8272,10 @@
       "github": "https://github.com/OpenShot/openshot-qt",
       "githubSource": "https://formulae.brew.sh/api/cask/openshot-video-editor.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/openshot-video-editor.json",
-      "version": "4.0.1"
+      "version": "4.0.1",
+      "logoURL": "https://cdn.openshot.org/images/favicon.png",
+      "logoSource": "https://www.openshot.org/",
+      "logoAsset": "77af49f9b4810c33d500435e.png"
     },
     {
       "token": "losslesscut",
@@ -7577,7 +8321,10 @@
       "github": "https://github.com/HandBrake/HandBrake",
       "githubSource": "https://handbrake.fr/",
       "homepageSource": "https://formulae.brew.sh/api/cask/handbrake-app.json",
-      "version": "1.11.2"
+      "version": "1.11.2",
+      "logoURL": "https://handbrake.fr/favicon.ico",
+      "logoSource": "https://handbrake.fr/",
+      "logoAsset": "b5e06ce6a4b1655e8b5395d5.ico"
     },
     {
       "token": "ffmpeg",
@@ -7600,7 +8347,10 @@
       "github": "https://github.com/FFmpeg/FFmpeg",
       "githubSource": "https://formulae.brew.sh/api/formula/ffmpeg.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/ffmpeg.json",
-      "version": "9.0.2"
+      "version": "9.0.2",
+      "logoURL": "https://ffmpeg.org/favicon.ico",
+      "logoSource": "https://ffmpeg.org/",
+      "logoAsset": "6862fa01d6f0bc4c9601c1a0.ico"
     },
     {
       "token": "shutter-encoder",
@@ -7623,7 +8373,10 @@
       "github": "https://github.com/paulpacifico/shutter-encoder",
       "githubSource": "https://www.shutterencoder.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/shutter-encoder.json",
-      "version": "20.4"
+      "version": "20.4",
+      "logoURL": "https://www.shutterencoder.com/wp-content/uploads/2024/04/cropped-logo-180x180.png",
+      "logoSource": "https://www.shutterencoder.com/",
+      "logoAsset": "00ab6a4d3d66cb52f6378344.png"
     },
     {
       "token": "obs",
@@ -7646,7 +8399,10 @@
       "github": "https://github.com/obsproject/obs-studio",
       "githubSource": "https://obsproject.com/",
       "homepageSource": "https://formulae.brew.sh/api/cask/obs.json",
-      "version": "32.2.2"
+      "version": "32.2.2",
+      "logoURL": "https://obsproject.com/favicon-16x16.png",
+      "logoSource": "https://obsproject.com/",
+      "logoAsset": "d39ed8b3cea68e3fb9c0e34d.png"
     },
     {
       "token": "kap",
@@ -7674,7 +8430,10 @@
       "github": "https://github.com/wulkano/kap",
       "githubSource": "https://formulae.brew.sh/api/cask/kap.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/kap.json",
-      "version": "3.6.0"
+      "version": "3.6.0",
+      "logoURL": "https://getkap.co/static/favicon/icon-128.png",
+      "logoSource": "https://getkap.co/",
+      "logoAsset": "065da0a151a725cd0faac5f9.png"
     },
     {
       "token": "screen-studio",
@@ -7697,7 +8456,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/screen-studio.json",
-      "version": "4.0.1-4897"
+      "version": "4.0.1-4897",
+      "logoURL": "https://screen.studio/landing/brand/apple-touch-icon.png",
+      "logoSource": "https://screen.studio/",
+      "logoAsset": "bb17be81e5f42785a28d7c9a.png"
     },
     {
       "token": "shottr",
@@ -7725,7 +8487,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/shottr.json",
-      "version": "1.9.3b"
+      "version": "1.9.3b",
+      "logoURL": "https://shottr.cc/assets/favicon.png",
+      "logoSource": "https://shottr.cc/",
+      "logoAsset": "3ec80713a8552591314fffd8.png"
     },
     {
       "token": "audacity",
@@ -7748,7 +8513,10 @@
       "github": "https://github.com/audacity/audacity",
       "githubSource": "https://formulae.brew.sh/api/cask/audacity.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/audacity.json",
-      "version": "4.0.1"
+      "version": "4.0.1",
+      "logoURL": "https://www.audacityteam.org/apple-touch-icon.png",
+      "logoSource": "https://www.audacityteam.org/",
+      "logoAsset": "3ec3a0ad4c13750c53b8d116.png"
     },
     {
       "token": "ocenaudio",
@@ -7771,7 +8539,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/ocenaudio.json",
-      "version": "3.21.4"
+      "version": "3.21.4",
+      "logoURL": "https://www.ocenaudio.com/favicon.ico",
+      "logoSource": "https://www.ocenaudio.com/en",
+      "logoAsset": "96500cac38e35ee7c2430e6a.ico"
     },
     {
       "token": "manual-ardour",
@@ -7793,7 +8564,10 @@
       "formulaLicense": null,
       "github": "https://github.com/Ardour/ardour",
       "githubSource": "https://ardour.org",
-      "homepageSource": "https://ardour.org"
+      "homepageSource": "https://ardour.org",
+      "logoURL": "https://ardour.org/images/icons/favicon.ico",
+      "logoSource": "https://ardour.org",
+      "logoAsset": "7a97144478edd19e16b26357.ico"
     },
     {
       "token": "blackhole-2ch",
@@ -7817,7 +8591,10 @@
       "githubSource": "https://github.com/ExistentialAudio/BlackHole",
       "homepageSource": "https://formulae.brew.sh/api/cask/blackhole-2ch.json",
       "version": "0.7.1",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://existential.audio/favicon.ico",
+      "logoSource": "https://existential.audio/blackhole/",
+      "logoAsset": "1ceba4bdc4b0bf81f343f7ca.png"
     },
     {
       "token": "blackhole-16ch",
@@ -7841,7 +8618,10 @@
       "githubSource": "https://github.com/ExistentialAudio/BlackHole",
       "homepageSource": "https://formulae.brew.sh/api/cask/blackhole-16ch.json",
       "version": "0.7.1",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://existential.audio/favicon.ico",
+      "logoSource": "https://existential.audio/blackhole/",
+      "logoAsset": "8306fcbf24ed81bf04a02b89.png"
     },
     {
       "token": "background-music",
@@ -7864,7 +8644,10 @@
       "github": "https://github.com/kyleneideck/BackgroundMusic",
       "githubSource": "https://formulae.brew.sh/api/cask/background-music.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/background-music.json",
-      "version": "0.5.0"
+      "version": "0.5.0",
+      "logoURL": "https://raw.githubusercontent.com/kyleneideck/BackgroundMusic/master/Images/README/FermataIcon.png",
+      "logoSource": "https://raw.githubusercontent.com/kyleneideck/BackgroundMusic/master/README.md",
+      "logoAsset": "89ffd77466ff6e2c8c1f69a5.png"
     },
     {
       "token": "spotify",
@@ -7887,7 +8670,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/spotify.json",
-      "version": "1.3.3.264"
+      "version": "1.3.3.264",
+      "logoURL": "https://open.spotifycdn.com/cdn/images/favicon.0f31d2ea.ico",
+      "logoSource": "https://open.spotify.com/",
+      "logoAsset": "2b78da3dc866654e6ea7cb2f.ico"
     },
     {
       "token": "foobar2000",
@@ -7910,7 +8696,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/foobar2000.json",
-      "version": "2.26"
+      "version": "2.26",
+      "logoURL": "https://www.foobar2000.org/favicon.ico",
+      "logoSource": "https://www.foobar2000.org/mac",
+      "logoAsset": "6cc868860cee823f0ffe0b34.ico"
     },
     {
       "token": "strawberry",
@@ -7934,7 +8723,10 @@
       "githubSource": "https://github.com/strawberrymusicplayer/strawberry",
       "homepageSource": "https://formulae.brew.sh/api/cask/strawberry.json",
       "version": "0.1.57",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://strawberrybrowser.com/favicon.ico",
+      "logoSource": "https://strawberrybrowser.com/",
+      "logoAsset": "5e737f891db1175442a39fde.ico"
     },
     {
       "token": "obsidian",
@@ -7957,7 +8749,10 @@
       "github": "https://github.com/obsidianmd/obsidian-releases",
       "githubSource": "https://formulae.brew.sh/api/cask/obsidian.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/obsidian.json",
-      "version": "1.13.7"
+      "version": "1.13.7",
+      "logoURL": "https://obsidian.md/apple-touch-icon.png",
+      "logoSource": "https://obsidian.md/",
+      "logoAsset": "4e2295dd929e424aa1afde70.png"
     },
     {
       "token": "notion",
@@ -7980,7 +8775,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/notion.json",
-      "version": "7.36.1"
+      "version": "7.36.1",
+      "logoURL": "https://www.notion.com/front-static/logo-ios.png",
+      "logoSource": "https://www.notion.com/",
+      "logoAsset": "31f61ed3e6e210c5f3f72934.png"
     },
     {
       "token": "joplin",
@@ -8003,7 +8801,10 @@
       "github": "https://github.com/laurent22/joplin",
       "githubSource": "https://formulae.brew.sh/api/cask/joplin.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/joplin.json",
-      "version": "3.7.21"
+      "version": "3.7.21",
+      "logoURL": "https://joplinapp.org/images/favicon.png",
+      "logoSource": "https://joplinapp.org/",
+      "logoAsset": "079f912e7f330a1bebb8f346.png"
     },
     {
       "token": "logseq",
@@ -8050,7 +8851,10 @@
       "githubSource": "https://github.com/anyproto/anytype-ts",
       "homepageSource": "https://formulae.brew.sh/api/cask/anytype.json",
       "version": "0.57.0",
-      "githubPurpose": "Desktop source"
+      "githubPurpose": "Desktop source",
+      "logoURL": "https://anytype.io/apple-touch-icon.png",
+      "logoSource": "https://anytype.io/",
+      "logoAsset": "752ae8b3c213e675c07557b5.png"
     },
     {
       "token": "standard-notes",
@@ -8073,7 +8877,10 @@
       "github": "https://github.com/standardnotes/app",
       "githubSource": "https://formulae.brew.sh/api/cask/standard-notes.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/standard-notes.json",
-      "version": "3.202.7"
+      "version": "3.202.7",
+      "logoURL": "https://standardnotes.com/apple-touch-icon.png",
+      "logoSource": "https://standardnotes.com/",
+      "logoAsset": "546809973588105cb613e209.png"
     },
     {
       "token": "typora",
@@ -8096,7 +8903,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/typora.json",
-      "version": "1.14.10"
+      "version": "1.14.10",
+      "logoURL": "https://typora.io/img/favicon-128.png",
+      "logoSource": "https://typora.io/",
+      "logoAsset": "2690aa4ee8591c3171797c30.png"
     },
     {
       "token": "mark-text",
@@ -8119,7 +8929,10 @@
       "github": "https://github.com/marktext/marktext",
       "githubSource": "https://formulae.brew.sh/api/cask/mark-text.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/mark-text.json",
-      "version": "0.20.0"
+      "version": "0.20.0",
+      "logoURL": "https://raw.githubusercontent.com/marktext/marktext/master/static/logo-small.png",
+      "logoSource": "https://raw.githubusercontent.com/marktext/marktext/master/README.md",
+      "logoAsset": "4c795207e0f4a576b120e474.png"
     },
     {
       "token": "macdown",
@@ -8165,7 +8978,10 @@
       "github": "https://github.com/Zettlr/Zettlr",
       "githubSource": "https://formulae.brew.sh/api/cask/zettlr.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/zettlr.json",
-      "version": "4.8.0"
+      "version": "4.8.0",
+      "logoURL": "https://www.zettlr.com/themes/zettlr/assets/img/256x256.png",
+      "logoSource": "https://www.zettlr.com/",
+      "logoAsset": "e0bb10f49d3253b5660530f2.png"
     },
     {
       "token": "zotero",
@@ -8189,7 +9005,10 @@
       "githubSource": "https://github.com/zotero/zotero",
       "homepageSource": "https://formulae.brew.sh/api/cask/zotero.json",
       "version": "10.0.5",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.zotero.org/favicon.ico",
+      "logoSource": "https://www.zotero.org/",
+      "logoAsset": "d31dca266795ad5299f014a0.ico"
     },
     {
       "token": "jabref",
@@ -8212,7 +9031,10 @@
       "github": "https://github.com/JabRef/jabref",
       "githubSource": "https://formulae.brew.sh/api/cask/jabref.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/jabref.json",
-      "version": "5.15"
+      "version": "5.15",
+      "logoURL": "https://www.jabref.org/favicon.ico",
+      "logoSource": "https://www.jabref.org/",
+      "logoAsset": "8fcfb96a5a8eeed48ce0a2ce.ico"
     },
     {
       "token": "libreoffice",
@@ -8236,7 +9058,10 @@
       "githubSource": "https://github.com/LibreOffice/core",
       "homepageSource": "https://formulae.brew.sh/api/cask/libreoffice.json",
       "version": "26.8.0",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.libreoffice.org/favicon.ico",
+      "logoSource": "https://www.libreoffice.org/",
+      "logoAsset": "2bf7cf76a6c689d745dd4b18.ico"
     },
     {
       "token": "onlyoffice",
@@ -8259,7 +9084,10 @@
       "github": "https://github.com/ONLYOFFICE/DesktopEditors",
       "githubSource": "https://formulae.brew.sh/api/cask/onlyoffice.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/onlyoffice.json",
-      "version": "9.4.0"
+      "version": "9.4.0",
+      "logoURL": "https://static-site.onlyoffice.com/public/images/favicons/favicon.ico",
+      "logoSource": "https://www.onlyoffice.com/",
+      "logoAsset": "1926e546e68e62050e4cb395.ico"
     },
     {
       "token": "openoffice",
@@ -8282,7 +9110,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/openoffice.json",
-      "version": "4.1.16"
+      "version": "4.1.16",
+      "logoURL": "https://www.openoffice.org/favicon.ico",
+      "logoSource": "https://www.openoffice.org/",
+      "logoAsset": "f5d3dd4cbe3bbe127d051bc2.ico"
     },
     {
       "token": "adobe-acrobat-reader",
@@ -8328,7 +9159,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/skim.json",
-      "version": "1.7.17"
+      "version": "1.7.17",
+      "logoURL": "https://skim-app.sourceforge.io/images/skim16.png",
+      "logoSource": "https://skim-app.sourceforge.io/",
+      "logoAsset": "769a27d2e089a703c66de254.png"
     },
     {
       "token": "pdfsam-basic",
@@ -8351,7 +9185,10 @@
       "github": "https://github.com/torakiki/pdfsam",
       "githubSource": "https://formulae.brew.sh/api/cask/pdfsam-basic.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/pdfsam-basic.json",
-      "version": "6.0.6"
+      "version": "6.0.6",
+      "logoURL": "https://pdfsam.org/icns/apple-touch-icon-114x114.png",
+      "logoSource": "https://pdfsam.org/",
+      "logoAsset": "c40929b390f70ea4adf7bf81.png"
     },
     {
       "token": "stirling-pdf",
@@ -8374,7 +9211,10 @@
       "github": "https://github.com/Stirling-Tools/Stirling-PDF",
       "githubSource": "https://formulae.brew.sh/api/cask/stirling-pdf.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/stirling-pdf.json",
-      "version": "3.0.2"
+      "version": "3.0.2",
+      "logoURL": "https://framerusercontent.com/images/4Q5tlRJijroUIAT4pCxhwmdSiQ.png",
+      "logoSource": "https://www.stirling.com/",
+      "logoAsset": "0e0aa517799753a3604fea6c.png"
     },
     {
       "token": "pandoc",
@@ -8443,7 +9283,10 @@
       "github": "https://github.com/ArtifexSoftware/ghostpdl-downloads",
       "githubSource": "https://formulae.brew.sh/api/formula/ghostscript.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/ghostscript.json",
-      "version": "10.08.0"
+      "version": "10.08.0",
+      "logoURL": "https://www.ghostscript.com/favicon.ico",
+      "logoSource": "https://www.ghostscript.com/",
+      "logoAsset": "3b52d97f0c96e295f7110338.ico"
     },
     {
       "token": "slack",
@@ -8466,7 +9309,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/slack.json",
-      "version": "4.52.171"
+      "version": "4.52.171",
+      "logoURL": "https://a.slack-edge.com/9cc0056/img/icons/favicon-32.png",
+      "logoSource": "https://slack.com/",
+      "logoAsset": "877c3aec832cd41012590679.png"
     },
     {
       "token": "microsoft-teams",
@@ -8489,7 +9335,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-teams.json",
-      "version": "26246.1709.5146.8945"
+      "version": "26246.1709.5146.8945",
+      "logoURL": "https://www.microsoft.com/favicon.ico?v2",
+      "logoSource": "https://www.microsoft.com/en/microsoft-teams/group-chat-software/",
+      "logoAsset": "9088a7e8c4f70b91ee0e2daa.ico"
     },
     {
       "token": "zoom",
@@ -8512,7 +9361,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/zoom.json",
-      "version": "7.2.2.88465"
+      "version": "7.2.2.88465",
+      "logoURL": "https://st1.zoom.us/homepage/20260930-1234/primary/dist/assets/images/zoom.ico",
+      "logoSource": "https://www.zoom.com/",
+      "logoAsset": "d21bb537725d603ee2dbadf9.ico"
     },
     {
       "token": "webex",
@@ -8582,7 +9434,10 @@
       "githubSource": "https://github.com/overtake/TelegramSwift",
       "homepageSource": "https://formulae.brew.sh/api/cask/telegram.json",
       "version": "12.10,282985",
-      "githubPurpose": "Mac app source"
+      "githubPurpose": "Mac app source",
+      "logoURL": "https://macos.telegram.org/img/apple-touch-icon.png",
+      "logoSource": "https://macos.telegram.org/",
+      "logoAsset": "3f40462915a3e6026a4d7901.png"
     },
     {
       "token": "signal",
@@ -8606,7 +9461,10 @@
       "githubSource": "https://github.com/signalapp/Signal-Desktop",
       "homepageSource": "https://formulae.brew.sh/api/cask/signal.json",
       "version": "8.29.0",
-      "githubPurpose": "Desktop source"
+      "githubPurpose": "Desktop source",
+      "logoURL": "https://signal.org/assets/images/favicon/apple-touch-icon.png",
+      "logoSource": "https://signal.org/",
+      "logoAsset": "d041924c15885af6d06530a4.png"
     },
     {
       "token": "whatsapp",
@@ -8676,7 +9534,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/viber.json",
-      "version": "1.0.0.107,2154"
+      "version": "1.0.0.107,2154",
+      "logoURL": "https://www.viber.com/app/themes/viber/assets/images/favicon-v2/apple-icon-114x114.png",
+      "logoSource": "https://www.viber.com/en/",
+      "logoAsset": "8c9101702979738baebb9007.png"
     },
     {
       "token": "1password",
@@ -8699,7 +9560,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/1password.json",
-      "version": "8.12.38"
+      "version": "8.12.38",
+      "logoURL": "https://1password.com/img/favicon/apple-touch-icon-v2.png",
+      "logoSource": "https://1password.com/",
+      "logoAsset": "d58fc8daf00e9bc3e284c853.png"
     },
     {
       "token": "1password-cli",
@@ -8722,7 +9586,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/1password-cli.json",
-      "version": "2.40.0"
+      "version": "2.40.0",
+      "logoURL": "https://www.1password.dev/mintlify-assets/_mintlify/favicons/ab-634991b8/cic7o6CrHhA6877e/_generated/favicon/apple-touch-icon.png",
+      "logoSource": "https://www.1password.dev/cli",
+      "logoAsset": "86760650e650528e67b5f0eb.png"
     },
     {
       "token": "bitwarden",
@@ -8745,7 +9612,10 @@
       "github": "https://github.com/bitwarden/clients",
       "githubSource": "https://formulae.brew.sh/api/cask/bitwarden.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/bitwarden.json",
-      "version": "2026.9.1"
+      "version": "2026.9.1",
+      "logoURL": "https://bitwarden.com/icons/icon-144x144.png",
+      "logoSource": "https://bitwarden.com/",
+      "logoAsset": "a81a73017f17239ab616b53d.png"
     },
     {
       "token": "keepassxc",
@@ -8768,7 +9638,10 @@
       "github": "https://github.com/keepassxreboot/keepassxc",
       "githubSource": "https://formulae.brew.sh/api/cask/keepassxc.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/keepassxc.json",
-      "version": "2.7.12"
+      "version": "2.7.12",
+      "logoURL": "https://keepassxc.org/assets/img/apple-touch-icon-precomposed.png",
+      "logoSource": "https://keepassxc.org/",
+      "logoAsset": "15e6b1c54312299e7346b430.png"
     },
     {
       "token": "gpg-suite",
@@ -8791,7 +9664,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/gpg-suite.json",
-      "version": "2023.3"
+      "version": "2023.3",
+      "logoURL": "https://gpgtools.org/favicon-114.png",
+      "logoSource": "https://gpgtools.org/",
+      "logoAsset": "7a97a53c28e2f1f3267abaf3.png"
     },
     {
       "token": "gnupg",
@@ -8815,7 +9691,10 @@
       "githubSource": "https://github.com/gpg/gnupg",
       "homepageSource": "https://formulae.brew.sh/api/formula/gnupg.json",
       "version": "2.5.24",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://gnupg.org/favicon.ico",
+      "logoSource": "https://gnupg.org/",
+      "logoAsset": "8162af000a9775521357b17e.ico"
     },
     {
       "token": "veracrypt",
@@ -8839,7 +9718,10 @@
       "githubSource": "https://github.com/veracrypt/VeraCrypt",
       "homepageSource": "https://formulae.brew.sh/api/cask/veracrypt.json",
       "version": "1.26.29",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://veracrypt.io/favicon.ico",
+      "logoSource": "https://veracrypt.io/",
+      "logoAsset": "ac529c159e175f737dcecd1b.ico"
     },
     {
       "token": "cryptomator",
@@ -8862,7 +9744,10 @@
       "github": "https://github.com/cryptomator/cryptomator",
       "githubSource": "https://formulae.brew.sh/api/cask/cryptomator.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/cryptomator.json",
-      "version": "1.19.3"
+      "version": "1.19.3",
+      "logoURL": "https://cryptomator.org/favicon.ico",
+      "logoSource": "https://cryptomator.org/",
+      "logoAsset": "f8ff49dc0ad0c3af7f6a3b1c.ico"
     },
     {
       "token": "age",
@@ -8908,7 +9793,10 @@
       "github": "https://github.com/flameshot-org/flameshot",
       "githubSource": "https://formulae.brew.sh/api/cask/flameshot.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/flameshot.json",
-      "version": "14.0.0,14.0,git0.da6121bd"
+      "version": "14.0.0,14.0,git0.da6121bd",
+      "logoURL": "https://flameshot.org/apple-touch-icon.png",
+      "logoSource": "https://flameshot.org/",
+      "logoAsset": "73512bcfb91357debd7fea5c.png"
     },
     {
       "token": "cleanshot",
@@ -8931,7 +9819,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/cleanshot.json",
-      "version": "5.0.1"
+      "version": "5.0.1",
+      "logoURL": "https://cleanshot.com/favicon@2x.png",
+      "logoSource": "https://cleanshot.com/",
+      "logoAsset": "3111e5a56bf201e5157a8028.png"
     },
     {
       "token": "manual-xnip",
@@ -8953,7 +9844,10 @@
       "formulaLicense": null,
       "github": null,
       "githubSource": null,
-      "homepageSource": "https://xnipapp.com"
+      "homepageSource": "https://xnipapp.com",
+      "logoURL": "https://xnipapp.com/images/xnip-circle.png",
+      "logoSource": "https://xnipapp.com",
+      "logoAsset": "4643831ef7b478ee1fe0feb9.png"
     },
     {
       "token": "gifski",
@@ -8976,7 +9870,10 @@
       "github": "https://github.com/ImageOptim/gifski",
       "githubSource": "https://formulae.brew.sh/api/formula/gifski.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/gifski.json",
-      "version": "1.34.0"
+      "version": "1.34.0",
+      "logoURL": "https://gif.ski/favicon.ico",
+      "logoSource": "https://gif.ski/",
+      "logoAsset": "79fe45c1a7cffa2de53372f3.png"
     },
     {
       "token": "licecap",
@@ -8999,7 +9896,10 @@
       "github": "https://github.com/justinfrankel/licecap",
       "githubSource": "https://www.cockos.com/licecap/",
       "homepageSource": "https://formulae.brew.sh/api/cask/licecap.json",
-      "version": "1.32"
+      "version": "1.32",
+      "logoURL": "https://www.cockos.com/favicon.ico",
+      "logoSource": "https://www.cockos.com/licecap/",
+      "logoAsset": "e859f080055ac8042f42a125.ico"
     },
     {
       "token": "motrix",
@@ -9022,7 +9922,10 @@
       "github": "https://github.com/agalwood/Motrix",
       "githubSource": "https://formulae.brew.sh/api/cask/motrix.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/motrix.json",
-      "version": "1.8.19"
+      "version": "1.8.19",
+      "logoURL": "https://motrix.app/apple-touch-icon.png",
+      "logoSource": "https://motrix.app/",
+      "logoAsset": "21d18eea6592c920bb403ba3.png"
     },
     {
       "token": "free-download-manager",
@@ -9045,7 +9948,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/free-download-manager.json",
-      "version": "6.35.1"
+      "version": "6.35.1",
+      "logoURL": "https://www.freedownloadmanager.org/favicon.ico",
+      "logoSource": "https://www.freedownloadmanager.org/",
+      "logoAsset": "425a58d6d8bbf940e1d5fa8c.ico"
     },
     {
       "token": "jdownloader",
@@ -9068,7 +9974,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/jdownloader.json",
-      "version": "latest"
+      "version": "latest",
+      "logoURL": "https://jdownloader.org/lib/tpl/arctic/images/favicon.ico",
+      "logoSource": "https://jdownloader.org/",
+      "logoAsset": "a14ea1a1cba14e3729f3910a.ico"
     },
     {
       "token": "qbittorrent",
@@ -9092,7 +10001,10 @@
       "githubSource": "https://github.com/qbittorrent/qBittorrent",
       "homepageSource": "https://formulae.brew.sh/api/cask/qbittorrent.json",
       "version": "5.2.3",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.qbittorrent.org/favicon.ico",
+      "logoSource": "https://www.qbittorrent.org/",
+      "logoAsset": "e851219b75c97d1a161ad6b2.ico"
     },
     {
       "token": "transmission",
@@ -9115,7 +10027,10 @@
       "github": "https://github.com/transmission/transmission",
       "githubSource": "https://formulae.brew.sh/api/cask/transmission.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/transmission.json",
-      "version": "4.1.3"
+      "version": "4.1.3",
+      "logoURL": "https://transmissionbt.com/assets/images/icons/1024.png",
+      "logoSource": "https://transmissionbt.com/",
+      "logoAsset": "1d2cafdb2fbaa2b86fe4565d.png"
     },
     {
       "token": "deluge",
@@ -9162,7 +10077,10 @@
       "github": "https://github.com/KiCad/kicad-source-mirror",
       "githubSource": "https://formulae.brew.sh/api/cask/kicad.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/kicad.json",
-      "version": "10.0.6"
+      "version": "10.0.6",
+      "logoURL": "https://www.kicad.org/apple-touch-icon-114x114.png",
+      "logoSource": "https://www.kicad.org/",
+      "logoAsset": "db56b9c3e2c79f93d78cae6d.png"
     },
     {
       "token": "manual-fritzing",
@@ -9185,7 +10103,10 @@
       "github": "https://github.com/fritzing/fritzing-app",
       "githubSource": "https://github.com/fritzing/fritzing-app",
       "homepageSource": "https://fritzing.org",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://fritzing.org/assets/favicon-6c837bce48636743aacc0047bfdeb6e97501588baf17f80d23adc14f31fc2355.ico",
+      "logoSource": "https://fritzing.org",
+      "logoAsset": "9d9a7b2c0978e0212b055457.ico"
     },
     {
       "token": "arduino-ide",
@@ -9208,7 +10129,10 @@
       "github": "https://github.com/arduino/arduino-ide",
       "githubSource": "https://formulae.brew.sh/api/cask/arduino-ide.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/arduino-ide.json",
-      "version": "2.3.10"
+      "version": "2.3.10",
+      "logoURL": "https://www.arduino.cc/wiki/icons/icon-144x144.png?v=23330209a9e4870226e34963941206b6",
+      "logoSource": "https://www.arduino.cc/en/software",
+      "logoAsset": "0717259f22557d36328aa37f.png"
     },
     {
       "token": "platformio",
@@ -9231,7 +10155,10 @@
       "github": "https://github.com/platformio/platformio-core",
       "githubSource": "https://formulae.brew.sh/api/formula/platformio.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/platformio.json",
-      "version": "6.2.0"
+      "version": "6.2.0",
+      "logoURL": "https://cdn.platformio.org/apple-touch-icon.png",
+      "logoSource": "https://platformio.org/",
+      "logoAsset": "4a73f85fe77bf87dd8f20191.png"
     },
     {
       "token": "thonny",
@@ -9254,7 +10181,10 @@
       "github": "https://github.com/thonny/thonny",
       "githubSource": "https://formulae.brew.sh/api/cask/thonny.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/thonny.json",
-      "version": "5.0.0"
+      "version": "5.0.0",
+      "logoURL": "https://thonny.org/favicon.ico",
+      "logoSource": "https://thonny.org/",
+      "logoAsset": "917978e9c369b405083ce57c.ico"
     },
     {
       "token": "coolterm",
@@ -9277,7 +10207,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/coolterm.json",
-      "version": "2.4.0.3.0.1425"
+      "version": "2.4.0.3.0.1425",
+      "logoURL": "https://freeware.the-meiers.org/favicon.ico",
+      "logoSource": "https://freeware.the-meiers.org/",
+      "logoAsset": "80f788016749bccd297e0e4b.ico"
     },
     {
       "token": "manual-serialtools",
@@ -9323,7 +10256,10 @@
       "githubSource": "https://github.com/qgis/QGIS",
       "homepageSource": "https://formulae.brew.sh/api/cask/qgis.json",
       "version": "4.2.3",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.qgis.org/img/favicon/apple-touch-icon.png",
+      "logoSource": "https://www.qgis.org/",
+      "logoAsset": "122bd5570394232519344d6c.png"
     },
     {
       "token": "google-earth-pro",
@@ -9346,7 +10282,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/google-earth-pro.json",
-      "version": "7.3.7.1327"
+      "version": "7.3.7.1327",
+      "logoURL": "https://www.gstatic.com/earth/00-favicon.ico",
+      "logoSource": "https://earth.google.com/web/",
+      "logoAsset": "007d6d3eef4ffee0dd071b22.ico"
     },
     {
       "token": "octave",
@@ -9370,7 +10309,10 @@
       "githubSource": "https://github.com/gnu-octave/octave",
       "homepageSource": "https://formulae.brew.sh/api/formula/octave.json",
       "version": "11.3.0",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://octave.org/favicon.ico",
+      "logoSource": "https://octave.org/index.html",
+      "logoAsset": "6ed9d6a4241b358e88b64461.ico"
     },
     {
       "token": "r-app",
@@ -9393,7 +10335,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/r-app.json",
-      "version": "4.6.1,sonoma"
+      "version": "4.6.1,sonoma",
+      "logoURL": "https://www.r-project.org/favicon-16x16.png",
+      "logoSource": "https://www.r-project.org/",
+      "logoAsset": "d241c5a208f4a3a83e218ed6.png"
     },
     {
       "token": "rstudio",
@@ -9417,7 +10362,10 @@
       "githubSource": "https://github.com/rstudio/rstudio",
       "homepageSource": "https://formulae.brew.sh/api/cask/rstudio.json",
       "version": "2026.09.0,174",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://posit.co/themes/custom/kinetic/favicon.ico",
+      "logoSource": "https://posit.co/products/open-source/rstudio",
+      "logoAsset": "3d5b99a2692d11dafea6d3c8.ico"
     },
     {
       "token": "julia-app",
@@ -9440,7 +10388,10 @@
       "github": "https://github.com/JuliaLang/julia",
       "githubSource": "https://julialang.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/julia-app.json",
-      "version": "1.13.1"
+      "version": "1.13.1",
+      "logoURL": "https://julialang.org/assets/infra/julia.ico",
+      "logoSource": "https://julialang.org/",
+      "logoAsset": "40b5cb29be89e19378e027a6.ico"
     },
     {
       "token": "jupyterlab",
@@ -9464,7 +10415,10 @@
       "githubSource": "https://github.com/jupyterlab/jupyterlab",
       "homepageSource": "https://formulae.brew.sh/api/formula/jupyterlab.json",
       "version": "4.6.4",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://jupyter.org/assets/favicons/apple-touch-icon-120x120.png",
+      "logoSource": "https://jupyter.org/",
+      "logoAsset": "268598890b74e3606f1f5755.png"
     },
     {
       "token": "geogebra",
@@ -9488,7 +10442,10 @@
       "githubSource": "https://github.com/geogebra/geogebra",
       "homepageSource": "https://formulae.brew.sh/api/cask/geogebra.json",
       "version": "6.0.929.3",
-      "githubPurpose": "Source mirror"
+      "githubPurpose": "Source mirror",
+      "logoURL": "https://www.geogebra.org/favicon.ico",
+      "logoSource": "https://www.geogebra.org/",
+      "logoAsset": "44f87e411573a4d325328e0f.ico"
     },
     {
       "token": "android-platform-tools",
@@ -9511,7 +10468,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/android-platform-tools.json",
-      "version": "37.0.1"
+      "version": "37.0.1",
+      "logoURL": "https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/android/images/touchicon-180.png",
+      "logoSource": "https://developer.android.com/tools/releases/platform-tools",
+      "logoAsset": "b5508b6cf75c8c14e1e02556.png"
     },
     {
       "token": "android-commandlinetools",
@@ -9534,7 +10494,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/android-commandlinetools.json",
-      "version": "15859902"
+      "version": "15859902",
+      "logoURL": "https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/android/images/touchicon-180.png",
+      "logoSource": "https://developer.android.com/studio",
+      "logoAsset": "7f91d86ee6c7bdf56245000c.png"
     },
     {
       "token": "scrcpy",
@@ -9581,7 +10544,10 @@
       "githubSource": "https://github.com/flutter/flutter",
       "homepageSource": "https://formulae.brew.sh/api/cask/flutter.json",
       "version": "3.47.6",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://flutter.dev/assets/favicon.26abda3864324ef4ac32dd0d3ce28907.png",
+      "logoSource": "https://flutter.dev/",
+      "logoAsset": "be13961a0ab037c4fd82b1ec.png"
     },
     {
       "token": "manual-react-native-tooling",
@@ -9604,7 +10570,10 @@
       "github": "https://github.com/react/react-native",
       "githubSource": "https://github.com/react/react-native",
       "homepageSource": "https://reactnative.dev/docs/set-up-your-environment",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://reactnative.dev/img/pwa/apple-icon-180.png",
+      "logoSource": "https://reactnative.dev/docs/set-up-your-environment",
+      "logoAsset": "911bbd7fb2287db25413c695.png"
     },
     {
       "token": "manual-expo-cli",
@@ -9627,7 +10596,10 @@
       "github": "https://github.com/expo/expo",
       "githubSource": "https://github.com/expo/expo",
       "homepageSource": "https://docs.expo.dev/more/expo-cli",
-      "githubPurpose": "Project repository"
+      "githubPurpose": "Project repository",
+      "logoURL": "https://static.expo.dev/static/brand/app-icon-512x512.png",
+      "logoSource": "https://docs.expo.dev/more/expo-cli/",
+      "logoAsset": "fdcf9558913498b48f1e3de0.png"
     },
     {
       "token": "manual-ionic-cli",
@@ -9649,7 +10621,10 @@
       "formulaLicense": null,
       "github": "https://github.com/ionic-team/ionic-cli",
       "githubSource": "https://ionicframework.com/docs/cli",
-      "homepageSource": "https://ionicframework.com/docs/cli"
+      "homepageSource": "https://ionicframework.com/docs/cli",
+      "logoURL": "https://ionicframework.com/docs/img/meta/favicon-96x96.png",
+      "logoSource": "https://ionicframework.com/docs/cli",
+      "logoAsset": "b189854a2ab11947145aaa64.png"
     },
     {
       "token": "balenaetcher",
@@ -9672,7 +10647,10 @@
       "github": "https://github.com/balena-io/etcher",
       "githubSource": "https://formulae.brew.sh/api/cask/balenaetcher.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/balenaetcher.json",
-      "version": "2.1.7"
+      "version": "2.1.7",
+      "logoURL": "https://etcher.balena.io/images/webclip.png",
+      "logoSource": "https://etcher.balena.io/",
+      "logoAsset": "41586c4e7f463378b37ca845.png"
     },
     {
       "token": "raspberry-pi-imager",
@@ -9718,7 +10696,10 @@
       "github": "https://github.com/ventoy/Ventoy",
       "githubSource": "https://github.com/ventoy/Ventoy",
       "homepageSource": "https://www.ventoy.net",
-      "githubPurpose": "Source repository"
+      "githubPurpose": "Source repository",
+      "logoURL": "https://www.ventoy.net/favicon.ico",
+      "logoSource": "https://www.ventoy.net",
+      "logoAsset": "c8e14d31d97f4e927a42b1a2.ico"
     },
     {
       "token": "rustdesk",
@@ -9741,7 +10722,10 @@
       "github": "https://github.com/rustdesk/rustdesk",
       "githubSource": "https://formulae.brew.sh/api/cask/rustdesk.json",
       "homepageSource": "https://formulae.brew.sh/api/cask/rustdesk.json",
-      "version": "1.5.0"
+      "version": "1.5.0",
+      "logoURL": "https://rustdesk.com/_astro/apple-touch-icon.DNoXgPv7.png",
+      "logoSource": "https://rustdesk.com/",
+      "logoAsset": "304ca1638c5effa6832e0e15.png"
     },
     {
       "token": "anydesk",
@@ -9764,7 +10748,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/anydesk.json",
-      "version": "9.8.0"
+      "version": "9.8.0",
+      "logoURL": "https://anydesk.com/_static/img/favicon/apple-touch-icon.png",
+      "logoSource": "https://anydesk.com/en",
+      "logoAsset": "7046ebeaf064a62b915a0a1d.png"
     },
     {
       "token": "teamviewer",
@@ -9787,7 +10774,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/teamviewer.json",
-      "version": "15.82.6"
+      "version": "15.82.6",
+      "logoURL": "https://www.teamviewer.com/etc.clientlibs/teamviewer/clientlibs/clientlib-resources/resources/favicon.png",
+      "logoSource": "https://www.teamviewer.com/en-mea/",
+      "logoAsset": "990bb270a89d9423edc6891b.png"
     },
     {
       "token": "windows-app",
@@ -9810,7 +10800,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/windows-app.json",
-      "version": "11.4.3"
+      "version": "11.4.3",
+      "logoURL": "https://adoption.microsoft.com/wp-content/themes/microsoft-adoption/images/microsoft-icon-180x180.png",
+      "logoSource": "https://adoption.microsoft.com/en-us/windows-app/",
+      "logoAsset": "0b62829bd771551b0b7c2de8.png"
     },
     {
       "token": "parsec",
@@ -9833,7 +10826,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/parsec.json",
-      "version": "150-104a"
+      "version": "150-104a",
+      "logoURL": "https://parsec.app/favicon.ico",
+      "logoSource": "https://parsec.app/",
+      "logoAsset": "9066e9f2ac56648e83d68c7b.ico"
     },
     {
       "token": "openrgb",
@@ -9856,7 +10852,10 @@
       "github": "https://github.com/CalcProgrammer1/OpenRGB",
       "githubSource": "https://openrgb.org/",
       "homepageSource": "https://formulae.brew.sh/api/cask/openrgb.json",
-      "version": "1.0rc3,6fbcf62"
+      "version": "1.0rc3,6fbcf62",
+      "logoURL": "https://openrgb.org/apple-touch-icon.5819aa8b.png",
+      "logoSource": "https://openrgb.org/",
+      "logoAsset": "8615d90e2a677ba5f5bb747f.png"
     },
     {
       "token": "logi-options+",
@@ -9879,7 +10878,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/logi-options+.json",
-      "version": "2.8.981479"
+      "version": "2.8.981479",
+      "logoURL": "https://www.logitech.com/etc.clientlibs/logitech/clientlibs/common/resources/images/favicon.ico",
+      "logoSource": "https://www.logitech.com/en-us/software/logi-options-plus",
+      "logoAsset": "0fdf6df0be3a7d45bab000ab.png"
     },
     {
       "token": "logitech-g-hub",
@@ -9902,7 +10904,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/logitech-g-hub.json",
-      "version": "2026.6.981214"
+      "version": "2026.6.981214",
+      "logoURL": "https://www.logitechg.com/favicon-gaming.ico",
+      "logoSource": "https://www.logitechg.com/en-us/software/ghub",
+      "logoAsset": "c0829b6d9e3819be3f088cb1.png"
     },
     {
       "token": "google-drive",
@@ -9923,7 +10928,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/google-drive.json",
-      "version": "132.0.0"
+      "version": "132.0.0",
+      "logoURL": "https://www.gstatic.com/images/branding/googleg_gradient/1x/googleg_gradient_standard_20dp.png",
+      "logoSource": "https://workspace.google.com/products/drive/",
+      "logoAsset": "f4165d77e1606199c15f1b2c.png"
     },
     {
       "token": "openjdk@21",
@@ -9944,7 +10952,10 @@
       "github": "https://github.com/openjdk/jdk21u",
       "githubSource": "https://formulae.brew.sh/api/formula/openjdk@21.json",
       "homepageSource": "https://formulae.brew.sh/api/formula/openjdk@21.json",
-      "version": "21.0.12.1"
+      "version": "21.0.12.1",
+      "logoURL": "https://openjdk.org/images/nanoduke.ico",
+      "logoSource": "https://openjdk.org/",
+      "logoAsset": "643e86a8449f8e62d93944e6.ico"
     },
     {
       "token": "miro",
@@ -9965,7 +10976,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/miro.json",
-      "version": "0.11.168"
+      "version": "0.11.168",
+      "logoURL": "https://framerusercontent.com/images/6FBG66PBxjV2QFaDfIdUi5mi9A.png",
+      "logoSource": "https://miro.com/",
+      "logoAsset": "e402bd4f0a138c710e3a66b2.png"
     },
     {
       "token": "loom",
@@ -9986,7 +11000,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/loom.json",
-      "version": "0.379.4"
+      "version": "0.379.4",
+      "logoURL": "https://cdn.loom.com/assets/favicons-loom/apple-touch-icon-180x180.png",
+      "logoSource": "https://www.loom.com/",
+      "logoAsset": "784a2ddf5d4d61b6ae157ca8.png"
     },
     {
       "token": "microsoft-word",
@@ -10007,7 +11024,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-word.json",
-      "version": "16.113.26092714"
+      "version": "16.113.26092714",
+      "logoURL": "https://www.microsoft.com/favicon.ico?v2",
+      "logoSource": "https://www.microsoft.com/en-US/microsoft-365/word",
+      "logoAsset": "360cf887bd6862cec49f0f43.ico"
     },
     {
       "token": "microsoft-excel",
@@ -10028,7 +11048,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-excel.json",
-      "version": "16.113.26092714"
+      "version": "16.113.26092714",
+      "logoURL": "https://www.microsoft.com/favicon.ico?v2",
+      "logoSource": "https://www.microsoft.com/en-US/microsoft-365/excel",
+      "logoAsset": "a915bd902a515fa6ee1cae95.ico"
     },
     {
       "token": "microsoft-powerpoint",
@@ -10049,7 +11072,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-powerpoint.json",
-      "version": "16.113.26092714"
+      "version": "16.113.26092714",
+      "logoURL": "https://www.microsoft.com/favicon.ico?v2",
+      "logoSource": "https://www.microsoft.com/en-US/microsoft-365/powerpoint",
+      "logoAsset": "9423ca883e636338738ecec0.ico"
     },
     {
       "token": "mullvad-vpn",
@@ -10071,7 +11097,10 @@
       "githubSource": "https://github.com/mullvad/mullvadvpn-app",
       "homepageSource": "https://formulae.brew.sh/api/cask/mullvad-vpn.json",
       "version": "2026.5",
-      "githubPurpose": "App source"
+      "githubPurpose": "App source",
+      "logoURL": "https://mullvad.net/apple-touch-icon.png",
+      "logoSource": "https://mullvad.net/en",
+      "logoAsset": "f4a373fcf8406fafcc7027b8.png"
     },
     {
       "token": "twingate",
@@ -10092,7 +11121,10 @@
       "github": null,
       "githubSource": null,
       "homepageSource": "https://formulae.brew.sh/api/cask/twingate.json",
-      "version": "2026.259.28406"
+      "version": "2026.259.28406",
+      "logoURL": "https://framerusercontent.com/images/e76KKdP64F9YgzYu302f5fcNbcw.png",
+      "logoSource": "https://www.twingate.com/",
+      "logoAsset": "f438c42350ddd038443e22f5.png"
     }
   ],
   "presets": {
