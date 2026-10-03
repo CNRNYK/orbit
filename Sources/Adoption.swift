@@ -56,7 +56,7 @@ struct AdoptionItem: Identifiable {
     var arguments: [String] {
         guard let package = app.package else { return [] }
         let parent = URL(fileURLWithPath: app.path).deletingLastPathComponent().path
-        return ["install", "--cask", "--appdir=" + parent] + (installer ? [] : ["--adopt"]) + [package.token]
+        return ["install", "--cask", "--appdir=" + parent] + (installer ? [] : ["--adopt"]) + [package.operationToken]
     }
 }
 
@@ -66,7 +66,7 @@ struct AdoptionItem: Identifiable {
     func canInstall(_ package: Package) -> Bool { startupReady && inventoryKnown && package.installable && !installed.contains(package.id) && !appPresent(package) && !localApps.contains { $0.package?.id == package.id } }
     var installSelection: [Package] { selection.filter { canInstall($0) } }
     func sanitizeInstallSelection() {
-        if mode == .install && inventoryKnown { selected = Set(installSelection.map(\.id)) }
+        if mode != .uninstall && inventoryKnown { selected = Set(installSelection.map(\.id)) }
     }
     func prepareAdoption() async {
         guard !locked, startupReady, !selectedManual.isEmpty, let brew else { return }
@@ -76,7 +76,7 @@ struct AdoptionItem: Identifiable {
             guard let package = app.package, package.installable, app.unchanged else {
                 adoptionPlan.append(AdoptionItem(app: app, installer: false, version: "", problem: "No supported matching package or the app changed.")); continue
             }
-            let result = await runJSONCommand(brew, ["info", "--json=v2", "--cask", package.token])
+            let result = await runJSONCommand(brew, ["info", "--json=v2", "--cask", package.operationToken])
             do {
                 guard result.0 == 0, let root = try JSONSerialization.jsonObject(with: Data(result.1.utf8)) as? [String: Any], let info = (root["casks"] as? [[String: Any]])?.first,
                       info["token"] as? String == package.token, info["disabled"] as? Bool != true, info["deprecated"] as? Bool != true else { throw NSError(domain: "Adoption", code: 1) }
