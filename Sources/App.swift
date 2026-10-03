@@ -300,6 +300,7 @@ struct PackageDetailView: View {
                 }
             }
         }.padding(26).frame(width: 680, height: 620)
+            .background(Color(nsColor: .windowBackgroundColor))
     }
     func detailLink(_ title: String, symbol: String, url: URL) -> some View {
         Link(destination: url) {
