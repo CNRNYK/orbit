@@ -52,12 +52,42 @@ final class RecorderSelectionCanvas: NSView {
 struct RecorderHUD: View {
     @ObservedObject var state: RecorderState
     var body: some View {
-        HStack(spacing:12) {
-            Circle().fill(state.phase == .paused ? .orange : .red).frame(width:8,height:8)
-            Text(state.phase == .countdown ? "Starting in \(state.countdown)…" : state.elapsedLabel).font(.system(.body,design:.monospaced).bold())
-            if state.phase == .recording || state.phase == .paused { Button(state.phase == .paused ? "Resume" : "Pause") { state.togglePause() }; Button("Stop") { Task { await state.stop() } }.tint(.red) }
-            else if state.phase == .countdown { Button("Cancel") { state.cancelStart() } }
-            else { ProgressView().controlSize(.small); Text("Saving…") }
-        }.padding(12).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius:14))
+        VStack(alignment:.leading,spacing:12) {
+            HStack {
+                Label("Orbit Recorder",systemImage:"record.circle").font(.subheadline.bold())
+                Spacer()
+                if state.phase == .idle { Button { state.closeControls() } label: { Image(systemName:"xmark") }.buttonStyle(.borderless).help("Close recording controls") }
+            }
+            if state.phase == .idle {
+                Picker("",selection:$state.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().onChange(of:state.options.mode) { _,_ in state.modeChanged() }
+                if state.options.mode == "Window" {
+                    HStack {
+                        Picker("Window",selection:$state.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(state.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }.labelsHidden()
+                        Button("Refresh") { Task { await state.loadSources() } }.disabled(state.busy)
+                    }
+                } else if !state.displays.isEmpty {
+                    Picker("Display",selection:$state.displayID) { ForEach(state.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } }.onChange(of:state.displayID) { _,_ in state.modeChanged() }
+                }
+                Text("Saves to Movies/Orbit Recordings").font(.caption).foregroundStyle(.secondary)
+                HStack {
+                    Button("Start",systemImage:"record.circle") { state.start(compact:true) }.buttonStyle(.borderedProminent).tint(.red).disabled(state.busy || !state.canBegin() || (state.options.mode == "Window" && state.selectedWindow == nil))
+                    Spacer()
+                    if let url = state.recordingURL { Button("Show last recording") { NSWorkspace.shared.activateFileViewerSelecting([url]) } }
+                }
+            } else {
+                HStack(spacing:12) {
+                    Circle().fill(state.phase == .paused ? .orange : .red).frame(width:8,height:8)
+                    Text(state.phase == .countdown ? "Starting in \(state.countdown)…" : state.elapsedLabel).font(.system(.body,design:.monospaced).bold())
+                    Spacer()
+                    if state.phase == .recording || state.phase == .paused { Button(state.phase == .paused ? "Resume" : "Pause") { state.togglePause() }; Button("Stop") { Task { await state.stop() } }.tint(.red) }
+                    else if state.phase == .countdown || state.phase == .preparing { ProgressView().controlSize(.small); Button("Cancel") { state.cancelStart() } }
+                    else { ProgressView().controlSize(.small); Text("Saving…") }
+                }
+            }
+            if let notice = state.notice {
+                Text(notice).font(.caption).foregroundStyle(.orange).fixedSize(horizontal:false,vertical:true)
+                Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) }
+            }
+        }.padding(14).frame(width:420).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius:14))
     }
 }

@@ -60,8 +60,8 @@ struct MenuBarPanel: View {
                 } else if recorder.active {
                     HStack { ProgressView().controlSize(.small); Text(recorder.phase == .countdown ? "Starting in \(recorder.countdown)…" : "Preparing or saving…").font(.caption); Spacer(); if recorder.phase == .preparing || recorder.phase == .countdown { Button("Cancel") { recorder.cancelStart() } } }
                 } else {
-                    Picker("Capture", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).onChange(of: recorder.options.mode) { _, _ in recorder.modeChanged() }.disabled(state.operating)
-                    Button("Start recording", systemImage: "record.circle") { action(.record) }.buttonStyle(.bordered).frame(maxWidth:.infinity, alignment:.leading).disabled(state.operating)
+                    Picker("", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).onChange(of: recorder.options.mode) { _, _ in recorder.modeChanged() }.disabled(state.operating)
+                    Button("Recording controls", systemImage: "record.circle") { action(.record) }.buttonStyle(.bordered).frame(maxWidth:.infinity, alignment:.leading).disabled(state.operating)
                 }
             }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
@@ -140,7 +140,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     func openWindow() {
         popover.close()
         if mainWindow == nil { NSApp.windows.forEach { remember($0) } }
-        NSApp.activate(ignoringOtherApps: true); mainWindow?.deminiaturize(nil); mainWindow?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true); if mainWindow?.isMiniaturized == true { mainWindow?.deminiaturize(nil) }; mainWindow?.makeKeyAndOrderFront(nil)
     }
     func perform(_ action: MenuBarAction) {
         let state = MenuBarState(store: store)
@@ -153,7 +153,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         case .recorder:
             if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.mode = .recorder } else { store.navigate(.recorder) }; openWindow()
         case .record:
-            guard !state.operating else { return }; store.navigate(.recorder); openWindow(); store.recorderState.start()
+            guard !state.operating else { return }; popover.close(); store.recorderState.showCompactControls(); mainWindow?.orderOut(nil)
         case .pauseRecord: store.recorderState.togglePause()
         case .stopRecord: Task { await store.recorderState.stop() }
         case .details: openWindow(); store.showLog = true

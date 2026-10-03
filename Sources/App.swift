@@ -493,7 +493,6 @@ struct OrbitApp: App {
             pump(0.2)
             window.performClose(nil); precondition(!window.isVisible && controller.statusItem != nil)
             controller.openWindow(); precondition(window.isVisible)
-            window.miniaturize(nil); controller.openWindow(); precondition(!window.isMiniaturized)
             controller.perform(.cleanup); precondition(store.mode == .cleanup && window.isVisible)
             controller.perform(.updates); precondition(store.mode == .updates)
             controller.perform(.details); precondition(store.showLog && window.isVisible); store.showLog = false
@@ -517,9 +516,17 @@ struct OrbitApp: App {
             controller.perform(.recorder); precondition(store.mode == .recorder)
             controller.perform(.cleanup); precondition(store.mode == .recorder, "Recording must block package navigation")
             store.recorderState.phase = .countdown; store.recorderState.cancelStart(); precondition(store.recorderState.phase == .idle)
+            window.orderOut(nil)
+            let previousMode = store.mode
+            controller.perform(.record); pump(0.2)
+            precondition(!window.isVisible && store.mode == previousMode && store.recorderState.controlsVisible, "Menu recording must open only floating controls")
+            precondition(store.recorderState.phase == .idle, "Opening controls must not start capture")
+            store.recorderState.closeControls(); precondition(!store.recorderState.controlsVisible)
+            controller.openWindow()
+            window.miniaturize(nil); pump(0.5); controller.openWindow(); pump(0.8); precondition(!window.isMiniaturized)
             controller.remove(); precondition(controller.statusItem == nil)
             window.orderOut(nil)
-            print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation and details")
+            print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation, floating recording controls without main-window activation and details")
             return
         }
         if let index = CommandLine.arguments.firstIndex(of: "--render-preview"), CommandLine.arguments.count > index + 1 {
@@ -577,6 +584,8 @@ struct OrbitApp: App {
                 previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 400)
                 if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }
             }
+            if CommandLine.arguments.contains("--menu-bar-area-preview") { previewStore.recorderState.options.mode = "Selected area"; root = AnyView(MenuBarPanel(store:previewStore) { _ in }); size = NSSize(width:340,height:600) }
+            if CommandLine.arguments.contains("--recorder-controls-preview") { previewStore.recorderState.compactControls = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:420,height:220) }
             if CommandLine.arguments.contains("--export-preview") { root = AnyView(SetupExportView(store: previewStore)); size = NSSize(width: 650, height: 620) }
             if CommandLine.arguments.contains("--repair-preview") {
                 let package = Catalog.packages.first { $0.token == "figma" }!
