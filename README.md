@@ -29,7 +29,7 @@ Search official Homebrew formulas and casks by name or description. **Add to My 
 
 ## Review cleanup before changing anything
 
-Cleanup has its own page in the main window. Scan supported locations, inspect paths and estimated sizes, then choose what to move to Trash. Nothing is selected by default. Large files in Downloads and Desktop can be revealed in Finder for your own review.
+Cleanup has its own page in the main window. Scan supported locations, inspect paths and estimated sizes, then choose what to move to Trash. Nothing is selected by default. Select a group or all cleanable items explicitly; personal large files remain outside bulk cleanup. Large files in Downloads and Desktop can be revealed in Finder for your own review.
 
 ![Cleanup page with cache groups, estimated sizes, and a reviewed Trash action](docs/images/cleanup.png)
 
@@ -49,7 +49,7 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.13.0/Orbit-0.13.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.13.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.14.0/Orbit-0.14.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.14.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

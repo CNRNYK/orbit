@@ -121,7 +121,8 @@ struct ExploreView: View {
                 LazyVStack(spacing:0) {
                     ForEach(Array(matches.prefix(150))) { package in
                         HStack(spacing:12) {
-                            Image(systemName:package.cask ? "app" : "terminal").font(.title2).frame(width:32)
+                            Toggle("Select " + package.name, isOn: Binding(get: { store.selected.contains(package.id) }, set: { _ in store.toggle(package) })).labelsHidden().toggleStyle(.checkbox).disabled(store.locked || !store.canInstall(package)).accessibilityLabel("Select " + package.name)
+                            AppIcon(package: package).frame(width: 32, height: 32)
                             Button { store.detailPackage = package } label: {
                                 VStack(alignment:.leading,spacing:4) { Text(package.name).font(.headline); Text(package.detail).font(.caption).foregroundStyle(.secondary).lineLimit(2); Text("\(package.cask ? "App" : "CLI") · \(package.token) · \(package.version ?? "Unknown version")").font(.caption).foregroundStyle(.secondary) }.frame(maxWidth:.infinity,alignment:.leading)
                             }.buttonStyle(.plain)
@@ -137,9 +138,17 @@ struct ExploreView: View {
                     if matches.isEmpty && !store.loadingExplore { ContentUnavailableView("No packages found",systemImage:"magnifyingglass",description:Text(store.explorePackages.isEmpty ? "Refresh the catalog to browse official Homebrew apps and tools." : "Try a different search or package filter.")) }
                 }
             }
+            DisclosureGroup("Selected apps · \(store.installSelection.count)", isExpanded: $store.showExploreSelection) {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if store.installSelection.isEmpty { Text("Check apps above to build your installation selection.").foregroundStyle(.secondary) }
+                        ForEach(store.installSelection) { package in HStack { Text(package.name); Spacer(); Button("Remove") { store.toggle(package) }.disabled(store.locked) } }
+                    }.padding(.vertical, 8)
+                }.frame(maxHeight: 140)
+            }
             if store.busy {
                 ProgressView(value:Double(store.completed),total:Double(max(store.total,1)))
-                HStack { Text(store.headline).font(.caption).foregroundStyle(.secondary); Spacer(); Button(store.stopRequested ? "Stopping after this app…" : "Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested) }
+                HStack { Text(store.progressSummary + " · " + store.headline).font(.caption).foregroundStyle(.secondary); Spacer(); Button(store.stopRequested ? "Stopping after this app…" : "Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested) }
             }
             HStack {
                 Button("Operation details") { store.showLog = true }

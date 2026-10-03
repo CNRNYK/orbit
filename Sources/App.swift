@@ -81,7 +81,8 @@ struct ContentView: View {
                     }
                     Button("Select all") { store.selected.formUnion(store.visible.filter { store.uninstallMode || store.canInstall($0) }.map(\.id)) }
                     Button("Clear") { store.selected.subtract(store.visible.map(\.id)) }
-                }.font(.caption).buttonStyle(.borderless).padding(.horizontal, 24).padding(.vertical, 10).disabled(store.locked)
+                }.font(.callout).buttonStyle(.bordered).controlSize(.regular).padding(.horizontal, 24).padding(.vertical, 10).disabled(store.locked)
+                if store.category == "My apps" { Text("Favorites do not select apps for installation. Check an app to add it to To install; removing a favorite does not uninstall it.").font(.caption).foregroundStyle(.secondary).padding(.horizontal, 24) }
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 22) {
                         if store.category == "All Apps" || store.category == "My apps" || !store.search.isEmpty {
@@ -105,7 +106,7 @@ struct ContentView: View {
                     VStack(spacing: 8) {
                         ProgressView(value: Double(store.completed), total: Double(max(store.total, 1)))
                         HStack {
-                            Text("\(store.completed) of \(store.total) completed").font(.caption).foregroundStyle(.secondary)
+                            Text(store.progressSummary).font(.caption).foregroundStyle(.secondary)
                             Spacer()
                             Button(store.stopRequested ? "Stopping after this app…" : "Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested)
                         }
@@ -147,17 +148,7 @@ struct ContentView: View {
         .sheet(isPresented: $store.showUpdateReview) { UpdateReviewView(store: store) }
         .sheet(isPresented: $store.showRemovalReview) { RemovalReviewView(store: store) }
         .sheet(item: $store.detailPackage) { package in PackageDetailView(package: package, store: store) }
-        .sheet(isPresented: $store.showLog) {
-            VStack(alignment: .leading, spacing: 14) {
-                HStack {
-                    Text("Operation details").font(.title2.bold())
-                    Spacer()
-                    Button("Copy") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(store.output, forType: .string) }
-                    Button("Done") { store.showLog = false }.keyboardShortcut(.cancelAction)
-                }
-                ScrollView { Text(store.output.isEmpty ? "No operation has run yet." : store.output).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }
-            }.padding(24).frame(width: 780, height: 520)
-        }
+        .sheet(isPresented: $store.showLog) { OperationDetailsView(store: store) }
         .alert("Orbit", isPresented: Binding(get: { store.notice != nil }, set: { if !$0 { store.notice = nil } })) {
             Button("OK") { store.notice = nil }
         } message: { Text(store.notice ?? "") }
@@ -251,6 +242,7 @@ struct ContentView: View {
                     Spacer(minLength: 4)
                 }.contentShape(Rectangle())
             }.buttonStyle(.plain).help("View details for \(app.name)").accessibilityLabel("View details for \(app.name)")
+            if store.category == "My apps" && !store.uninstallMode { Button("Remove from My apps") { store.removeFavorite(app) }.controlSize(.regular).disabled(store.locked).help("Remove this favorite; keep installation selection and the installed app") }
             if !store.uninstallMode, !store.installed.contains(app.id), let local = store.localApps.first(where: { $0.package?.id == app.id }) {
                 Button("Manage with Homebrew") { store.navigate(.uninstall); store.manualTab = true; store.selectedManual = [local.id] }.controlSize(.small).disabled(store.locked)
             }
@@ -297,23 +289,6 @@ struct ContentView: View {
             Label(store.uninstallMode ? "Homebrew-managed apps in this catalog only. Removal requires confirmation." : "Some apps require sign-in or a paid license after installation.", systemImage: "info.circle").font(.caption).foregroundStyle(.secondary).padding(.vertical, 8)
             Text("Selections are saved on this Mac.").font(.caption2).foregroundStyle(.secondary)
         }.padding(22)
-    }
-}
-
-struct AppIcon: View {
-    let package: Package
-    @ObservedObject private var logos = LogoStore.shared
-    var localIcon: NSImage? {
-        guard let name = package.appName else { return nil }
-        for base in ["/Applications", NSHomeDirectory() + "/Applications"] {
-            let path = base + "/" + name + ".app"
-            if FileManager.default.fileExists(atPath: path) { return NSWorkspace.shared.icon(forFile: path) }
-        }
-        return nil
-    }
-    var body: some View {
-        if let icon = localIcon ?? logos.image(for: package) { Image(nsImage: icon).resizable().scaledToFit() }
-        else { Image(systemName: package.symbol).font(.system(size: 21)).foregroundStyle(Color.accentColor).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.accentColor.opacity(0.09)).clipShape(RoundedRectangle(cornerRadius: 8)) }
     }
 }
 
@@ -511,7 +486,7 @@ struct OrbitApp: App {
             if CommandLine.arguments.contains("--explore-preview") {
                 previewStore.navigate(.explore); previewStore.inventoryKnown = true; previewStore.appPresent = { _ in false }
                 previewStore.explorePackages = Array(Catalog.packages.filter { $0.installable }.prefix(15))
-                previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
+                previewStore.showExploreSelection = true; previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--terminal-preview") {
                 previewStore.navigate(.terminal); previewStore.terminalState.scanned = true; previewStore.terminalState.selected.formUnion(["python", "node"]); previewStore.terminalState.message = "Demonstration data · no profiles were read or modified."; previewStore.terminalState.missing = ["uv"]; root = AnyView(ContentView(store: previewStore))
@@ -611,7 +586,10 @@ struct UpdatesView: View {
             Text("Apps without a numbered Homebrew version are excluded. Pinned packages are skipped. Close apps before updating.").font(.caption).foregroundStyle(.secondary)
             ScrollView {
                 if store.visibleUpdates.isEmpty {
-                    ContentUnavailableView(store.preparing ? "Checking Homebrew…" : !store.updates.isEmpty ? "No matching updates" : store.updatesChecked ? "No updates found" : "Check your installed apps", systemImage: "arrow.triangle.2.circlepath", description: Text("Choose Check for updates to refresh the Homebrew catalog."))
+                    VStack(spacing: 14) {
+                        if store.preparing { ProgressView(); Text("Checking installed apps…").font(.headline); Text("Refreshing Homebrew metadata and available updates.").foregroundStyle(.secondary) }
+                        else { ContentUnavailableView(!store.updates.isEmpty ? "No matching updates" : store.updatesChecked ? "No updates found" : "Check your installed apps", systemImage: "arrow.triangle.2.circlepath", description: Text(store.updatesChecked ? "Your current filter has no available updates." : "Choose Check for updates to refresh the Homebrew catalog.")) }
+                    }.frame(maxWidth: .infinity).frame(minHeight: 260)
                 }
                 ForEach(store.visibleUpdates) { item in
                     HStack {
@@ -630,12 +608,13 @@ struct UpdatesView: View {
             }
             if store.busy {
                 ProgressView(value: Double(store.completed), total: Double(max(store.total, 1)))
+                Text(store.progressSummary + " · " + store.headline).font(.caption).foregroundStyle(.secondary)
                 Button(store.stopRequested ? "Stopping after this update…" : "Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested)
             }
             HStack {
                 Button("Operation details") { store.showLog = true }
-                Button("Select all") { store.selectedUpdates = Set(store.visibleUpdates.map(\.id)) }.disabled(store.locked)
-                Button("Clear") { store.selectedUpdates = [] }.disabled(store.locked)
+                Button("Select all") { store.selectedUpdates = Set(store.visibleUpdates.map(\.id)) }.buttonStyle(.bordered).disabled(store.locked)
+                Button("Clear") { store.selectedUpdates = [] }.buttonStyle(.bordered).disabled(store.locked)
                 Spacer()
                 Button("Update \(store.selectedUpdates.count) apps") { store.prepareUpdates() }.buttonStyle(.borderedProminent).disabled(store.selectedUpdates.isEmpty || store.locked || !store.startupReady)
             }
@@ -736,6 +715,7 @@ struct ManualAppsView: View {
             }
             if store.busy {
                 ProgressView(value: Double(store.completed), total: Double(max(store.total, 1)))
+                Text(store.progressSummary + " · " + store.headline).font(.caption).foregroundStyle(.secondary)
                 Button("Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested)
             }
             HStack {

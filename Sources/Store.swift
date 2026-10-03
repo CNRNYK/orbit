@@ -57,7 +57,7 @@ enum BrewRunner {
                     let chunk = pipe.fileHandleForReading.availableData
                     if chunk.isEmpty { break }
                     data.append(chunk)
-                    log(String(decoding: chunk, as: UTF8.self))
+                    if !separateError { log(String(decoding: chunk, as: UTF8.self)) }
                 }
                 process.waitUntilExit()
                 if separateError, let diagnostics = try? Data(contentsOf: errorURL), !diagnostics.isEmpty {
@@ -109,6 +109,8 @@ struct SystemCommands: CommandExecuting {
     @Published var exploreFetched: Date?
     @Published var exploreMessage = ""
     @Published var loadingExplore = false
+    @Published var showExploreSelection = false
+    @Published var showTechnicalLog = false
     var exploreLoader: @Sendable () async throws -> ExploreSnapshot = { try await OfficialCatalog.fetchAll() }
     @Published var personalPackages = [Package]() { didSet { if personalPersistence { preferences.set(try? JSONEncoder().encode(personalPackages), forKey: "personal-packages-v1") } } }
     @Published var myAppIDs = Set<String>() { didSet { if personalPersistence { preferences.set(Array(myAppIDs), forKey: "my-apps-v1") } } }
