@@ -38,7 +38,7 @@ The app's bundled `Resources/catalog.json` is editable and contains package name
 
 Switch to **Uninstall apps** to see Homebrew-managed installed packages within the curated catalog. Select apps, click **Uninstall**, and review the exact list. Nothing is removed until you confirm the removal screen. Switching between install and uninstall clears the selection to avoid carrying an install selection into removal.
 
-Removal uses `brew uninstall --cask <token>` for casks and `brew uninstall --formula <token>` for formulas. Extra cleanup (`--zap`), dependency overrides, and forced removal are not used. Automatic orphan dependency removal is disabled with `HOMEBREW_NO_AUTOREMOVE=1`. Homebrew can refuse to remove a formula required by other packages. Failures appear in Operation details; later selected packages continue. Vendor uninstallers may still remove app data or request administrator permission.
+Removal uses `brew uninstall --cask <token>` for casks and `brew uninstall --formula <token>` for formulas. Normal removal does not request extra cleanup (`--zap`), dependency overrides, or forced removal. Optional **Uninstall & Clean** separately reviews app-specific leftovers and moves checked items to Trash after successful removal. Automatic orphan dependency removal is disabled with `HOMEBREW_NO_AUTOREMOVE=1`. Homebrew can refuse to remove a formula required by other packages. Failures appear in Operation details; later selected packages continue. Vendor uninstallers may still remove app data or request administrator permission.
 
 The stop button waits for the current removal to complete. Installed state is refreshed afterward. Manually installed applications and installed packages outside this catalog are not included in the uninstall list.
 
@@ -70,7 +70,7 @@ Tests check all 437 source entries, catalog uniqueness, available-package export
 
 ## Scope
 
-This is an initial working version with a curated catalog, not the entire Homebrew catalog. Catalog availability is verified online before installation. Homebrew handles architecture and macOS compatibility; failures remain visible in the installation log. It does not manage application updates, restore app settings, install App Store products, or create Google web apps. NVM and Java may need shell setup after installation.
+This is an initial working version with a curated catalog, not the entire Homebrew catalog. Catalog availability is verified online before installation. Homebrew handles architecture and macOS compatibility; failures remain visible in the installation log. It does not restore app settings, install App Store products, or create Google web apps. NVM and Java may need shell setup after installation.
 
 ## References
 
@@ -89,3 +89,15 @@ App rows and detail sheets show the installed application's icon first, then an 
 All 344 assets ship in the app for immediate offline display. At launch four background workers refresh them from the recorded HTTPS URLs, without blocking Homebrew checks or interaction. Downloaded icons are cached for 30 days under `~/Library/Caches/io.macsetup.desktop/Logos`. Requests time out, responses are limited to 1 MB, and ImageIO decodes bounded 256-pixel thumbnails. Failed requests keep the bundled icon. The detail sheet links to the original icon asset. No third-party icon lookup service is used.
 
 Run `python3 Scripts/update_app_logos.py` to rediscover icons from official homepage links and verified repository README logo links. The script only accepts PNG, JPEG, and ICO payloads. Application logos and trademarks remain owned by their respective vendors; the project MIT license applies to its code, not these assets.
+
+## Updates and reviewed cleanup (v0.6)
+
+**Updates** refreshes Homebrew metadata, lists installed outdated packages in this curated catalog with current/available versions, and upgrades only the checked list after a separate review. Self-updating casks are opt-in; unversioned `latest` casks and pinned packages are excluded. Where an app bundle exposes its actual version, that version is checked when planning and again before upgrade so newer self-updated apps are skipped. This is a conservative numeric comparison, not a universal vendor-version parser. Homebrew may update or repair dependencies as part of an upgrade. Failures remain in Operation details, and stopping waits for the current operation. Searches filter the update list.
+
+Mac Setup's own **Check app release** checks GitHub's latest release endpoint and links to the release page for manual download. The current private repository is unavailable to anonymous API requests; the app explains this and offers the browser page where the user can sign in. It does not collect GitHub credentials or automatically replace the running app. No published GitHub release is assumed.
+
+**Uninstall & Clean** scans existing application bundle identifiers before removal. It reviews matching caches, logs, preferences, support folders, saved state, containers, HTTP storage, WebKit data, scripts, and cookies under the current user's Library. A small reviewed mapping adds app-specific paths for Chrome, VS Code, Blender, and Slack from the official Homebrew cask definitions. Shared group containers, vendor-wide folders, wildcard matches, system locations, and unrelated files are excluded; formulas have no guessed data cleanup. Cache/log entries are initially checked; settings and possible user data are unchecked. The user sees every path and its estimated size and can change the selection.
+
+Only checked leftovers belonging to a successfully removed app are moved to Trash. Canonical paths and filesystem identity are rechecked immediately before each move; changed paths and symbolic links are rejected. Permission or Trash errors are shown separately from app removal. Users can restore trashed files. This is targeted cleanup and does not guarantee removal of every trace or service.
+
+`bash test.sh` additionally uses simulated command results and isolated temporary fixtures to verify update parsing, selected upgrade arguments, invalid responses, pinned/latest exclusion, cleanup matching and sizes, data-sensitive defaults, symlink/replacement rejection, and successful-removal gating. Tests do not install, upgrade, uninstall, or trash existing applications or user files. Preview rendering skips Homebrew refresh and icon downloads.

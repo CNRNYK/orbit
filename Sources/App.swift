@@ -5,32 +5,36 @@ struct ContentView: View {
     @ObservedObject var store: Store
     var body: some View {
         HStack(spacing: 0) {
-            sidebar.frame(width: 215)
+            sidebar.frame(width: 215).disabled(store.updateMode || store.locked)
             Divider()
             VStack(spacing: 0) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(store.category == "All Apps" ? (store.uninstallMode ? "Manage installed apps" : "Set up your Mac") : store.category).font(.system(size: 28, weight: .bold))
+                        Text(store.updateMode ? "Updates" : store.category == "All Apps" ? (store.uninstallMode ? "Manage installed apps" : "Set up your Mac") : store.category).font(.system(size: 28, weight: .bold))
                         Text(store.headline).font(.subheadline).foregroundStyle(.secondary)
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 10) {
                         TextField("Search apps", text: $store.search).textFieldStyle(.roundedBorder).frame(width: 230)
                         HStack {
-                            Button("Import Brewfile", systemImage: "square.and.arrow.down") { store.importFile() }
-                            Button { Task { await store.refresh() } } label: { Image(systemName: "arrow.clockwise") }.help("Refresh installed packages")
+                            Button("Import Brewfile", systemImage: "square.and.arrow.down") { store.importFile() }.disabled(store.updateMode)
+                            Button { Task { if store.updateMode { await store.checkUpdates() } else { await store.refresh() } } } label: { Image(systemName: "arrow.clockwise") }.help(store.updateMode ? "Check for updates" : "Refresh installed packages")
                         }.disabled(store.locked)
                     }
                 }.padding(24)
-                Picker("Action", selection: $store.uninstallMode) {
-                    Text("Install apps").tag(false)
-                    Text("Uninstall apps").tag(true)
-                }.pickerStyle(.segmented).frame(width: 300).padding(.horizontal, 24).padding(.bottom, 12).disabled(store.locked)
-                .onChange(of: store.uninstallMode) { _, removing in
+                Picker("Action", selection: $store.mode) {
+                    Text("Install apps").tag(ActionMode.install)
+                    Text("Uninstall apps").tag(ActionMode.uninstall)
+                    Text("Updates").tag(ActionMode.updates)
+                }.pickerStyle(.segmented).frame(width: 410).padding(.horizontal, 24).padding(.bottom, 12).disabled(store.locked)
+                .onChange(of: store.mode) { _, mode in
                     store.selected.removeAll()
                     store.statuses.removeAll()
-                    store.headline = removing ? "Select Homebrew-managed apps to remove." : "Choose your apps. Make it yours."
+                    store.headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select Homebrew-managed apps to remove." : "Choose your apps. Make it yours."
                 }
+                if store.updateMode {
+                    UpdatesView(store: store)
+                } else {
                 if store.category != "All Apps" {
                     HStack {
                         Picker("Section", selection: $store.subcategory) {
@@ -88,6 +92,9 @@ struct ContentView: View {
                     }.padding(.horizontal, 24).padding(.vertical, 12)
                 }
                 Divider()
+                if store.uninstallMode {
+                    Toggle("Uninstall & Clean — review leftover files", isOn: $store.cleanRemoval).padding(.horizontal, 24).padding(.top, 10).disabled(store.locked)
+                }
                 HStack {
                     Button("Operation details", systemImage: "text.alignleft") { store.showLog = true }
                     Spacer()
@@ -101,14 +108,16 @@ struct ContentView: View {
                         }.frame(minWidth: 130)
                     }.buttonStyle(.borderedProminent).disabled(store.selection.isEmpty || store.locked || store.brew == nil)
                 }.padding(18)
+                }
             }
             Divider()
-            selectionPanel.frame(width: 255)
+            if !store.updateMode { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
-        .task { await LogoStore.shared.start() }
-        .task { if let error = Catalog.loadError { store.notice = error } else { await store.refresh() } }
+        .task { if !store.preview { await LogoStore.shared.start() } }
+        .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.refresh() } }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
+        .sheet(isPresented: $store.showUpdateReview) { UpdateReviewView(store: store) }
         .sheet(isPresented: $store.showRemovalReview) { RemovalReviewView(store: store) }
         .sheet(item: $store.detailPackage) { package in PackageDetailView(package: package, store: store) }
         .sheet(isPresented: $store.showLog) {
@@ -298,7 +307,7 @@ struct PackageDetailView: View {
             HStack {
                 Text("Opening links or viewing details does not install or remove apps.").font(.caption).foregroundStyle(.secondary)
                 Spacer()
-                if !store.uninstallMode && package.installable {
+                if store.mode == .install && package.installable {
                     Button(store.selected.contains(package.id) ? "Remove from selection" : "Add to selection") { store.toggle(package) }.disabled(store.locked)
                 }
             }
@@ -373,13 +382,29 @@ struct RemovalReviewView: View {
                     }
                 }
             }
-            Text("Extra data cleanup is not requested. Vendor uninstallers may still remove app data. Packages needed by other software may refuse removal; see Operation details.").font(.caption).foregroundStyle(.secondary)
+            if store.cleanRemoval {
+                Text("Leftover files (\(store.leftovers.count))").font(.headline)
+                Text("Exact app identifiers and reviewed app-specific paths only. Shared vendor folders and unmatched files are left untouched; this does not guarantee every trace is found.").font(.caption).foregroundStyle(.secondary)
+                ScrollView {
+                    if store.leftovers.isEmpty { Text("No matching leftovers found. Some locations may require permission or a vendor uninstaller.").foregroundStyle(.secondary) }
+                    ForEach(store.leftovers) { item in
+                        Toggle(isOn: Binding(get: { store.selectedLeftovers.contains(item.id) }, set: { value in if value { store.selectedLeftovers.insert(item.id) } else { store.selectedLeftovers.remove(item.id) } })) {
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(item.appName + " · " + item.kind + " · " + item.size).font(.caption.bold())
+                                Text(item.path).font(.caption2).textSelection(.enabled)
+                                if item.dataSensitive { Text("May contain settings or user data").font(.caption2).foregroundStyle(.orange) }
+                            }
+                        }.padding(.vertical, 5)
+                    }
+                }.frame(maxHeight: 240)
+            }
+            Text(store.cleanRemoval ? "Selected leftovers will move to Trash only after the app is successfully removed. Settings and user data are unchecked by default. Close the selected apps before continuing." : "Vendor uninstallers may remove app data. Packages needed by other software may refuse removal; see Operation details.").font(.caption).foregroundStyle(.secondary)
             HStack {
                 Button("Cancel") { store.showRemovalReview = false }.keyboardShortcut(.cancelAction)
                 Spacer()
-                Button("Uninstall \(store.removalPlan.count) apps", role: .destructive) { Task { await store.uninstall() } }.buttonStyle(.borderedProminent).tint(.red)
+                Button(store.cleanRemoval ? "Uninstall & move selected files to Trash" : "Uninstall \(store.removalPlan.count) apps", role: .destructive) { Task { await store.uninstall() } }.buttonStyle(.borderedProminent).tint(.red)
             }
-        }.padding(24).frame(width: 650, height: 470)
+        }.padding(24).frame(width: 760, height: store.cleanRemoval ? 720 : 470).background(Color(nsColor: .windowBackgroundColor))
     }
 }
 
@@ -420,6 +445,18 @@ struct MacSetupApp: App {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
             }
+            if CommandLine.arguments.contains("--updates") {
+                previewStore.mode = .updates; previewStore.updatesChecked = true; previewStore.headline = "3 updates available."
+                previewStore.updates = Catalog.packages.filter { ["git", "blender", "google-chrome"].contains($0.token) }.map { UpdateItem(package: $0, installedVersion: "1.0", availableVersion: "2.0") }
+                root = AnyView(ContentView(store: previewStore))
+            }
+            if CommandLine.arguments.contains("--clean") {
+                let package = Catalog.packages.first { $0.token == "blender" }!
+                previewStore.removalPlan = [package]; previewStore.cleanRemoval = true
+                previewStore.leftovers = [Leftover(packageID: package.id, appName: package.name, path: NSHomeDirectory() + "/Library/Caches/org.blenderfoundation.blender", kind: "Caches", bytes: 10485760, inode: 0, device: 0, dataSensitive: false), Leftover(packageID: package.id, appName: package.name, path: NSHomeDirectory() + "/Library/Application Support/Blender", kind: "Application Support", bytes: 20971520, inode: 0, device: 0, dataSensitive: true)]
+                previewStore.selectedLeftovers = [previewStore.leftovers[0].id]
+                root = AnyView(RemovalReviewView(store: previewStore)); size = NSSize(width: 760, height: 720)
+            }
             let view = NSHostingView(rootView: root)
             let window = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
             window.contentView = view
@@ -453,5 +490,91 @@ struct MacSetupApp: App {
             return
         }
         MacSetupApp.main()
+    }
+}
+
+struct UpdatesView: View {
+    @ObservedObject var store: Store
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("App updates").font(.title2.bold())
+                    Text("Homebrew-managed apps in this catalog. Updates can also install or repair required dependencies.").font(.caption).foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button(store.preparing ? "Checking…" : "Check for updates") { Task { await store.checkUpdates() } }.disabled(store.locked || store.brew == nil)
+            }
+            Toggle("Include apps that update themselves", isOn: $store.includeSelfUpdating)
+                .onChange(of: store.includeSelfUpdating) { _, _ in store.updates = []; store.selectedUpdates = []; store.updatesChecked = false }
+                .disabled(store.locked)
+            Text("Apps without a numbered Homebrew version are excluded. Pinned packages are skipped. Close apps before updating.").font(.caption).foregroundStyle(.secondary)
+            ScrollView {
+                if store.visibleUpdates.isEmpty {
+                    ContentUnavailableView(store.preparing ? "Checking Homebrew…" : !store.updates.isEmpty ? "No matching updates" : store.updatesChecked ? "No updates found" : "Check your installed apps", systemImage: "arrow.triangle.2.circlepath", description: Text("Choose Check for updates to refresh the Homebrew catalog."))
+                }
+                ForEach(store.visibleUpdates) { item in
+                    HStack {
+                        Toggle(isOn: Binding(get: { store.selectedUpdates.contains(item.id) }, set: { value in if value { store.selectedUpdates.insert(item.id) } else { store.selectedUpdates.remove(item.id) } })) { EmptyView() }.labelsHidden().disabled(store.locked)
+                        AppIcon(package: item.package).frame(width: 38, height: 38)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(item.package.name).bold()
+                            Text(item.installedVersion + " → " + item.availableVersion).font(.caption).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if let status = store.statuses[item.id] { Text(status).font(.caption) }
+                        Button { store.detailPackage = item.package } label: { Image(systemName: "info.circle") }.buttonStyle(.plain)
+                    }.padding(10)
+                    Divider()
+                }
+            }
+            if store.busy {
+                ProgressView(value: Double(store.completed), total: Double(max(store.total, 1)))
+                Button(store.stopRequested ? "Stopping after this update…" : "Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested)
+            }
+            HStack {
+                Button("Operation details") { store.showLog = true }
+                Button("Select all") { store.selectedUpdates = Set(store.visibleUpdates.map(\.id)) }.disabled(store.locked)
+                Button("Clear") { store.selectedUpdates = [] }.disabled(store.locked)
+                Spacer()
+                Button("Update \(store.selectedUpdates.count) apps") { store.prepareUpdates() }.buttonStyle(.borderedProminent).disabled(store.selectedUpdates.isEmpty || store.locked)
+            }
+            Divider()
+            HStack {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Mac Setup " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.6.0")).bold()
+                    Text(store.appReleaseStatus).font(.caption).foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button(store.checkingAppRelease ? "Checking…" : "Check app release") { Task { await store.checkAppRelease() } }.disabled(store.checkingAppRelease)
+                Link("Open releases", destination: URL(string: "https://github.com/CNRNYK/mac-setup-app/releases")!)
+            }
+        }.padding(24)
+    }
+}
+
+struct UpdateReviewView: View {
+    @ObservedObject var store: Store
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Review selected updates").font(.title2.bold())
+            Text("Selected apps will be upgraded through Homebrew. Running apps may close, vendor installers may request administrator permission, and dependencies may be updated. Close these apps before continuing.").foregroundStyle(.secondary)
+            ScrollView {
+                ForEach(store.updateQueue) { item in
+                    HStack {
+                        AppIcon(package: item.package).frame(width: 32, height: 32)
+                        Text(item.package.name).bold()
+                        Spacer()
+                        Text(item.installedVersion + " → " + item.availableVersion).font(.caption)
+                    }.padding(.vertical, 10)
+                    Divider()
+                }
+            }
+            HStack {
+                Button("Cancel") { store.showUpdateReview = false }.keyboardShortcut(.cancelAction)
+                Spacer()
+                Button("Update \(store.updateQueue.count) apps") { Task { await store.upgrade() } }.buttonStyle(.borderedProminent)
+            }
+        }.padding(24).frame(width: 700, height: 500).background(Color(nsColor: .windowBackgroundColor))
     }
 }
