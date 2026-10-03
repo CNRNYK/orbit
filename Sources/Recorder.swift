@@ -3,6 +3,7 @@ import AppKit
 import ScreenCaptureKit
 import AVFoundation
 import AVKit
+import Combine
 import UniformTypeIdentifiers
 
 @MainActor final class RecorderState: ObservableObject {
@@ -28,6 +29,10 @@ import UniformTypeIdentifiers
     @Published var trimStart = 0.0
     @Published var trimEnd = 0.0
     @Published var coverMask = false
+    @Published var compactControls = false
+    private var hudSubscription: AnyCancellable?
+    private var hudHost: NSHostingController<RecorderHUD>?
+    var controlsVisible: Bool { hud?.isVisible == true }
     var canBegin: () -> Bool = { true }
     var preview = false
     private var engine: RecorderEngine?, destination: URL?, directory: URL?
@@ -79,14 +84,15 @@ import UniformTypeIdentifiers
         phase = .preparing; defer { phase = .idle }
         if let rect = await picker.select(displayID:id,within:frame,label:coverMask ? "Select solid privacy cover" : "Select blur area"), let normalized = RecorderGeometry.normalized(rect,inside:frame) { options.masks.append(RecorderMask(rect:normalized,cover:coverMask)) }
     }
-    func start() {
+    func start(compact: Bool = false) {
         guard !preview, !busy, canBegin() else { return }
-        phase = .preparing; notice = nil; recoveryURL = nil; let ticket = UUID(); token = ticket
+        compactControls = compact
+        phase = .preparing; notice = nil; recoveryURL = nil; if compactControls { showHUD() }; let ticket = UUID(); token = ticket
         startTask = Task { await begin(ticket:ticket) }
     }
     func cancelStart() {
         guard phase == .preparing || phase == .countdown else { return }
-        token = UUID(); startTask?.cancel(); picker.cancel(); tracker.stop(); hud?.orderOut(nil); hud = nil; if startTask == nil { phase = .idle }; status = "Cancelling recording…"
+        token = UUID(); startTask?.cancel(); picker.cancel(); tracker.stop(); hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; if startTask == nil { phase = .idle }; status = "Cancelling recording…"
     }
     private func begin(ticket: UUID) async {
         defer { startTask = nil }
@@ -104,7 +110,14 @@ import UniformTypeIdentifiers
             if capturedOptions.webcam { guard await AVCaptureDevice.requestAccess(for:.video) else { throw RecorderProblem(message:"Camera access was denied. Allow it in System Settings or turn Webcam off.") } }
             try check(ticket)
             try tracker.start(shortcuts:capturedOptions.shortcuts)
-            guard let target = savePanel(name:"Orbit-\(Self.timestamp()).mp4") else { throw CancellationError() }
+            let target: URL
+            if compactControls {
+                guard let movies = FileManager.default.urls(for:.moviesDirectory,in:.userDomainMask).first else { throw RecorderProblem(message:"Movies folder is unavailable.") }
+                target = try Self.compactDestination(in:movies.appendingPathComponent("Orbit Recordings",isDirectory:true))
+            } else {
+                guard let chosen = savePanel(name:"Orbit-\(Self.timestamp()).mp4") else { throw CancellationError() }
+                target = chosen
+            }
             try check(ticket)
             destination = target
             let folder = FileManager.default.temporaryDirectory.appendingPathComponent("Orbit-Recording-\(UUID().uuidString)",isDirectory:true)
@@ -136,9 +149,9 @@ import UniformTypeIdentifiers
             sleepObserver = NSWorkspace.shared.notificationCenter.addObserver(forName:NSWorkspace.willSleepNotification,object:nil,queue:.main) { [weak self] _ in Task { @MainActor in await self?.stop(interruption:"The Mac is going to sleep.") } }
         } catch {
             if let engine { try? await engine.finish() }; engine = nil
-            tracker.stop(); ticker?.invalidate(); ticker = nil; hud?.orderOut(nil); hud = nil
+            tracker.stop(); ticker?.invalidate(); ticker = nil; hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil
             if !(error is CancellationError) { notice = error.localizedDescription }
-            if let directory { try? FileManager.default.removeItem(at:directory) }; directory = nil; phase = .idle; status = error is CancellationError ? "Recording cancelled." : "Recording did not start."
+            if let directory { try? FileManager.default.removeItem(at:directory) }; directory = nil; phase = .idle; status = error is CancellationError ? "Recording cancelled." : "Recording did not start."; if compactControls { showHUD() }
         }
     }
     private func check(_ ticket: UUID) throws { if Task.isCancelled || token != ticket { throw CancellationError() } }
@@ -152,7 +165,7 @@ import UniformTypeIdentifiers
         guard phase == .recording || phase == .paused, let engine, let destination else { return }
         phase = .finishing; ticker?.invalidate(); ticker = nil; tracker.stop(); player?.pause(); status = "Finalizing video and mixing selected audio…"
         if let sleepObserver { NSWorkspace.shared.notificationCenter.removeObserver(sleepObserver) }; sleepObserver = nil
-        defer { self.engine = nil; self.destination = nil; hud?.orderOut(nil); hud = nil; phase = .idle }
+        defer { self.engine = nil; self.destination = nil; phase = .idle; if compactControls { showHUD() } else { hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil } }
         do {
             try await engine.finish(); recoveryURL = engine.url
             try await RecorderFiles.export(engine.url,to:destination,mixAudio:true)
@@ -179,12 +192,32 @@ import UniformTypeIdentifiers
         guard panel.runModal() == .OK, let url = panel.url else { return nil }
         guard !FileManager.default.fileExists(atPath:url.path) else { notice = "Choose a new filename; Orbit does not replace existing files."; return nil }; return url
     }
+    func showCompactControls() {
+        guard !busy, canBegin() else { return }
+        compactControls = true; notice = nil; if options.mode == "Selected area" { area = nil }; showHUD()
+    }
+    func closeControls() {
+        guard !active, !editing else { return }
+        hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; compactControls = false
+    }
+    static func compactDestination(in folder: URL) throws -> URL {
+        try FileManager.default.createDirectory(at:folder,withIntermediateDirectories:true,attributes:[.posixPermissions:0o700])
+        return folder.appendingPathComponent("Orbit-\(timestamp())-\(UUID().uuidString).mp4")
+    }
+    private func resizeHUD() {
+        guard let hud, let host = hudHost else { return }
+        let size = host.sizeThatFits(in:NSSize(width:420,height:700))
+        if size.height > 0 { hud.setContentSize(size) }
+    }
     private func showHUD() {
-        let panel = NSPanel(contentRect:CGRect(x:0,y:0,width:350,height:58),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
-        panel.title = "Orbit Recording Controls"; panel.isOpaque = false; panel.backgroundColor = .clear; panel.level = .statusBar; panel.collectionBehavior = [.canJoinAllSpaces,.fullScreenAuxiliary]; panel.isReleasedWhenClosed = false
-        panel.contentView = NSHostingView(rootView:RecorderHUD(state:self))
-        if let screen = NSScreen.screens.first(where:{ ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID }) ?? NSScreen.main { panel.setFrameOrigin(NSPoint(x:screen.visibleFrame.midX-175,y:screen.visibleFrame.minY+20)) }
-        hud = panel; panel.orderFrontRegardless()
+        if let hud { resizeHUD(); hud.orderFrontRegardless(); return }
+        let panel = NSPanel(contentRect:CGRect(x:0,y:0,width:420,height:100),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
+        panel.title = "Orbit Recording Controls"; panel.isOpaque = false; panel.backgroundColor = .clear; panel.level = .statusBar; panel.collectionBehavior = [.canJoinAllSpaces,.fullScreenAuxiliary]; panel.isReleasedWhenClosed = false; panel.isMovableByWindowBackground = true; panel.hidesOnDeactivate = false; panel.becomesKeyOnlyIfNeeded = true
+        let host = NSHostingController(rootView:RecorderHUD(state:self)); hudHost = host; panel.contentViewController = host
+        hud = panel; resizeHUD()
+        if let screen = NSScreen.screens.first(where:{ ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == displayID }) ?? NSScreen.main { panel.setFrameOrigin(NSPoint(x:screen.visibleFrame.midX-panel.frame.width/2,y:screen.visibleFrame.minY+20)) }
+        hudSubscription = objectWillChange.sink { [weak self] _ in DispatchQueue.main.async { self?.resizeHUD() } }
+        panel.orderFrontRegardless()
     }
     static func timestamp() -> String { let formatter = DateFormatter(); formatter.dateFormat = "yyyyMMdd-HHmmss"; return formatter.string(from:Date()) }
 }
@@ -264,7 +297,7 @@ struct RecorderView: View {
                 else { Button("Start recording") { state.start() }.buttonStyle(.borderedProminent).disabled(state.busy || !state.canBegin()) }
             }
         }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor))
-        .alert("Screen Recorder",isPresented:Binding(get:{ state.notice != nil },set:{ if !$0 { state.notice = nil } })) { Button("OK") { state.notice = nil }; Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) } } message: { Text(state.notice ?? "") }
+        .alert("Screen Recorder",isPresented:Binding(get:{ !state.compactControls && state.notice != nil },set:{ if !$0 { state.notice = nil } })) { Button("OK") { state.notice = nil }; Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) } } message: { Text(state.notice ?? "") }
     }
 }
 

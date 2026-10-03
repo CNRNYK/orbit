@@ -55,6 +55,12 @@ import AudioToolbox
         precondition(blurred != rgba(split,size:bounds.size), "Blur must alter the selected region")
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("OrbitRecorderTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at:folder,withIntermediateDirectories:true,attributes:[.posixPermissions:0o700]); defer { try? FileManager.default.removeItem(at:folder) }
+        let compactFolder = folder.appendingPathComponent("Orbit Recordings",isDirectory:true)
+        let compactFirst = try RecorderState.compactDestination(in:compactFolder), compactSecond = try RecorderState.compactDestination(in:compactFolder)
+        precondition(compactFirst != compactSecond && compactFirst.pathExtension == "mp4" && FileManager.default.fileExists(atPath:compactFolder.path))
+        try Data("previous recording".utf8).write(to:compactFirst)
+        let compactThird = try RecorderState.compactDestination(in:compactFolder)
+        precondition(compactThird != compactFirst && !FileManager.default.fileExists(atPath:compactThird.path), "Compact recordings must receive distinct, non-overwriting paths")
         let old = folder.appendingPathComponent("existing.mp4"), temporary = folder.appendingPathComponent("ready.mp4")
         try Data("original".utf8).write(to:old); try Data("new".utf8).write(to:temporary)
         do { try RecorderFiles.publish(temporary,to:old); preconditionFailure("Existing output must never be replaced") } catch { let original = try Data(contentsOf:old); precondition(original == Data("original".utf8)) }
