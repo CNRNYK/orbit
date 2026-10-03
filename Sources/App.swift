@@ -9,6 +9,7 @@ struct ContentView: View {
             Divider()
             if store.mode == .cleanup { MaintenanceView(store: store) }
             else if store.mode == .explore { ExploreView(store: store) }
+            else if store.mode == .recorder { RecorderView(state: store.recorderState) }
             else if store.mode == .terminal { TerminalSetupView(store: store, state: store.terminalState) }
             else {
             VStack(spacing: 0) {
@@ -133,8 +134,8 @@ struct ContentView: View {
                 }
             }
             }
-            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal { Divider() }
-            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder { Divider() }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
         .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
@@ -160,6 +161,7 @@ struct ContentView: View {
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
             destinationButton("Cleanup", symbol: "sparkles", mode: .cleanup, count: "")
+            destinationButton("Screen Recorder", symbol: "record.circle", mode: .recorder, count: "")
             destinationButton("Terminal Setup", symbol: "terminal", mode: .terminal, count: "")
             destinationButton("Explore Homebrew", symbol: "globe", mode: .explore, count: "")
             Button { store.navigate(.install, category: "My apps") } label: { HStack { Label("My apps", systemImage: "star"); Spacer(); Text(String(store.myAppIDs.count)).font(.caption) }.font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain).background(store.category == "My apps" && store.mode == .install ? Color.accentColor.opacity(0.15) : .clear).clipShape(RoundedRectangle(cornerRadius:8))
@@ -179,7 +181,7 @@ struct ContentView: View {
         }.padding(16).background(.thinMaterial)
     }
     func destinationButton(_ title: String, symbol: String, mode: ActionMode, count: String) -> some View {
-        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || mode == .terminal || store.category == "All Apps")
+        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || mode == .terminal || mode == .recorder || store.category == "All Apps")
         return Button { store.navigate(mode) } label: {
             HStack(spacing: 9) {
                 Image(systemName: symbol).frame(width: 18)
@@ -457,8 +459,8 @@ struct RemovalReviewView: View {
     func applicationWillTerminate(_ notification: Notification) { menuBar?.remove() }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard MenuBarState(store: OrbitApp.store).operating else { return .terminateNow }
-        let alert = NSAlert(); alert.messageText = "An operation is running"
-        alert.informativeText = "Wait for the current operation to finish before quitting. For app operations, you can use Stop after current app."
+        let alert = NSAlert(); alert.messageText = OrbitApp.store.recorderState.busy ? "Screen Recorder is active" : "An operation is running"
+        alert.informativeText = OrbitApp.store.recorderState.busy ? "Stop and save the recording, or cancel preparation, before quitting. Wait for exports to finish." : "Wait for the current operation to finish before quitting. For app operations, you can use Stop after current app."
         alert.addButton(withTitle: "Continue"); alert.runModal()
         return .terminateCancel
     }
@@ -509,6 +511,11 @@ struct OrbitApp: App {
             controller.togglePanel(); pump(0.2)
             let outside = NSEvent.mouseEvent(with: .leftMouseDown, location: NSPoint(x: 20, y: 20), modifierFlags: [], timestamp: 0, windowNumber: window.windowNumber, context: nil, eventNumber: 1, clickCount: 1, pressure: 1)!
             app.postEvent(outside, atStart: false); pump(0.2); precondition(!controller.popover.isShown, "Clicking outside should dismiss the panel")
+            store.recorderState.phase = .recording; store.recorderState.elapsed = 65; controller.refreshIcon()
+            precondition(controller.statusItem?.button?.title == "01:05" && MenuBarState(store:store).operating)
+            controller.perform(.recorder); precondition(store.mode == .recorder)
+            controller.perform(.cleanup); precondition(store.mode == .recorder, "Recording must block package navigation")
+            store.recorderState.phase = .countdown; store.recorderState.cancelStart(); precondition(store.recorderState.phase == .idle)
             controller.remove(); precondition(controller.statusItem == nil)
             window.orderOut(nil)
             print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation and details")
@@ -563,6 +570,7 @@ struct OrbitApp: App {
                 previewStore.localApps = [LocalApp(path: "/Applications/Figma.app", name: "Figma", identifier: "com.figma.Desktop", version: "126.9.11", package: p, identityMatched: false, inode: 0), LocalApp(path: "/Applications/Example.app", name: "Example", identifier: "org.example.app", version: "1.0", package: nil, identityMatched: false, inode: 0)]
                 root = AnyView(ContentView(store: previewStore))
             }
+            if CommandLine.arguments.contains("--recorder-preview") { previewStore.navigate(.recorder); root = AnyView(ContentView(store: previewStore)) }
             if CommandLine.arguments.contains("--menu-bar-preview") {
                 previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 400)
                 if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }

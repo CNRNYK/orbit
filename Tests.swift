@@ -15,6 +15,7 @@ import Foundation
         precondition(separated.0 == 0 && (try! UpdatePlan.parse(Data(separated.1.utf8))).isEmpty, "Diagnostics must not contaminate JSON")
         let stderrFlood = await BrewRunner.run("/bin/sh", ["-c", "head -c 200000 /dev/zero >&2; printf '{\"formulae\":[],\"casks\":[]}'"], separateError: true)
         precondition(stderrFlood.0 == 0 && (try! UpdatePlan.parse(Data(stderrFlood.1.utf8))).isEmpty, "Large stderr must not deadlock or contaminate JSON")
+        try! await RecorderTests.run()
         try! await MenuBarTests.run()
         try! await WorkflowUITests.run()
         try! await TerminalSetupTests.run()
