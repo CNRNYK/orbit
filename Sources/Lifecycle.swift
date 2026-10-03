@@ -128,7 +128,7 @@ enum Cleanup {
 
 @MainActor extension Store {
     func checkUpdates() async {
-        guard !locked, let brew else { return }
+        guard !locked, startupReady, let brew else { return }
         preparing = true; updates = []; selectedUpdates = []; updatesChecked = false
         defer { preparing = false }
         headline = "Checking for updates…"
@@ -145,12 +145,12 @@ enum Cleanup {
         } catch { appendLog(result.1); notice = "Could not read Homebrew’s update list. Open Operation details for diagnostics, then try again." }
     }
     func prepareUpdates() {
-        guard !locked else { return }
+        guard !locked, startupReady else { return }
         updateQueue = updates.filter { selectedUpdates.contains($0.id) && installed.contains($0.id) }
         showUpdateReview = !updateQueue.isEmpty
     }
     func upgrade() async {
-        guard !locked, showUpdateReview, let brew else { return }
+        guard !locked, startupReady, showUpdateReview, let brew else { return }
         let queue = updateQueue; guard !queue.isEmpty else { return }
         showUpdateReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; statuses = [:]
         defer { busy = false }
