@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import Combine
 
 struct ReviewItem: Identifiable {
     let package: Package
@@ -101,6 +102,8 @@ struct SystemCommands: CommandExecuting {
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
     let maintenanceState = MaintenanceState()
+    let recorderState = RecorderState()
+    private var recorderSubscription: AnyCancellable?
     let terminalState = TerminalState()
     @Published var explorePackages = [Package]()
     @Published var exploreSearch = ""
@@ -204,7 +207,7 @@ struct SystemCommands: CommandExecuting {
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
-    var locked: Bool { busy || preparing || refreshing || checkingStartup }
+    var locked: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy }
     let preview: Bool
     private let persistSelection: Bool
     private let preferences: UserDefaults
@@ -213,6 +216,9 @@ struct SystemCommands: CommandExecuting {
         self.preferences = preferences
         self.preview = preview
         self.persistSelection = persistSelection && !preview
+        recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
+        recorderState.preview = preview
+        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working }
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
         } else {

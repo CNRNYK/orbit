@@ -2,9 +2,9 @@
 
 <img src="Resources/Branding/Orbit.png" alt="Orbit icon" width="104">
 
-**Set up your Mac. Manage your apps. Clear the clutter.**
+**Set up your Mac. Manage your apps. Record your workflow.**
 
-A native macOS app for discovering, installing, updating, and uninstalling Homebrew packages—with reviewed cleanup and reusable Brewfiles. Pick the apps you want, review the plan, and let Homebrew handle the installation.
+A native macOS app for discovering, installing, updating, and uninstalling Homebrew packages—with reviewed cleanup, reusable Brewfiles and local screen recording. Pick the apps you want, review the plan, and let Homebrew handle the installation.
 
 ![Orbit app catalog with categories and installation selections](docs/images/catalog.png)
 
@@ -45,9 +45,17 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 ![Terminal Setup checkbox groups with developer and language options](docs/images/terminal.png)
 
+## Record what matters
+
+Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
+
+A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording, then preview the MP4, copy the file or save a trimmed copy while keeping the original. Recordings stay local; no account or upload is involved.
+
+![Orbit Screen Recorder with capture source, pointer effects, audio, camera and privacy areas](docs/images/recorder.png)
+
 ## Orbit, one click away
 
-Orbit lives in the macOS menu bar with a small monochrome orbit icon. Open its compact panel to check available updates, jump to Cleanup or review operation details. During app operations it shows the current app, processed and remaining counts, and **Stop after current app**.
+Orbit lives in the macOS menu bar with a small monochrome orbit icon. Open its compact panel to start a screen recording, check available updates, jump to Cleanup or review operation details. During app operations it shows the current app, processed and remaining counts, and **Stop after current app**.
 
 Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock icon brings the same window back; **Quit Orbit** exits. Active operations must finish before quitting. Update checks run on request; installing, updating and cleaning still use the normal reviewed flows.
 
@@ -57,7 +65,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.15.0/Orbit-0.15.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.15.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.16.0/Orbit-0.16.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.16.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

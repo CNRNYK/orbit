@@ -4,13 +4,14 @@ import Combine
 
 @MainActor struct MenuBarState {
     let store: Store
-    var operating: Bool { store.locked || store.maintenanceState.working || store.terminalState.working }
+    var operating: Bool { store.locked || store.maintenanceState.working || store.terminalState.working || store.recorderState.busy }
     var canNavigate: Bool { !operating }
     var canCheckUpdates: Bool { canNavigate && store.startupReady && store.brew != nil }
     var canStop: Bool { store.busy && store.total > 0 && !store.maintenanceState.working && !store.terminalState.working }
     var updateCount: Int { store.updates.filter { store.installed.contains($0.id) }.count }
     var updatesLabel: String { store.updatesChecked ? (updateCount == 0 ? "Updates · up to date" : "Updates · \(updateCount) available") : "Updates · not checked" }
     var status: String {
+        if store.recorderState.busy { return store.recorderState.phase == .recording || store.recorderState.phase == .paused ? "\(store.recorderState.phase == .paused ? "Paused" : "Recording") · \(store.recorderState.elapsedLabel)" : "Preparing or saving recording…" }
         if store.maintenanceState.working { return "Cleanup in progress" }
         if store.terminalState.working { return "Preparing developer setup" }
         if store.busy { return store.headline }
@@ -20,15 +21,16 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
     @ObservedObject var maintenance: MaintenanceState
     @ObservedObject var terminal: TerminalState
+    @ObservedObject var recorder: RecorderState
     let action: (MenuBarAction) -> Void
     init(store: Store, action: @escaping (MenuBarAction) -> Void) {
-        self.store = store; maintenance = store.maintenanceState; terminal = store.terminalState; self.action = action
+        self.store = store; maintenance = store.maintenanceState; terminal = store.terminalState; recorder = store.recorderState; self.action = action
     }
     var state: MenuBarState { MenuBarState(store: store) }
     var body: some View {
@@ -41,7 +43,7 @@ struct MenuBarPanel: View {
                 }
                 Spacer()
             }
-            if state.operating {
+            if state.operating && !recorder.busy {
                 VStack(alignment: .leading, spacing: 8) {
                     if state.canStop {
                         ProgressView(value: Double(store.completed), total: Double(max(store.total, 1)))
@@ -51,6 +53,17 @@ struct MenuBarPanel: View {
                 }.padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Color.accentColor.opacity(0.07)).clipShape(RoundedRectangle(cornerRadius: 12))
             }
             Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
+            VStack(alignment: .leading, spacing: 10) {
+                HStack { Label("Screen Recorder", systemImage: "record.circle").font(.subheadline.bold()); Spacer(); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
+                if recorder.phase == .recording || recorder.phase == .paused {
+                    HStack { Circle().fill(recorder.phase == .paused ? .orange : .red).frame(width: 7, height: 7); Text(recorder.elapsedLabel).monospacedDigit().bold(); Spacer(); Button(recorder.phase == .paused ? "Resume" : "Pause") { action(.pauseRecord) }; Button("Stop") { action(.stopRecord) }.tint(.red) }
+                } else if recorder.active {
+                    HStack { ProgressView().controlSize(.small); Text(recorder.phase == .countdown ? "Starting in \(recorder.countdown)…" : "Preparing or saving…").font(.caption); Spacer(); if recorder.phase == .preparing || recorder.phase == .countdown { Button("Cancel") { recorder.cancelStart() } } }
+                } else {
+                    Picker("Capture", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).onChange(of: recorder.options.mode) { _, _ in recorder.modeChanged() }.disabled(state.operating)
+                    Button("Start recording", systemImage: "record.circle") { action(.record) }.buttonStyle(.bordered).frame(maxWidth:.infinity, alignment:.leading).disabled(state.operating)
+                }
+            }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
                 row(state.updatesLabel, symbol: "arrow.triangle.2.circlepath", enabled: state.canNavigate) { action(.updates) }
                 row("Check for updates", symbol: "arrow.clockwise", enabled: state.canCheckUpdates) { action(.checkUpdates) }
@@ -101,7 +114,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         let host = NSHostingController(rootView: MenuBarPanel(store: store) { [weak self] action in self?.perform(action) })
         host.sizingOptions = [.preferredContentSize]
         panelHost = host; popover.contentViewController = host
-        for publisher in [store.objectWillChange, store.maintenanceState.objectWillChange, store.terminalState.objectWillChange] {
+        for publisher in [store.objectWillChange, store.maintenanceState.objectWillChange, store.terminalState.objectWillChange, store.recorderState.objectWillChange] {
             publisher.sink { [weak self] _ in DispatchQueue.main.async { self?.refreshIcon() } }.store(in: &subscriptions)
         }
         NotificationCenter.default.publisher(for: NSWindow.didBecomeMainNotification).sink { [weak self] note in
@@ -137,6 +150,12 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             guard state.canNavigate else { return }; store.search = ""; store.navigate(action == .updates ? .updates : .cleanup); openWindow()
         case .checkUpdates:
             guard state.canCheckUpdates else { return }; store.search = ""; store.navigate(.updates); openWindow(); Task { await store.checkUpdates() }
+        case .recorder:
+            if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.mode = .recorder } else { store.navigate(.recorder) }; openWindow()
+        case .record:
+            guard !state.operating else { return }; store.navigate(.recorder); openWindow(); store.recorderState.start()
+        case .pauseRecord: store.recorderState.togglePause()
+        case .stopRecord: Task { await store.recorderState.stop() }
         case .details: openWindow(); store.showLog = true
         case .quit: popover.close(); NSApp.terminate(nil)
         }
@@ -154,6 +173,11 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     func refreshIcon() {
         resizePanel()
         statusItem?.button?.image = Self.icon(active: MenuBarState(store: store).operating)
+        let recorder = store.recorderState
+        statusItem?.length = recorder.active ? NSStatusItem.variableLength : NSStatusItem.squareLength
+        statusItem?.button?.contentTintColor = recorder.active ? .systemRed : nil
+        statusItem?.button?.title = recorder.phase == .recording || recorder.phase == .paused ? recorder.elapsedLabel : ""
+        statusItem?.button?.font = NSFont.monospacedDigitSystemFont(ofSize:11,weight:.medium)
         statusItem?.button?.toolTip = "Orbit · " + MenuBarState(store: store).status
     }
     static func icon(active: Bool) -> NSImage {
