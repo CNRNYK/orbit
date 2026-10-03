@@ -101,6 +101,12 @@ struct SystemCommands: CommandExecuting {
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
     @Published var showMaintenance = false
+    @Published var showStartup = false
+    @Published var checkingStartup = false
+    @Published var startupChecks = [StartupCheck]()
+    var startupStarted = false
+    var setupDefaults = UserDefaults.standard
+    var startupEnvironment: (() -> StartupEnvironment)?
     @Published var popularSort = false
     @Published var popularity = [String: Int]()
     @Published var popularityDate = ""
@@ -183,7 +189,8 @@ struct SystemCommands: CommandExecuting {
         self.mode = mode; self.category = category; subcategory = "All"
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
-    var locked: Bool { busy || preparing || refreshing }
+    var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
+    var locked: Bool { busy || preparing || refreshing || checkingStartup }
     let preview: Bool
     private let persistSelection: Bool
     init(preview: Bool = false, persistSelection: Bool = true) {
@@ -206,7 +213,7 @@ struct SystemCommands: CommandExecuting {
         if output.count > 120_000 { output = String(output.suffix(100_000)) }
     }
     func refresh() async {
-        guard !refreshing, let brew else { return }
+        guard !refreshing, startupReady, let brew else { return }
         refreshing = true
         defer { refreshing = false }
         let formulas = await runJSONCommand(brew, ["list", "--formula", "-1"])
@@ -222,7 +229,7 @@ struct SystemCommands: CommandExecuting {
         sanitizeInstallSelection()
     }
     func prepare() async {
-        guard !locked, !selection.isEmpty, brew != nil else { return }
+        guard !locked, startupReady, !selection.isEmpty, brew != nil else { return }
         preparing = true; review = []; adopt = false
         defer { preparing = false }
         await refresh()
@@ -257,7 +264,7 @@ struct SystemCommands: CommandExecuting {
         ["uninstall"] + (package.cask ? ["--cask"] : ["--formula"]) + [package.token]
     }
     func prepareRemoval() async {
-        guard !locked, !selection.isEmpty, brew != nil else { return }
+        guard !locked, startupReady, !selection.isEmpty, brew != nil else { return }
         preparing = true
         defer { preparing = false }
         await refresh()
@@ -274,7 +281,7 @@ struct SystemCommands: CommandExecuting {
         else { showRemovalReview = true }
     }
     func uninstall() async {
-        guard !busy, !preparing, showRemovalReview, let brew else { return }
+        guard !busy, !preparing, startupReady, showRemovalReview, let brew else { return }
         let queue = removalPlan
         let clean = cleanRemoval
         let cleanupQueue = leftovers.filter { selectedLeftovers.contains($0.id) }
@@ -318,7 +325,7 @@ struct SystemCommands: CommandExecuting {
         await refresh()
     }
     func install() async {
-        guard !busy, showReview, let brew else { return }
+        guard !busy, startupReady, showReview, let brew else { return }
         let queue = actionable; let shouldAdopt = adopt
         guard !queue.isEmpty else { showReview = false; return }
         showReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; output = ""; statuses = [:]

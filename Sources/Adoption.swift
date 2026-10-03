@@ -63,13 +63,13 @@ struct AdoptionItem: Identifiable {
 @MainActor extension Store {
     var manualApps: [LocalApp] { localApps.filter { app in app.package.map { !installed.contains($0.id) } ?? true } }
     var visibleManualApps: [LocalApp] { manualApps.filter { (category == "All Apps" || $0.package?.belongs(to: category, subcategory: subcategory) == true) && (search.isEmpty || ($0.name + " " + $0.identifier).localizedCaseInsensitiveContains(search)) } }
-    func canInstall(_ package: Package) -> Bool { inventoryKnown && package.installable && !installed.contains(package.id) && !appPresent(package) && !localApps.contains { $0.package?.id == package.id } }
+    func canInstall(_ package: Package) -> Bool { startupReady && inventoryKnown && package.installable && !installed.contains(package.id) && !appPresent(package) && !localApps.contains { $0.package?.id == package.id } }
     var installSelection: [Package] { selection.filter { canInstall($0) } }
     func sanitizeInstallSelection() {
         if mode == .install && inventoryKnown { selected = Set(installSelection.map(\.id)) }
     }
     func prepareAdoption() async {
-        guard !locked, !selectedManual.isEmpty, let brew else { return }
+        guard !locked, startupReady, !selectedManual.isEmpty, let brew else { return }
         preparing = true; defer { preparing = false }
         adoptionPlan = []; await refresh(); guard inventoryKnown else { return }
         for app in manualApps where selectedManual.contains(app.id) {
@@ -95,7 +95,7 @@ struct AdoptionItem: Identifiable {
         showAdoptionReview = !adoptionPlan.isEmpty
     }
     func adoptSelected() async {
-        guard !locked, showAdoptionReview, let brew else { return }
+        guard !locked, startupReady, showAdoptionReview, let brew else { return }
         let queue = adoptionPlan.filter { $0.problem == nil }; guard !queue.isEmpty else { return }
         showAdoptionReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count
         defer { busy = false }

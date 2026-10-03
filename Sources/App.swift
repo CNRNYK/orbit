@@ -18,7 +18,7 @@ struct ContentView: View {
                         TextField("Search apps", text: $store.search).textFieldStyle(.roundedBorder).frame(width: 230)
                         HStack {
                             Button("Import Brewfile", systemImage: "square.and.arrow.down") { store.importFile() }.disabled(store.updateMode)
-                            Button { Task { if store.updateMode { await store.checkUpdates() } else { await store.refresh() } } } label: { Image(systemName: "arrow.clockwise") }.help(store.updateMode ? "Check for updates" : "Refresh installed packages")
+                            Button { Task { if !store.startupReady { await store.openStartup() } else if store.updateMode { await store.checkUpdates() } else { await store.refresh() } } } label: { Image(systemName: "arrow.clockwise") }.help(store.updateMode ? "Check for updates" : "Refresh installed packages")
                         }.disabled(store.locked)
                     }
                 }.padding(24)
@@ -45,12 +45,12 @@ struct ContentView: View {
                         Spacer()
                     }.padding(.horizontal, 24).padding(.bottom, 8)
                 }
-                if store.brew == nil {
+                if store.brew == nil || !store.startupReady {
                     HStack {
                         Image(systemName: "shippingbox")
-                        Text("Homebrew is needed to install apps.")
+                        Text(store.startupReady ? "Homebrew is needed to install apps." : "Complete setup checks before managing apps.")
                         Spacer()
-                        Link("Set up Homebrew", destination: URL(string: "https://brew.sh")!)
+                        Button("Setup check") { Task { await store.openStartup() } }
                     }.padding().background(Color.orange.opacity(0.12)).padding(.horizontal, 24)
                 }
                 if !store.uninstallMode {
@@ -121,7 +121,7 @@ struct ContentView: View {
                             if store.preparing { ProgressView().controlSize(.small) }
                             Text(store.preparing ? "Checking apps…" : "\(store.uninstallMode ? "Uninstall" : "Install") \((store.uninstallMode ? store.selection.count : store.installSelection.count)) app\((store.uninstallMode ? store.selection.count : store.installSelection.count) == 1 ? "" : "s")")
                         }.frame(minWidth: 130)
-                    }.buttonStyle(.borderedProminent).disabled((store.uninstallMode ? store.selection.isEmpty : store.installSelection.isEmpty) || store.locked || store.brew == nil)
+                    }.buttonStyle(.borderedProminent).disabled((store.uninstallMode ? store.selection.isEmpty : store.installSelection.isEmpty) || store.locked || store.brew == nil || !store.startupReady)
                 }.padding(18)
                 }
             }
@@ -131,7 +131,8 @@ struct ContentView: View {
         .background(Color(nsColor: .windowBackgroundColor))
         .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
         .task { if !store.preview { await LogoStore.shared.start() } }
-        .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.refresh() } }
+        .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.startup() } }
+        .sheet(isPresented: $store.showStartup) { StartupView(store: store).interactiveDismissDisabled() }
         .sheet(isPresented: $store.showAdoptionReview) { AdoptionReviewView(store: store) }
         .sheet(isPresented: $store.showMaintenance) { MaintenanceView(store: store).interactiveDismissDisabled() }
         .sheet(isPresented: $store.showSetupExport) { SetupExportView(store: store) }
@@ -169,10 +170,11 @@ struct ContentView: View {
                     ForEach(Catalog.categories, id: \.self) { category in navigationButton(category) }
                 }.padding(.vertical, 6)
             }
+            Button("Setup check", systemImage: "checklist") { Task { await store.openStartup() } }.font(.caption).buttonStyle(.plain).padding(.bottom, 8)
             Link(destination: URL(string: "https://formulae.brew.sh")!) { Label("Homebrew catalog", systemImage: "arrow.up.right.square") }.font(.caption).padding(.bottom, 12)
             HStack(spacing: 8) {
                 Circle().fill(store.brew == nil ? Color.orange : Color.green).frame(width: 8, height: 8)
-                Text(store.brew == nil ? "Homebrew not found" : store.refreshing ? "Checking installed apps…" : "Homebrew ready").font(.caption).foregroundStyle(.secondary)
+                Text(!store.startupReady ? "Setup needed" : store.brew == nil ? "Homebrew not found" : store.refreshing ? "Checking installed apps…" : "Homebrew ready").font(.caption).foregroundStyle(.secondary)
             }
         }.padding(16).background(.thinMaterial)
     }
@@ -493,6 +495,10 @@ struct MacSetupApp: App {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
             }
+            if CommandLine.arguments.contains("--startup-preview") {
+                previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Mac Setup is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]
+                root = AnyView(StartupView(store: previewStore)); size = NSSize(width: 680, height: 680)
+            }
             if CommandLine.arguments.contains("--cleanup-preview") {
                 root = AnyView(MaintenanceView(store: previewStore)); size = NSSize(width: 960, height: 700)
             }
@@ -576,7 +582,7 @@ struct UpdatesView: View {
                     Text("Homebrew-managed apps in this catalog. Updates can also install or repair required dependencies.").font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button(store.preparing ? "Checking…" : "Check for updates") { Task { await store.checkUpdates() } }.disabled(store.locked || store.brew == nil)
+                Button(store.preparing ? "Checking…" : "Check for updates") { Task { await store.checkUpdates() } }.disabled(store.locked || store.brew == nil || !store.startupReady)
             }
             Toggle("Include apps that update themselves", isOn: $store.includeSelfUpdating)
                 .onChange(of: store.includeSelfUpdating) { _, _ in store.updates = []; store.selectedUpdates = []; store.updatesChecked = false }
@@ -610,7 +616,7 @@ struct UpdatesView: View {
                 Button("Select all") { store.selectedUpdates = Set(store.visibleUpdates.map(\.id)) }.disabled(store.locked)
                 Button("Clear") { store.selectedUpdates = [] }.disabled(store.locked)
                 Spacer()
-                Button("Update \(store.selectedUpdates.count) apps") { store.prepareUpdates() }.buttonStyle(.borderedProminent).disabled(store.selectedUpdates.isEmpty || store.locked)
+                Button("Update \(store.selectedUpdates.count) apps") { store.prepareUpdates() }.buttonStyle(.borderedProminent).disabled(store.selectedUpdates.isEmpty || store.locked || !store.startupReady)
             }
             Divider()
             HStack {
@@ -716,7 +722,7 @@ struct ManualAppsView: View {
                 Button("Select supported apps") { store.selectedManual.formUnion(store.visibleManualApps.filter { $0.package?.installable == true }.map(\.id)) }.disabled(store.locked)
                 Button("Clear") { store.selectedManual = [] }.disabled(store.locked)
                 Spacer()
-                Button("Manage \(store.selectedManual.count) with Homebrew") { Task { await store.prepareAdoption() } }.buttonStyle(.borderedProminent).disabled(store.selectedManual.isEmpty || store.locked || store.brew == nil)
+                Button("Manage \(store.selectedManual.count) with Homebrew") { Task { await store.prepareAdoption() } }.buttonStyle(.borderedProminent).disabled(store.selectedManual.isEmpty || store.locked || store.brew == nil || !store.startupReady)
             }
         }.padding(24)
     }

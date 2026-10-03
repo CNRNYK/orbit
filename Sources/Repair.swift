@@ -53,7 +53,7 @@ struct RemovalRepair: Identifiable {
         }
     }
     func prepareRepair(_ id: String) async {
-        guard !locked, let candidate = repairOptions[id] else { return }
+        guard !locked, startupReady, let candidate = repairOptions[id] else { return }
         preparing = true; defer { preparing = false }
         await refresh()
         guard inventoryKnown, installed.contains(id), candidate.unchanged else {
@@ -63,7 +63,7 @@ struct RemovalRepair: Identifiable {
         repairReview = candidate
     }
     func repairAndRetry() async {
-        guard !locked, let repair = repairReview, let brew else { return }
+        guard !locked, startupReady, let repair = repairReview, let brew else { return }
         preparing = true
         let root = await runJSONCommand(brew, ["--caskroom"])
         preparing = false
