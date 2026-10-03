@@ -1,0 +1,75 @@
+# Mac Setup
+
+A native SwiftUI application for selecting, installing, and uninstalling Homebrew packages on macOS. English interface; MIT licensed source code.
+
+## Use
+
+Open **Mac Setup.app**. Browse categories, search, select apps, then choose **Install**. Review the plan before running it. Each package is checked against Homebrew's official JSON catalog before installation. Disabled, deprecated, and unverified packages are skipped.
+
+Version 0.3 integrates the supplied Mac Power User / Developer / Designer / Creator toolkit. It contains 432 unique catalog entries across 27 categories, with expandable subcategories: 373 active Homebrew packages (246 casks and 127 formulas) and 59 manual or unavailable entries. All 437 numbered source entries are represented, including duplicates through shared category placements. The original application catalog is retained. It uses local application icons when available and native category icons otherwise. Selection is saved locally.
+
+Homebrew must already be installed at `/opt/homebrew/bin/brew` or `/usr/local/bin/brew`. If it is missing, the application links to the official Homebrew setup instructions. After setting it up, use Refresh. The app does not install Homebrew automatically.
+
+Already managed packages are skipped. Existing manually installed `.app` bundles are skipped unless you enable adoption. Adoption requires identical contents. Vendor `.pkg` and custom installers can run even when an app already exists; this is disclosed in the review screen. Licenses, subscriptions, and sign-in are handled separately by each vendor.
+
+Homebrew runs as your user, not as root. For individual installers requiring administrator access, Homebrew uses the bundled `SUDO_ASKPASS` helper. This is an AppleScript password dialog labeled **Mac Setup · Administrator permission**, not a system authorization sheet. Its password output goes directly to sudo, is not saved or included in the application's logs. Canceling the dialog causes that installation to fail. macOS may request automation permission for System Events.
+
+Installation is sequential. Logs are visible in **Operation details**. A failed package does not stop subsequent packages. **Stop after current app** waits for the running installer to finish instead of terminating it. Quitting during an installation is blocked. No extra cleanup, forced reinstall, automatic adoption, or automatic upgrade commands are used. Dependencies and vendor installers may still make changes as part of normal installation.
+
+## Categories and starter selections
+
+Expand a sidebar category to browse its subcategories, or use the section picker. Search includes package names, descriptions, categories, and subcategories. In All Apps, each package appears once; inside a category, repeated tools appear in their relevant category placement but share one selection and installation ID.
+
+**Starter selections** includes the supplied Core Mac Stack groups (Mac, AI, Development, CLI, Creative, Media, Productivity, and Network), plus Discover 20. Presets add choices to your current selection; they never start an installation. Unavailable packages cannot be selected or exported. **Select all** includes only supported entries in the visible category or search result.
+
+Manual or unavailable tools remain visible with **Setup details** and a vendor link where an exact link is known. Third-party taps, editor extensions, web applications, Windows-only tools, and self-hosted services are not silently substituted with unrelated Homebrew packages. Deprecated or disabled packages remain visible but are blocked from installation; if already managed by Homebrew, they can still appear for uninstallation.
+
+The app's bundled `Resources/catalog.json` is editable and contains package names, official Homebrew metadata, category placements, source entry numbers, and presets. Availability is checked again online before installation. Optional tools such as Azure CLI are catalog choices, not preselected additions to a personal Brewfile. See [CATALOG-NOTES.md](CATALOG-NOTES.md) for mapping decisions and manual entries. Unverified popularity rankings and comparisons in the supplied text are not carried into the product.
+
+## Uninstall apps
+
+Switch to **Uninstall apps** to see Homebrew-managed installed packages within the curated catalog. Select apps, click **Uninstall**, and review the exact list. Nothing is removed until you confirm the removal screen. Switching between install and uninstall clears the selection to avoid carrying an install selection into removal.
+
+Removal uses `brew uninstall --cask <token>` for casks and `brew uninstall --formula <token>` for formulas. Extra cleanup (`--zap`), dependency overrides, and forced removal are not used. Automatic orphan dependency removal is disabled with `HOMEBREW_NO_AUTOREMOVE=1`. Homebrew can refuse to remove a formula required by other packages. Failures appear in Operation details; later selected packages continue. Vendor uninstallers may still remove app data or request administrator permission.
+
+The stop button waits for the current removal to complete. Installed state is refreshed afterward. Manually installed applications and installed packages outside this catalog are not included in the uninstall list.
+
+## Brewfiles
+
+Export writes selected formulas and casks. Import recognizes plain `brew "token"` and `cask "token"` entries from this application's curated catalog. Comments and duplicate entries are handled. Ruby code is never evaluated. Unsupported entries, taps, VS Code extensions, and packages outside the catalog are reported rather than silently installed. Import replaces the current selection.
+
+## Build
+
+Requires macOS 14 or later and Apple Command Line Tools with a Swift compiler. No third-party Swift dependencies or full Xcode project are required.
+
+```sh
+chmod +x build.sh
+./build.sh
+open "dist/Mac Setup.app"
+```
+
+The build targets the current Mac architecture. The delivered build targets Apple Silicon. Local builds use ad-hoc signing; public distribution still needs an Apple Developer identity, notarization, and release testing.
+
+## Validation
+
+The executable includes a non-installing self-test:
+
+```sh
+"dist/Mac Setup.app/Contents/MacOS/MacSetup" --self-test
+```
+
+Tests check all 437 source entries, catalog uniqueness, available-package export/import round trips, manual-entry blocking, cross-category membership, starter preset deduplication, rejection of executable Brewfile input, and installer disclosure. Run `bash test.sh` for additional process-runner and installation-plan tests, including literal argument handling, launch failures, large output, and skip/adoption logic. Additional removal tests check installed inventory gating, installed-only filtering, and exact cask/formula removal arguments. Actual package installation, uninstallation, and the administrator password dialog are not exercised by these tests.
+
+## Scope
+
+This is an initial working version with a curated catalog, not the entire Homebrew catalog. Catalog availability is verified online before installation. Homebrew handles architecture and macOS compatibility; failures remain visible in the installation log. It does not manage application updates, restore app settings, install App Store products, or create Google web apps. NVM and Java may need shell setup after installation.
+
+## References
+
+- [Homebrew installation](https://brew.sh)
+- [Homebrew command documentation](https://docs.brew.sh/Manpage)
+- [Homebrew catalog API](https://formulae.brew.sh/docs/api/)
+
+## License
+
+MIT. Application names belong to their respective owners; third-party applications retain their own license terms. This project is independent of Homebrew and the application vendors.
