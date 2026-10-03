@@ -88,6 +88,9 @@ struct SystemCommands: CommandExecuting {
 }
 
 @MainActor final class Store: ObservableObject {
+    @Published var repairOptions = [String: RemovalRepair]()
+    @Published var repairReview: RemovalRepair?
+    @Published var failureMessages = [String: String]()
     @Published var mode = ActionMode.install
     var uninstallMode: Bool { get { mode == .uninstall } set { mode = newValue ? .uninstall : .install } }
     var updateMode: Bool { mode == .updates }
@@ -251,7 +254,7 @@ struct SystemCommands: CommandExecuting {
         guard !queue.isEmpty else { return }
         showRemovalReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; output = ""; statuses = [:]
         defer { busy = false }
-        for package in queue { statuses[package.id] = "Waiting" }
+        for package in queue { statuses[package.id] = "Waiting"; repairOptions.removeValue(forKey: package.id); failureMessages.removeValue(forKey: package.id) }
         var failures = 0
         for package in queue {
             if stopRequested { break }
@@ -277,7 +280,10 @@ struct SystemCommands: CommandExecuting {
                     }
                 }
             }
-            else { statuses[package.id] = "Failed"; failures += 1; appendLog("\nExit status: \(result.0)\n") }
+            else {
+                statuses[package.id] = "Failed"; failures += 1; appendLog("\nExit status: \(result.0)\n")
+                await proposeRepair(package, output: result.1, cleanup: clean ? cleanupQueue : [])
+            }
             completed += 1
         }
         for package in queue where statuses[package.id] == "Waiting" { statuses[package.id] = "Skipped" }
