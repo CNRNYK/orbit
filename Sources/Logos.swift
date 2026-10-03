@@ -87,3 +87,20 @@ struct OrbitBrandIcon: View {
         }.frame(width: size, height: size).accessibilityLabel("Orbit logo")
     }
 }
+
+struct AppIcon: View {
+    let package: Package
+    @ObservedObject private var logos = LogoStore.shared
+    var localIcon: NSImage? {
+        guard let name = package.appName else { return nil }
+        for base in ["/Applications", NSHomeDirectory() + "/Applications"] {
+            let path = base + "/" + name + ".app"
+            if FileManager.default.fileExists(atPath: path) { return NSWorkspace.shared.icon(forFile: path) }
+        }
+        return nil
+    }
+    var body: some View {
+        if let icon = localIcon ?? logos.image(for: package) { Image(nsImage: icon).resizable().scaledToFit() }
+        else { Image(systemName: package.symbol).font(.system(size: 21)).foregroundStyle(Color.accentColor).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.accentColor.opacity(0.09)).clipShape(RoundedRectangle(cornerRadius: 8)) }
+    }
+}

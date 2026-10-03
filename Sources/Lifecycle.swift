@@ -155,6 +155,7 @@ enum Cleanup {
         showUpdateReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; statuses = [:]
         defer { busy = false }
         var failures = 0
+        for item in queue { statuses[item.id] = "Waiting" }
         for item in queue {
             if stopRequested { break }
             headline = "Updating \(item.package.name)…"; statuses[item.id] = "Updating"
@@ -168,6 +169,7 @@ enum Cleanup {
             else { statuses[item.id] = "Failed"; failures += 1 }
             completed += 1
         }
+        for item in queue where statuses[item.id] == "Waiting" { statuses[item.id] = "Skipped" }
         headline = stopRequested ? "Stopped after the current update." : failures == 0 ? "Selected updates completed. Check again for the latest status." : "Finished with \(failures) failed updates. Open Operation details."
         await refresh()
     }

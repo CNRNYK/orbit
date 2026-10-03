@@ -97,7 +97,6 @@ enum MaintenanceScan {
     @Published var developer = false
     @Published var working = false
     @Published var scanned = false
-    @Published var showDetails = false
     @Published var confirm = false
     @Published var status = "Scan to review files. Nothing is selected automatically."
 }
@@ -123,14 +122,13 @@ struct MaintenanceView: View {
                 Spacer()
                 Button("Scan") { Task { await scan() } }.disabled(state.working || store.locked)
             }
-            if state.working { ProgressView() }
             Text(state.status).font(.caption).foregroundStyle(.secondary)
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 18) {
                     ForEach(MaintenanceScan.groups, id: \.self) { group in
                         let rows = state.items.filter { $0.group == group }
                         if !rows.isEmpty {
-                            Text(group).font(.headline)
+                            HStack { Text(group).font(.headline); Spacer(); if rows.contains(where: { $0.removable }) { Button("Select group") { state.selectCleanable(group: group) }.disabled(state.working); Button("Clear group") { state.clearGroup(group) }.disabled(state.working) } }
                             ForEach(rows) { item in
                                 HStack {
                                     if item.removable {
@@ -149,15 +147,17 @@ struct MaintenanceView: View {
                     if state.scanned && state.items.isEmpty { Text("No accessible cleanup candidates or large files found.").foregroundStyle(.secondary) }
                 }
             }
+            .overlay { if state.working { VStack(spacing: 12) { ProgressView(); Text("Scanning or moving reviewed files…").font(.headline) }.padding(24).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius: 12)).frame(maxWidth: .infinity, maxHeight: .infinity) } }
             Text("Large files: Downloads and Desktop, 500 MB or larger. App leftovers: known app cache/log identifiers only. Other leftovers are reviewed during Uninstall & Clean.").font(.caption).foregroundStyle(.secondary)
             HStack {
+                Button("Select all cleanable items") { state.selectCleanable() }.disabled(state.working || state.items.allSatisfy { !$0.removable })
                 Button("Clear selection") { state.selected = [] }.disabled(state.working)
-                Button("Operation details") { state.showDetails.toggle() }
+                Button("Operation details") { store.showLog = true }
                 Spacer()
                 Text("\(selection.count) items · " + ByteCountFormatter.string(fromByteCount: selection.reduce(0) { $0 + $1.bytes }, countStyle: .file))
                 Button("Move to Trash") { state.confirm = true }.buttonStyle(.borderedProminent).disabled(selection.isEmpty || state.working || store.locked)
             }
-            if state.showDetails { ScrollView { Text(store.output.isEmpty ? "No cleanup operation has run yet." : store.output).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }.frame(height: 120) }
+
         }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(nsColor: .windowBackgroundColor))
         .alert("Move selected files to Trash?", isPresented: $state.confirm) {
             Button("Cancel", role: .cancel) {}
@@ -165,7 +165,7 @@ struct MaintenanceView: View {
         } message: { Text("\(selection.count) reviewed items will be moved to Trash. Only paths whose filesystem identity still matches the scan will be processed.") }
     }
     func scan() async {
-        guard !store.preview else { return }
+        guard !store.preview, !state.working, !store.locked else { return }
         state.working = true; state.selected = []; store.preparing = true
         defer { state.working = false; store.preparing = false }
         let installed = store.installed
