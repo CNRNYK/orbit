@@ -109,6 +109,7 @@ struct ContentView: View {
         .task { if let error = Catalog.loadError { store.notice = error } else { await store.refresh() } }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
         .sheet(isPresented: $store.showRemovalReview) { RemovalReviewView(store: store) }
+        .sheet(item: $store.detailPackage) { package in PackageDetailView(package: package, store: store) }
         .sheet(isPresented: $store.showLog) {
             VStack(alignment: .leading, spacing: 14) {
                 HStack {
@@ -181,15 +182,19 @@ struct ContentView: View {
     func row(_ app: Package) -> some View {
         HStack(spacing: 13) {
             Toggle(app.name, isOn: Binding(get: { store.selected.contains(app.id) }, set: { _ in store.toggle(app) })).labelsHidden().toggleStyle(.checkbox).disabled(store.locked || (!store.uninstallMode && !app.installable)).accessibilityLabel("Select \(app.name)")
-            AppIcon(package: app).frame(width: 36, height: 36)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(app.name).font(.system(size: 14, weight: .semibold))
-                Text(app.detail).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(2)
-            }
-            Spacer(minLength: 4)
+            Button { store.detailPackage = app } label: {
+                HStack(spacing: 13) {
+                    AppIcon(package: app).frame(width: 36, height: 36)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(app.name).font(.system(size: 14, weight: .semibold))
+                        Text(app.detail).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(2)
+                    }
+                    Spacer(minLength: 4)
+                }.contentShape(Rectangle())
+            }.buttonStyle(.plain).help("View details for \(app.name)").accessibilityLabel("View details for \(app.name)")
             if !app.installable && !store.uninstallMode {
                 Button("Setup details") {
-                    store.notice = app.name + "\n\n" + app.availability
+                    store.detailPackage = app
                 }.controlSize(.small)
                 if let text = app.homepage, let url = URL(string: text), url.scheme == "https" {
                     Link(destination: url) { Image(systemName: "arrow.up.right.square") }.help("Open official setup page")
@@ -199,6 +204,7 @@ struct ContentView: View {
             if !status.isEmpty {
                 Text(status).font(.caption).foregroundStyle(status == "Failed" ? Color.red : status == "Installed" ? Color.green : Color.secondary).padding(.horizontal, 9).padding(.vertical, 5).background(Color.primary.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 6))
             }
+            Button { store.detailPackage = app } label: { Image(systemName: "info.circle").foregroundStyle(.secondary) }.buttonStyle(.plain).help("App details and links").accessibilityLabel("Details for \(app.name)")
         }.padding(.horizontal, 14).padding(.vertical, 12)
     }
     var selectionPanel: some View {
@@ -210,7 +216,7 @@ struct ContentView: View {
                     ForEach(store.selection) { app in
                         HStack(spacing: 10) {
                             AppIcon(package: app).frame(width: 27, height: 27)
-                            Text(app.name).font(.system(size: 13))
+                            Button(app.name) { store.detailPackage = app }.font(.system(size: 13)).buttonStyle(.plain)
                             Spacer()
                             Button { store.selected.remove(app.id) } label: { Image(systemName: "xmark").font(.caption2).foregroundStyle(.secondary) }.buttonStyle(.plain).disabled(store.locked).help("Remove \(app.name)")
                         }
@@ -239,6 +245,75 @@ struct AppIcon: View {
     var body: some View {
         if let icon = localIcon { Image(nsImage: icon).resizable().scaledToFit() }
         else { Image(systemName: package.symbol).font(.system(size: 21)).foregroundStyle(Color.accentColor).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.accentColor.opacity(0.09)).clipShape(RoundedRectangle(cornerRadius: 8)) }
+    }
+}
+
+struct PackageDetailView: View {
+    let package: Package
+    @ObservedObject var store: Store
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(spacing: 14) {
+                AppIcon(package: package).frame(width: 56, height: 56)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(package.name).font(.title.bold())
+                    Text(store.installed.contains(package.id) ? "Installed with Homebrew" : package.manualAppExists ? "Already on this Mac" : package.installable ? "Available to install" : "Manual setup or unavailable").foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button("Done") { store.detailPackage = nil }.keyboardShortcut(.cancelAction)
+            }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(package.detail).font(.body).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Categories").font(.headline)
+                        ForEach(package.placements, id: \.self) { place in
+                            Text(place.category + " › " + place.subcategory).font(.subheadline).foregroundStyle(.secondary)
+                        }
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Installation").font(.headline)
+                        Text(package.installable ? (package.cask ? "Vendor package, managed by Homebrew." : "Command-line tool, managed by Homebrew.") : package.availability)
+                        if let version = package.version { Text("Catalog version: " + version).font(.subheadline).foregroundStyle(.secondary) }
+                        if let license = package.formulaLicense { Text("Package license: " + license).font(.subheadline).foregroundStyle(.secondary) }
+                        Text("Vendor licenses, subscriptions, sign-in and additional setup may apply.").font(.caption).foregroundStyle(.secondary)
+                    }
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Official links").font(.headline)
+                        if let url = package.websiteURL {
+                            detailLink("Official website / project page", symbol: "globe", url: url)
+                        } else { Text("Official website not verified.").foregroundStyle(.secondary) }
+                        if let url = package.githubURL {
+                            detailLink("GitHub" + (package.githubPurpose.map { " · " + $0 } ?? ""), symbol: "chevron.left.forwardslash.chevron.right", url: url)
+                        } else { Text("No verified public GitHub repository link.").font(.subheadline).foregroundStyle(.secondary) }
+                        if let url = package.catalogURL { detailLink("Homebrew package", symbol: "shippingbox", url: url) }
+                        if let date = Catalog.data?.verifiedDate { Text("Catalog metadata checked: " + date + ". Live availability is checked before installation.").font(.caption).foregroundStyle(.secondary) }
+                    }
+                }.padding(.vertical, 6)
+            }
+            Divider()
+            HStack {
+                Text("Opening links or viewing details does not install or remove apps.").font(.caption).foregroundStyle(.secondary)
+                Spacer()
+                if !store.uninstallMode && package.installable {
+                    Button(store.selected.contains(package.id) ? "Remove from selection" : "Add to selection") { store.toggle(package) }.disabled(store.locked)
+                }
+            }
+        }.padding(26).frame(width: 680, height: 620)
+            .background(Color(nsColor: .windowBackgroundColor))
+    }
+    func detailLink(_ title: String, symbol: String, url: URL) -> some View {
+        Link(destination: url) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: symbol).frame(width: 20)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                    Text(url.absoluteString).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                }
+                Spacer()
+                Image(systemName: "arrow.up.right")
+            }.padding(12).background(Color.primary.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius: 9))
+        }.buttonStyle(.plain)
     }
 }
 
@@ -334,11 +409,19 @@ struct MacSetupApp: App {
         if let index = CommandLine.arguments.firstIndex(of: "--render-preview"), CommandLine.arguments.count > index + 1 {
             let app = NSApplication.shared
             app.setActivationPolicy(.accessory)
-            let view = NSHostingView(rootView: ContentView(store: Store(preview: true)))
-            let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1180, height: 780), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            let previewStore = Store(preview: true)
+            var root = AnyView(ContentView(store: previewStore))
+            var size = NSSize(width: 1180, height: 780)
+            if let detailIndex = CommandLine.arguments.firstIndex(of: "--details"), CommandLine.arguments.count > detailIndex + 1,
+               let package = Catalog.packages.first(where: { $0.token == CommandLine.arguments[detailIndex + 1] }) {
+                root = AnyView(PackageDetailView(package: package, store: previewStore))
+                size = NSSize(width: 680, height: 620)
+            }
+            let view = NSHostingView(rootView: root)
+            let window = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
             window.contentView = view
             window.title = "Mac Setup"
-            view.frame = NSRect(x: 0, y: 0, width: 1180, height: 780)
+            view.frame = NSRect(origin: .zero, size: size)
             view.layoutSubtreeIfNeeded()
             RunLoop.main.run(until: Date().addingTimeInterval(1))
             if let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) {

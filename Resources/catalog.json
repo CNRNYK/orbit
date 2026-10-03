@@ -77,7 +77,12 @@
       "sourceNumbers": [
         1
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/raycast/extensions",
+      "githubSource": "https://github.com/raycast/extensions",
+      "homepageSource": "https://formulae.brew.sh/api/cask/raycast.json",
+      "version": "2.6.2.0",
+      "githubPurpose": "Extensions"
     },
     {
       "token": "alfred",
@@ -96,7 +101,11 @@
       "sourceNumbers": [
         2
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/alfred.json",
+      "version": "5.8.1,2349"
     },
     {
       "token": "launchbar",
@@ -115,7 +124,11 @@
       "sourceNumbers": [
         3
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/launchbar.json",
+      "version": "6.24"
     },
     {
       "token": "quicksilver",
@@ -134,7 +147,11 @@
       "sourceNumbers": [
         4
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/quicksilver/Quicksilver",
+      "githubSource": "https://formulae.brew.sh/api/cask/quicksilver.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/quicksilver.json",
+      "version": "2.6.0"
     },
     {
       "token": "sol",
@@ -153,7 +170,11 @@
       "sourceNumbers": [
         5
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ospfranco/sol",
+      "githubSource": "https://formulae.brew.sh/api/cask/sol.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/sol.json",
+      "version": "2.1.362"
     },
     {
       "token": "rectangle",
@@ -172,7 +193,11 @@
       "sourceNumbers": [
         6
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/rxhanson/Rectangle",
+      "githubSource": "https://formulae.brew.sh/api/cask/rectangle.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/rectangle.json",
+      "version": "2.0.2"
     },
     {
       "token": "rectangle-pro",
@@ -191,7 +216,11 @@
       "sourceNumbers": [
         7
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/rectangle-pro.json",
+      "version": "3.92"
     },
     {
       "token": "amethyst",
@@ -210,7 +239,11 @@
       "sourceNumbers": [
         8
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ianyh/Amethyst",
+      "githubSource": "https://formulae.brew.sh/api/cask/amethyst.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/amethyst.json",
+      "version": "0.24.3"
     },
     {
       "token": "manual-aerospace",
@@ -229,7 +262,10 @@
       "sourceNumbers": [
         9
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/nikitabobko/AeroSpace",
+      "githubSource": "https://github.com/nikitabobko/AeroSpace",
+      "homepageSource": "https://github.com/nikitabobko/AeroSpace"
     },
     {
       "token": "manual-yabai",
@@ -248,7 +284,10 @@
       "sourceNumbers": [
         10
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/koekeishiya/yabai",
+      "githubSource": "https://github.com/koekeishiya/yabai",
+      "homepageSource": "https://github.com/koekeishiya/yabai"
     },
     {
       "token": "loop",
@@ -267,7 +306,11 @@
       "sourceNumbers": [
         11
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/MrKai77/Loop",
+      "githubSource": "https://formulae.brew.sh/api/cask/loop.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/loop.json",
+      "version": "1.4.2"
     },
     {
       "token": "alt-tab",
@@ -286,7 +329,11 @@
       "sourceNumbers": [
         12
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/lwouis/alt-tab-macos",
+      "githubSource": "https://formulae.brew.sh/api/cask/alt-tab.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/alt-tab.json",
+      "version": "11.8.0"
     },
     {
       "token": "maccy",
@@ -305,7 +352,11 @@
       "sourceNumbers": [
         13
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/p0deje/Maccy",
+      "githubSource": "https://formulae.brew.sh/api/cask/maccy.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/maccy.json",
+      "version": "2.7.1"
     },
     {
       "token": "manual-pastepal",
@@ -324,7 +375,10 @@
       "sourceNumbers": [
         14
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/IndieGoodies/PastePal",
+      "githubSource": "https://indiegoodies.com/pastepal",
+      "homepageSource": "https://indiegoodies.com/pastepal"
     },
     {
       "token": "copyq",
@@ -343,7 +397,11 @@
       "sourceNumbers": [
         15
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/hluk/CopyQ",
+      "githubSource": "https://formulae.brew.sh/api/cask/copyq.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/copyq.json",
+      "version": "16.0.0"
     },
     {
       "token": "clipy",
@@ -362,7 +420,11 @@
       "sourceNumbers": [
         16
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Clipy/Clipy",
+      "githubSource": "https://formulae.brew.sh/api/cask/clipy.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/clipy.json",
+      "version": "1.3.0"
     },
     {
       "token": "flycut",
@@ -381,7 +443,11 @@
       "sourceNumbers": [
         17
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/TermiT/Flycut",
+      "githubSource": "https://formulae.brew.sh/api/cask/flycut.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/flycut.json",
+      "version": "1.9.6"
     },
     {
       "token": "jordanbaird-ice",
@@ -400,7 +466,11 @@
       "sourceNumbers": [
         18
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/jordanbaird/ice-releases",
+      "githubSource": "https://formulae.brew.sh/api/cask/jordanbaird-ice.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/jordanbaird-ice.json",
+      "version": "0.11.12"
     },
     {
       "token": "hiddenbar",
@@ -419,7 +489,11 @@
       "sourceNumbers": [
         19
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/dwarvesf/hidden",
+      "githubSource": "https://formulae.brew.sh/api/cask/hiddenbar.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/hiddenbar.json",
+      "version": "1.11.1"
     },
     {
       "token": "stats",
@@ -443,7 +517,11 @@
         20,
         31
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/exelban/stats",
+      "githubSource": "https://formulae.brew.sh/api/cask/stats.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/stats.json",
+      "version": "3.0.19"
     },
     {
       "token": "swiftbar",
@@ -462,7 +540,11 @@
       "sourceNumbers": [
         21
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/swiftbar/SwiftBar",
+      "githubSource": "https://formulae.brew.sh/api/cask/swiftbar.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/swiftbar.json",
+      "version": "2.1.1,597"
     },
     {
       "token": "xbar",
@@ -481,7 +563,11 @@
       "sourceNumbers": [
         22
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/matryer/xbar",
+      "githubSource": "https://formulae.brew.sh/api/cask/xbar.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/xbar.json",
+      "version": "2.1.7-beta"
     },
     {
       "token": "menumeters",
@@ -500,7 +586,11 @@
       "sourceNumbers": [
         23
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/yujitach/MenuMeters",
+      "githubSource": "https://formulae.brew.sh/api/cask/menumeters.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/menumeters.json",
+      "version": "2.1.6.1"
     },
     {
       "token": "hammerspoon",
@@ -519,7 +609,11 @@
       "sourceNumbers": [
         24
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Hammerspoon/hammerspoon",
+      "githubSource": "https://formulae.brew.sh/api/cask/hammerspoon.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/hammerspoon.json",
+      "version": "1.1.1"
     },
     {
       "token": "karabiner-elements",
@@ -538,7 +632,11 @@
       "sourceNumbers": [
         25
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/pqrs-org/Karabiner-Elements",
+      "githubSource": "https://formulae.brew.sh/api/cask/karabiner-elements.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/karabiner-elements.json",
+      "version": "16.3.0"
     },
     {
       "token": "bettertouchtool",
@@ -557,7 +655,11 @@
       "sourceNumbers": [
         26
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/bettertouchtool.json",
+      "version": "6.885,2026100205"
     },
     {
       "token": "keyboard-maestro",
@@ -576,7 +678,11 @@
       "sourceNumbers": [
         27
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/keyboard-maestro.json",
+      "version": "11.1.1,1111"
     },
     {
       "token": "shortcat",
@@ -595,7 +701,11 @@
       "sourceNumbers": [
         28
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/shortcat.json",
+      "version": "0.12.2"
     },
     {
       "token": "cliclick",
@@ -614,7 +724,11 @@
       "sourceNumbers": [
         29
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/BlueM/cliclick",
+      "githubSource": "https://formulae.brew.sh/api/formula/cliclick.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/cliclick.json",
+      "version": "5.1"
     },
     {
       "token": "manual-skhd",
@@ -633,7 +747,10 @@
       "sourceNumbers": [
         30
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/koekeishiya/skhd",
+      "githubSource": "https://github.com/koekeishiya/skhd",
+      "homepageSource": "https://github.com/koekeishiya/skhd"
     },
     {
       "token": "istat-menus",
@@ -652,7 +769,11 @@
       "sourceNumbers": [
         32
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/istat-menus.json",
+      "version": "7.50.1"
     },
     {
       "token": "btop",
@@ -671,7 +792,11 @@
       "sourceNumbers": [
         33
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/aristocratos/btop",
+      "githubSource": "https://formulae.brew.sh/api/formula/btop.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/btop.json",
+      "version": "1.4.7"
     },
     {
       "token": "htop",
@@ -690,7 +815,11 @@
       "sourceNumbers": [
         34
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/htop-dev/htop",
+      "githubSource": "https://formulae.brew.sh/api/formula/htop.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/htop.json",
+      "version": "3.5.3"
     },
     {
       "token": "glances",
@@ -709,7 +838,11 @@
       "sourceNumbers": [
         35
       ],
-      "formulaLicense": "LGPL-3.0-or-later"
+      "formulaLicense": "LGPL-3.0-or-later",
+      "github": "https://github.com/nicolargo/glances",
+      "githubSource": "https://formulae.brew.sh/api/formula/glances.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/glances.json",
+      "version": "4.5.7"
     },
     {
       "token": "bottom",
@@ -733,7 +866,11 @@
         36,
         225
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/ClementTsang/bottom",
+      "githubSource": "https://formulae.brew.sh/api/formula/bottom.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/bottom.json",
+      "version": "0.14.9"
     },
     {
       "token": "asitop",
@@ -752,7 +889,11 @@
       "sourceNumbers": [
         37
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/tlkh/asitop",
+      "githubSource": "https://tlkh.github.io/asitop/",
+      "homepageSource": "https://formulae.brew.sh/api/formula/asitop.json",
+      "version": "0.0.24"
     },
     {
       "token": "appcleaner",
@@ -771,7 +912,11 @@
       "sourceNumbers": [
         38
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/appcleaner.json",
+      "version": "3.7"
     },
     {
       "token": "pearcleaner",
@@ -790,7 +935,11 @@
       "sourceNumbers": [
         39
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/alienator88/Pearcleaner",
+      "githubSource": "https://formulae.brew.sh/api/cask/pearcleaner.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/pearcleaner.json",
+      "version": "5.4.3"
     },
     {
       "token": "onyx",
@@ -809,7 +958,11 @@
       "sourceNumbers": [
         40
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/onyx.json",
+      "version": "5.1.0"
     },
     {
       "token": "manual-bleachbit",
@@ -828,7 +981,10 @@
       "sourceNumbers": [
         41
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/bleachbit/bleachbit",
+      "githubSource": "https://www.bleachbit.org",
+      "homepageSource": "https://www.bleachbit.org"
     },
     {
       "token": "mole",
@@ -847,7 +1003,11 @@
       "sourceNumbers": [
         42
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/tw93/Mole",
+      "githubSource": "https://formulae.brew.sh/api/formula/mole.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/mole.json",
+      "version": "1.56.1"
     },
     {
       "token": "aldente",
@@ -866,7 +1026,12 @@
       "sourceNumbers": [
         43
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/AppHouseKitchen/AlDente-Battery_Care_and_Monitoring",
+      "githubSource": "https://github.com/AppHouseKitchen/AlDente-Battery_Care_and_Monitoring",
+      "homepageSource": "https://formulae.brew.sh/api/cask/aldente.json",
+      "version": "1.39.4",
+      "githubPurpose": "Project resources"
     },
     {
       "token": "coconutbattery",
@@ -885,7 +1050,11 @@
       "sourceNumbers": [
         44
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/coconutbattery.json",
+      "version": "4.4.0,265"
     },
     {
       "token": "manual-battery-toolkit",
@@ -904,7 +1073,10 @@
       "sourceNumbers": [
         45
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mhaeuser/Battery-Toolkit",
+      "githubSource": "https://github.com/mhaeuser/Battery-Toolkit",
+      "homepageSource": "https://github.com/mhaeuser/Battery-Toolkit"
     },
     {
       "token": "batfi",
@@ -923,7 +1095,11 @@
       "sourceNumbers": [
         46
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/batfi.json",
+      "version": "4.0.2"
     },
     {
       "token": "keepingyouawake",
@@ -942,7 +1118,11 @@
       "sourceNumbers": [
         47
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/newmarcel/KeepingYouAwake",
+      "githubSource": "https://formulae.brew.sh/api/cask/keepingyouawake.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/keepingyouawake.json",
+      "version": "1.6.8"
     },
     {
       "token": "manual-amphetamine-enhancer",
@@ -961,7 +1141,10 @@
       "sourceNumbers": [
         48
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/x74353/Amphetamine-Enhancer",
+      "githubSource": "https://github.com/x74353/Amphetamine-Enhancer",
+      "homepageSource": "https://github.com/x74353/Amphetamine-Enhancer"
     },
     {
       "token": "manual-sleep-control-center",
@@ -975,12 +1158,15 @@
           "subcategory": "Sleep / Power"
         }
       ],
-      "homepage": null,
+      "homepage": "https://prevent-mac-from-sleeping.3bitlab.com/prevent_mac_sleep_help.html",
       "availability": "No exact active Homebrew package verified. Use vendor setup.",
       "sourceNumbers": [
         49
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "homepageSource": "https://prevent-mac-from-sleeping.3bitlab.com/prevent_mac_sleep_help.html",
+      "github": null,
+      "githubSource": null
     },
     {
       "token": "betterdisplay",
@@ -999,7 +1185,11 @@
       "sourceNumbers": [
         50
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/waydabber/BetterDisplay",
+      "githubSource": "https://formulae.brew.sh/api/cask/betterdisplay.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/betterdisplay.json",
+      "version": "5.0.6"
     },
     {
       "token": "monitorcontrol",
@@ -1018,7 +1208,11 @@
       "sourceNumbers": [
         51
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/MonitorControl/MonitorControl",
+      "githubSource": "https://formulae.brew.sh/api/cask/monitorcontrol.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/monitorcontrol.json",
+      "version": "4.4.0"
     },
     {
       "token": "lunar",
@@ -1037,7 +1231,11 @@
       "sourceNumbers": [
         52
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/alin23/Lunar",
+      "githubSource": "https://lunar.fyi/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/lunar.json",
+      "version": "6.11.0"
     },
     {
       "token": "displaylink",
@@ -1056,7 +1254,11 @@
       "sourceNumbers": [
         53
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/displaylink.json",
+      "version": "17.0,2026-09"
     },
     {
       "token": "manual-betterdummy",
@@ -1075,7 +1277,10 @@
       "sourceNumbers": [
         54
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/waydabber/BetterDisplay",
+      "githubSource": "https://github.com/waydabber/BetterDisplay",
+      "homepageSource": "https://github.com/waydabber/BetterDisplay"
     },
     {
       "token": "forklift",
@@ -1094,7 +1299,11 @@
       "sourceNumbers": [
         55
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/forklift.json",
+      "version": "4.7.6"
     },
     {
       "token": "commander-one",
@@ -1113,7 +1322,11 @@
       "sourceNumbers": [
         56
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/commander-one.json",
+      "version": "3.18"
     },
     {
       "token": "double-commander",
@@ -1132,7 +1345,11 @@
       "sourceNumbers": [
         57
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/doublecmd/doublecmd",
+      "githubSource": "https://formulae.brew.sh/api/cask/double-commander.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/double-commander.json",
+      "version": "1.2.8"
     },
     {
       "token": "marta",
@@ -1151,7 +1368,12 @@
       "sourceNumbers": [
         58
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/marta-file-manager/marta-issues",
+      "githubSource": "https://github.com/marta-file-manager/marta-issues",
+      "homepageSource": "https://formulae.brew.sh/api/cask/marta.json",
+      "version": "0.8.2",
+      "githubPurpose": "Issue tracker"
     },
     {
       "token": "mucommander",
@@ -1170,7 +1392,11 @@
       "sourceNumbers": [
         59
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mucommander/mucommander",
+      "githubSource": "https://formulae.brew.sh/api/cask/mucommander.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mucommander.json",
+      "version": "1.6.2-1"
     },
     {
       "token": "keka",
@@ -1189,7 +1415,11 @@
       "sourceNumbers": [
         60
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/aonez/Keka",
+      "githubSource": "https://formulae.brew.sh/api/cask/keka.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/keka.json",
+      "version": "1.6.8"
     },
     {
       "token": "the-unarchiver",
@@ -1208,7 +1438,11 @@
       "sourceNumbers": [
         61
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/the-unarchiver.json",
+      "version": "4.3.9,147,1742287964"
     },
     {
       "token": "manual-peazip",
@@ -1227,7 +1461,10 @@
       "sourceNumbers": [
         62
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/peazip/PeaZip",
+      "githubSource": "https://peazip.github.io",
+      "homepageSource": "https://peazip.github.io"
     },
     {
       "token": "sevenzip",
@@ -1246,7 +1483,11 @@
       "sourceNumbers": [
         63
       ],
-      "formulaLicense": "LGPL-2.1-or-later AND BSD-3-Clause"
+      "formulaLicense": "LGPL-2.1-or-later AND BSD-3-Clause",
+      "github": "https://github.com/ip7z/7zip",
+      "githubSource": "https://formulae.brew.sh/api/formula/sevenzip.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/sevenzip.json",
+      "version": "26.03"
     },
     {
       "token": "unar",
@@ -1265,7 +1506,11 @@
       "sourceNumbers": [
         64
       ],
-      "formulaLicense": "LGPL-2.1-or-later"
+      "formulaLicense": "LGPL-2.1-or-later",
+      "github": "https://github.com/MacPaw/XADMaster",
+      "githubSource": "https://formulae.brew.sh/api/formula/unar.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/unar.json",
+      "version": "1.10.8"
     },
     {
       "token": "grandperspective",
@@ -1284,7 +1529,11 @@
       "sourceNumbers": [
         65
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/grandperspective.json",
+      "version": "3.8.1"
     },
     {
       "token": "disk-inventory-x",
@@ -1303,7 +1552,11 @@
       "sourceNumbers": [
         66
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/disk-inventory-x.json",
+      "version": "1.3"
     },
     {
       "token": "duf",
@@ -1327,7 +1580,11 @@
         67,
         222
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/muesli/duf",
+      "githubSource": "https://formulae.brew.sh/api/formula/duf.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/duf.json",
+      "version": "0.9.1"
     },
     {
       "token": "ncdu",
@@ -1346,7 +1603,11 @@
       "sourceNumbers": [
         68
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/ncdu.json",
+      "version": "2.9.2"
     },
     {
       "token": "dust",
@@ -1370,7 +1631,11 @@
         69,
         223
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/bootandy/dust",
+      "githubSource": "https://formulae.brew.sh/api/formula/dust.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/dust.json",
+      "version": "1.2.6"
     },
     {
       "token": "localsend",
@@ -1389,7 +1654,11 @@
       "sourceNumbers": [
         70
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/localsend/localsend",
+      "githubSource": "https://formulae.brew.sh/api/cask/localsend.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/localsend.json",
+      "version": "1.18.2"
     },
     {
       "token": "cyberduck",
@@ -1408,7 +1677,11 @@
       "sourceNumbers": [
         71
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/iterate-ch/cyberduck",
+      "githubSource": "https://cyberduck.io/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/cyberduck.json",
+      "version": "9.5.4,45528"
     },
     {
       "token": "manual-filezilla",
@@ -1427,7 +1700,10 @@
       "sourceNumbers": [
         72
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://filezilla-project.org"
     },
     {
       "token": "transmit",
@@ -1446,7 +1722,11 @@
       "sourceNumbers": [
         73
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/transmit.json",
+      "version": "5.11.7"
     },
     {
       "token": "rsync",
@@ -1465,7 +1745,11 @@
       "sourceNumbers": [
         74
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/RsyncProject/rsync",
+      "githubSource": "https://formulae.brew.sh/api/formula/rsync.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/rsync.json",
+      "version": "3.5.1"
     },
     {
       "token": "rclone",
@@ -1484,7 +1768,11 @@
       "sourceNumbers": [
         75
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/rclone/rclone",
+      "githubSource": "https://formulae.brew.sh/api/formula/rclone.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/rclone.json",
+      "version": "1.75.1"
     },
     {
       "token": "google-chrome",
@@ -1507,7 +1795,11 @@
       "sourceNumbers": [
         76
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/google-chrome.json",
+      "version": "154.0.8037.98"
     },
     {
       "token": "firefox",
@@ -1526,7 +1818,12 @@
       "sourceNumbers": [
         77
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mozilla-firefox/firefox",
+      "githubSource": "https://github.com/mozilla-firefox/firefox",
+      "homepageSource": "https://formulae.brew.sh/api/cask/firefox.json",
+      "version": "157.0",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "brave-browser",
@@ -1545,7 +1842,11 @@
       "sourceNumbers": [
         78
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/brave/brave-browser",
+      "githubSource": "https://brave.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/brave-browser.json",
+      "version": "1.96.61.0"
     },
     {
       "token": "microsoft-edge",
@@ -1564,7 +1865,11 @@
       "sourceNumbers": [
         79
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-edge.json",
+      "version": "154.0.4258.53,559421d7-1ab9-4b4d-bbe2-6578175c72ec"
     },
     {
       "token": "vivaldi",
@@ -1583,7 +1888,11 @@
       "sourceNumbers": [
         80
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/vivaldi.json",
+      "version": "8.2.4133.80"
     },
     {
       "token": "opera",
@@ -1602,7 +1911,11 @@
       "sourceNumbers": [
         81
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/opera.json",
+      "version": "136.0.6008.80"
     },
     {
       "token": "chromium",
@@ -1621,7 +1934,12 @@
       "sourceNumbers": [
         82
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/chromium/chromium",
+      "githubSource": "https://github.com/chromium/chromium",
+      "homepageSource": "https://formulae.brew.sh/api/cask/chromium.json",
+      "version": "latest",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "tor-browser",
@@ -1640,7 +1958,11 @@
       "sourceNumbers": [
         83
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/tor-browser.json",
+      "version": "15.0.24"
     },
     {
       "token": "librewolf",
@@ -1659,7 +1981,11 @@
       "sourceNumbers": [
         84
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/librewolf.json",
+      "version": "157.0,1"
     },
     {
       "token": "mullvad-browser",
@@ -1678,7 +2004,12 @@
       "sourceNumbers": [
         85
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mullvad/mullvad-browser",
+      "githubSource": "https://github.com/mullvad/mullvad-browser",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mullvad-browser.json",
+      "version": "15.0.24",
+      "githubPurpose": "Project resources"
     },
     {
       "token": "firefox@developer-edition",
@@ -1697,7 +2028,12 @@
       "sourceNumbers": [
         86
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mozilla-firefox/firefox",
+      "githubSource": "https://github.com/mozilla-firefox/firefox",
+      "homepageSource": "https://formulae.brew.sh/api/cask/firefox@developer-edition.json",
+      "version": "158.0b3",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "google-chrome@canary",
@@ -1716,7 +2052,11 @@
       "sourceNumbers": [
         87
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/google-chrome@canary.json",
+      "version": "157.0.8084.0"
     },
     {
       "token": "microsoft-edge@beta",
@@ -1735,7 +2075,11 @@
       "sourceNumbers": [
         88
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-edge@beta.json",
+      "version": "155.0.4283.33,b30567c5-b5a7-42d1-8ed7-7f6aecf11cec"
     },
     {
       "token": "chatgpt",
@@ -1754,7 +2098,11 @@
       "sourceNumbers": [
         89
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/chatgpt.json",
+      "version": "26.930.31730"
     },
     {
       "token": "claude",
@@ -1773,7 +2121,11 @@
       "sourceNumbers": [
         90
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/claude.json",
+      "version": "2.19675.0,5706e5524dba58b23e105c31c358df8ab0a95852"
     },
     {
       "token": "manual-microsoft-copilot",
@@ -1792,7 +2144,10 @@
       "sourceNumbers": [
         91
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://copilot.microsoft.com"
     },
     {
       "token": "perplexity",
@@ -1811,7 +2166,11 @@
       "sourceNumbers": [
         92
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/perplexity.json",
+      "version": "26.38.0"
     },
     {
       "token": "msty",
@@ -1830,7 +2189,11 @@
       "sourceNumbers": [
         93
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/msty.json",
+      "version": "1.9.2"
     },
     {
       "token": "codex",
@@ -1849,7 +2212,11 @@
       "sourceNumbers": [
         94
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/openai/codex",
+      "githubSource": "https://formulae.brew.sh/api/cask/codex.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/codex.json",
+      "version": "0.160.0"
     },
     {
       "token": "claude-code",
@@ -1868,7 +2235,12 @@
       "sourceNumbers": [
         95
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/anthropics/claude-code",
+      "githubSource": "https://github.com/anthropics/claude-code",
+      "homepageSource": "https://formulae.brew.sh/api/cask/claude-code.json",
+      "version": "2.1.285",
+      "githubPurpose": "Project resources"
     },
     {
       "token": "copilot-cli",
@@ -1887,7 +2259,11 @@
       "sourceNumbers": [
         96
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/github/copilot-cli",
+      "githubSource": "https://formulae.brew.sh/api/cask/copilot-cli.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/copilot-cli.json",
+      "version": "1.0.91"
     },
     {
       "token": "opencode",
@@ -1906,7 +2282,11 @@
       "sourceNumbers": [
         97
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/anomalyco/opencode",
+      "githubSource": "https://formulae.brew.sh/api/formula/opencode.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/opencode.json",
+      "version": "2.0.20"
     },
     {
       "token": "aider",
@@ -1925,7 +2305,11 @@
       "sourceNumbers": [
         98
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/Aider-AI/aider",
+      "githubSource": "https://formulae.brew.sh/api/formula/aider.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/aider.json",
+      "version": "0.86.2"
     },
     {
       "token": "ollama",
@@ -1944,7 +2328,11 @@
       "sourceNumbers": [
         99
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/ollama/ollama",
+      "githubSource": "https://formulae.brew.sh/api/formula/ollama.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ollama.json",
+      "version": "0.35.1"
     },
     {
       "token": "lm-studio",
@@ -1963,7 +2351,11 @@
       "sourceNumbers": [
         100
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/lm-studio.json",
+      "version": "0.4.25,1"
     },
     {
       "token": "jan",
@@ -1982,7 +2374,11 @@
       "sourceNumbers": [
         101
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/janhq/jan",
+      "githubSource": "https://formulae.brew.sh/api/cask/jan.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/jan.json",
+      "version": "0.8.4"
     },
     {
       "token": "gpt4all",
@@ -2001,7 +2397,11 @@
       "sourceNumbers": [
         102
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/nomic-ai/gpt4all",
+      "githubSource": "https://formulae.brew.sh/api/cask/gpt4all.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/gpt4all.json",
+      "version": "3.10.0"
     },
     {
       "token": "anythingllm",
@@ -2020,7 +2420,11 @@
       "sourceNumbers": [
         103
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Mintplex-Labs/anything-llm",
+      "githubSource": "https://anythingllm.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/anythingllm.json",
+      "version": "1.17.0"
     },
     {
       "token": "open-webui",
@@ -2039,7 +2443,11 @@
       "sourceNumbers": [
         104
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/open-webui/desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/open-webui.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/open-webui.json",
+      "version": "0.0.20"
     },
     {
       "token": "llama.cpp",
@@ -2058,7 +2466,11 @@
       "sourceNumbers": [
         105
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/ggml-org/llama.cpp",
+      "githubSource": "https://formulae.brew.sh/api/formula/llama.cpp.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/llama.cpp.json",
+      "version": "0.5.0"
     },
     {
       "token": "manual-continue",
@@ -2077,7 +2489,11 @@
       "sourceNumbers": [
         106
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/continuedev/continue",
+      "githubSource": "https://github.com/continuedev/continue",
+      "homepageSource": "https://www.continue.dev",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "manual-dify",
@@ -2096,7 +2512,10 @@
       "sourceNumbers": [
         107
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/langgenius/dify",
+      "githubSource": "https://github.com/langgenius/dify",
+      "homepageSource": "https://github.com/langgenius/dify"
     },
     {
       "token": "langflow",
@@ -2115,7 +2534,11 @@
       "sourceNumbers": [
         108
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/langflow-ai/langflow",
+      "githubSource": "https://formulae.brew.sh/api/cask/langflow.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/langflow.json",
+      "version": "1.12.0,v1.12.0"
     },
     {
       "token": "manual-flowise",
@@ -2134,7 +2557,10 @@
       "sourceNumbers": [
         109
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/FlowiseAI/Flowise",
+      "githubSource": "https://github.com/FlowiseAI/Flowise",
+      "homepageSource": "https://github.com/FlowiseAI/Flowise"
     },
     {
       "token": "manual-open-interpreter",
@@ -2153,7 +2579,10 @@
       "sourceNumbers": [
         110
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/OpenInterpreter/open-interpreter",
+      "githubSource": "https://github.com/OpenInterpreter/open-interpreter",
+      "homepageSource": "https://github.com/OpenInterpreter/open-interpreter"
     },
     {
       "token": "visual-studio-code",
@@ -2172,7 +2601,12 @@
       "sourceNumbers": [
         111
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/microsoft/vscode",
+      "githubSource": "https://github.com/microsoft/vscode",
+      "homepageSource": "https://formulae.brew.sh/api/cask/visual-studio-code.json",
+      "version": "1.140.0",
+      "githubPurpose": "Code OSS source"
     },
     {
       "token": "cursor",
@@ -2195,7 +2629,11 @@
       "sourceNumbers": [
         112
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/cursor.json",
+      "version": "3.23.12,2d29876d567da1607532b23bbf2cd5ddbca496fe"
     },
     {
       "token": "zed",
@@ -2214,7 +2652,11 @@
       "sourceNumbers": [
         113
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/zed-industries/zed",
+      "githubSource": "https://formulae.brew.sh/api/cask/zed.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/zed.json",
+      "version": "1.22.0"
     },
     {
       "token": "sublime-text",
@@ -2233,7 +2675,11 @@
       "sourceNumbers": [
         114
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/sublime-text.json",
+      "version": "4215"
     },
     {
       "token": "nova",
@@ -2252,7 +2698,11 @@
       "sourceNumbers": [
         115
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/nova.json",
+      "version": "14.1"
     },
     {
       "token": "jetbrains-toolbox",
@@ -2271,7 +2721,11 @@
       "sourceNumbers": [
         116
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/jetbrains-toolbox.json",
+      "version": "3.8.1,3.8.1.88030"
     },
     {
       "token": "intellij-idea",
@@ -2290,7 +2744,12 @@
       "sourceNumbers": [
         117
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/JetBrains/intellij-community",
+      "githubSource": "https://github.com/JetBrains/intellij-community",
+      "homepageSource": "https://formulae.brew.sh/api/cask/intellij-idea.json",
+      "version": "2026.2.3,262.10968.63",
+      "githubPurpose": "Community source"
     },
     {
       "token": "pycharm",
@@ -2309,7 +2768,12 @@
       "sourceNumbers": [
         118
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/JetBrains/intellij-community",
+      "githubSource": "https://github.com/JetBrains/intellij-community",
+      "homepageSource": "https://formulae.brew.sh/api/cask/pycharm.json",
+      "version": "2026.2.3,262.10968.92",
+      "githubPurpose": "Community source"
     },
     {
       "token": "webstorm",
@@ -2328,7 +2792,11 @@
       "sourceNumbers": [
         119
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/webstorm.json",
+      "version": "2026.2.3,262.10968.77"
     },
     {
       "token": "goland",
@@ -2347,7 +2815,11 @@
       "sourceNumbers": [
         120
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/goland.json",
+      "version": "2026.2.3,262.10968.67"
     },
     {
       "token": "rider",
@@ -2366,7 +2838,11 @@
       "sourceNumbers": [
         121
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/rider.json",
+      "version": "2026.2.3.1,262.10968.170"
     },
     {
       "token": "clion",
@@ -2385,7 +2861,11 @@
       "sourceNumbers": [
         122
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/clion.json",
+      "version": "2026.2.3.1,262.10968.176"
     },
     {
       "token": "android-studio",
@@ -2409,7 +2889,11 @@
         123,
         419
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/android-studio.json",
+      "version": "2026.2.1.8,rabbit1"
     },
     {
       "token": "eclipse-ide",
@@ -2428,7 +2912,11 @@
       "sourceNumbers": [
         124
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/eclipse-ide.json",
+      "version": "4.41,2026-09"
     },
     {
       "token": "netbeans",
@@ -2447,7 +2935,11 @@
       "sourceNumbers": [
         125
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Friends-of-Apache-NetBeans/netbeans-installers",
+      "githubSource": "https://formulae.brew.sh/api/cask/netbeans.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/netbeans.json",
+      "version": "31"
     },
     {
       "token": "neovim",
@@ -2466,7 +2958,11 @@
       "sourceNumbers": [
         126
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/neovim/neovim",
+      "githubSource": "https://formulae.brew.sh/api/formula/neovim.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/neovim.json",
+      "version": "0.12.5"
     },
     {
       "token": "vim",
@@ -2485,7 +2981,11 @@
       "sourceNumbers": [
         127
       ],
-      "formulaLicense": "Vim"
+      "formulaLicense": "Vim",
+      "github": "https://github.com/vim/vim",
+      "githubSource": "https://formulae.brew.sh/api/formula/vim.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/vim.json",
+      "version": "9.2.1150"
     },
     {
       "token": "emacs-app",
@@ -2504,7 +3004,12 @@
       "sourceNumbers": [
         128
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/emacs-mirror/emacs",
+      "githubSource": "https://github.com/emacs-mirror/emacs",
+      "homepageSource": "https://formulae.brew.sh/api/cask/emacs-app.json",
+      "version": "31.1",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "ghostty",
@@ -2523,7 +3028,12 @@
       "sourceNumbers": [
         129
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ghostty-org/ghostty",
+      "githubSource": "https://github.com/ghostty-org/ghostty",
+      "homepageSource": "https://formulae.brew.sh/api/cask/ghostty.json",
+      "version": "1.3.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "iterm2",
@@ -2542,7 +3052,11 @@
       "sourceNumbers": [
         130
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/gnachman/iTerm2",
+      "githubSource": "https://iterm2.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/iterm2.json",
+      "version": "3.7.3"
     },
     {
       "token": "warp",
@@ -2561,7 +3075,11 @@
       "sourceNumbers": [
         131
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/warpdotdev/warp",
+      "githubSource": "https://www.warp.dev/terminal",
+      "homepageSource": "https://formulae.brew.sh/api/cask/warp.json",
+      "version": "0.2026.09.30.08.29.stable_01"
     },
     {
       "token": "wezterm",
@@ -2580,7 +3098,11 @@
       "sourceNumbers": [
         132
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/wezterm/wezterm",
+      "githubSource": "https://formulae.brew.sh/api/cask/wezterm.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/wezterm.json",
+      "version": "20240203-110809,5046fc22"
     },
     {
       "token": "alacritty",
@@ -2599,7 +3121,11 @@
       "sourceNumbers": [
         133
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/alacritty/alacritty",
+      "githubSource": "https://formulae.brew.sh/api/cask/alacritty.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/alacritty.json",
+      "version": "0.17.0"
     },
     {
       "token": "kitty",
@@ -2618,7 +3144,11 @@
       "sourceNumbers": [
         134
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/kovidgoyal/kitty",
+      "githubSource": "https://formulae.brew.sh/api/cask/kitty.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/kitty.json",
+      "version": "0.49.2"
     },
     {
       "token": "tabby",
@@ -2637,7 +3167,11 @@
       "sourceNumbers": [
         135
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Eugeny/tabby",
+      "githubSource": "https://formulae.brew.sh/api/cask/tabby.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/tabby.json",
+      "version": "1.0.237"
     },
     {
       "token": "zsh",
@@ -2656,7 +3190,12 @@
       "sourceNumbers": [
         136
       ],
-      "formulaLicense": "MIT-Modern-Variant AND GPL-2.0-only AND GPL-2.0-or-later AND ISC"
+      "formulaLicense": "MIT-Modern-Variant AND GPL-2.0-only AND GPL-2.0-or-later AND ISC",
+      "github": "https://github.com/zsh-users/zsh",
+      "githubSource": "https://github.com/zsh-users/zsh",
+      "homepageSource": "https://formulae.brew.sh/api/formula/zsh.json",
+      "version": "5.9.2",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "fish",
@@ -2675,7 +3214,11 @@
       "sourceNumbers": [
         137
       ],
-      "formulaLicense": "GPL-2.0-only"
+      "formulaLicense": "GPL-2.0-only",
+      "github": "https://github.com/fish-shell/fish-shell",
+      "githubSource": "https://formulae.brew.sh/api/formula/fish.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/fish.json",
+      "version": "4.9.3"
     },
     {
       "token": "bash",
@@ -2694,7 +3237,11 @@
       "sourceNumbers": [
         138
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/bash.json",
+      "version": "5.3.20"
     },
     {
       "token": "starship",
@@ -2713,7 +3260,11 @@
       "sourceNumbers": [
         139
       ],
-      "formulaLicense": "ISC"
+      "formulaLicense": "ISC",
+      "github": "https://github.com/starship/starship",
+      "githubSource": "https://formulae.brew.sh/api/formula/starship.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/starship.json",
+      "version": "1.26.0"
     },
     {
       "token": "oh-my-posh",
@@ -2732,7 +3283,11 @@
       "sourceNumbers": [
         140
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/JanDeDobbeleer/oh-my-posh",
+      "githubSource": "https://formulae.brew.sh/api/formula/oh-my-posh.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/oh-my-posh.json",
+      "version": "31.4.0"
     },
     {
       "token": "tmux",
@@ -2751,7 +3306,11 @@
       "sourceNumbers": [
         141
       ],
-      "formulaLicense": "ISC"
+      "formulaLicense": "ISC",
+      "github": "https://github.com/tmux/tmux",
+      "githubSource": "https://formulae.brew.sh/api/formula/tmux.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/tmux.json",
+      "version": "3.7c"
     },
     {
       "token": "zellij",
@@ -2770,7 +3329,11 @@
       "sourceNumbers": [
         142
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/zellij-org/zellij",
+      "githubSource": "https://formulae.brew.sh/api/formula/zellij.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/zellij.json",
+      "version": "0.45.1"
     },
     {
       "token": "git",
@@ -2789,7 +3352,11 @@
       "sourceNumbers": [
         143
       ],
-      "formulaLicense": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause AND MIT"
+      "formulaLicense": "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause AND MIT",
+      "github": "https://github.com/git/git",
+      "githubSource": "https://formulae.brew.sh/api/formula/git.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/git.json",
+      "version": "2.56.0"
     },
     {
       "token": "gh",
@@ -2808,7 +3375,11 @@
       "sourceNumbers": [
         144
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/cli/cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/gh.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/gh.json",
+      "version": "2.102.0"
     },
     {
       "token": "git-credential-manager",
@@ -2827,7 +3398,11 @@
       "sourceNumbers": [
         145
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/git-ecosystem/git-credential-manager",
+      "githubSource": "https://formulae.brew.sh/api/cask/git-credential-manager.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/git-credential-manager.json",
+      "version": "2.9.1"
     },
     {
       "token": "lazygit",
@@ -2846,7 +3421,11 @@
       "sourceNumbers": [
         146
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/jesseduffield/lazygit",
+      "githubSource": "https://formulae.brew.sh/api/formula/lazygit.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/lazygit.json",
+      "version": "0.65.1"
     },
     {
       "token": "gitkraken",
@@ -2865,7 +3444,11 @@
       "sourceNumbers": [
         147
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/gitkraken.json",
+      "version": "12.6.0"
     },
     {
       "token": "fork",
@@ -2884,7 +3467,11 @@
       "sourceNumbers": [
         148
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/fork.json",
+      "version": "2.70.2"
     },
     {
       "token": "sourcetree",
@@ -2903,7 +3490,11 @@
       "sourceNumbers": [
         149
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/sourcetree.json",
+      "version": "4.2.19,317"
     },
     {
       "token": "github",
@@ -2922,7 +3513,12 @@
       "sourceNumbers": [
         150
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/desktop/desktop",
+      "githubSource": "https://github.com/desktop/desktop",
+      "homepageSource": "https://formulae.brew.sh/api/cask/github.json",
+      "version": "3.6.6-8b85519e",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "tig",
@@ -2941,7 +3537,11 @@
       "sourceNumbers": [
         151
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/jonas/tig",
+      "githubSource": "https://formulae.brew.sh/api/formula/tig.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/tig.json",
+      "version": "2.6.1"
     },
     {
       "token": "git-delta",
@@ -2960,7 +3560,11 @@
       "sourceNumbers": [
         152
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/dandavison/delta",
+      "githubSource": "https://formulae.brew.sh/api/formula/git-delta.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/git-delta.json",
+      "version": "0.19.2"
     },
     {
       "token": "docker-desktop",
@@ -2979,7 +3583,12 @@
       "sourceNumbers": [
         153
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/docker/for-mac",
+      "githubSource": "https://github.com/docker/for-mac",
+      "homepageSource": "https://formulae.brew.sh/api/cask/docker-desktop.json",
+      "version": "4.93.0,240920",
+      "githubPurpose": "Issue tracker"
     },
     {
       "token": "orbstack",
@@ -2998,7 +3607,12 @@
       "sourceNumbers": [
         154
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/orbstack/orbstack",
+      "githubSource": "https://github.com/orbstack/orbstack",
+      "homepageSource": "https://formulae.brew.sh/api/cask/orbstack.json",
+      "version": "2.2.3,20963",
+      "githubPurpose": "Issue tracker"
     },
     {
       "token": "colima",
@@ -3017,7 +3631,11 @@
       "sourceNumbers": [
         155
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/abiosoft/colima",
+      "githubSource": "https://formulae.brew.sh/api/formula/colima.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/colima.json",
+      "version": "0.10.3"
     },
     {
       "token": "podman-desktop",
@@ -3036,7 +3654,11 @@
       "sourceNumbers": [
         156
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/containers/podman-desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/podman-desktop.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/podman-desktop.json",
+      "version": "1.29.3"
     },
     {
       "token": "rancher",
@@ -3055,7 +3677,11 @@
       "sourceNumbers": [
         157
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/rancher-sandbox/rancher-desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/rancher.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/rancher.json",
+      "version": "1.24.0"
     },
     {
       "token": "lima",
@@ -3074,7 +3700,11 @@
       "sourceNumbers": [
         158
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/lima-vm/lima",
+      "githubSource": "https://formulae.brew.sh/api/formula/lima.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/lima.json",
+      "version": "2.2.0"
     },
     {
       "token": "docker",
@@ -3093,7 +3723,11 @@
       "sourceNumbers": [
         159
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/docker/cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/docker.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/docker.json",
+      "version": "29.8.2"
     },
     {
       "token": "docker-compose",
@@ -3112,7 +3746,11 @@
       "sourceNumbers": [
         160
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/docker/compose",
+      "githubSource": "https://formulae.brew.sh/api/formula/docker-compose.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/docker-compose.json",
+      "version": "5.6.0"
     },
     {
       "token": "utm",
@@ -3131,7 +3769,11 @@
       "sourceNumbers": [
         161
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/utmapp/UTM",
+      "githubSource": "https://formulae.brew.sh/api/cask/utm.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/utm.json",
+      "version": "4.7.5"
     },
     {
       "token": "virtualbox",
@@ -3150,7 +3792,11 @@
       "sourceNumbers": [
         162
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/virtualbox.json",
+      "version": "7.2.20,175154"
     },
     {
       "token": "manual-vmware-fusion",
@@ -3169,7 +3815,10 @@
       "sourceNumbers": [
         163
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion"
     },
     {
       "token": "vagrant",
@@ -3188,7 +3837,11 @@
       "sourceNumbers": [
         164
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/hashicorp/vagrant",
+      "githubSource": "https://www.vagrantup.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/vagrant.json",
+      "version": "2.4.9"
     },
     {
       "token": "qemu",
@@ -3207,7 +3860,12 @@
       "sourceNumbers": [
         165
       ],
-      "formulaLicense": "GPL-2.0-only"
+      "formulaLicense": "GPL-2.0-only",
+      "github": "https://github.com/qemu/qemu",
+      "githubSource": "https://github.com/qemu/qemu",
+      "homepageSource": "https://formulae.brew.sh/api/formula/qemu.json",
+      "version": "11.1.2",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "multipass",
@@ -3226,7 +3884,11 @@
       "sourceNumbers": [
         166
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/canonical/multipass",
+      "githubSource": "https://formulae.brew.sh/api/cask/multipass.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/multipass.json",
+      "version": "1.16.4"
     },
     {
       "token": "postman",
@@ -3245,7 +3907,12 @@
       "sourceNumbers": [
         167
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/postmanlabs/postman-app-support",
+      "githubSource": "https://github.com/postmanlabs/postman-app-support",
+      "homepageSource": "https://formulae.brew.sh/api/cask/postman.json",
+      "version": "12.30.6",
+      "githubPurpose": "Issue tracker"
     },
     {
       "token": "bruno",
@@ -3264,7 +3931,11 @@
       "sourceNumbers": [
         168
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/usebruno/bruno",
+      "githubSource": "https://formulae.brew.sh/api/cask/bruno.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/bruno.json",
+      "version": "4.2.1"
     },
     {
       "token": "insomnia",
@@ -3283,7 +3954,11 @@
       "sourceNumbers": [
         169
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Kong/insomnia",
+      "githubSource": "https://formulae.brew.sh/api/cask/insomnia.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/insomnia.json",
+      "version": "13.3.0"
     },
     {
       "token": "httpie-desktop",
@@ -3302,7 +3977,11 @@
       "sourceNumbers": [
         170
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/httpie/desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/httpie-desktop.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/httpie-desktop.json",
+      "version": "2025.2.0"
     },
     {
       "token": "hoppscotch",
@@ -3321,7 +4000,11 @@
       "sourceNumbers": [
         171
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/hoppscotch/releases",
+      "githubSource": "https://formulae.brew.sh/api/cask/hoppscotch.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/hoppscotch.json",
+      "version": "26.9.0-0"
     },
     {
       "token": "rapidapi",
@@ -3340,7 +4023,11 @@
       "sourceNumbers": [
         172
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/rapidapi.json",
+      "version": "4.5.5"
     },
     {
       "token": "yaak",
@@ -3359,7 +4046,11 @@
       "sourceNumbers": [
         173
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mountain-loop/yaak",
+      "githubSource": "https://formulae.brew.sh/api/cask/yaak.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/yaak.json",
+      "version": "2026.8.1"
     },
     {
       "token": "httpie",
@@ -3378,7 +4069,11 @@
       "sourceNumbers": [
         174
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/httpie/cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/httpie.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/httpie.json",
+      "version": "3.2.4"
     },
     {
       "token": "curl",
@@ -3402,7 +4097,11 @@
         175,
         235
       ],
-      "formulaLicense": "curl"
+      "formulaLicense": "curl",
+      "github": "https://github.com/curl/curl",
+      "githubSource": "https://formulae.brew.sh/api/formula/curl.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/curl.json",
+      "version": "8.22.0"
     },
     {
       "token": "xh",
@@ -3421,7 +4120,11 @@
       "sourceNumbers": [
         176
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/ducaale/xh",
+      "githubSource": "https://formulae.brew.sh/api/formula/xh.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/xh.json",
+      "version": "0.26.2"
     },
     {
       "token": "grpcurl",
@@ -3440,7 +4143,11 @@
       "sourceNumbers": [
         177
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/fullstorydev/grpcurl",
+      "githubSource": "https://formulae.brew.sh/api/formula/grpcurl.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/grpcurl.json",
+      "version": "1.9.4"
     },
     {
       "token": "websocat",
@@ -3459,7 +4166,11 @@
       "sourceNumbers": [
         178
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/vi/websocat",
+      "githubSource": "https://formulae.brew.sh/api/formula/websocat.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/websocat.json",
+      "version": "1.14.1"
     },
     {
       "token": "dbeaver-community",
@@ -3478,7 +4189,12 @@
       "sourceNumbers": [
         179
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/dbeaver/dbeaver",
+      "githubSource": "https://github.com/dbeaver/dbeaver",
+      "homepageSource": "https://formulae.brew.sh/api/cask/dbeaver-community.json",
+      "version": "26.2.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "tableplus",
@@ -3497,7 +4213,11 @@
       "sourceNumbers": [
         180
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/tableplus.json",
+      "version": "26.10.22,802"
     },
     {
       "token": "beekeeper-studio",
@@ -3516,7 +4236,11 @@
       "sourceNumbers": [
         181
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/beekeeper-studio/beekeeper-studio",
+      "githubSource": "https://formulae.brew.sh/api/cask/beekeeper-studio.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/beekeeper-studio.json",
+      "version": "6.1.5"
     },
     {
       "token": "datagrip",
@@ -3535,7 +4259,11 @@
       "sourceNumbers": [
         182
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/datagrip.json",
+      "version": "2026.2.6,262.10968.148"
     },
     {
       "token": "sequel-ace",
@@ -3554,7 +4282,11 @@
       "sourceNumbers": [
         183
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Sequel-Ace/Sequel-Ace",
+      "githubSource": "https://formulae.brew.sh/api/cask/sequel-ace.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/sequel-ace.json",
+      "version": "6.0.1,20114"
     },
     {
       "token": "postgres-app",
@@ -3573,7 +4305,11 @@
       "sourceNumbers": [
         184
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/PostgresApp/PostgresApp",
+      "githubSource": "https://formulae.brew.sh/api/cask/postgres-app.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/postgres-app.json",
+      "version": "2.9.6,14-15-16-17-18"
     },
     {
       "token": "pgadmin4",
@@ -3592,7 +4328,11 @@
       "sourceNumbers": [
         185
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/pgadmin-org/pgadmin4",
+      "githubSource": "https://www.pgadmin.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/pgadmin4.json",
+      "version": "9.18"
     },
     {
       "token": "libpq",
@@ -3611,7 +4351,12 @@
       "sourceNumbers": [
         186
       ],
-      "formulaLicense": "PostgreSQL"
+      "formulaLicense": "PostgreSQL",
+      "github": "https://github.com/postgres/postgres",
+      "githubSource": "https://github.com/postgres/postgres",
+      "homepageSource": "https://formulae.brew.sh/api/formula/libpq.json",
+      "version": "18.6",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "mongodb-compass",
@@ -3630,7 +4375,12 @@
       "sourceNumbers": [
         187
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mongodb-js/compass",
+      "githubSource": "https://github.com/mongodb-js/compass",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mongodb-compass.json",
+      "version": "1.52.0",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "mongosh",
@@ -3649,7 +4399,11 @@
       "sourceNumbers": [
         188
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/mongodb-js/mongosh",
+      "githubSource": "https://www.mongodb.com/try/download/shell",
+      "homepageSource": "https://formulae.brew.sh/api/formula/mongosh.json",
+      "version": "2.12.0"
     },
     {
       "token": "redis-insight",
@@ -3668,7 +4422,12 @@
       "sourceNumbers": [
         189
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/redis/RedisInsight",
+      "githubSource": "https://github.com/redis/RedisInsight",
+      "homepageSource": "https://formulae.brew.sh/api/cask/redis-insight.json",
+      "version": "3.8.0",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "medis",
@@ -3687,7 +4446,11 @@
       "sourceNumbers": [
         190
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/luin/medis",
+      "githubSource": "https://getmedis.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/medis.json",
+      "version": "2.16.1"
     },
     {
       "token": "db-browser-for-sqlite",
@@ -3706,7 +4469,11 @@
       "sourceNumbers": [
         191
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/sqlitebrowser/sqlitebrowser",
+      "githubSource": "https://formulae.brew.sh/api/cask/db-browser-for-sqlite.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/db-browser-for-sqlite.json",
+      "version": "3.13.1"
     },
     {
       "token": "manual-sqlitestudio",
@@ -3725,7 +4492,11 @@
       "sourceNumbers": [
         192
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/pawelsalawa/letos",
+      "githubSource": "https://github.com/pawelsalawa/letos",
+      "homepageSource": "https://sqlitestudio.pl",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "sqlite",
@@ -3744,7 +4515,12 @@
       "sourceNumbers": [
         193
       ],
-      "formulaLicense": "blessing"
+      "formulaLicense": "blessing",
+      "github": "https://github.com/sqlite/sqlite",
+      "githubSource": "https://github.com/sqlite/sqlite",
+      "homepageSource": "https://formulae.brew.sh/api/formula/sqlite.json",
+      "version": "3.53.4",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "awscli",
@@ -3763,7 +4539,11 @@
       "sourceNumbers": [
         194
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/aws/aws-cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/awscli.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/awscli.json",
+      "version": "2.37.7"
     },
     {
       "token": "gcloud-cli",
@@ -3782,7 +4562,11 @@
       "sourceNumbers": [
         195
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/gcloud-cli.json",
+      "version": "587.0.0"
     },
     {
       "token": "azure-cli",
@@ -3801,7 +4585,11 @@
       "sourceNumbers": [
         196
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/Azure/azure-cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/azure-cli.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/azure-cli.json",
+      "version": "2.90.0"
     },
     {
       "token": "doctl",
@@ -3820,7 +4608,11 @@
       "sourceNumbers": [
         197
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/digitalocean/doctl",
+      "githubSource": "https://formulae.brew.sh/api/formula/doctl.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/doctl.json",
+      "version": "1.177.0"
     },
     {
       "token": "heroku",
@@ -3839,7 +4631,12 @@
       "sourceNumbers": [
         198
       ],
-      "formulaLicense": "ISC"
+      "formulaLicense": "ISC",
+      "github": "https://github.com/heroku/cli",
+      "githubSource": "https://github.com/heroku/cli",
+      "homepageSource": "https://formulae.brew.sh/api/formula/heroku.json",
+      "version": "11.11.0",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "kubernetes-cli",
@@ -3858,7 +4655,11 @@
       "sourceNumbers": [
         199
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/kubernetes/kubernetes",
+      "githubSource": "https://formulae.brew.sh/api/formula/kubernetes-cli.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/kubernetes-cli.json",
+      "version": "1.37.1"
     },
     {
       "token": "k9s",
@@ -3877,7 +4678,11 @@
       "sourceNumbers": [
         200
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/derailed/k9s",
+      "githubSource": "https://formulae.brew.sh/api/formula/k9s.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/k9s.json",
+      "version": "0.51.0"
     },
     {
       "token": "helm",
@@ -3896,7 +4701,11 @@
       "sourceNumbers": [
         201
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/helm/helm",
+      "githubSource": "https://formulae.brew.sh/api/formula/helm.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/helm.json",
+      "version": "4.3.0"
     },
     {
       "token": "lens",
@@ -3915,7 +4724,12 @@
       "sourceNumbers": [
         202
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/lensapp/lens",
+      "githubSource": "https://github.com/lensapp/lens",
+      "homepageSource": "https://formulae.brew.sh/api/cask/lens.json",
+      "version": "2026.9.181013",
+      "githubPurpose": "Project resources"
     },
     {
       "token": "openlens",
@@ -3934,7 +4748,11 @@
       "sourceNumbers": [
         203
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/MuhammedKalkan/OpenLens",
+      "githubSource": "https://formulae.brew.sh/api/cask/openlens.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/openlens.json",
+      "version": "6.5.2-366"
     },
     {
       "token": "kubectx",
@@ -3953,7 +4771,11 @@
       "sourceNumbers": [
         204
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/ahmetb/kubectx",
+      "githubSource": "https://formulae.brew.sh/api/formula/kubectx.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/kubectx.json",
+      "version": "0.11.0"
     },
     {
       "token": "stern",
@@ -3972,7 +4794,11 @@
       "sourceNumbers": [
         205
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/stern/stern",
+      "githubSource": "https://formulae.brew.sh/api/formula/stern.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/stern.json",
+      "version": "1.34.0"
     },
     {
       "token": "kustomize",
@@ -3991,7 +4817,11 @@
       "sourceNumbers": [
         206
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/kubernetes-sigs/kustomize",
+      "githubSource": "https://formulae.brew.sh/api/formula/kustomize.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/kustomize.json",
+      "version": "5.8.2"
     },
     {
       "token": "minikube",
@@ -4010,7 +4840,11 @@
       "sourceNumbers": [
         207
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/kubernetes/minikube",
+      "githubSource": "https://formulae.brew.sh/api/formula/minikube.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/minikube.json",
+      "version": "1.39.0"
     },
     {
       "token": "kind",
@@ -4029,7 +4863,11 @@
       "sourceNumbers": [
         208
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/kubernetes-sigs/kind",
+      "githubSource": "https://formulae.brew.sh/api/formula/kind.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/kind.json",
+      "version": "0.33.0"
     },
     {
       "token": "manual-terraform",
@@ -4048,7 +4886,10 @@
       "sourceNumbers": [
         209
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/hashicorp/terraform",
+      "githubSource": "https://developer.hashicorp.com/terraform/install",
+      "homepageSource": "https://developer.hashicorp.com/terraform/install"
     },
     {
       "token": "opentofu",
@@ -4067,7 +4908,11 @@
       "sourceNumbers": [
         210
       ],
-      "formulaLicense": "MPL-2.0"
+      "formulaLicense": "MPL-2.0",
+      "github": "https://github.com/opentofu/opentofu",
+      "githubSource": "https://formulae.brew.sh/api/formula/opentofu.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/opentofu.json",
+      "version": "1.13.1"
     },
     {
       "token": "terragrunt",
@@ -4086,7 +4931,11 @@
       "sourceNumbers": [
         211
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/gruntwork-io/terragrunt",
+      "githubSource": "https://formulae.brew.sh/api/formula/terragrunt.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/terragrunt.json",
+      "version": "1.1.6"
     },
     {
       "token": "ansible",
@@ -4105,7 +4954,11 @@
       "sourceNumbers": [
         212
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/ansible/ansible",
+      "githubSource": "https://formulae.brew.sh/api/formula/ansible.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ansible.json",
+      "version": "14.4.0"
     },
     {
       "token": "pulumi",
@@ -4124,7 +4977,11 @@
       "sourceNumbers": [
         213
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/pulumi/pulumi",
+      "githubSource": "https://formulae.brew.sh/api/formula/pulumi.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/pulumi.json",
+      "version": "3.267.0"
     },
     {
       "token": "manual-packer",
@@ -4143,7 +5000,10 @@
       "sourceNumbers": [
         214
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/hashicorp/packer",
+      "githubSource": "https://developer.hashicorp.com/packer/install",
+      "homepageSource": "https://developer.hashicorp.com/packer/install"
     },
     {
       "token": "ripgrep",
@@ -4162,7 +5022,11 @@
       "sourceNumbers": [
         215
       ],
-      "formulaLicense": "Unlicense"
+      "formulaLicense": "Unlicense",
+      "github": "https://github.com/BurntSushi/ripgrep",
+      "githubSource": "https://formulae.brew.sh/api/formula/ripgrep.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ripgrep.json",
+      "version": "15.2.0"
     },
     {
       "token": "fd",
@@ -4181,7 +5045,11 @@
       "sourceNumbers": [
         216
       ],
-      "formulaLicense": "Apache-2.0 OR MIT"
+      "formulaLicense": "Apache-2.0 OR MIT",
+      "github": "https://github.com/sharkdp/fd",
+      "githubSource": "https://formulae.brew.sh/api/formula/fd.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/fd.json",
+      "version": "10.5.0"
     },
     {
       "token": "fzf",
@@ -4200,7 +5068,11 @@
       "sourceNumbers": [
         217
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/junegunn/fzf",
+      "githubSource": "https://formulae.brew.sh/api/formula/fzf.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/fzf.json",
+      "version": "0.74.4"
     },
     {
       "token": "zoxide",
@@ -4219,7 +5091,11 @@
       "sourceNumbers": [
         218
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/ajeetdsouza/zoxide",
+      "githubSource": "https://formulae.brew.sh/api/formula/zoxide.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/zoxide.json",
+      "version": "0.10.0"
     },
     {
       "token": "tree",
@@ -4238,7 +5114,11 @@
       "sourceNumbers": [
         219
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/Old-Man-Programmer/tree",
+      "githubSource": "https://formulae.brew.sh/api/formula/tree.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/tree.json",
+      "version": "2.3.2"
     },
     {
       "token": "bat",
@@ -4257,7 +5137,11 @@
       "sourceNumbers": [
         220
       ],
-      "formulaLicense": "Apache-2.0 OR MIT"
+      "formulaLicense": "Apache-2.0 OR MIT",
+      "github": "https://github.com/sharkdp/bat",
+      "githubSource": "https://formulae.brew.sh/api/formula/bat.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/bat.json",
+      "version": "0.26.1"
     },
     {
       "token": "eza",
@@ -4276,7 +5160,11 @@
       "sourceNumbers": [
         221
       ],
-      "formulaLicense": "EUPL-1.2"
+      "formulaLicense": "EUPL-1.2",
+      "github": "https://github.com/eza-community/eza",
+      "githubSource": "https://formulae.brew.sh/api/formula/eza.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/eza.json",
+      "version": "0.23.5"
     },
     {
       "token": "procs",
@@ -4295,7 +5183,11 @@
       "sourceNumbers": [
         224
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/dalance/procs",
+      "githubSource": "https://formulae.brew.sh/api/formula/procs.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/procs.json",
+      "version": "0.14.12"
     },
     {
       "token": "sd",
@@ -4314,7 +5206,11 @@
       "sourceNumbers": [
         226
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/chmln/sd",
+      "githubSource": "https://formulae.brew.sh/api/formula/sd.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/sd.json",
+      "version": "1.1.0"
     },
     {
       "token": "choose-rust",
@@ -4333,7 +5229,11 @@
       "sourceNumbers": [
         227
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/theryangeary/choose",
+      "githubSource": "https://formulae.brew.sh/api/formula/choose-rust.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/choose-rust.json",
+      "version": "1.3.7"
     },
     {
       "token": "doggo",
@@ -4352,7 +5252,11 @@
       "sourceNumbers": [
         228
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/mr-karan/doggo",
+      "githubSource": "https://formulae.brew.sh/api/formula/doggo.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/doggo.json",
+      "version": "1.4.0"
     },
     {
       "token": "jq",
@@ -4371,7 +5275,11 @@
       "sourceNumbers": [
         229
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/jqlang/jq",
+      "githubSource": "https://formulae.brew.sh/api/formula/jq.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/jq.json",
+      "version": "1.8.2"
     },
     {
       "token": "yq",
@@ -4390,7 +5298,11 @@
       "sourceNumbers": [
         230
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/mikefarah/yq",
+      "githubSource": "https://formulae.brew.sh/api/formula/yq.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/yq.json",
+      "version": "4.54.1"
     },
     {
       "token": "dasel",
@@ -4409,7 +5321,11 @@
       "sourceNumbers": [
         231
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/TomWright/dasel",
+      "githubSource": "https://formulae.brew.sh/api/formula/dasel.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/dasel.json",
+      "version": "3.11.2"
     },
     {
       "token": "jc",
@@ -4428,7 +5344,11 @@
       "sourceNumbers": [
         232
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/kellyjonbrazil/jc",
+      "githubSource": "https://formulae.brew.sh/api/formula/jc.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/jc.json",
+      "version": "1.26.0"
     },
     {
       "token": "fx",
@@ -4447,7 +5367,11 @@
       "sourceNumbers": [
         233
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/antonmedv/fx",
+      "githubSource": "https://formulae.brew.sh/api/formula/fx.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/fx.json",
+      "version": "39.2.0"
     },
     {
       "token": "wget",
@@ -4466,7 +5390,11 @@
       "sourceNumbers": [
         234
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/wget.json",
+      "version": "1.25.0"
     },
     {
       "token": "aria2",
@@ -4490,7 +5418,11 @@
         236,
         400
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/aria2/aria2",
+      "githubSource": "https://formulae.brew.sh/api/formula/aria2.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/aria2.json",
+      "version": "1.37.0"
     },
     {
       "token": "nmap",
@@ -4514,7 +5446,12 @@
         237,
         273
       ],
-      "formulaLicense": "LicenseRef-Homebrew-cannot-represent"
+      "formulaLicense": "LicenseRef-Homebrew-cannot-represent",
+      "github": "https://github.com/nmap/nmap",
+      "githubSource": "https://github.com/nmap/nmap",
+      "homepageSource": "https://formulae.brew.sh/api/formula/nmap.json",
+      "version": "7.991",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "mtr",
@@ -4538,7 +5475,11 @@
         238,
         275
       ],
-      "formulaLicense": "GPL-2.0-only AND BSD-3-Clause AND LGPL-2.0-only"
+      "formulaLicense": "GPL-2.0-only AND BSD-3-Clause AND LGPL-2.0-only",
+      "github": "https://github.com/traviscross/mtr",
+      "githubSource": "https://formulae.brew.sh/api/formula/mtr.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/mtr.json",
+      "version": "0.96"
     },
     {
       "token": "iperf3",
@@ -4562,7 +5503,11 @@
         239,
         276
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/esnet/iperf",
+      "githubSource": "https://formulae.brew.sh/api/formula/iperf3.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/iperf3.json",
+      "version": "3.22"
     },
     {
       "token": "dnsmasq",
@@ -4581,7 +5526,11 @@
       "sourceNumbers": [
         240
       ],
-      "formulaLicense": "GPL-2.0-only OR GPL-3.0-only"
+      "formulaLicense": "GPL-2.0-only OR GPL-3.0-only",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/dnsmasq.json",
+      "version": "2.93"
     },
     {
       "token": "whois",
@@ -4600,7 +5549,11 @@
       "sourceNumbers": [
         241
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/rfc1036/whois",
+      "githubSource": "https://formulae.brew.sh/api/formula/whois.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/whois.json",
+      "version": "5.6.6"
     },
     {
       "token": "tcpdump",
@@ -4624,7 +5577,11 @@
         242,
         274
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/the-tcpdump-group/tcpdump",
+      "githubSource": "https://formulae.brew.sh/api/formula/tcpdump.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/tcpdump.json",
+      "version": "4.99.7"
     },
     {
       "token": "node",
@@ -4643,7 +5600,11 @@
       "sourceNumbers": [
         243
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/nodejs/node",
+      "githubSource": "https://formulae.brew.sh/api/formula/node.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/node.json",
+      "version": "26.10.0"
     },
     {
       "token": "nvm",
@@ -4662,7 +5623,11 @@
       "sourceNumbers": [
         244
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/nvm-sh/nvm",
+      "githubSource": "https://formulae.brew.sh/api/formula/nvm.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/nvm.json",
+      "version": "0.40.8"
     },
     {
       "token": "pnpm",
@@ -4681,7 +5646,11 @@
       "sourceNumbers": [
         245
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/pnpm/pnpm",
+      "githubSource": "https://formulae.brew.sh/api/formula/pnpm.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/pnpm.json",
+      "version": "12.8.1"
     },
     {
       "token": "yarn",
@@ -4700,7 +5669,11 @@
       "sourceNumbers": [
         246
       ],
-      "formulaLicense": "BSD-2-Clause"
+      "formulaLicense": "BSD-2-Clause",
+      "github": "https://github.com/yarnpkg/yarn",
+      "githubSource": "https://formulae.brew.sh/api/formula/yarn.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/yarn.json",
+      "version": "1.22.22"
     },
     {
       "token": "bun",
@@ -4719,7 +5692,11 @@
       "sourceNumbers": [
         247
       ],
-      "formulaLicense": "MIT AND LGPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND IJG AND LGPL-2.1-or-later AND Zlib AND (Apache-2.0 WITH LLVM-exception)"
+      "formulaLicense": "MIT AND LGPL-2.0-or-later AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND IJG AND LGPL-2.1-or-later AND Zlib AND (Apache-2.0 WITH LLVM-exception)",
+      "github": "https://github.com/oven-sh/bun",
+      "githubSource": "https://formulae.brew.sh/api/formula/bun.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/bun.json",
+      "version": "1.4.2"
     },
     {
       "token": "deno",
@@ -4738,7 +5715,11 @@
       "sourceNumbers": [
         248
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/denoland/deno",
+      "githubSource": "https://formulae.brew.sh/api/formula/deno.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/deno.json",
+      "version": "2.9.7"
     },
     {
       "token": "python@3.14",
@@ -4757,7 +5738,12 @@
       "sourceNumbers": [
         249
       ],
-      "formulaLicense": "Python-2.0"
+      "formulaLicense": "Python-2.0",
+      "github": "https://github.com/python/cpython",
+      "githubSource": "https://github.com/python/cpython",
+      "homepageSource": "https://formulae.brew.sh/api/formula/python@3.14.json",
+      "version": "3.14.8",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "pyenv",
@@ -4776,7 +5762,11 @@
       "sourceNumbers": [
         250
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/pyenv/pyenv",
+      "githubSource": "https://formulae.brew.sh/api/formula/pyenv.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/pyenv.json",
+      "version": "2.8.7"
     },
     {
       "token": "uv",
@@ -4795,7 +5785,11 @@
       "sourceNumbers": [
         251
       ],
-      "formulaLicense": "Apache-2.0 OR MIT"
+      "formulaLicense": "Apache-2.0 OR MIT",
+      "github": "https://github.com/astral-sh/uv",
+      "githubSource": "https://formulae.brew.sh/api/formula/uv.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/uv.json",
+      "version": "0.12.22"
     },
     {
       "token": "pipx",
@@ -4814,7 +5808,11 @@
       "sourceNumbers": [
         252
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/pypa/pipx",
+      "githubSource": "https://formulae.brew.sh/api/formula/pipx.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/pipx.json",
+      "version": "1.17.9"
     },
     {
       "token": "poetry",
@@ -4833,7 +5831,11 @@
       "sourceNumbers": [
         253
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/python-poetry/poetry",
+      "githubSource": "https://formulae.brew.sh/api/formula/poetry.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/poetry.json",
+      "version": "2.5.1"
     },
     {
       "token": "temurin@17",
@@ -4852,7 +5854,11 @@
       "sourceNumbers": [
         254
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/adoptium/temurin17-binaries",
+      "githubSource": "https://formulae.brew.sh/api/cask/temurin@17.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/temurin@17.json",
+      "version": "17.0.20.1,1"
     },
     {
       "token": "temurin@21",
@@ -4871,7 +5877,11 @@
       "sourceNumbers": [
         255
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/adoptium/temurin21-binaries",
+      "githubSource": "https://formulae.brew.sh/api/cask/temurin@21.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/temurin@21.json",
+      "version": "21.0.12.1,1"
     },
     {
       "token": "openjdk",
@@ -4890,7 +5900,11 @@
       "sourceNumbers": [
         256
       ],
-      "formulaLicense": "GPL-2.0-only WITH Classpath-exception-2.0"
+      "formulaLicense": "GPL-2.0-only WITH Classpath-exception-2.0",
+      "github": "https://github.com/openjdk/jdk27u",
+      "githubSource": "https://formulae.brew.sh/api/formula/openjdk.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/openjdk.json",
+      "version": "27"
     },
     {
       "token": "maven",
@@ -4909,7 +5923,12 @@
       "sourceNumbers": [
         257
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/apache/maven",
+      "githubSource": "https://github.com/apache/maven",
+      "homepageSource": "https://formulae.brew.sh/api/formula/maven.json",
+      "version": "3.10.0",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "gradle",
@@ -4928,7 +5947,11 @@
       "sourceNumbers": [
         258
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/gradle/gradle",
+      "githubSource": "https://www.gradle.org/",
+      "homepageSource": "https://formulae.brew.sh/api/formula/gradle.json",
+      "version": "9.8.0"
     },
     {
       "token": "jenv",
@@ -4947,7 +5970,11 @@
       "sourceNumbers": [
         259
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/jenv/jenv",
+      "githubSource": "https://formulae.brew.sh/api/formula/jenv.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/jenv.json",
+      "version": "0.6.0"
     },
     {
       "token": "go",
@@ -4966,7 +5993,11 @@
       "sourceNumbers": [
         260
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/golang/go",
+      "githubSource": "https://go.dev/",
+      "homepageSource": "https://formulae.brew.sh/api/formula/go.json",
+      "version": "1.27.1"
     },
     {
       "token": "rust",
@@ -4985,7 +6016,11 @@
       "sourceNumbers": [
         261
       ],
-      "formulaLicense": "Apache-2.0 OR MIT"
+      "formulaLicense": "Apache-2.0 OR MIT",
+      "github": "https://github.com/rust-lang/rust",
+      "githubSource": "https://formulae.brew.sh/api/formula/rust.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/rust.json",
+      "version": "1.99.0"
     },
     {
       "token": "ruby",
@@ -5004,7 +6039,11 @@
       "sourceNumbers": [
         262
       ],
-      "formulaLicense": "Ruby"
+      "formulaLicense": "Ruby",
+      "github": "https://github.com/ruby/ruby",
+      "githubSource": "https://formulae.brew.sh/api/formula/ruby.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ruby.json",
+      "version": "4.0.7"
     },
     {
       "token": "php",
@@ -5023,7 +6062,11 @@
       "sourceNumbers": [
         263
       ],
-      "formulaLicense": "PHP-3.01 AND Zend-2.0 AND BSL-1.0 AND MIT AND Apache-1.0 AND Apache-2.0 AND bcrypt-Solar-Designer AND BSD-2-Clause-Darwin AND BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND ISC AND LGPL-2.1-only AND LGPL-2.1-or-later AND OLDAP-2.8 AND TCL AND Zlib"
+      "formulaLicense": "PHP-3.01 AND Zend-2.0 AND BSL-1.0 AND MIT AND Apache-1.0 AND Apache-2.0 AND bcrypt-Solar-Designer AND BSD-2-Clause-Darwin AND BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND ISC AND LGPL-2.1-only AND LGPL-2.1-or-later AND OLDAP-2.8 AND TCL AND Zlib",
+      "github": "https://github.com/php/php-src",
+      "githubSource": "https://formulae.brew.sh/api/formula/php.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/php.json",
+      "version": "8.5.11"
     },
     {
       "token": "kotlin",
@@ -5042,7 +6085,11 @@
       "sourceNumbers": [
         264
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/JetBrains/kotlin",
+      "githubSource": "https://formulae.brew.sh/api/formula/kotlin.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/kotlin.json",
+      "version": "2.4.20"
     },
     {
       "token": "swiftformat",
@@ -5061,7 +6108,11 @@
       "sourceNumbers": [
         265
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/nicklockwood/SwiftFormat",
+      "githubSource": "https://formulae.brew.sh/api/formula/swiftformat.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/swiftformat.json",
+      "version": "0.63.1"
     },
     {
       "token": "swiftlint",
@@ -5080,7 +6131,11 @@
       "sourceNumbers": [
         266
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/realm/SwiftLint",
+      "githubSource": "https://formulae.brew.sh/api/formula/swiftlint.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/swiftlint.json",
+      "version": "0.65.1"
     },
     {
       "token": "lua",
@@ -5099,7 +6154,12 @@
       "sourceNumbers": [
         267
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/lua/lua",
+      "githubSource": "https://github.com/lua/lua",
+      "homepageSource": "https://formulae.brew.sh/api/formula/lua.json",
+      "version": "5.5.1",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "proxyman",
@@ -5118,7 +6178,11 @@
       "sourceNumbers": [
         268
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ProxymanApp/Proxyman",
+      "githubSource": "https://proxyman.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/proxyman.json",
+      "version": "26.0.1,260001"
     },
     {
       "token": "charles",
@@ -5137,7 +6201,11 @@
       "sourceNumbers": [
         269
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/charles.json",
+      "version": "5.2.1"
     },
     {
       "token": "mitmproxy",
@@ -5156,7 +6224,11 @@
       "sourceNumbers": [
         270
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mitmproxy/mitmproxy",
+      "githubSource": "https://mitmproxy.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mitmproxy.json",
+      "version": "12.2.3"
     },
     {
       "token": "http-toolkit",
@@ -5175,7 +6247,11 @@
       "sourceNumbers": [
         271
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/httptoolkit/httptoolkit-desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/http-toolkit.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/http-toolkit.json",
+      "version": "1.27.2"
     },
     {
       "token": "wireshark-app",
@@ -5194,7 +6270,12 @@
       "sourceNumbers": [
         272
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/wireshark/wireshark",
+      "githubSource": "https://github.com/wireshark/wireshark",
+      "homepageSource": "https://formulae.brew.sh/api/cask/wireshark-app.json",
+      "version": "4.6.9",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "burp-suite",
@@ -5213,7 +6294,11 @@
       "sourceNumbers": [
         277
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/burp-suite.json",
+      "version": "2026.8"
     },
     {
       "token": "zap",
@@ -5232,7 +6317,11 @@
       "sourceNumbers": [
         278
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/zaproxy/zaproxy",
+      "githubSource": "https://formulae.brew.sh/api/cask/zap.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/zap.json",
+      "version": "2.17.0"
     },
     {
       "token": "ghidra",
@@ -5251,7 +6340,11 @@
       "sourceNumbers": [
         279
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/NationalSecurityAgency/ghidra",
+      "githubSource": "https://formulae.brew.sh/api/formula/ghidra.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ghidra.json",
+      "version": "12.1.4"
     },
     {
       "token": "hopper-disassembler",
@@ -5270,7 +6363,11 @@
       "sourceNumbers": [
         280
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/hopper-disassembler.json",
+      "version": "6.6.0"
     },
     {
       "token": "binary-ninja-free",
@@ -5289,7 +6386,11 @@
       "sourceNumbers": [
         281
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/binary-ninja-free.json",
+      "version": "6.0.10601"
     },
     {
       "token": "tailscale-app",
@@ -5308,7 +6409,12 @@
       "sourceNumbers": [
         282
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/tailscale/tailscale",
+      "githubSource": "https://github.com/tailscale/tailscale",
+      "homepageSource": "https://formulae.brew.sh/api/cask/tailscale-app.json",
+      "version": "1.102.4",
+      "githubPurpose": "Core networking source"
     },
     {
       "token": "manual-wireguard",
@@ -5327,7 +6433,11 @@
       "sourceNumbers": [
         283
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/WireGuard/wireguard-apple",
+      "githubSource": "https://github.com/WireGuard/wireguard-apple",
+      "homepageSource": "https://www.wireguard.com/install",
+      "githubPurpose": "Apple source mirror"
     },
     {
       "token": "openvpn-connect",
@@ -5346,7 +6456,11 @@
       "sourceNumbers": [
         284
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/openvpn-connect.json",
+      "version": "3.8.2,6009"
     },
     {
       "token": "protonvpn",
@@ -5365,7 +6479,12 @@
       "sourceNumbers": [
         285
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ProtonVPN/ios-mac-app",
+      "githubSource": "https://github.com/ProtonVPN/ios-mac-app",
+      "homepageSource": "https://formulae.brew.sh/api/cask/protonvpn.json",
+      "version": "6.5.1",
+      "githubPurpose": "Apple app source"
     },
     {
       "token": "cloudflare-warp",
@@ -5384,7 +6503,11 @@
       "sourceNumbers": [
         286
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/cloudflare-warp.json",
+      "version": "2026.7.1376.0"
     },
     {
       "token": "figma",
@@ -5403,7 +6526,11 @@
       "sourceNumbers": [
         287
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/figma.json",
+      "version": "126.9.11"
     },
     {
       "token": "manual-penpot",
@@ -5422,7 +6549,11 @@
       "sourceNumbers": [
         288
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/penpot/penpot",
+      "githubSource": "https://github.com/penpot/penpot",
+      "homepageSource": "https://penpot.app",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "sketch",
@@ -5441,7 +6572,11 @@
       "sourceNumbers": [
         289
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/sketch.json",
+      "version": "2026.3.1,234013"
     },
     {
       "token": "lunacy",
@@ -5460,7 +6595,11 @@
       "sourceNumbers": [
         290
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/lunacy.json",
+      "version": "14.1"
     },
     {
       "token": "inkscape",
@@ -5479,7 +6618,12 @@
       "sourceNumbers": [
         291
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/inkscape/inkscape",
+      "githubSource": "https://github.com/inkscape/inkscape",
+      "homepageSource": "https://formulae.brew.sh/api/cask/inkscape.json",
+      "version": "1.4.4",
+      "githubPurpose": "Project resources"
     },
     {
       "token": "affinity-designer",
@@ -5498,7 +6642,11 @@
       "sourceNumbers": [
         292
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/affinity-designer.json",
+      "version": "2.6.5,3782"
     },
     {
       "token": "manual-linearity-curve",
@@ -5517,7 +6665,10 @@
       "sourceNumbers": [
         293
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://www.linearity.io/curve"
     },
     {
       "token": "gimp",
@@ -5536,7 +6687,12 @@
       "sourceNumbers": [
         294
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/GNOME/gimp",
+      "githubSource": "https://github.com/GNOME/gimp",
+      "homepageSource": "https://formulae.brew.sh/api/cask/gimp.json",
+      "version": "3.2.6",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "krita",
@@ -5555,7 +6711,12 @@
       "sourceNumbers": [
         295
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/KDE/krita",
+      "githubSource": "https://github.com/KDE/krita",
+      "homepageSource": "https://formulae.brew.sh/api/cask/krita.json",
+      "version": "5.3.4",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "manual-pixelmator-pro",
@@ -5574,7 +6735,10 @@
       "sourceNumbers": [
         296
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://www.pixelmator.com/pro"
     },
     {
       "token": "affinity-photo",
@@ -5593,7 +6757,11 @@
       "sourceNumbers": [
         297
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/affinity-photo.json",
+      "version": "2.6.5,3782"
     },
     {
       "token": "drawio",
@@ -5612,7 +6780,11 @@
       "sourceNumbers": [
         298
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/jgraph/drawio-desktop",
+      "githubSource": "https://formulae.brew.sh/api/cask/drawio.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/drawio.json",
+      "version": "31.7.0"
     },
     {
       "token": "manual-excalidraw",
@@ -5631,7 +6803,11 @@
       "sourceNumbers": [
         299
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/excalidraw/excalidraw",
+      "githubSource": "https://github.com/excalidraw/excalidraw",
+      "homepageSource": "https://excalidraw.com",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "pencil",
@@ -5650,7 +6826,11 @@
       "sourceNumbers": [
         300
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/evolus/pencil",
+      "githubSource": "https://pencil.evolus.vn/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/pencil.json",
+      "version": "3.1.1"
     },
     {
       "token": "plantuml",
@@ -5669,7 +6849,11 @@
       "sourceNumbers": [
         301
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/plantuml/plantuml",
+      "githubSource": "https://formulae.brew.sh/api/formula/plantuml.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/plantuml.json",
+      "version": "1.2026.8"
     },
     {
       "token": "graphviz",
@@ -5688,7 +6872,11 @@
       "sourceNumbers": [
         302
       ],
-      "formulaLicense": "EPL-1.0"
+      "formulaLicense": "EPL-1.0",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/graphviz.json",
+      "version": "16.1.0"
     },
     {
       "token": "mermaid-cli",
@@ -5707,7 +6895,11 @@
       "sourceNumbers": [
         303
       ],
-      "formulaLicense": "MIT"
+      "formulaLicense": "MIT",
+      "github": "https://github.com/mermaid-js/mermaid-cli",
+      "githubSource": "https://formulae.brew.sh/api/formula/mermaid-cli.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/mermaid-cli.json",
+      "version": "12.0.0"
     },
     {
       "token": "blender",
@@ -5726,7 +6918,12 @@
       "sourceNumbers": [
         304
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/blender/blender",
+      "githubSource": "https://github.com/blender/blender",
+      "homepageSource": "https://formulae.brew.sh/api/cask/blender.json",
+      "version": "5.2.2",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "freecad",
@@ -5745,7 +6942,11 @@
       "sourceNumbers": [
         305
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/FreeCAD/FreeCAD",
+      "githubSource": "https://formulae.brew.sh/api/cask/freecad.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/freecad.json",
+      "version": "1.1.4"
     },
     {
       "token": "openscad",
@@ -5764,7 +6965,11 @@
       "sourceNumbers": [
         306
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/openscad/openscad",
+      "githubSource": "https://www.openscad.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/openscad.json",
+      "version": "2021.01"
     },
     {
       "token": "wings3d",
@@ -5783,7 +6988,12 @@
       "sourceNumbers": [
         307
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/dgud/wings",
+      "githubSource": "https://github.com/dgud/wings",
+      "homepageSource": "https://formulae.brew.sh/api/cask/wings3d.json",
+      "version": "2.4.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "meshlab",
@@ -5802,7 +7012,11 @@
       "sourceNumbers": [
         308
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/cnr-isti-vclab/meshlab",
+      "githubSource": "https://formulae.brew.sh/api/cask/meshlab.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/meshlab.json",
+      "version": "2025.07"
     },
     {
       "token": "sweet-home3d",
@@ -5821,7 +7035,11 @@
       "sourceNumbers": [
         309
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/sweet-home3d.json",
+      "version": "7.5"
     },
     {
       "token": "qcad",
@@ -5840,7 +7058,11 @@
       "sourceNumbers": [
         310
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/qcad/qcad",
+      "githubSource": "https://www.qcad.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/qcad.json",
+      "version": "3.33.1,13-26-qt6"
     },
     {
       "token": "librecad",
@@ -5859,7 +7081,11 @@
       "sourceNumbers": [
         311
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/LibreCAD/LibreCAD",
+      "githubSource": "https://formulae.brew.sh/api/cask/librecad.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/librecad.json",
+      "version": "2.2.1.5"
     },
     {
       "token": "ultimaker-cura",
@@ -5878,7 +7104,11 @@
       "sourceNumbers": [
         312
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Ultimaker/Cura",
+      "githubSource": "https://formulae.brew.sh/api/cask/ultimaker-cura.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/ultimaker-cura.json",
+      "version": "5.13.0"
     },
     {
       "token": "prusaslicer",
@@ -5897,7 +7127,11 @@
       "sourceNumbers": [
         313
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/prusa3d/PrusaSlicer",
+      "githubSource": "https://formulae.brew.sh/api/cask/prusaslicer.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/prusaslicer.json",
+      "version": "2.9.6"
     },
     {
       "token": "orcaslicer",
@@ -5916,7 +7150,11 @@
       "sourceNumbers": [
         314
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/OrcaSlicer/OrcaSlicer",
+      "githubSource": "https://formulae.brew.sh/api/cask/orcaslicer.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/orcaslicer.json",
+      "version": "2.4.2"
     },
     {
       "token": "darktable",
@@ -5935,7 +7173,11 @@
       "sourceNumbers": [
         315
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/darktable-org/darktable",
+      "githubSource": "https://formulae.brew.sh/api/cask/darktable.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/darktable.json",
+      "version": "5.6.1"
     },
     {
       "token": "rawtherapee",
@@ -5954,7 +7196,12 @@
       "sourceNumbers": [
         316
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/RawTherapee/RawTherapee",
+      "githubSource": "https://github.com/RawTherapee/RawTherapee",
+      "homepageSource": "https://formulae.brew.sh/api/cask/rawtherapee.json",
+      "version": "5.13",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "digikam",
@@ -5973,7 +7220,12 @@
       "sourceNumbers": [
         317
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/KDE/digikam",
+      "githubSource": "https://github.com/KDE/digikam",
+      "homepageSource": "https://formulae.brew.sh/api/cask/digikam.json",
+      "version": "9.1.0",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "imageoptim",
@@ -5992,7 +7244,11 @@
       "sourceNumbers": [
         318
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ImageOptim/ImageOptim",
+      "githubSource": "https://imageoptim.com/mac",
+      "homepageSource": "https://formulae.brew.sh/api/cask/imageoptim.json",
+      "version": "1.9.3"
     },
     {
       "token": "imagemagick",
@@ -6011,7 +7267,11 @@
       "sourceNumbers": [
         319
       ],
-      "formulaLicense": "ImageMagick"
+      "formulaLicense": "ImageMagick",
+      "github": "https://github.com/ImageMagick/ImageMagick",
+      "githubSource": "https://formulae.brew.sh/api/formula/imagemagick.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/imagemagick.json",
+      "version": "7.1.2-32"
     },
     {
       "token": "exiftool",
@@ -6030,7 +7290,12 @@
       "sourceNumbers": [
         320
       ],
-      "formulaLicense": "Artistic-1.0-Perl OR GPL-1.0-or-later"
+      "formulaLicense": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+      "github": "https://github.com/exiftool/exiftool",
+      "githubSource": "https://github.com/exiftool/exiftool",
+      "homepageSource": "https://formulae.brew.sh/api/formula/exiftool.json",
+      "version": "13.55",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "xnviewmp",
@@ -6049,7 +7314,11 @@
       "sourceNumbers": [
         321
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/xnviewmp.json",
+      "version": "1.12.1"
     },
     {
       "token": "manual-imageglass",
@@ -6068,7 +7337,11 @@
       "sourceNumbers": [
         322
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/d2phap/ImageGlass",
+      "githubSource": "https://github.com/d2phap/ImageGlass",
+      "homepageSource": "https://imageglass.org",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "upscayl",
@@ -6087,7 +7360,11 @@
       "sourceNumbers": [
         323
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/upscayl/upscayl",
+      "githubSource": "https://formulae.brew.sh/api/cask/upscayl.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/upscayl.json",
+      "version": "2.15.0"
     },
     {
       "token": "iina",
@@ -6106,7 +7383,11 @@
       "sourceNumbers": [
         324
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/iina/iina",
+      "githubSource": "https://iina.io/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/iina.json",
+      "version": "1.4.4"
     },
     {
       "token": "vlc",
@@ -6130,7 +7411,12 @@
         325,
         346
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/videolan/vlc",
+      "githubSource": "https://github.com/videolan/vlc",
+      "homepageSource": "https://formulae.brew.sh/api/cask/vlc.json",
+      "version": "3.0.24",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "mpv",
@@ -6149,7 +7435,11 @@
       "sourceNumbers": [
         326
       ],
-      "formulaLicense": "GPL-2.0-or-later AND LGPL-2.1-or-later"
+      "formulaLicense": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "github": "https://github.com/mpv-player/mpv",
+      "githubSource": "https://formulae.brew.sh/api/formula/mpv.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/mpv.json",
+      "version": "0.41.0"
     },
     {
       "token": "manual-davinci-resolve",
@@ -6168,7 +7458,10 @@
       "sourceNumbers": [
         327
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://www.blackmagicdesign.com/products/davinciresolve"
     },
     {
       "token": "kdenlive",
@@ -6187,7 +7480,12 @@
       "sourceNumbers": [
         328
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/KDE/kdenlive",
+      "githubSource": "https://github.com/KDE/kdenlive",
+      "homepageSource": "https://formulae.brew.sh/api/cask/kdenlive.json",
+      "version": "26.08.1",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "shotcut",
@@ -6206,7 +7504,11 @@
       "sourceNumbers": [
         329
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mltframework/shotcut",
+      "githubSource": "https://formulae.brew.sh/api/cask/shotcut.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/shotcut.json",
+      "version": "26.9.28,26.9.27"
     },
     {
       "token": "openshot-video-editor",
@@ -6225,7 +7527,11 @@
       "sourceNumbers": [
         330
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/OpenShot/openshot-qt",
+      "githubSource": "https://formulae.brew.sh/api/cask/openshot-video-editor.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/openshot-video-editor.json",
+      "version": "4.0.1"
     },
     {
       "token": "losslesscut",
@@ -6244,7 +7550,11 @@
       "sourceNumbers": [
         331
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mifi/lossless-cut",
+      "githubSource": "https://formulae.brew.sh/api/cask/losslesscut.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/losslesscut.json",
+      "version": "3.69.0"
     },
     {
       "token": "handbrake-app",
@@ -6263,7 +7573,11 @@
       "sourceNumbers": [
         332
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/HandBrake/HandBrake",
+      "githubSource": "https://handbrake.fr/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/handbrake-app.json",
+      "version": "1.11.2"
     },
     {
       "token": "ffmpeg",
@@ -6282,7 +7596,11 @@
       "sourceNumbers": [
         333
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/FFmpeg/FFmpeg",
+      "githubSource": "https://formulae.brew.sh/api/formula/ffmpeg.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ffmpeg.json",
+      "version": "9.0.2"
     },
     {
       "token": "shutter-encoder",
@@ -6301,7 +7619,11 @@
       "sourceNumbers": [
         334
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/paulpacifico/shutter-encoder",
+      "githubSource": "https://www.shutterencoder.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/shutter-encoder.json",
+      "version": "20.4"
     },
     {
       "token": "obs",
@@ -6320,7 +7642,11 @@
       "sourceNumbers": [
         335
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/obsproject/obs-studio",
+      "githubSource": "https://obsproject.com/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/obs.json",
+      "version": "32.2.2"
     },
     {
       "token": "kap",
@@ -6344,7 +7670,11 @@
         336,
         394
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/wulkano/kap",
+      "githubSource": "https://formulae.brew.sh/api/cask/kap.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/kap.json",
+      "version": "3.6.0"
     },
     {
       "token": "screen-studio",
@@ -6363,7 +7693,11 @@
       "sourceNumbers": [
         337
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/screen-studio.json",
+      "version": "4.0.1-4897"
     },
     {
       "token": "shottr",
@@ -6387,7 +7721,11 @@
         338,
         390
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/shottr.json",
+      "version": "1.9.3b"
     },
     {
       "token": "audacity",
@@ -6406,7 +7744,11 @@
       "sourceNumbers": [
         339
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/audacity/audacity",
+      "githubSource": "https://formulae.brew.sh/api/cask/audacity.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/audacity.json",
+      "version": "4.0.1"
     },
     {
       "token": "ocenaudio",
@@ -6425,7 +7767,11 @@
       "sourceNumbers": [
         340
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/ocenaudio.json",
+      "version": "3.21.4"
     },
     {
       "token": "manual-ardour",
@@ -6444,7 +7790,10 @@
       "sourceNumbers": [
         341
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Ardour/ardour",
+      "githubSource": "https://ardour.org",
+      "homepageSource": "https://ardour.org"
     },
     {
       "token": "blackhole-2ch",
@@ -6463,7 +7812,12 @@
       "sourceNumbers": [
         342
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ExistentialAudio/BlackHole",
+      "githubSource": "https://github.com/ExistentialAudio/BlackHole",
+      "homepageSource": "https://formulae.brew.sh/api/cask/blackhole-2ch.json",
+      "version": "0.7.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "blackhole-16ch",
@@ -6482,7 +7836,12 @@
       "sourceNumbers": [
         343
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ExistentialAudio/BlackHole",
+      "githubSource": "https://github.com/ExistentialAudio/BlackHole",
+      "homepageSource": "https://formulae.brew.sh/api/cask/blackhole-16ch.json",
+      "version": "0.7.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "background-music",
@@ -6501,7 +7860,11 @@
       "sourceNumbers": [
         344
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/kyleneideck/BackgroundMusic",
+      "githubSource": "https://formulae.brew.sh/api/cask/background-music.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/background-music.json",
+      "version": "0.5.0"
     },
     {
       "token": "spotify",
@@ -6520,7 +7883,11 @@
       "sourceNumbers": [
         345
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/spotify.json",
+      "version": "1.3.3.264"
     },
     {
       "token": "foobar2000",
@@ -6539,7 +7906,11 @@
       "sourceNumbers": [
         347
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/foobar2000.json",
+      "version": "2.26"
     },
     {
       "token": "strawberry",
@@ -6558,7 +7929,12 @@
       "sourceNumbers": [
         348
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/strawberrymusicplayer/strawberry",
+      "githubSource": "https://github.com/strawberrymusicplayer/strawberry",
+      "homepageSource": "https://formulae.brew.sh/api/cask/strawberry.json",
+      "version": "0.1.57",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "obsidian",
@@ -6577,7 +7953,11 @@
       "sourceNumbers": [
         349
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/obsidianmd/obsidian-releases",
+      "githubSource": "https://formulae.brew.sh/api/cask/obsidian.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/obsidian.json",
+      "version": "1.13.7"
     },
     {
       "token": "notion",
@@ -6596,7 +7976,11 @@
       "sourceNumbers": [
         350
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/notion.json",
+      "version": "7.36.1"
     },
     {
       "token": "joplin",
@@ -6615,7 +7999,11 @@
       "sourceNumbers": [
         351
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/laurent22/joplin",
+      "githubSource": "https://formulae.brew.sh/api/cask/joplin.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/joplin.json",
+      "version": "3.7.21"
     },
     {
       "token": "logseq",
@@ -6634,7 +8022,11 @@
       "sourceNumbers": [
         352
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/logseq/logseq",
+      "githubSource": "https://formulae.brew.sh/api/cask/logseq.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/logseq.json",
+      "version": "2.0.1"
     },
     {
       "token": "anytype",
@@ -6653,7 +8045,12 @@
       "sourceNumbers": [
         353
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/anyproto/anytype-ts",
+      "githubSource": "https://github.com/anyproto/anytype-ts",
+      "homepageSource": "https://formulae.brew.sh/api/cask/anytype.json",
+      "version": "0.57.0",
+      "githubPurpose": "Desktop source"
     },
     {
       "token": "standard-notes",
@@ -6672,7 +8069,11 @@
       "sourceNumbers": [
         354
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/standardnotes/app",
+      "githubSource": "https://formulae.brew.sh/api/cask/standard-notes.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/standard-notes.json",
+      "version": "3.202.7"
     },
     {
       "token": "typora",
@@ -6691,7 +8092,11 @@
       "sourceNumbers": [
         355
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/typora.json",
+      "version": "1.14.10"
     },
     {
       "token": "mark-text",
@@ -6710,7 +8115,11 @@
       "sourceNumbers": [
         356
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/marktext/marktext",
+      "githubSource": "https://formulae.brew.sh/api/cask/mark-text.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mark-text.json",
+      "version": "0.20.0"
     },
     {
       "token": "macdown",
@@ -6729,7 +8138,11 @@
       "sourceNumbers": [
         357
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/MacDownApp/macdown",
+      "githubSource": "https://formulae.brew.sh/api/cask/macdown.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/macdown.json",
+      "version": "0.7.2"
     },
     {
       "token": "zettlr",
@@ -6748,7 +8161,11 @@
       "sourceNumbers": [
         358
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Zettlr/Zettlr",
+      "githubSource": "https://formulae.brew.sh/api/cask/zettlr.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/zettlr.json",
+      "version": "4.8.0"
     },
     {
       "token": "zotero",
@@ -6767,7 +8184,12 @@
       "sourceNumbers": [
         359
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/zotero/zotero",
+      "githubSource": "https://github.com/zotero/zotero",
+      "homepageSource": "https://formulae.brew.sh/api/cask/zotero.json",
+      "version": "10.0.5",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "jabref",
@@ -6786,7 +8208,11 @@
       "sourceNumbers": [
         360
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/JabRef/jabref",
+      "githubSource": "https://formulae.brew.sh/api/cask/jabref.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/jabref.json",
+      "version": "5.15"
     },
     {
       "token": "libreoffice",
@@ -6805,7 +8231,12 @@
       "sourceNumbers": [
         361
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/LibreOffice/core",
+      "githubSource": "https://github.com/LibreOffice/core",
+      "homepageSource": "https://formulae.brew.sh/api/cask/libreoffice.json",
+      "version": "26.8.0",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "onlyoffice",
@@ -6824,7 +8255,11 @@
       "sourceNumbers": [
         362
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ONLYOFFICE/DesktopEditors",
+      "githubSource": "https://formulae.brew.sh/api/cask/onlyoffice.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/onlyoffice.json",
+      "version": "9.4.0"
     },
     {
       "token": "openoffice",
@@ -6843,7 +8278,11 @@
       "sourceNumbers": [
         363
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/openoffice.json",
+      "version": "4.1.16"
     },
     {
       "token": "adobe-acrobat-reader",
@@ -6862,7 +8301,11 @@
       "sourceNumbers": [
         364
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/adobe-acrobat-reader.json",
+      "version": "26.001.21662"
     },
     {
       "token": "skim",
@@ -6881,7 +8324,11 @@
       "sourceNumbers": [
         365
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/skim.json",
+      "version": "1.7.17"
     },
     {
       "token": "pdfsam-basic",
@@ -6900,7 +8347,11 @@
       "sourceNumbers": [
         366
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/torakiki/pdfsam",
+      "githubSource": "https://formulae.brew.sh/api/cask/pdfsam-basic.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/pdfsam-basic.json",
+      "version": "6.0.6"
     },
     {
       "token": "stirling-pdf",
@@ -6919,7 +8370,11 @@
       "sourceNumbers": [
         367
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/Stirling-Tools/Stirling-PDF",
+      "githubSource": "https://formulae.brew.sh/api/cask/stirling-pdf.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/stirling-pdf.json",
+      "version": "3.0.2"
     },
     {
       "token": "pandoc",
@@ -6938,7 +8393,11 @@
       "sourceNumbers": [
         368
       ],
-      "formulaLicense": "GPL-2.0-or-later"
+      "formulaLicense": "GPL-2.0-or-later",
+      "github": "https://github.com/jgm/pandoc",
+      "githubSource": "https://formulae.brew.sh/api/formula/pandoc.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/pandoc.json",
+      "version": "3.12"
     },
     {
       "token": "poppler",
@@ -6957,7 +8416,11 @@
       "sourceNumbers": [
         369
       ],
-      "formulaLicense": "GPL-2.0-only OR GPL-3.0-only"
+      "formulaLicense": "GPL-2.0-only OR GPL-3.0-only",
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/formula/poppler.json",
+      "version": "26.09.0"
     },
     {
       "token": "ghostscript",
@@ -6976,7 +8439,11 @@
       "sourceNumbers": [
         370
       ],
-      "formulaLicense": "AGPL-3.0-or-later"
+      "formulaLicense": "AGPL-3.0-or-later",
+      "github": "https://github.com/ArtifexSoftware/ghostpdl-downloads",
+      "githubSource": "https://formulae.brew.sh/api/formula/ghostscript.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/ghostscript.json",
+      "version": "10.08.0"
     },
     {
       "token": "slack",
@@ -6995,7 +8462,11 @@
       "sourceNumbers": [
         371
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/slack.json",
+      "version": "4.52.171"
     },
     {
       "token": "microsoft-teams",
@@ -7014,7 +8485,11 @@
       "sourceNumbers": [
         372
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-teams.json",
+      "version": "26246.1709.5146.8945"
     },
     {
       "token": "zoom",
@@ -7033,7 +8508,11 @@
       "sourceNumbers": [
         373
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/zoom.json",
+      "version": "7.2.2.88465"
     },
     {
       "token": "webex",
@@ -7052,7 +8531,11 @@
       "sourceNumbers": [
         374
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/webex.json",
+      "version": "46.9.0.35800"
     },
     {
       "token": "discord",
@@ -7071,7 +8554,11 @@
       "sourceNumbers": [
         375
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/discord.json",
+      "version": "0.0.414"
     },
     {
       "token": "telegram",
@@ -7090,7 +8577,12 @@
       "sourceNumbers": [
         376
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/overtake/TelegramSwift",
+      "githubSource": "https://github.com/overtake/TelegramSwift",
+      "homepageSource": "https://formulae.brew.sh/api/cask/telegram.json",
+      "version": "12.10,282985",
+      "githubPurpose": "Mac app source"
     },
     {
       "token": "signal",
@@ -7109,7 +8601,12 @@
       "sourceNumbers": [
         377
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/signalapp/Signal-Desktop",
+      "githubSource": "https://github.com/signalapp/Signal-Desktop",
+      "homepageSource": "https://formulae.brew.sh/api/cask/signal.json",
+      "version": "8.29.0",
+      "githubPurpose": "Desktop source"
     },
     {
       "token": "whatsapp",
@@ -7128,7 +8625,11 @@
       "sourceNumbers": [
         378
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/whatsapp.json",
+      "version": "26.39.21"
     },
     {
       "token": "element",
@@ -7147,7 +8648,12 @@
       "sourceNumbers": [
         379
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/element-hq/element-desktop",
+      "githubSource": "https://github.com/element-hq/element-desktop",
+      "homepageSource": "https://formulae.brew.sh/api/cask/element.json",
+      "version": "1.12.30",
+      "githubPurpose": "Desktop source"
     },
     {
       "token": "viber",
@@ -7166,7 +8672,11 @@
       "sourceNumbers": [
         380
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/viber.json",
+      "version": "1.0.0.107,2154"
     },
     {
       "token": "1password",
@@ -7185,7 +8695,11 @@
       "sourceNumbers": [
         381
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/1password.json",
+      "version": "8.12.38"
     },
     {
       "token": "1password-cli",
@@ -7204,7 +8718,11 @@
       "sourceNumbers": [
         382
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/1password-cli.json",
+      "version": "2.40.0"
     },
     {
       "token": "bitwarden",
@@ -7223,7 +8741,11 @@
       "sourceNumbers": [
         383
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/bitwarden/clients",
+      "githubSource": "https://formulae.brew.sh/api/cask/bitwarden.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/bitwarden.json",
+      "version": "2026.9.1"
     },
     {
       "token": "keepassxc",
@@ -7242,7 +8764,11 @@
       "sourceNumbers": [
         384
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/keepassxreboot/keepassxc",
+      "githubSource": "https://formulae.brew.sh/api/cask/keepassxc.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/keepassxc.json",
+      "version": "2.7.12"
     },
     {
       "token": "gpg-suite",
@@ -7261,7 +8787,11 @@
       "sourceNumbers": [
         385
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/gpg-suite.json",
+      "version": "2023.3"
     },
     {
       "token": "gnupg",
@@ -7280,7 +8810,12 @@
       "sourceNumbers": [
         386
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/gpg/gnupg",
+      "githubSource": "https://github.com/gpg/gnupg",
+      "homepageSource": "https://formulae.brew.sh/api/formula/gnupg.json",
+      "version": "2.5.24",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "veracrypt",
@@ -7299,7 +8834,12 @@
       "sourceNumbers": [
         387
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/veracrypt/VeraCrypt",
+      "githubSource": "https://github.com/veracrypt/VeraCrypt",
+      "homepageSource": "https://formulae.brew.sh/api/cask/veracrypt.json",
+      "version": "1.26.29",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "cryptomator",
@@ -7318,7 +8858,11 @@
       "sourceNumbers": [
         388
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/cryptomator/cryptomator",
+      "githubSource": "https://formulae.brew.sh/api/cask/cryptomator.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/cryptomator.json",
+      "version": "1.19.3"
     },
     {
       "token": "age",
@@ -7337,7 +8881,11 @@
       "sourceNumbers": [
         389
       ],
-      "formulaLicense": "BSD-3-Clause"
+      "formulaLicense": "BSD-3-Clause",
+      "github": "https://github.com/FiloSottile/age",
+      "githubSource": "https://formulae.brew.sh/api/formula/age.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/age.json",
+      "version": "1.3.2"
     },
     {
       "token": "flameshot",
@@ -7356,7 +8904,11 @@
       "sourceNumbers": [
         391
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/flameshot-org/flameshot",
+      "githubSource": "https://formulae.brew.sh/api/cask/flameshot.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/flameshot.json",
+      "version": "14.0.0,14.0,git0.da6121bd"
     },
     {
       "token": "cleanshot",
@@ -7375,7 +8927,11 @@
       "sourceNumbers": [
         392
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/cleanshot.json",
+      "version": "5.0.1"
     },
     {
       "token": "manual-xnip",
@@ -7394,7 +8950,10 @@
       "sourceNumbers": [
         393
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://xnipapp.com"
     },
     {
       "token": "gifski",
@@ -7413,7 +8972,11 @@
       "sourceNumbers": [
         395
       ],
-      "formulaLicense": "AGPL-3.0-only"
+      "formulaLicense": "AGPL-3.0-only",
+      "github": "https://github.com/ImageOptim/gifski",
+      "githubSource": "https://formulae.brew.sh/api/formula/gifski.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/gifski.json",
+      "version": "1.34.0"
     },
     {
       "token": "licecap",
@@ -7432,7 +8995,11 @@
       "sourceNumbers": [
         396
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/justinfrankel/licecap",
+      "githubSource": "https://www.cockos.com/licecap/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/licecap.json",
+      "version": "1.32"
     },
     {
       "token": "motrix",
@@ -7451,7 +9018,11 @@
       "sourceNumbers": [
         397
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/agalwood/Motrix",
+      "githubSource": "https://formulae.brew.sh/api/cask/motrix.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/motrix.json",
+      "version": "1.8.19"
     },
     {
       "token": "free-download-manager",
@@ -7470,7 +9041,11 @@
       "sourceNumbers": [
         398
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/free-download-manager.json",
+      "version": "6.35.1"
     },
     {
       "token": "jdownloader",
@@ -7489,7 +9064,11 @@
       "sourceNumbers": [
         399
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/jdownloader.json",
+      "version": "latest"
     },
     {
       "token": "qbittorrent",
@@ -7508,7 +9087,12 @@
       "sourceNumbers": [
         401
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/qbittorrent/qBittorrent",
+      "githubSource": "https://github.com/qbittorrent/qBittorrent",
+      "homepageSource": "https://formulae.brew.sh/api/cask/qbittorrent.json",
+      "version": "5.2.3",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "transmission",
@@ -7527,7 +9111,11 @@
       "sourceNumbers": [
         402
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/transmission/transmission",
+      "githubSource": "https://formulae.brew.sh/api/cask/transmission.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/transmission.json",
+      "version": "4.1.3"
     },
     {
       "token": "deluge",
@@ -7546,7 +9134,12 @@
       "sourceNumbers": [
         403
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/deluge-torrent/deluge",
+      "githubSource": "https://github.com/deluge-torrent/deluge",
+      "homepageSource": "https://formulae.brew.sh/api/cask/deluge.json",
+      "version": "1.3.15.1",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "kicad",
@@ -7565,7 +9158,11 @@
       "sourceNumbers": [
         404
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/KiCad/kicad-source-mirror",
+      "githubSource": "https://formulae.brew.sh/api/cask/kicad.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/kicad.json",
+      "version": "10.0.6"
     },
     {
       "token": "manual-fritzing",
@@ -7584,7 +9181,11 @@
       "sourceNumbers": [
         405
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/fritzing/fritzing-app",
+      "githubSource": "https://github.com/fritzing/fritzing-app",
+      "homepageSource": "https://fritzing.org",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "arduino-ide",
@@ -7603,7 +9204,11 @@
       "sourceNumbers": [
         406
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/arduino/arduino-ide",
+      "githubSource": "https://formulae.brew.sh/api/cask/arduino-ide.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/arduino-ide.json",
+      "version": "2.3.10"
     },
     {
       "token": "platformio",
@@ -7622,7 +9227,11 @@
       "sourceNumbers": [
         407
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/platformio/platformio-core",
+      "githubSource": "https://formulae.brew.sh/api/formula/platformio.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/platformio.json",
+      "version": "6.2.0"
     },
     {
       "token": "thonny",
@@ -7641,7 +9250,11 @@
       "sourceNumbers": [
         408
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/thonny/thonny",
+      "githubSource": "https://formulae.brew.sh/api/cask/thonny.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/thonny.json",
+      "version": "5.0.0"
     },
     {
       "token": "coolterm",
@@ -7660,7 +9273,11 @@
       "sourceNumbers": [
         409
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/coolterm.json",
+      "version": "2.4.0.3.0.1425"
     },
     {
       "token": "manual-serialtools",
@@ -7674,12 +9291,15 @@
           "subcategory": "Serial"
         }
       ],
-      "homepage": null,
+      "homepage": "https://apps.apple.com/app/serialtools/id611021963",
       "availability": "No exact current Homebrew match verified; check the original vendor.",
       "sourceNumbers": [
         410
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "homepageSource": "https://apps.apple.com/app/serialtools/id611021963",
+      "github": null,
+      "githubSource": null
     },
     {
       "token": "qgis",
@@ -7698,7 +9318,12 @@
       "sourceNumbers": [
         411
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/qgis/QGIS",
+      "githubSource": "https://github.com/qgis/QGIS",
+      "homepageSource": "https://formulae.brew.sh/api/cask/qgis.json",
+      "version": "4.2.3",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "google-earth-pro",
@@ -7717,7 +9342,11 @@
       "sourceNumbers": [
         412
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/google-earth-pro.json",
+      "version": "7.3.7.1327"
     },
     {
       "token": "octave",
@@ -7736,7 +9365,12 @@
       "sourceNumbers": [
         413
       ],
-      "formulaLicense": "GPL-3.0-or-later"
+      "formulaLicense": "GPL-3.0-or-later",
+      "github": "https://github.com/gnu-octave/octave",
+      "githubSource": "https://github.com/gnu-octave/octave",
+      "homepageSource": "https://formulae.brew.sh/api/formula/octave.json",
+      "version": "11.3.0",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "r-app",
@@ -7755,7 +9389,11 @@
       "sourceNumbers": [
         414
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/r-app.json",
+      "version": "4.6.1,sonoma"
     },
     {
       "token": "rstudio",
@@ -7774,7 +9412,12 @@
       "sourceNumbers": [
         415
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/rstudio/rstudio",
+      "githubSource": "https://github.com/rstudio/rstudio",
+      "homepageSource": "https://formulae.brew.sh/api/cask/rstudio.json",
+      "version": "2026.09.0,174",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "julia-app",
@@ -7793,7 +9436,11 @@
       "sourceNumbers": [
         416
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/JuliaLang/julia",
+      "githubSource": "https://julialang.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/julia-app.json",
+      "version": "1.13.1"
     },
     {
       "token": "jupyterlab",
@@ -7812,7 +9459,12 @@
       "sourceNumbers": [
         417
       ],
-      "formulaLicense": "BSD-3-Clause AND MIT"
+      "formulaLicense": "BSD-3-Clause AND MIT",
+      "github": "https://github.com/jupyterlab/jupyterlab",
+      "githubSource": "https://github.com/jupyterlab/jupyterlab",
+      "homepageSource": "https://formulae.brew.sh/api/formula/jupyterlab.json",
+      "version": "4.6.4",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "geogebra",
@@ -7831,7 +9483,12 @@
       "sourceNumbers": [
         418
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/geogebra/geogebra",
+      "githubSource": "https://github.com/geogebra/geogebra",
+      "homepageSource": "https://formulae.brew.sh/api/cask/geogebra.json",
+      "version": "6.0.929.3",
+      "githubPurpose": "Source mirror"
     },
     {
       "token": "android-platform-tools",
@@ -7850,7 +9507,11 @@
       "sourceNumbers": [
         420
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/android-platform-tools.json",
+      "version": "37.0.1"
     },
     {
       "token": "android-commandlinetools",
@@ -7869,7 +9530,11 @@
       "sourceNumbers": [
         421
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/android-commandlinetools.json",
+      "version": "15859902"
     },
     {
       "token": "scrcpy",
@@ -7888,7 +9553,11 @@
       "sourceNumbers": [
         422
       ],
-      "formulaLicense": "Apache-2.0"
+      "formulaLicense": "Apache-2.0",
+      "github": "https://github.com/Genymobile/scrcpy",
+      "githubSource": "https://formulae.brew.sh/api/formula/scrcpy.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/scrcpy.json",
+      "version": "4.1"
     },
     {
       "token": "flutter",
@@ -7907,7 +9576,12 @@
       "sourceNumbers": [
         423
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/flutter/flutter",
+      "githubSource": "https://github.com/flutter/flutter",
+      "homepageSource": "https://formulae.brew.sh/api/cask/flutter.json",
+      "version": "3.47.6",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "manual-react-native-tooling",
@@ -7926,7 +9600,11 @@
       "sourceNumbers": [
         424
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/react/react-native",
+      "githubSource": "https://github.com/react/react-native",
+      "homepageSource": "https://reactnative.dev/docs/set-up-your-environment",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "manual-expo-cli",
@@ -7945,7 +9623,11 @@
       "sourceNumbers": [
         425
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/expo/expo",
+      "githubSource": "https://github.com/expo/expo",
+      "homepageSource": "https://docs.expo.dev/more/expo-cli",
+      "githubPurpose": "Project repository"
     },
     {
       "token": "manual-ionic-cli",
@@ -7964,7 +9646,10 @@
       "sourceNumbers": [
         426
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ionic-team/ionic-cli",
+      "githubSource": "https://ionicframework.com/docs/cli",
+      "homepageSource": "https://ionicframework.com/docs/cli"
     },
     {
       "token": "balenaetcher",
@@ -7983,7 +9668,11 @@
       "sourceNumbers": [
         427
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/balena-io/etcher",
+      "githubSource": "https://formulae.brew.sh/api/cask/balenaetcher.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/balenaetcher.json",
+      "version": "2.1.7"
     },
     {
       "token": "raspberry-pi-imager",
@@ -8002,7 +9691,11 @@
       "sourceNumbers": [
         428
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/raspberrypi/rpi-imager",
+      "githubSource": "https://formulae.brew.sh/api/cask/raspberry-pi-imager.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/raspberry-pi-imager.json",
+      "version": "2.0.11.1"
     },
     {
       "token": "manual-ventoy",
@@ -8021,7 +9714,11 @@
       "sourceNumbers": [
         429
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/ventoy/Ventoy",
+      "githubSource": "https://github.com/ventoy/Ventoy",
+      "homepageSource": "https://www.ventoy.net",
+      "githubPurpose": "Source repository"
     },
     {
       "token": "rustdesk",
@@ -8040,7 +9737,11 @@
       "sourceNumbers": [
         430
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/rustdesk/rustdesk",
+      "githubSource": "https://formulae.brew.sh/api/cask/rustdesk.json",
+      "homepageSource": "https://formulae.brew.sh/api/cask/rustdesk.json",
+      "version": "1.5.0"
     },
     {
       "token": "anydesk",
@@ -8059,7 +9760,11 @@
       "sourceNumbers": [
         431
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/anydesk.json",
+      "version": "9.8.0"
     },
     {
       "token": "teamviewer",
@@ -8078,7 +9783,11 @@
       "sourceNumbers": [
         432
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/teamviewer.json",
+      "version": "15.82.6"
     },
     {
       "token": "windows-app",
@@ -8097,7 +9806,11 @@
       "sourceNumbers": [
         433
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/windows-app.json",
+      "version": "11.4.3"
     },
     {
       "token": "parsec",
@@ -8116,7 +9829,11 @@
       "sourceNumbers": [
         434
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/parsec.json",
+      "version": "150-104a"
     },
     {
       "token": "openrgb",
@@ -8135,7 +9852,11 @@
       "sourceNumbers": [
         435
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/CalcProgrammer1/OpenRGB",
+      "githubSource": "https://openrgb.org/",
+      "homepageSource": "https://formulae.brew.sh/api/cask/openrgb.json",
+      "version": "1.0rc3,6fbcf62"
     },
     {
       "token": "logi-options+",
@@ -8154,7 +9875,11 @@
       "sourceNumbers": [
         436
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/logi-options+.json",
+      "version": "2.8.981479"
     },
     {
       "token": "logitech-g-hub",
@@ -8173,7 +9898,11 @@
       "sourceNumbers": [
         437
       ],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/logitech-g-hub.json",
+      "version": "2026.6.981214"
     },
     {
       "token": "google-drive",
@@ -8190,7 +9919,11 @@
       "homepage": "https://www.google.com/drive/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/google-drive.json",
+      "version": "132.0.0"
     },
     {
       "token": "openjdk@21",
@@ -8207,7 +9940,11 @@
       "homepage": "https://openjdk.org/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": "GPL-2.0-only WITH Classpath-exception-2.0"
+      "formulaLicense": "GPL-2.0-only WITH Classpath-exception-2.0",
+      "github": "https://github.com/openjdk/jdk21u",
+      "githubSource": "https://formulae.brew.sh/api/formula/openjdk@21.json",
+      "homepageSource": "https://formulae.brew.sh/api/formula/openjdk@21.json",
+      "version": "21.0.12.1"
     },
     {
       "token": "miro",
@@ -8224,7 +9961,11 @@
       "homepage": "https://miro.com/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/miro.json",
+      "version": "0.11.168"
     },
     {
       "token": "loom",
@@ -8241,7 +9982,11 @@
       "homepage": "https://www.loom.com/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/loom.json",
+      "version": "0.379.4"
     },
     {
       "token": "microsoft-word",
@@ -8258,7 +10003,11 @@
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/word",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-word.json",
+      "version": "16.113.26092714"
     },
     {
       "token": "microsoft-excel",
@@ -8275,7 +10024,11 @@
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/excel",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-excel.json",
+      "version": "16.113.26092714"
     },
     {
       "token": "microsoft-powerpoint",
@@ -8292,7 +10045,11 @@
       "homepage": "https://www.microsoft.com/en-US/microsoft-365/powerpoint",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/microsoft-powerpoint.json",
+      "version": "16.113.26092714"
     },
     {
       "token": "mullvad-vpn",
@@ -8309,7 +10066,12 @@
       "homepage": "https://mullvad.net/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": "https://github.com/mullvad/mullvadvpn-app",
+      "githubSource": "https://github.com/mullvad/mullvadvpn-app",
+      "homepageSource": "https://formulae.brew.sh/api/cask/mullvad-vpn.json",
+      "version": "2026.5",
+      "githubPurpose": "App source"
     },
     {
       "token": "twingate",
@@ -8326,7 +10088,11 @@
       "homepage": "https://twingate.com/",
       "availability": "",
       "sourceNumbers": [],
-      "formulaLicense": null
+      "formulaLicense": null,
+      "github": null,
+      "githubSource": null,
+      "homepageSource": "https://formulae.brew.sh/api/cask/twingate.json",
+      "version": "2026.259.28406"
     }
   ],
   "presets": {

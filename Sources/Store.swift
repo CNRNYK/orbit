@@ -59,6 +59,7 @@ enum BrewRunner {
     @Published var showRemovalReview = false
     @Published var category = "All Apps"
     @Published var subcategory = "All"
+    @Published var detailPackage: Package?
     @Published var search = ""
     @Published var selected = Set<String>() {
         didSet { UserDefaults.standard.set(Array(selected), forKey: "selection") }
