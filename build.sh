@@ -11,6 +11,8 @@ cp Resources/askpass.sh "$app/Contents/Resources/askpass.sh"
 rm -rf "$app/Contents/Resources/Logos"
 cp -R Resources/Logos "$app/Contents/Resources/Logos"
 cp Resources/app-identifiers.json "$app/Contents/Resources/app-identifiers.json"
+cp Resources/Branding/Orbit.png "$app/Contents/Resources/Orbit.png"
+cp Resources/Branding/Orbit.icns "$app/Contents/Resources/Orbit.icns"
 cp Resources/catalog.json "$app/Contents/Resources/catalog.json"
 chmod 755 "$app/Contents/Resources/askpass.sh"
 cat > "$app/Contents/Info.plist" <<'PLIST'
@@ -21,9 +23,10 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleIdentifier</key><string>io.macsetup.desktop</string>
 <key>CFBundleName</key><string>Orbit</string>
 <key>CFBundleDisplayName</key><string>Orbit</string>
+<key>CFBundleIconFile</key><string>Orbit</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.11.0</string>
-<key>CFBundleVersion</key><string>14</string>
+<key>CFBundleShortVersionString</key><string>0.12.0</string>
+<key>CFBundleVersion</key><string>15</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
 

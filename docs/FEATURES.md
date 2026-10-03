@@ -94,7 +94,7 @@ Run `python3 Scripts/update_app_logos.py` to rediscover icons from official home
 
 **Updates** refreshes Homebrew metadata, lists installed outdated packages in this curated catalog with current/available versions, and upgrades only the checked list after a separate review. Self-updating casks are opt-in; unversioned `latest` casks and pinned packages are excluded. Where an app bundle exposes its actual version, that version is checked when planning and again before upgrade so newer self-updated apps are skipped. This is a conservative numeric comparison, not a universal vendor-version parser. Homebrew may update or repair dependencies as part of an upgrade. Failures remain in Operation details, and stopping waits for the current operation. Searches filter the update list.
 
-Orbit's own **Check app release** checks GitHub's latest release endpoint and links to the release page for manual download. The current private repository is unavailable to anonymous API requests; the app explains this and offers the browser page where the user can sign in. It does not collect GitHub credentials or automatically replace the running app. No published GitHub release is assumed.
+Orbit's own **Check app release** checks GitHub's latest release endpoint and links to the release page for manual download. The private repository is unavailable to anonymous API requests; the app explains this and offers the browser page where the user can sign in. It does not collect GitHub credentials or automatically replace the running app. Orbit v0.12.0 is distributed as a DMG through this private repository’s Releases. Access requires repository permission.
 
 **Uninstall & Clean** scans existing application bundle identifiers before removal. It reviews matching caches, logs, preferences, support folders, saved state, containers, HTTP storage, WebKit data, scripts, and cookies under the current user's Library. A small reviewed mapping adds app-specific paths for Chrome, VS Code, Blender, and Slack from the official Homebrew cask definitions. Shared group containers, vendor-wide folders, wildcard matches, system locations, and unrelated files are excluded; formulas have no guessed data cleanup. Cache/log entries are initially checked; settings and possible user data are unchecked. The user sees every path and its estimated size and can change the selection.
 
@@ -161,3 +161,9 @@ Tests cover official-only API parsing, invalid tokens/taps, metadata deduplicati
 ## Orbit naming (v0.11)
 
 The app, executable, helper, interface, and documentation now use Orbit. The existing internal bundle identifier and cache directory (`io.macsetup.desktop`) are retained to preserve local preferences, favorites, and caches when upgrading.
+
+## Orbit icon and DMG (v0.12)
+
+Orbit uses a bundled original orbital logo in the sidebar, Welcome screen, and macOS app icon. The PNG source and multi-resolution ICNS are included in Resources/Branding.
+
+Run `bash build.sh` then `bash package-dmg.sh` to produce a compressed DMG, with Orbit.app, an Applications shortcut, installation instructions, and a separate SHA-256 checksum. DMGs are release assets rather than Git source files. Current builds are ad-hoc signed, not notarized; users must trust the download and may need to approve it in macOS Privacy & Security. Creating a DMG does not bypass Gatekeeper.

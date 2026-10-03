@@ -163,7 +163,7 @@ struct ContentView: View {
     }
     var sidebar: some View {
         VStack(alignment: .leading, spacing: 7) {
-            Label("Orbit", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
+            Label { Text("Orbit") } icon: { OrbitBrandIcon(size: 30) }.font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
             destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(store.packages.count))
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
