@@ -1,7 +1,7 @@
 import Foundation
 @MainActor enum StartupTests {
     static func run() async {
-        let healthy = StartupEnvironment(brew:"/fixture/brew",appPath:"/Applications/Mac Setup.app",helperReady:true,macOSMajor:15)
+        let healthy = StartupEnvironment(brew:"/fixture/brew",appPath:"/Applications/Orbit.app",helperReady:true,macOSMajor:15)
         let commands = FakeCommands([(0,"Homebrew 7.0.0\n"),(0,"/Library/Developer/CommandLineTools\n")])
         let checks = await StartupInspector.checks(healthy,commands:commands)
         precondition(checks.count == 5 && checks.allSatisfy(\.ready))
@@ -10,7 +10,7 @@ import Foundation
         precondition(StartupInspector.shouldPresent(completed:false,checks:checks))
         precondition(!StartupInspector.shouldPresent(completed:true,checks:checks))
         precondition(StartupInspector.shouldPresent(completed:true,checks:[]))
-        let absent = StartupEnvironment(brew:nil,appPath:"/Downloads/Mac Setup.app",helperReady:false,macOSMajor:14)
+        let absent = StartupEnvironment(brew:nil,appPath:"/Downloads/Orbit.app",helperReady:false,macOSMajor:14)
         let absentCommands = FakeCommands([(1,"No developer directory")])
         let missing = await StartupInspector.checks(absent,commands:absentCommands)
         precondition(missing.filter { $0.required && !$0.ready }.map(\.id) == ["brew","helper"])
@@ -21,7 +21,7 @@ import Foundation
         let bad = await StartupInspector.checks(healthy,commands:broken)
         precondition(bad.first { $0.id == "brew" }?.ready == false)
         let optional = FakeCommands([(0,"Homebrew 7.0.0"),(1,"Missing tools")])
-        let optionalEnvironment = StartupEnvironment(brew:healthy.brew,appPath:"/Downloads/Mac Setup.app",helperReady:true,macOSMajor:14)
+        let optionalEnvironment = StartupEnvironment(brew:healthy.brew,appPath:"/Downloads/Orbit.app",helperReady:true,macOSMajor:14)
         let optionalChecks = await StartupInspector.checks(optionalEnvironment,commands:optional)
         precondition(!StartupInspector.shouldPresent(completed:true,checks:optionalChecks),"Optional suggestions must not repeatedly interrupt launches")
         let suite = "startup-tests-" + UUID().uuidString

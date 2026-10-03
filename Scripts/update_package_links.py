@@ -36,7 +36,7 @@ def official_page_candidates(package):
     homepage=package.get('homepage')
     if not homepage:return []
     try:
-        request=urllib.request.Request(homepage, headers={'User-Agent':'MacSetupCatalog/0.4 (+Homebrew package links)'})
+        request=urllib.request.Request(homepage, headers={'User-Agent':'OrbitCatalog/0.4 (+Homebrew package links)'})
         with urllib.request.urlopen(request, timeout=12) as response:
             content=response.read(1_500_000).decode('utf-8',errors='replace')
         parser=Links();parser.feed(content)

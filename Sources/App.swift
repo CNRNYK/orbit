@@ -157,13 +157,13 @@ struct ContentView: View {
                 ScrollView { Text(store.output.isEmpty ? "No operation has run yet." : store.output).font(.system(size: 11, design: .monospaced)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading) }
             }.padding(24).frame(width: 780, height: 520)
         }
-        .alert("Mac Setup", isPresented: Binding(get: { store.notice != nil }, set: { if !$0 { store.notice = nil } })) {
+        .alert("Orbit", isPresented: Binding(get: { store.notice != nil }, set: { if !$0 { store.notice = nil } })) {
             Button("OK") { store.notice = nil }
         } message: { Text(store.notice ?? "") }
     }
     var sidebar: some View {
         VStack(alignment: .leading, spacing: 7) {
-            Label("Mac Setup", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
+            Label("Orbit", systemImage: "shippingbox.fill").font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
             destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(store.packages.count))
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
@@ -402,7 +402,7 @@ struct ReviewView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(item.package.name).bold()
                                 Text(item.action(adopt: store.adopt)).font(.caption).foregroundStyle(item.problem == nil ? Color.secondary : .red)
-                                if item.installer { Text("Administrator access may be requested in a Mac Setup password dialog.").font(.caption2).foregroundStyle(.secondary) }
+                                if item.installer { Text("Administrator access may be requested in an Orbit password dialog.").font(.caption2).foregroundStyle(.secondary) }
                             }
                             Spacer()
                             Text(item.version).font(.caption).foregroundStyle(.secondary)
@@ -473,7 +473,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        guard MacSetupApp.store.busy else { return .terminateNow }
+        guard OrbitApp.store.busy else { return .terminateNow }
         let alert = NSAlert(); alert.messageText = "An operation is running"
         alert.informativeText = "Wait for the current operation to finish before quitting. For app operations, you can use Stop after current app."
         alert.addButton(withTitle: "Continue"); alert.runModal()
@@ -481,12 +481,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-struct MacSetupApp: App {
+struct OrbitApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var model = store
     static let store = Store()
     var body: some Scene {
-        WindowGroup("Mac Setup") { ContentView(store: model) }.defaultSize(width: 1180, height: 780)
+        WindowGroup("Orbit") { ContentView(store: model) }.defaultSize(width: 1180, height: 780)
         .commands { CommandGroup(replacing: .newItem) {} }
     }
 }
@@ -512,7 +512,7 @@ struct MacSetupApp: App {
                 previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--startup-preview") {
-                previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Mac Setup is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]
+                previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Orbit is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]
                 root = AnyView(StartupView(store: previewStore)); size = NSSize(width: 680, height: 680)
             }
             if CommandLine.arguments.contains("--cleanup-preview") {
@@ -555,7 +555,7 @@ struct MacSetupApp: App {
             let view = NSHostingView(rootView: root)
             let window = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
             window.contentView = view
-            window.title = "Mac Setup"
+            window.title = "Orbit"
             view.frame = NSRect(origin: .zero, size: size)
             view.layoutSubtreeIfNeeded()
             RunLoop.main.run(until: Date().addingTimeInterval(1))
@@ -584,7 +584,7 @@ struct MacSetupApp: App {
             print("PASS: unique catalog, all 437 source entries, available-package Brewfile round trip, unsafe input rejection, installer disclosure")
             return
         }
-        MacSetupApp.main()
+        OrbitApp.main()
     }
 }
 
@@ -637,12 +637,12 @@ struct UpdatesView: View {
             Divider()
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Mac Setup " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.6.0")).bold()
+                    Text("Orbit " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.6.0")).bold()
                     Text(store.appReleaseStatus).font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
                 Button(store.checkingAppRelease ? "Checking…" : "Check app release") { Task { await store.checkAppRelease() } }.disabled(store.checkingAppRelease)
-                Link("Open releases", destination: URL(string: "https://github.com/CNRNYK/mac-setup-app/releases")!)
+                Link("Open releases", destination: URL(string: "https://github.com/CNRNYK/orbit/releases")!)
             }
         }.padding(24)
     }

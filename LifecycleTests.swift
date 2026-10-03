@@ -28,7 +28,7 @@ enum LifecycleTests {
         let home = files.temporaryDirectory.appendingPathComponent(UUID().uuidString).resolvingSymlinksInPath().path
         try! files.createDirectory(atPath: home, withIntermediateDirectories: true)
         defer { try? files.removeItem(atPath: home) }
-        let identifier = "org.macsetup.testfixture"
+        let identifier = "org.orbit.testfixture"
         for folder in Cleanup.folders { try! files.createDirectory(atPath: home + "/Library/" + folder, withIntermediateDirectories: true) }
         let cachePath = home + "/Library/Caches/" + identifier
         try! files.createDirectory(atPath: cachePath, withIntermediateDirectories: true)

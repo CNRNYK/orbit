@@ -39,7 +39,7 @@ enum BrewRunner {
             process.environment = env
             process.standardInput = FileHandle.nullDevice
             process.standardOutput = pipe
-            let errorURL = FileManager.default.temporaryDirectory.appendingPathComponent("macsetup-stderr-" + UUID().uuidString)
+            let errorURL = FileManager.default.temporaryDirectory.appendingPathComponent("orbit-stderr-" + UUID().uuidString)
             var errorHandle: FileHandle?
             if separateError {
                 guard FileManager.default.createFile(atPath: errorURL.path, contents: nil, attributes: [.posixPermissions: 0o600]),
@@ -138,7 +138,7 @@ struct SystemCommands: CommandExecuting {
     @Published var selectedLeftovers = Set<String>()
     @Published var cleanupMessages = [String]()
     @Published var checkingAppRelease = false
-    @Published var appReleaseStatus = "Check published releases for Mac Setup updates."
+    @Published var appReleaseStatus = "Check published releases for Orbit updates."
     @Published var removalPlan = [Package]()
     @Published var showRemovalReview = false
     @Published var category = "All Apps"

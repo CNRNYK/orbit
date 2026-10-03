@@ -15,7 +15,7 @@ struct StartupEnvironment {
     let macOSMajor: Int
     static func current(brew: String?) -> Self {
         let resources = Bundle.main.resourceURL
-        let helperReady = ["askpass.sh", "MacSetupAskpass"].allSatisfy { name in
+        let helperReady = ["askpass.sh", "OrbitAskpass"].allSatisfy { name in
             resources.map { FileManager.default.isExecutableFile(atPath: $0.appendingPathComponent(name).path) } ?? false
         }
         return Self(brew: brew, appPath: Bundle.main.bundleURL.path, helperReady: helperReady, macOSMajor: ProcessInfo.processInfo.operatingSystemVersion.majorVersion)
@@ -23,7 +23,7 @@ struct StartupEnvironment {
 }
 enum StartupInspector {
     static func checks(_ environment: StartupEnvironment, commands: any CommandExecuting) async -> [StartupCheck] {
-        var checks = [StartupCheck(id: "macos", title: "macOS", detail: environment.macOSMajor >= 15 ? "macOS \(environment.macOSMajor) is supported by Homebrew." : "Mac Setup supports macOS 14+. Homebrew currently recommends macOS 15 or newer.", ready: environment.macOSMajor >= 15, required: false)]
+        var checks = [StartupCheck(id: "macos", title: "macOS", detail: environment.macOSMajor >= 15 ? "macOS \(environment.macOSMajor) is supported by Homebrew." : "Orbit supports macOS 14+. Homebrew currently recommends macOS 15 or newer.", ready: environment.macOSMajor >= 15, required: false)]
         if let brew = environment.brew {
             let version = await commands.run(brew, ["--version"], log: { _ in })
             let ready = version.0 == 0 && version.1.hasPrefix("Homebrew ")
@@ -36,8 +36,8 @@ enum StartupInspector {
         checks.append(StartupCheck(id:"tools",title:"Apple developer tools",detail:toolsReady ? "A developer tools directory is selected." : "Command Line Tools may be needed by Homebrew. Copy the setup command and run it in Terminal.",ready:toolsReady,required:false))
         let parent = URL(fileURLWithPath:environment.appPath).deletingLastPathComponent().path
         let located = parent == "/Applications" || parent == NSHomeDirectory() + "/Applications"
-        checks.append(StartupCheck(id:"location",title:"App location",detail:located ? "Mac Setup is in Applications." : "For regular use, move Mac Setup.app to Applications and keep one copy.",ready:located,required:false))
-        checks.append(StartupCheck(id:"helper",title:"Administrator prompt",detail:environment.helperReady ? "Native password helper is available. Permissions are requested only when an operation needs them." : "The password helper is missing or cannot run. Download a fresh copy of Mac Setup.",ready:environment.helperReady,required:true))
+        checks.append(StartupCheck(id:"location",title:"App location",detail:located ? "Orbit is in Applications." : "For regular use, move Orbit.app to Applications and keep one copy.",ready:located,required:false))
+        checks.append(StartupCheck(id:"helper",title:"Administrator prompt",detail:environment.helperReady ? "Native password helper is available. Permissions are requested only when an operation needs them." : "The password helper is missing or cannot run. Download a fresh copy of Orbit.",ready:environment.helperReady,required:true))
         return checks
     }
     static func shouldPresent(completed: Bool, checks: [StartupCheck]) -> Bool { checks.isEmpty || !completed || checks.contains { $0.required && !$0.ready } }
@@ -74,7 +74,7 @@ struct StartupView: View {
     var ready: Bool { !store.startupChecks.isEmpty && store.startupChecks.allSatisfy { !$0.required || $0.ready } }
     var body: some View {
         VStack(alignment:.leading,spacing:18) {
-            Label("Welcome to Mac Setup",systemImage:"shippingbox.fill").font(.title.bold())
+            Label("Welcome to Orbit",systemImage:"shippingbox.fill").font(.title.bold())
             Text("A few checks before you choose your apps.").foregroundStyle(.secondary)
             if store.checkingStartup { ProgressView("Checking your Mac…") }
             ScrollView {

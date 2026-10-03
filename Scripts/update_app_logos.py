@@ -13,7 +13,7 @@ class Icons(HTMLParser):
             self.links.append((0 if 'apple-touch' in attrs.get('rel', '') else 1, attrs['href']))
 def fetch(url, limit):
     if urlparse(url).scheme != 'https': raise ValueError('HTTPS required')
-    req = urllib.request.Request(url, headers={'User-Agent': 'MacSetup-Catalog/0.5'})
+    req = urllib.request.Request(url, headers={'User-Agent': 'Orbit-Catalog/0.5'})
     with urllib.request.urlopen(req, timeout=8) as response:
         if urlparse(response.url).scheme != 'https': raise ValueError('Insecure redirect')
         data = response.read(limit + 1)

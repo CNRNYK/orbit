@@ -57,7 +57,7 @@ struct StatisticsView: View {
         do {
             let url = URL(string: "https://formulae.brew.sh/api/\(package.cask ? "cask" : "formula")/\(package.token).json")!
             var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 20)
-            request.setValue("MacSetup/0.9", forHTTPHeaderField: "User-Agent")
+            request.setValue("Orbit/0.9", forHTTPHeaderField: "User-Agent")
             let (data,response) = try await URLSession.shared.data(for: request)
             guard (response as? HTTPURLResponse)?.statusCode == 200, data.count < 5_000_000 else { throw URLError(.badServerResponse) }
             state.statistics = try InstallStatistics.parse(data, token: package.token); state.fetched = Date(); state.message = ""
