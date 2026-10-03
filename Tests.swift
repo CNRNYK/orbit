@@ -15,6 +15,7 @@ import Foundation
         precondition(separated.0 == 0 && (try! UpdatePlan.parse(Data(separated.1.utf8))).isEmpty, "Diagnostics must not contaminate JSON")
         let stderrFlood = await BrewRunner.run("/bin/sh", ["-c", "head -c 200000 /dev/zero >&2; printf '{\"formulae\":[],\"casks\":[]}'"], separateError: true)
         precondition(stderrFlood.0 == 0 && (try! UpdatePlan.parse(Data(stderrFlood.1.utf8))).isEmpty, "Large stderr must not deadlock or contaminate JSON")
+        try! await TerminalSetupTests.run()
         let model = Store(persistSelection: false)
         model.inventoryKnown = true; model.appPresent = { _ in false }; model.appScanner = { [] }
         precondition(Catalog.loadError == nil && Catalog.packages.count > 400)
