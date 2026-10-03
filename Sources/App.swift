@@ -58,6 +58,11 @@ struct ContentView: View {
                 }
                 HStack {
                     Text("\(store.visible.count) apps").foregroundStyle(.secondary)
+                    if !store.uninstallMode {
+                        Picker("Sort", selection: $store.popularSort) { Text("Name").tag(false); Text("Most installed · 30 days").tag(true) }.frame(width: 240)
+                        if store.fetchingPopularity { ProgressView().controlSize(.small) }
+                        if store.popularSort { Button("Refresh stats") { Task { await store.loadPopularity() } }.disabled(store.fetchingPopularity).help(store.popularityDate.isEmpty ? "Fetch reported Homebrew installation events" : store.popularityDate) }
+                    }
                     Spacer()
                     if !store.uninstallMode {
                         Menu("Starter selections") {
@@ -77,7 +82,7 @@ struct ContentView: View {
                     LazyVStack(alignment: .leading, spacing: 22) {
                         if store.category == "All Apps" || !store.search.isEmpty {
                             LazyVStack(spacing: 0) {
-                                ForEach(store.visible.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }) { app in
+                                ForEach(store.orderedPackages(store.visible)) { app in
                                     row(app)
                                     Divider().padding(.leading, 48)
                                 }
@@ -124,9 +129,11 @@ struct ContentView: View {
             if !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
+        .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
         .task { if !store.preview { await LogoStore.shared.start() } }
         .task { if let error = Catalog.loadError { store.notice = error } else if !store.preview { await store.refresh() } }
         .sheet(isPresented: $store.showAdoptionReview) { AdoptionReviewView(store: store) }
+        .sheet(isPresented: $store.showMaintenance) { MaintenanceView(store: store).interactiveDismissDisabled() }
         .sheet(isPresented: $store.showSetupExport) { SetupExportView(store: store) }
         .sheet(item: $store.repairReview) { repair in RemovalRepairView(store: store, repair: repair) }
         .sheet(isPresented: $store.showReview) { ReviewView(store: store) }
@@ -154,6 +161,7 @@ struct ContentView: View {
             destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(Catalog.packages.count))
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(Catalog.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
+            Button { store.showMaintenance = true } label: { Label("Cleanup", systemImage: "sparkles").font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain)
             Divider().padding(.vertical, 10)
             Text("CATEGORIES").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary).padding(.horizontal, 8)
             ScrollView {
@@ -201,7 +209,7 @@ struct ContentView: View {
                         VStack(alignment: .leading, spacing: 7) {
                             Label(section + " · " + String(entries.count), systemImage: Catalog.sectionSymbol(section)).font(.system(size: 13, weight: .semibold))
                             LazyVStack(spacing: 0) {
-                                ForEach(entries) { app in
+                                ForEach(store.orderedPackages(entries)) { app in
                                     row(app)
                                     if app.id != entries.last?.id { Divider().padding(.leading, 48) }
                                 }
@@ -328,6 +336,7 @@ struct PackageDetailView: View {
                         if let license = package.formulaLicense { Text("Package license: " + license).font(.subheadline).foregroundStyle(.secondary) }
                         Text("Vendor licenses, subscriptions, sign-in and additional setup may apply.").font(.caption).foregroundStyle(.secondary)
                     }
+                    StatisticsView(package: package, preview: store.preview)
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Official links").font(.headline)
                         if let url = package.websiteURL {
@@ -455,7 +464,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard MacSetupApp.store.busy else { return .terminateNow }
         let alert = NSAlert(); alert.messageText = "An operation is running"
-        alert.informativeText = "Use Stop after current app and wait for the current operation to finish before quitting."
+        alert.informativeText = "Wait for the current operation to finish before quitting. For app operations, you can use Stop after current app."
         alert.addButton(withTitle: "Continue"); alert.runModal()
         return .terminateCancel
     }
@@ -483,6 +492,9 @@ struct MacSetupApp: App {
                let package = Catalog.packages.first(where: { $0.token == CommandLine.arguments[detailIndex + 1] }) {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
+            }
+            if CommandLine.arguments.contains("--cleanup-preview") {
+                root = AnyView(MaintenanceView(store: previewStore)); size = NSSize(width: 960, height: 700)
             }
             if CommandLine.arguments.contains("--category-preview") {
                 previewStore.navigate(.install, category: "Development")

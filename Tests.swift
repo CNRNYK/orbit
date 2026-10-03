@@ -122,6 +122,7 @@ import Foundation
         await LifecycleTests.run()
         await RepairTests.run()
         await AdoptionTests.run()
+        try! MaintenanceTests.run()
         print("PASS: process runner, full catalog coverage, verified links, web URL validation, detail selection isolation, official bundled icon decoding and size limits, presets, install/uninstall planning")
     }
 }

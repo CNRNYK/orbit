@@ -100,6 +100,11 @@ struct SystemCommands: CommandExecuting {
     @Published var notInstalledOnly = false
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
+    @Published var showMaintenance = false
+    @Published var popularSort = false
+    @Published var popularity = [String: Int]()
+    @Published var popularityDate = ""
+    @Published var fetchingPopularity = false
     @Published var exportSearch = ""
     var appPresent: (Package) -> Bool = { $0.manualAppExists }
     var appScanner: @Sendable () -> [LocalApp] = { AppScanner.scan() }
