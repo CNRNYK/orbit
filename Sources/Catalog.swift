@@ -75,6 +75,9 @@ struct CatalogData: Decodable {
     let symbols: [String: String]
     let packages: [Package]
     let presets: [String: [String]]
+    let categoryDescriptions: [String: String]?
+    let subcategorySymbols: [String: String]?
+    let subcategoryOrder: [String: [String]]?
 }
 
 enum Catalog {
@@ -90,10 +93,17 @@ enum Catalog {
     static var categories: [String] { data?.categories ?? [] }
     static var symbols: [String: String] { data?.symbols ?? [:] }
     static var packages: [Package] { data?.packages ?? [] }
+    static var categoryDescriptions: [String: String] { data?.categoryDescriptions ?? [:] }
+    static func sectionSymbol(_ section: String) -> String { data?.subcategorySymbols?[section] ?? "square.grid.2x2" }
     static var presets: [String: [String]] { data?.presets ?? [:] }
     static func subcategories(in category: String) -> [String] {
         var seen = Set<String>()
-        return packages.flatMap(\.placements).filter { $0.category == category }.map(\.subcategory).filter { seen.insert($0).inserted }
+        let sections = packages.flatMap(\.placements).filter { $0.category == category }.map(\.subcategory).filter { seen.insert($0).inserted }
+        let order = data?.subcategoryOrder?[category] ?? []
+        return sections.sorted {
+            let left = order.firstIndex(of: $0) ?? Int.max; let right = order.firstIndex(of: $1) ?? Int.max
+            return left == right ? $0 < $1 : left < right
+        }
     }
     static func export(_ packages: [Package]) -> String {
         var seen = Set<String>()
