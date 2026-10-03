@@ -497,6 +497,8 @@ struct MacSetupApp: App {
             let app = NSApplication.shared
             app.setActivationPolicy(.accessory)
             let previewStore = Store(preview: true)
+            previewStore.inventoryKnown = true
+            previewStore.appPresent = { _ in false }
             var root = AnyView(ContentView(store: previewStore))
             var size = NSSize(width: 1180, height: 780)
             if let detailIndex = CommandLine.arguments.firstIndex(of: "--details"), CommandLine.arguments.count > detailIndex + 1,
@@ -506,7 +508,7 @@ struct MacSetupApp: App {
             }
             if CommandLine.arguments.contains("--explore-preview") {
                 previewStore.navigate(.explore); previewStore.inventoryKnown = true; previewStore.appPresent = { _ in false }
-                previewStore.explorePackages = try! OfficialCatalog.parse(Data(#"[{"token":"fixture-studio","tap":"homebrew/cask","name":["Fixture Studio"],"desc":"Preview app from the official catalog.","version":"2.0","homepage":"https://example.com"}]"#.utf8), cask: true) + Array(Catalog.packages.filter { $0.installable }.prefix(15))
+                previewStore.explorePackages = Array(Catalog.packages.filter { $0.installable }.prefix(15))
                 previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--startup-preview") {
