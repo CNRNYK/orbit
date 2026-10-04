@@ -1,6 +1,10 @@
 import Foundation
 import AppKit
 
+enum HomebrewTab: String, CaseIterable { case discover = "Discover", installed = "Installed", updates = "Updates", myApps = "My Apps"
+    var symbol: String { switch self { case .discover: return "sparkle.magnifyingglass"; case .installed: return "checkmark.circle"; case .updates: return "arrow.triangle.2.circlepath"; case .myApps: return "star" } }
+}
+
 enum ActionMode: String { case install, uninstall, updates, cleanup, explore, terminal, recorder, permissions, health, login, screenshots }
 
 struct UpdateItem: Identifiable, Hashable {

@@ -105,7 +105,7 @@ struct ExploreView: View {
     @ObservedObject var store: Store
     var body: some View {
         VStack(alignment:.leading,spacing:16) {
-            HStack { VStack(alignment:.leading,spacing:5) { Text("Explore Homebrew").font(.largeTitle.bold()); Text("Find apps and tools beyond the starter catalog.").foregroundStyle(.secondary) }; Spacer(); Button("Refresh catalog") { Task { await store.loadExplore(force:true) } }.disabled(store.loadingExplore) }
+            HStack { VStack(alignment:.leading,spacing:5) { Text("Discover · All Homebrew").font(.title2.bold()); Text("Find apps and tools beyond the starter catalog.").foregroundStyle(.secondary) }; Spacer(); Button("Refresh catalog") { Task { await store.loadExplore(force:true) } }.disabled(store.loadingExplore) }
             HStack {
                 TextField("Search names and descriptions",text:$store.exploreSearch).textFieldStyle(.roundedBorder)
                 Picker("Packages",selection:$store.exploreKind) { Text("All").tag("All"); Text("Apps").tag("Apps"); Text("CLI tools").tag("Tools") }.frame(width:190)
@@ -130,21 +130,13 @@ struct ExploreView: View {
                             else if store.appPresent(package) { Text("On this Mac").font(.caption).foregroundStyle(.secondary) }
                             if let status = store.statuses[package.id], status != "Installed" { Text(status).font(.caption).foregroundStyle(status == "Failed" ? .orange : .secondary) }
                             if !package.installable { Text(package.availability).font(.caption).foregroundStyle(.orange) }
-                            Button(store.myAppIDs.contains(package.id) ? "Saved" : "Add to My apps") { store.registerPersonal(package,favorite:true) }.disabled(store.locked || !package.installable || store.myAppIDs.contains(package.id))
+                            Button(store.myAppIDs.contains(package.id) ? "Saved" : "Add to My Apps") { store.registerPersonal(package,favorite:true) }.disabled(store.locked || !package.installable || store.myAppIDs.contains(package.id))
                             Button(store.selected.contains(package.id) ? "Selected" : "Select to install") { store.toggle(package) }.disabled(store.locked || !store.canInstall(package))
                         }.padding(.vertical,12)
                         Divider()
                     }
                     if matches.isEmpty && !store.loadingExplore { ContentUnavailableView("No packages found",systemImage:"magnifyingglass",description:Text(store.explorePackages.isEmpty ? "Refresh the catalog to browse official Homebrew apps and tools." : "Try a different search or package filter.")) }
                 }
-            }
-            DisclosureGroup("Selected apps · \(store.installSelection.count)", isExpanded: $store.showExploreSelection) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 8) {
-                        if store.installSelection.isEmpty { Text("Check apps above to build your installation selection.").foregroundStyle(.secondary) }
-                        ForEach(store.installSelection) { package in HStack { Text(package.name); Spacer(); Button("Remove") { store.toggle(package) }.disabled(store.locked) } }
-                    }.padding(.vertical, 8)
-                }.frame(maxHeight: 140)
             }
             if store.busy {
                 ProgressView(value:Double(store.completed),total:Double(max(store.total,1)))
@@ -154,9 +146,8 @@ struct ExploreView: View {
                 Button("Operation details") { store.showLog = true }
                 Text("Official Homebrew only.").font(.caption).foregroundStyle(.secondary).help("Homebrew/core and Homebrew/cask")
                 Spacer()
-                Button("My apps") { store.navigate(.install,category:"My apps") }
                 Button("Export setup") { store.exportSelected.formUnion(store.selected); store.showSetupExport = true }.disabled(store.locked)
-                Button("Review \(store.installSelection.count) selected apps") { Task { await store.prepare() } }.buttonStyle(.borderedProminent).disabled(store.locked || store.installSelection.isEmpty || !store.startupReady || store.brew == nil)
+                Button("Review \(store.installSelection.count) apps") { Task { await store.prepare() } }.buttonStyle(.borderedProminent).disabled(store.locked || store.installSelection.isEmpty || !store.startupReady || store.brew == nil)
             }
         }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor)).task { await store.loadExplore() }
     }

@@ -106,13 +106,12 @@ struct SystemCommands: CommandExecuting {
     private var recorderSubscription: AnyCancellable?
     let terminalState = TerminalState()
     @Published var explorePackages = [Package]()
-    @Published var exploreSearch = ""
+    var exploreSearch: String { get { search } set { search = newValue } }
     @Published var exploreKind = "All"
     @Published var exploreAvailableOnly = true
     @Published var exploreFetched: Date?
     @Published var exploreMessage = ""
     @Published var loadingExplore = false
-    @Published var showExploreSelection = false
     @Published var showTechnicalLog = false
     var exploreLoader: @Sendable () async throws -> ExploreSnapshot = { try await OfficialCatalog.fetchAll() }
     @Published var personalPackages = [Package]() { didSet { if personalPersistence { preferences.set(try? JSONEncoder().encode(personalPackages), forKey: "personal-packages-v1") } } }
@@ -153,7 +152,7 @@ struct SystemCommands: CommandExecuting {
     @Published var detailPackage: Package?
     @Published var search = ""
     @Published var selected = Set<String>() {
-        didSet { if persistSelection { preferences.set(Array(selected), forKey: "selection") } }
+        didSet { if persistSelection && mode != .uninstall { preferences.set(Array(selected), forKey: "selection") } }
     }
     @Published var installed = Set<String>()
     @Published var inventoryKnown = false
@@ -185,7 +184,8 @@ struct SystemCommands: CommandExecuting {
     var visibleUpdates: [UpdateItem] { updates.filter { search.isEmpty || ($0.package.name + " " + $0.package.detail).localizedCaseInsensitiveContains(search) } }
     var selection: [Package] { packages.filter { selected.contains($0.id) } }
     var browsingPackages: [Package] {
-        packages.filter { package in
+        let source = mode == .install && category != "My apps" ? Catalog.packages : packages
+        return source.filter { package in
             (!uninstallMode || (inventoryKnown && installed.contains(package.id))) &&
             (!notInstalledOnly || uninstallMode || (!installed.contains(package.id) && !appPresent(package) && !localApps.contains { $0.package?.id == package.id })) &&
             (search.isEmpty || (package.name + " " + package.detail + " " + package.placements.map { $0.category + " " + $0.subcategory }.joined(separator: " ")).localizedCaseInsensitiveContains(search))
@@ -200,10 +200,38 @@ struct SystemCommands: CommandExecuting {
         }
         return browsingPackages.filter { $0.belongs(to: category, subcategory: section) }.count
     }
+    @Published var savedInstallSelection = Set<String>()
+    private var savedRemovalSelection = Set<String>()
+    private var discoverMode = ActionMode.install
+    private var lastHomebrewMode = ActionMode.install
+    private var lastHomebrewCategory = "All Apps"
+    var isHomebrewCenter: Bool { [.install,.uninstall,.updates,.explore].contains(mode) }
+    var homebrewTab: HomebrewTab { mode == .uninstall ? .installed : mode == .updates ? .updates : category == "My apps" && mode == .install ? .myApps : .discover }
+    var centerInstallSelection: [Package] { mode == .uninstall ? packages.filter { savedInstallSelection.contains($0.id) && canInstall($0) } : installSelection }
+    func removeCenterInstall(_ package: Package) {
+        guard !locked else { return }
+        if mode == .uninstall { savedInstallSelection.remove(package.id); if persistSelection { preferences.set(Array(savedInstallSelection),forKey:"selection") } }
+        else { selected.remove(package.id) }
+    }
+    func revealActiveRecorder() {
+        guard recorderState.busy else { return }
+        if mode == .uninstall { savedRemovalSelection = selected; mode = .recorder; selected = savedInstallSelection; sanitizeInstallSelection() }
+        else { mode = .recorder }
+    }
+    func openHomebrewCenter() { navigate(lastHomebrewMode,category:lastHomebrewCategory) }
+    func selectHomebrewTab(_ tab: HomebrewTab) {
+        switch tab { case .discover: navigate(discoverMode); case .installed: navigate(.uninstall); case .updates: navigate(.updates); case .myApps: navigate(.install,category:"My apps") }
+    }
     func navigate(_ mode: ActionMode, category: String = "All Apps") {
         guard !locked else { return }
-        if (self.mode == .uninstall) != (mode == .uninstall) { selected.removeAll(); statuses.removeAll() }
-        self.mode = mode; self.category = category; subcategory = "All"
+        if self.mode != .uninstall && mode == .uninstall {
+            savedInstallSelection = selected; self.mode = mode; selected = savedRemovalSelection; statuses.removeAll()
+        } else if self.mode == .uninstall && mode != .uninstall {
+            savedRemovalSelection = selected; self.mode = mode; selected = savedInstallSelection; sanitizeInstallSelection(); statuses.removeAll()
+        } else { self.mode = mode }
+        self.category = category; subcategory = "All"
+        if mode == .explore || (mode == .install && category != "My apps") { discoverMode = mode }
+        if isHomebrewCenter { lastHomebrewMode = mode; lastHomebrewCategory = category }
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
