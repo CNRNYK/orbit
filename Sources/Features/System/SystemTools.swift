@@ -72,7 +72,7 @@ struct PermissionCards: View {
 }
 struct PermissionCenterView: View {
     @ObservedObject var state: PermissionState
-    var body: some View { VStack(alignment:.leading,spacing:18) { HStack { Text("Permission Center").font(.largeTitle.bold()); Spacer(); Button("Refresh status") { state.refresh() }.disabled(state.working) }; ScrollView { PermissionCards(state:state) }; Text("Access is checked on setup and before package installation. Request buttons are optional; permission is required only for its associated feature.").font(.caption).foregroundStyle(.secondary) }.padding(24).task { state.refresh() } }
+    var body: some View { VStack(alignment:.leading,spacing:18) { HStack { Text("Setup Center").font(.largeTitle.bold()); Spacer(); Button("Refresh status") { state.refresh() }.disabled(state.working) }; ScrollView { PermissionCards(state:state) }; Text("Access is checked on setup and before package installation. Request buttons are optional; permission is required only for its associated feature.").font(.caption).foregroundStyle(.secondary) }.padding(24).task { state.refresh() } }
 }
 
 struct HealthFinding: Identifiable, Equatable { let id: String, title: String, detail: String; let healthy: Bool }
@@ -134,15 +134,29 @@ enum LoginScripts {
     @Published var pendingRemoval: LoginEntry?
     var preview = false
     var canAct: () -> Bool = { true }
+    var automationAccess: (Bool) -> OSStatus = { PermissionState.automation(ask:$0) }
     func refreshStatus() { if !preview { switch SMAppService.mainApp.status { case .enabled: orbitStatus = "Enabled"; case .requiresApproval: orbitStatus = "Needs approval in Settings"; case .notRegistered: orbitStatus = "Disabled"; default: orbitStatus = "Unavailable" } } }
     func orbit(_ enabled: Bool) async {
         guard !preview, !working, canAct() else { return }; working = true; defer { working = false; refreshStatus() }
         do { if enabled { try SMAppService.mainApp.register() } else { try await SMAppService.mainApp.unregister() } } catch { message = error.localizedDescription }
     }
+    func loadOnOpen(commands: any CommandExecuting) async {
+        guard !preview, !working, canAct() else { return }; refreshStatus()
+        guard automationAccess(false) == noErr else { message = "Allow System Events access to load login apps. Open Setup Center or choose Allow access below."; return }
+        await refresh(commands:commands)
+    }
+    func authorizeAndLoad(commands: any CommandExecuting) async {
+        guard !preview, !working, canAct() else { return }
+        guard automationAccess(true) == noErr else { message = "System Events access is unavailable. Allow Orbit in Setup Center → Permissions."; return }
+        await refresh(commands:commands)
+    }
+    static func applicationDirectory(home: String = NSHomeDirectory(), exists: (String) -> Bool = { FileManager.default.fileExists(atPath:$0) }) -> URL {
+        URL(fileURLWithPath:exists("/Applications") ? "/Applications" : home + "/Applications",isDirectory:true)
+    }
     func refresh(commands: any CommandExecuting) async {
         guard !preview, !working, canAct() else { return }; working = true; defer { working = false }; refreshStatus()
         let response = await commands.run("/usr/bin/osascript",["-l","JavaScript","-e",LoginScripts.list],log:{ _ in })
-        do { guard response.0 == 0 else { throw RecorderProblem(message:response.1) }; entries = try LoginScripts.parse(response.1); message = "\(entries.count) standard login apps. Removing a login item does not uninstall the app." } catch { entries = []; message = "Login apps could not be loaded. Allow System Events in Permission Center. \(error.localizedDescription)" }
+        do { guard response.0 == 0 else { throw RecorderProblem(message:response.1) }; entries = try LoginScripts.parse(response.1); message = "\(entries.count) standard login apps. Removing a login item does not uninstall the app." } catch { entries = []; message = "Login apps could not be loaded. Allow System Events in Setup Center. \(error.localizedDescription)" }
     }
     func change(_ entry: LoginEntry, add: Bool, commands: any CommandExecuting) async {
         guard !preview, !working, canAct() else { return }; if add && (!entry.path.hasSuffix(".app") || !FileManager.default.fileExists(atPath:entry.path)) { message = "Choose an existing application."; return }
@@ -153,7 +167,7 @@ enum LoginScripts {
     }
     func chooseApp(commands: any CommandExecuting) {
         guard !preview, !working, canAct() else { return }
-        let panel = NSOpenPanel(); panel.canChooseDirectories = false; panel.allowedContentTypes = [.applicationBundle]; panel.allowsMultipleSelection = false
+        let panel = NSOpenPanel(); panel.directoryURL = Self.applicationDirectory(); panel.canChooseDirectories = false; panel.allowedContentTypes = [.applicationBundle]; panel.allowsMultipleSelection = false
         guard panel.runModal() == .OK, let url = panel.url else { return }
         let entry = LoginEntry(name:url.deletingPathExtension().lastPathComponent,path:url.path,hidden:false)
         Task { await change(entry,add:true,commands:commands) }
@@ -164,9 +178,8 @@ struct LoginView: View {
     @ObservedObject var state: LoginState
     var body: some View { VStack(alignment:.leading,spacing:18) {
         Text("Login Items").font(.largeTitle.bold())
-        GroupBox("Orbit at login") { HStack { Text(state.orbitStatus); Spacer(); Button("Enable") { Task { await state.orbit(true) } }; Button("Disable") { Task { await state.orbit(false) } } }.padding(8) }
         Text(state.message).font(.caption).foregroundStyle(.secondary)
-        HStack { Button("Load login apps") { Task { await state.refresh(commands:store.commandRunner) } }; Button("Add application") { state.chooseApp(commands:store.commandRunner) }; Spacer(); Button("Background items in Settings") { SMAppService.openSystemSettingsLoginItems() } }
+        HStack { Button("Refresh / Retry",systemImage:"arrow.clockwise") { Task { await state.loadOnOpen(commands:store.commandRunner) } }; Button("Allow access") { Task { await state.authorizeAndLoad(commands:store.commandRunner) } }; Button("Add application") { state.chooseApp(commands:store.commandRunner) }; Spacer(); Button("Background items in Settings") { SMAppService.openSystemSettingsLoginItems() } }
         ScrollView { VStack { ForEach(state.entries) { entry in HStack { VStack(alignment:.leading) { Text(entry.name).bold(); Text(entry.path).font(.caption).foregroundStyle(.secondary); if entry.hidden { Text("Starts hidden").font(.caption) } }; Spacer(); Button("Remove from login") { state.pendingRemoval = entry } }.padding(12).background(Color.primary.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius:10)) } } }
-    }.padding(24).disabled(state.working).task { state.refreshStatus() }.confirmationDialog("Remove this app from Open at Login?",isPresented:Binding(get:{ state.pendingRemoval != nil },set:{ if !$0 { state.pendingRemoval = nil } }),titleVisibility:.visible) { if let entry = state.pendingRemoval { Button("Remove \(entry.name)",role:.destructive) { state.pendingRemoval = nil; Task { await state.change(entry,add:false,commands:store.commandRunner) } } }; Button("Cancel",role:.cancel) { state.pendingRemoval = nil } } }
+    }.padding(24).disabled(state.working).task { await state.loadOnOpen(commands:store.commandRunner) }.confirmationDialog("Remove this app from Open at Login?",isPresented:Binding(get:{ state.pendingRemoval != nil },set:{ if !$0 { state.pendingRemoval = nil } }),titleVisibility:.visible) { if let entry = state.pendingRemoval { Button("Remove \(entry.name)",role:.destructive) { state.pendingRemoval = nil; Task { await state.change(entry,add:false,commands:store.commandRunner) } } }; Button("Cancel",role:.cancel) { state.pendingRemoval = nil } } }
 }

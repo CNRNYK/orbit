@@ -71,8 +71,8 @@ struct MenuBarPanel: View {
             VStack(spacing: 2) {
                 row(state.updatesLabel, symbol: "arrow.triangle.2.circlepath", enabled: state.canNavigate) { action(.updates) }
                 row("Check for updates", symbol: "arrow.clockwise", enabled: state.canCheckUpdates) { action(.checkUpdates) }
-                Menu { Button("Full screen",systemImage:"display") { action(.screenshotFull) }; Button("Selected area",systemImage:"viewfinder") { action(.screenshotArea) }; Button("Window",systemImage:"macwindow") { action(.screenshotWindow) }; Divider(); Button("Open editor") { action(.screenshots) } } label: { Label("Take screenshot",systemImage:"camera.viewfinder").frame(maxWidth:.infinity,alignment:.leading).padding(10) }.menuStyle(.borderlessButton).disabled(!state.canNavigate)
-                row("Permission Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
+                Menu { Button("Full screen",systemImage:"display") { action(.screenshotFull) }; Button("Selected area",systemImage:"viewfinder") { action(.screenshotArea) }; Button("Window",systemImage:"macwindow") { action(.screenshotWindow) }; Divider(); Button("Open editor") { action(.screenshots) } } label: { Label("Take screenshot",systemImage:"camera.viewfinder").frame(maxWidth:.infinity,alignment:.leading).padding(10) }.menuStyle(.borderlessButton).frame(maxWidth:.infinity,alignment:.leading).disabled(!state.canNavigate)
+                row("Setup Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
                 row("App Health Check", symbol: "stethoscope", enabled: state.canNavigate) { action(.health) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
                 row("Cleanup", symbol: "sparkles", enabled: state.canNavigate) { action(.cleanup) }

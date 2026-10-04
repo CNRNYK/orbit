@@ -15,7 +15,7 @@ struct ContentView: View {
             else if store.mode == .explore || store.mode == .install && store.category != "My apps" { ExploreView(store: store) }
             else if store.homebrewTab == .library && store.isHomebrewCenter { LibraryView(store:store) }
             else if store.mode == .recorder { RecorderView(state: store.recorderState) }
-            else if store.mode == .permissions { PermissionCenterView(state:store.permissions) }
+            else if store.mode == .permissions { SetupCenterView(store:store) }
             else if store.mode == .health { HealthView(store:store,state:store.health) }
             else if store.mode == .login { LoginView(store:store,state:store.login) }
             else if store.mode == .screenshots { ScreenshotView(state:store.screenshots) }
@@ -185,7 +185,7 @@ struct ContentView: View {
             destinationButton("Cleanup", symbol: "sparkles", mode: .cleanup, count: "")
             destinationButton("Screen Recorder", symbol: "record.circle", mode: .recorder, count: "")
             destinationButton("Screenshot Studio", symbol:"camera.viewfinder",mode:.screenshots,count:"")
-            destinationButton("Permission Center", symbol:"checkmark.shield",mode:.permissions,count:"")
+            destinationButton("Setup Center", symbol:"checkmark.shield",mode:.permissions,count:"")
             destinationButton("App Health Check", symbol:"stethoscope",mode:.health,count:"")
             destinationButton("Login Items", symbol:"power",mode:.login,count:"")
             destinationButton("Terminal Setup", symbol: "terminal", mode: .terminal, count: "")
@@ -199,7 +199,6 @@ struct ContentView: View {
             } }.onChange(of:store.mode) { _,mode in proxy.scrollTo(store.isHomebrewCenter ? "homebrew" : mode.rawValue,anchor:.center) }
             .onAppear { if store.mode != .install { proxy.scrollTo(store.isHomebrewCenter ? "homebrew" : store.mode.rawValue,anchor:.center) } }
             }
-            Button("Setup check", systemImage: "checklist") { Task { await store.openStartup() } }.font(.caption).buttonStyle(.plain).padding(.bottom, 8)
             Link(destination: URL(string: "https://formulae.brew.sh")!) { Label("Homebrew catalog", systemImage: "arrow.up.right.square") }.font(.caption).padding(.bottom, 12)
             HStack(spacing: 8) {
                 Circle().fill(store.brew == nil ? Color.orange : Color.green).frame(width: 8, height: 8)
@@ -555,6 +554,8 @@ struct OrbitApp: App {
             controller.openWindow()
             window.miniaturize(nil); pump(0.5); controller.openWindow(); pump(0.8); precondition(!window.isMiniaturized)
             for (action,mode) in [(MenuBarAction.permissions,ActionMode.permissions),(.health,.health),(.login,.login),(.screenshots,.screenshots)] { controller.perform(action); precondition(store.mode == mode && window.isVisible) }
+            store.recorderState.onRecordingSaved?(); precondition(store.mode == .recorder && window.isVisible)
+            window.orderOut(nil); store.screenshots.onCaptured?(); precondition(store.mode == .screenshots && window.isVisible)
             store.screenshots.working = true; controller.perform(.health); precondition(store.mode == .screenshots); store.screenshots.working = false
             controller.remove(); precondition(controller.statusItem == nil)
             window.orderOut(nil)
@@ -593,10 +594,11 @@ struct OrbitApp: App {
                 previewStore.navigate(.install, category: "Development")
                 root = AnyView(ContentView(store: previewStore))
             }
-            if CommandLine.arguments.contains("--my-apps-preview") { previewStore.myAppIDs = Set(previewStore.selected); previewStore.navigate(.install,category:"My apps"); root = AnyView(ContentView(store:previewStore)) }
+            if CommandLine.arguments.contains("--my-apps-preview") { previewStore.myAppIDs = Set(previewStore.selected); previewStore.navigate(.uninstall); previewStore.libraryFilter = .saved; root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--installed-preview") {
                 previewStore.inventoryKnown = true
                 previewStore.installed = Set(Catalog.packages.filter { ["google-chrome", "google-drive", "docker", "git"].contains($0.token) }.map(\.id))
+                previewStore.myAppIDs = Set(Catalog.packages.filter { ["git","slack"].contains($0.token) }.map(\.id))
                 previewStore.navigate(.uninstall)
                 root = AnyView(ContentView(store: previewStore))
             }
@@ -611,9 +613,11 @@ struct OrbitApp: App {
                 previewStore.localApps = [LocalApp(path: "/Applications/Figma.app", name: "Figma", identifier: "com.figma.Desktop", version: "126.9.11", package: p, identityMatched: false, inode: 0), LocalApp(path: "/Applications/Example.app", name: "Example", identifier: "org.example.app", version: "1.0", package: nil, identityMatched: false, inode: 0)]
                 root = AnyView(ContentView(store: previewStore))
             }
-            if CommandLine.arguments.contains("--permissions-preview") || CommandLine.arguments.contains("--startup-preview") {
+            if CommandLine.arguments.contains("--permissions-preview") || CommandLine.arguments.contains("--startup-preview") || CommandLine.arguments.contains("--setup-preview") {
+                previewStore.startupChecks = [StartupCheck(id:"brew",title:"Homebrew",detail:"Homebrew is available. Demonstration data.",ready:true,required:true),StartupCheck(id:"tools",title:"Apple developer tools",detail:"Command Line Tools are selected.",ready:true,required:false),StartupCheck(id:"location",title:"App location",detail:"Orbit is in Applications.",ready:true,required:false),StartupCheck(id:"helper",title:"Administrator prompt",detail:"Native password helper is available.",ready:true,required:true)]
+                previewStore.login.orbitStatus = "Disabled"
                 previewStore.permissions.items = [OrbitPermission(id:"screen",title:"Screen & system audio",purpose:"Capture only the display, area or window you choose.",status:"Verified",settings:"Privacy_ScreenCapture"),OrbitPermission(id:"microphone",title:"Microphone",purpose:"Add your voice to recordings.",status:"Not requested",settings:"Privacy_Microphone"),OrbitPermission(id:"camera",title:"Camera",purpose:"Add an optional webcam bubble.",status:"Not requested",settings:"Privacy_Camera"),OrbitPermission(id:"input",title:"Input Monitoring",purpose:"Show shortcut labels without typed text.",status:"Allowed",settings:"Privacy_ListenEvent"),OrbitPermission(id:"automation",title:"System Events automation",purpose:"Manage the login apps you choose.",status:"Not requested",settings:"Privacy_Automation")]
-                if CommandLine.arguments.contains("--permissions-preview") { previewStore.navigate(.permissions); root = AnyView(ContentView(store:previewStore)) }
+                if CommandLine.arguments.contains("--permissions-preview") || CommandLine.arguments.contains("--setup-preview") { previewStore.setupSection = CommandLine.arguments.contains("--permissions-preview") ? .permissions : .requirements; previewStore.navigate(.permissions); root = AnyView(ContentView(store:previewStore)) }
             }
             if CommandLine.arguments.contains("--health-preview") { previewStore.health.findings = [HealthFinding(id:"brew",title:"Homebrew",detail:"Homebrew is available. Demonstration data.",healthy:true),HealthFinding(id:"dependencies",title:"Missing dependencies",detail:"No issues reported.",healthy:true),HealthFinding(id:"apps",title:"Managed app bundles",detail:"Not found in standard locations: Example App. A custom app directory may be valid; review before repairing.",healthy:false)]; previewStore.navigate(.health); root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--login-preview") { previewStore.login.orbitStatus = "Disabled"; previewStore.login.entries = [LoginEntry(name:"Example App",path:"/Applications/Example App.app",hidden:false)]; previewStore.navigate(.login); root = AnyView(ContentView(store:previewStore)) }

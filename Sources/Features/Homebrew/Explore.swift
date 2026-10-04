@@ -80,6 +80,10 @@ enum OfficialCatalog {
         let curated = orderedPackages(visible).filter { (exploreKind == "All" || (exploreKind == "Apps" ? $0.cask : !$0.cask)) && (!exploreAvailableOnly || $0.installable) }
         return curated + otherDiscoverMatches.filter { !notInstalledOnly || canInstall($0) }
     }
+    var displayedDiscoverMatches: [Package] {
+        let curated = Set(Catalog.packages.map(\.id)), matches = discoverMatches
+        return matches.filter { curated.contains($0.id) } + Array(matches.filter { !curated.contains($0.id) }.prefix(150))
+    }
     var exploreCacheURL: URL? {
         guard personalPersistence else { return nil }
         return FileManager.default.urls(for:.cachesDirectory,in:.userDomainMask).first?.appendingPathComponent("io.macsetup.desktop/explore.json")
@@ -125,11 +129,15 @@ struct ExploreView: View {
             if store.preparing || store.refreshing { ProgressView("Checking Homebrew…") }
             if let date = store.exploreFetched { Text("Catalog fetched: " + date.formatted()).font(.caption).foregroundStyle(.secondary) }
             if !store.exploreMessage.isEmpty { Text(store.exploreMessage).font(.caption).foregroundStyle(.orange) }
+            if store.category != "All Apps" {
+                HStack { Label(store.category,systemImage:Catalog.symbols[store.category] ?? "shippingbox").bold(); Picker("Section",selection:$store.subcategory) { Text("All sections").tag("All"); ForEach(Catalog.subcategories(in:store.category),id:\.self) { Text($0).tag($0) } }.frame(maxWidth:350); Spacer() }
+            }
+            HStack { Picker("Sort",selection:$store.popularSort) { Text("Name").tag(false); Text("Most installed · 30 days").tag(true) }.frame(width:240); if store.popularSort { Button("Refresh stats") { Task { await store.loadPopularity() } }.disabled(store.fetchingPopularity) }; Spacer() }
             let matches = store.discoverMatches
-            Text("\(matches.count) matches · showing up to 150. Narrow your search for more results.").font(.caption).foregroundStyle(.secondary)
+            Text("\(matches.count) matches · recommended apps first; up to 150 additional Homebrew results.").font(.caption).foregroundStyle(.secondary)
             ScrollView {
                 LazyVStack(spacing:0) {
-                    ForEach(Array(matches.prefix(150))) { package in
+                    ForEach(store.displayedDiscoverMatches) { package in
                         if package.id == store.otherDiscoverMatches.first?.id { Text("More from Homebrew").font(.headline).frame(maxWidth:.infinity,alignment:.leading).padding(.top,18) }
                         HStack(spacing:12) {
                             Toggle("Select " + package.name, isOn: Binding(get: { store.selected.contains(package.id) }, set: { _ in store.toggle(package) })).labelsHidden().toggleStyle(.checkbox).disabled(store.locked || !store.canInstall(package)).accessibilityLabel("Select " + package.name)

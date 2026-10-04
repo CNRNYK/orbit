@@ -1,3 +1,15 @@
+# Current workflow (0.19.0)
+
+Homebrew Center now uses Discover, Library and Updates. Discover combines recommended matches with deduplicated official Homebrew results. Library combines installed apps and saved favorites with All/Installed/Saved filters, explicit save/unsave actions and reviewed manual Uninstall & Clean. Manual removal rechecks app identity and Homebrew ownership, refuses running apps and uses exact bundle-identifier leftovers with sensitive data unchecked.
+
+All recording starts use unique automatic destinations in Movies/Orbit Recordings. Successful finalization opens the preview, where Keep selection or Remove selection exports a new copy. Menu screenshots support full screen, selected area and window before opening the editor. Annotation tools now have icons and accessible tool labels.
+
+Setup Center combines Requirements, Permissions and Startup, including Orbit at login. Login Items automatically loads when System Events access is already allowed and otherwise offers explicit access request. Add application starts in Applications.
+
+The sections below retain historical feature details and version milestones; labels or flows superseded above describe those earlier versions. See the [README](../README.md) for the current overview and [changelog](CHANGELOG.md) for milestones.
+
+---
+
 # Orbit feature reference
 
 A native SwiftUI application for selecting, installing, and uninstalling Homebrew packages on macOS. English interface; MIT licensed source code.
@@ -32,7 +44,7 @@ Choose a sidebar category, then use the icon-based section picker in the content
 
 Manual or unavailable tools remain visible with **Setup details** and a vendor link where an exact link is known. Third-party taps, editor extensions, web applications, Windows-only tools, and self-hosted services are not silently substituted with unrelated Homebrew packages. Deprecated or disabled packages remain visible but are blocked from installation; if already managed by Homebrew, they can still appear for uninstallation.
 
-The app's bundled `Resources/catalog.json` is editable and contains package names, official Homebrew metadata, category placements, source entry numbers, and presets. Availability is checked again online before installation. Optional tools such as Azure CLI are catalog choices, not preselected additions to a personal Brewfile. See [CATALOG-NOTES.md](../CATALOG-NOTES.md) for mapping decisions and manual entries. Unverified popularity rankings and comparisons in the supplied text are not carried into the product.
+The app's bundled `Resources/catalog.json` is editable and contains package names, official Homebrew metadata, category placements, source entry numbers, and presets. Availability is checked again online before installation. Optional tools such as Azure CLI are catalog choices, not preselected additions to a personal Brewfile. See [CATALOG-NOTES.md](CATALOG.md) for mapping decisions and manual entries. Unverified popularity rankings and comparisons in the supplied text are not carried into the product.
 
 ## Uninstall apps
 

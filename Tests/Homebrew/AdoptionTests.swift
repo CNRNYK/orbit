@@ -28,6 +28,15 @@ enum AdoptionTests {
         precondition(reviewed.leftovers.count == 2 && reviewed.leftovers.filter { !$0.dataSensitive }.map(\.path) == [cache])
         try! fm.createDirectory(atPath:root + "/Library/Application Support/org.fixture",withIntermediateDirectories:true)
         precondition(ManualRemovalPlan.inspect(apps[0],home:root,roots:[root])!.leftovers.count == 2,"Shared vendor directories must be excluded")
+        let owner = Data(#"{"casks":[{"token":"outside-catalog","artifacts":[{"app":["Fixture.app"]}]}]}"#.utf8)
+        precondition(try! !ManualAppOwnership.mayRemove(apps[0],metadata:owner,tokens:["outside-catalog"],packages:[]))
+        let renamed = Data(#"{"casks":[{"token":"outside-catalog","artifacts":[{"app":["Original.app",{"target":"fixture.app"}]}]}]}"#.utf8)
+        precondition(try! !ManualAppOwnership.mayRemove(apps[0],metadata:renamed,tokens:["outside-catalog"],packages:[]),"Renamed and case-insensitive app targets must retain Homebrew ownership")
+        let other = Data(#"{"casks":[{"token":"other","artifacts":[{"app":["Other.app"]}]}]}"#.utf8)
+        precondition(try! ManualAppOwnership.mayRemove(apps[0],metadata:other,tokens:["other"],packages:[]))
+        do { _ = try ManualAppOwnership.mayRemove(apps[0],metadata:other,tokens:["missing"],packages:[]); preconditionFailure("Incomplete ownership inventory must fail") } catch {}
+        let vendor = Data(#"{"casks":[{"token":"vendor","artifacts":[{"pkg":["Vendor.pkg"]}]}]}"#.utf8)
+        do { _ = try ManualAppOwnership.mayRemove(apps[0],metadata:vendor,tokens:["vendor"],packages:[]); preconditionFailure("Unknown vendor ownership must block removal") } catch {}
         let app = apps[0]
         let item = AdoptionItem(app: app, installer: false, version: "1", problem: nil)
         precondition(item.arguments == ["install", "--cask", "--appdir=" + root, "--adopt", "figma"])
