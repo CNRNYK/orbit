@@ -53,11 +53,17 @@ Cleanup does not empty Trash or promise to remove every trace of an application.
 
 ## Prepare your developer terminal
 
-**Terminal Setup** offers checkbox selections for Homebrew, completion, history, aliases, and optional Node/NVM, Python + uv, Java 21, Go, Rustup, and Ruby/rbenv environments. Starship, fzf, suggestions, and highlighting are optional.
+**Environment · Shell & Appearance · Changes & Backups** — inspect your setup, choose tools and review changes before applying.
 
-Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Existing content is preserved, changes are backed up, and repeating the same selection does not duplicate settings. Missing tools join the ordinary install selection; profile changes never install software. Restore is blocked if you edited a profile after applying it.
+- Discover tool paths and existing Zsh settings automatically; explicitly verify executable versions without sourcing profiles.
+- Start with Minimal, Web Development, Python Development or QA & Automation. Choose Node/Python/Java/Ruby versions and optional pnpm or Yarn.
+- Read project version files and package-manager requirements without running project scripts.
+- Customize aliases, Starship themes and Git identity; keep existing configuration with private backups.
+- Review Homebrew installs, runtime downloads and file changes separately. Export portable choices without profiles, Git identity, custom aliases or SSH keys.
 
-![Terminal Setup checkbox groups with developer and language options](docs/images/terminal.png)
+![Orbit Terminal Setup environment](docs/images/terminal.png)
+
+Read the [Terminal Setup guide](docs/TERMINAL-SETUP.md) for the reviewed workflow and supported configuration scope.
 
 ## Record what matters
 
@@ -97,7 +103,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.20.1/Orbit-0.20.1-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.20.1)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.21.0/Orbit-0.21.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.21.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

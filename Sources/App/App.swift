@@ -594,7 +594,11 @@ struct OrbitApp: App {
                 previewStore.exploreFetched = Date(); root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--terminal-preview") {
-                previewStore.navigate(.terminal); previewStore.terminalState.scanned = true; previewStore.terminalState.selected.formUnion(["python", "node"]); previewStore.terminalState.message = "Demonstration data · no profiles were read or modified."; previewStore.terminalState.missing = ["uv"]; root = AnyView(ContentView(store: previewStore))
+                previewStore.navigate(.terminal); previewStore.terminalState.scanned = true; previewStore.terminalState.selected.formUnion(["python", "node"]); previewStore.terminalState.message = "Demonstration data · no profiles were read or modified."; previewStore.terminalState.missing = ["uv"]
+                previewStore.terminalState.tools = [TerminalTool(id: "node", path: "/Users/you/.nvm/versions/node/v22.0.0/bin/node", version: "Found · not yet verified"), TerminalTool(id: "git", path: "/opt/homebrew/bin/git", version: "git version 2.50.0")]
+                if CommandLine.arguments.contains("--terminal-shell-preview") { previewStore.terminalState.tab = "Shell & Appearance" }
+                if CommandLine.arguments.contains("--terminal-changes-preview") { previewStore.terminalState.tab = "Changes & Backups"; previewStore.terminalState.runtimeReview = "uv python install '3.13'\n" }
+                root = AnyView(ContentView(store: previewStore))
             }
             if CommandLine.arguments.contains("--startup-preview") {
                 previewStore.startupChecks = [StartupCheck(id: "macos", title: "macOS", detail: "macOS 15 is supported by Homebrew.", ready: true, required: false), StartupCheck(id: "brew", title: "Homebrew", detail: "Not found. Install Homebrew using its official guide, then choose Check again.", ready: false, required: true), StartupCheck(id: "tools", title: "Apple developer tools", detail: "A developer tools directory is selected.", ready: true, required: false), StartupCheck(id: "location", title: "App location", detail: "Orbit is in Applications.", ready: true, required: false), StartupCheck(id: "helper", title: "Administrator prompt", detail: "Native password helper is available. Permissions are requested only when an operation needs them.", ready: true, required: true)]

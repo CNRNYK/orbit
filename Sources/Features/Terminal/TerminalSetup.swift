@@ -23,12 +23,12 @@ struct TerminalOption: Identifiable {
         export NVM_DIR="$HOME/.nvm"
         if [[ -s "$NVM_DIR/nvm.sh" ]]; then source "$NVM_DIR/nvm.sh"; elif [[ -n ${HOMEBREW_PREFIX:-} && -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; fi
         """#),
-        .init("python", "Python development", "Python 3.14 + uv. Project virtual environments; no system Python changes.", "Languages", packages: ["python@3.14", "uv"], detection: ["pyenv", "conda", "mamba", "asdf", "mise", "function ov", "function oa", "alias ov=", "alias oa=", "o[va]\\s*\\(\\)"], rc: #"""
+        .init("python", "Python development", "uv manages your chosen Python version and project virtual environments.", "Languages", packages: ["uv"], detection: ["pyenv", "conda", "mamba", "asdf", "mise", "function ov", "function oa", "alias ov=", "alias oa=", "o[va]\\s*\\(\\)"], rc: #"""
         # Run inside your project. No automatic activation or global pip installs.
         ov() { command uv venv .venv; }
         oa() { if [[ -f .venv/bin/activate ]]; then source .venv/bin/activate; else print 'Create a project environment first with ov.'; fi; }
         """#),
-        .init("java", "Java 21 environment", "Use an installed Homebrew JDK 21; leave system registration untouched.", "Languages", packages: ["openjdk@21"], detection: ["JAVA_HOME", "jenv", "sdkman", "asdf", "mise"], rc: #"""
+        .init("java", "Java environment", "Use the selected Homebrew JDK; leave system registration untouched.", "Languages", packages: ["openjdk@21"], detection: ["JAVA_HOME", "jenv", "sdkman", "asdf", "mise"], rc: #"""
         if [[ -n ${HOMEBREW_PREFIX:-} && -d "$HOMEBREW_PREFIX/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home" ]]; then
           export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
           typeset -U path; path=("$JAVA_HOME/bin" $path)
@@ -41,8 +41,13 @@ struct TerminalOption: Identifiable {
         .init("ruby", "Ruby with rbenv", "Initialize rbenv. Ruby versions are chosen and installed separately.", "Languages", packages: ["rbenv"], detection: ["rbenv", "rvm", "chruby", "asdf", "mise"], rc: #"command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init - zsh)""#),
         .init("starship", "Starship prompt", "Git branch and environment information in your prompt.", "Terminal experience", packages: ["starship"], detection: ["starship", "oh-my-zsh", "powerlevel", "p10k", "PROMPT=", "PS1=", "prezto"], rc: #"command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)""#),
         .init("fzf", "Fuzzy history search", "fzf keyboard bindings and completion.", "Terminal experience", packages: ["fzf"], detection: ["fzf", "oh-my-zsh", "zinit", "antidote"], rc: #"command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)"#),
-        .init("suggestions", "Command suggestions", "Suggest commands from your shell history.", "Terminal experience", packages: ["zsh-autosuggestions"], detection: ["zsh-autosuggestions", "oh-my-zsh", "zinit", "antidote"], rc: #"[[ -z ${HOMEBREW_PREFIX:-} || ! -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] || source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"#),
-        .init("highlighting", "Syntax highlighting", "Highlight commands as you type. Loaded last in Orbit's block.", "Terminal experience", packages: ["zsh-syntax-highlighting"], detection: ["zsh-syntax-highlighting", "oh-my-zsh", "zinit", "antidote"], rc: #"[[ -z ${HOMEBREW_PREFIX:-} || ! -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] || source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"#)
+        .init("suggestions", "Command suggestions", "Suggest commands from your shell history.", "Terminal experience", packages: ["zsh-autosuggestions"], detection: ["zsh-autosuggestions", "oh-my-zsh", "zinit", "antidote"], rc: #"[[ -z ${HOMEBREW_PREFIX:-} || ! -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] || source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh""#),
+        .init("highlighting", "Syntax highlighting", "Highlight commands as you type. Loaded last in Orbit's block.", "Terminal experience", packages: ["zsh-syntax-highlighting"], detection: ["zsh-syntax-highlighting", "oh-my-zsh", "zinit", "antidote"], rc: #"[[ -z ${HOMEBREW_PREFIX:-} || ! -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] || source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh""#),
+        .init("zoxide", "Smarter directory navigation", "Use z to jump to frequently visited folders. Existing cd is preserved.", "Terminal experience", packages: ["zoxide"], detection: ["zoxide"], rc: #"command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)""#),
+        .init("cli", "Modern command-line tools", "bat, ripgrep, fd and eza. Standard cat, grep, find and ls stay unchanged.", "Terminal experience", packages: ["bat", "ripgrep", "fd", "eza"], detection: [], rc: "# Optional tools: bat, rg, fd and eza; no built-in aliases are replaced."),
+        .init("custom-aliases", "Custom aliases", "Add your own shortcuts. Review commands and collisions before applying.", "Terminal experience", detection: [], rc: ""),
+        .init("git-identity", "Git identity", "Set a global name and email with a private backup. Project-local identity stays separate.", "Developer essentials", packages: ["git"], detection: [], rc: "# Git identity is applied separately to ~/.gitconfig after review."),
+        .init("prompt-theme", "Prompt theme", "An Orbit-owned Starship configuration; existing theme files are preserved.", "Terminal experience", packages: ["starship"], detection: ["STARSHIP_CONFIG"], rc: #"export STARSHIP_CONFIG="$HOME/.orbit-starship.toml""#)
     ]
     static let essentials: Set<String> = ["brew", "completion", "history", "aliases"]
 }
@@ -58,17 +63,19 @@ struct ProfileChange {
 struct TerminalPlan {
     let changes: [ProfileChange]
     let options: Set<String>
+    var configuration = TerminalConfiguration()
 }
 struct ProfileReceipt: Codable {
     let originals: [ProfileSnapshot]
     let applied: [String: String]
+    var configuration: TerminalConfiguration? = nil
 }
 struct ProfileProblem: LocalizedError {
     let message: String
     var errorDescription: String? { message }
 }
 
-/// Reads files, never executes user profiles. All writes are restricted to two home-directory files.
+/// Reads files, never executes user profiles. Writes are restricted to reviewed home-directory profiles, Git config and the Orbit theme.
 final class ProfileEngine {
     static let begin = "# >>> Orbit Terminal Setup >>>", end = "# <<< Orbit Terminal Setup <<<"
     let home: URL
@@ -76,7 +83,7 @@ final class ProfileEngine {
     var backupRoot: URL { home.appendingPathComponent(".orbit-terminal-backups", isDirectory: true) }
     func fail(_ message: String) -> ProfileProblem { ProfileProblem(message: message) }
     func inspect(_ name: String) throws -> ProfileSnapshot {
-        guard [".zprofile", ".zshrc", ".zshenv", ".zlogin"].contains(name), home.resolvingSymlinksInPath().path == home.path else { throw fail("Unsupported or linked profile location.") }
+        guard [".zprofile", ".zshrc", ".zshenv", ".zlogin", ".gitconfig", ".orbit-starship.toml"].contains(name), home.resolvingSymlinksInPath().path == home.path else { throw fail("Unsupported or linked profile location.") }
         let url = home.appendingPathComponent(name)
         var info = stat()
         guard lstat(url.path, &info) == 0 else {
@@ -120,17 +127,31 @@ final class ProfileEngine {
     static func conflicts(_ option: TerminalOption, outside: String) -> Bool {
         option.detection.contains { outside.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil }
     }
-    func plan(_ selected: Set<String>) throws -> TerminalPlan {
+    func plan(_ selected: Set<String>, configuration: TerminalConfiguration = TerminalConfiguration()) throws -> TerminalPlan {
+        let options = try configuration.options()
         guard selected.isSubset(of: Set(TerminalOption.all.map(\.id))) else { throw fail("Unknown terminal option.") }
         let (snapshots, outside, _) = try scan()
-        for option in TerminalOption.all where selected.contains(option.id) && Self.conflicts(option, outside: outside) { throw fail("\(option.title) has existing settings outside Orbit. Leave it unchecked and keep your current configuration.") }
+        for option in options where selected.contains(option.id) && Self.conflicts(option, outside: outside) { throw fail("\(option.title) has existing settings outside Orbit. Leave it unchecked and keep your current configuration.") }
         if selected.contains("node") && outside.range(of: #"(node|node@\S+)/bin"#, options: .regularExpression) != nil { throw fail("An existing Node PATH conflicts with NVM. Review it manually first.") }
+        if selected.contains("custom-aliases") {
+            for alias in configuration.aliases {
+                let escaped = NSRegularExpression.escapedPattern(for: alias.name)
+                let pattern = "(?m)(alias\\s+" + escaped + "=|function\\s+" + escaped + "\\b|\\b" + escaped + "\\s*\\(\\))"
+                guard outside.range(of: pattern, options: .regularExpression) == nil else { throw fail("Alias " + alias.name + " already exists outside Orbit.") }
+            }
+        }
+        if selected.contains("prompt-theme"), !selected.contains("starship") { throw fail("Select Starship prompt before choosing a theme.") }
         var changes: [ProfileChange] = []
         for name in [".zprofile", ".zshrc"] {
             let snapshot = snapshots.first { $0.name == name }!
             let old = String(data: snapshot.data ?? Data(), encoding: .utf8)!
             let pieces = try Self.split(old)
-            let snippets = TerminalOption.all.filter { selected.contains($0.id) }.compactMap { option -> String? in
+            let ordered = options.enumerated().sorted { left, right in
+                let a = left.element.id == "prompt-theme" ? -1 : left.element.id == "highlighting" ? 1000 : left.offset
+                let b = right.element.id == "prompt-theme" ? -1 : right.element.id == "highlighting" ? 1000 : right.offset
+                return a < b
+            }.map(\.element)
+            let snippets = ordered.filter { selected.contains($0.id) }.compactMap { option -> String? in
                 let code = name == ".zprofile" ? option.profile : option.rc
                 return code.isEmpty ? nil : "# orbit-option: \(option.id)\n" + code
             }
@@ -146,7 +167,27 @@ final class ProfileEngine {
             guard data.count <= 1_000_000 else { throw fail("\(name) would exceed the supported profile size. No changes were made.") }
             if data != (snapshot.data ?? Data()) { changes.append(.init(before: snapshot, after: data, block: block)) }
         }
-        return .init(changes: changes, options: selected)
+        if selected.contains("prompt-theme") {
+            let before = try inspect(".orbit-starship.toml")
+            let after = Data(configuration.starship.utf8)
+            if before.data != after { changes.append(.init(before: before, after: after, block: configuration.starship)) }
+        }
+        if selected.contains("git-identity") {
+            guard !configuration.gitName.trimmingCharacters(in: .whitespaces).isEmpty, configuration.gitEmail.contains("@") else { throw fail("Enter a Git name and valid email before reviewing.") }
+            let before = try inspect(".gitconfig")
+            let file = FileManager.default.temporaryDirectory.appendingPathComponent("orbit-git-" + UUID().uuidString)
+            defer { try? FileManager.default.removeItem(at: file) }
+            try (before.data ?? Data()).write(to: file, options: .atomic)
+            try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: file.path)
+            for (key, value) in [("user.name", configuration.gitName), ("user.email", configuration.gitEmail)] {
+                let task = Process(); task.executableURL = URL(fileURLWithPath: "/usr/bin/git"); task.arguments = ["config", "--file", file.path, "--replace-all", key, value]; task.standardOutput = FileHandle.nullDevice; task.standardError = FileHandle.nullDevice
+                try task.run(); task.waitUntilExit(); guard task.terminationStatus == 0 else { throw fail("Could not prepare Git identity. Existing config is preserved.") }
+            }
+            let after = try Data(contentsOf: file)
+            if before.data != after { changes.append(.init(before: before, after: after, block: "user.name = " + configuration.gitName + "\nuser.email = " + configuration.gitEmail)) }
+        }
+        guard changes.allSatisfy({ $0.after.count <= 1_000_000 }) else { throw fail("A setup file would exceed the supported size.") }
+        return .init(changes: changes, options: selected, configuration: configuration)
     }
     func validate(_ plan: TerminalPlan) throws {
         for change in plan.changes {
@@ -156,6 +197,8 @@ final class ProfileEngine {
             try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: temporary.path)
             defer { try? FileManager.default.removeItem(at: temporary) }
             let task = Process(); task.executableURL = URL(fileURLWithPath: "/bin/zsh"); task.arguments = ["-f", "-n", temporary.path]
+            if change.before.name == ".gitconfig" { task.executableURL = URL(fileURLWithPath: "/usr/bin/git"); task.arguments = ["config", "--file", temporary.path, "--list"] }
+            if change.before.name == ".orbit-starship.toml" { continue }
             task.standardOutput = FileHandle.nullDevice; task.standardError = FileHandle.nullDevice
             try task.run(); task.waitUntilExit()
             guard task.terminationStatus == 0 else { throw fail("\(change.before.name) has a Zsh syntax error. No profile was changed.") }
@@ -185,12 +228,12 @@ final class ProfileEngine {
     }
     @discardableResult func apply(_ plan: TerminalPlan) throws -> URL {
         guard !plan.changes.isEmpty else { throw fail("No changes to apply.") }
-        let fresh = try self.plan(plan.options)
+        let fresh = try self.plan(plan.options, configuration: plan.configuration)
         guard fresh.changes.count == plan.changes.count, zip(fresh.changes, plan.changes).allSatisfy({ $0.before == $1.before && $0.after == $1.after }) else { throw fail("Profiles changed since review. Scan and review again.") }
         try validate(plan); try checkBackupRoot(create: true)
         let directory = backupRoot.appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
-        let receipt = ProfileReceipt(originals: plan.changes.map(\.before), applied: Dictionary(uniqueKeysWithValues: plan.changes.map { ($0.before.name, Self.digest($0.after)) }))
+        let receipt = ProfileReceipt(originals: plan.changes.map(\.before), applied: Dictionary(uniqueKeysWithValues: plan.changes.map { ($0.before.name, Self.digest($0.after)) }), configuration: plan.configuration)
         let receiptURL = directory.appendingPathComponent("pending.json")
         for original in receipt.originals {
             if let data = original.data {
@@ -217,6 +260,10 @@ final class ProfileEngine {
         }
         return directory
     }
+    func backupDirectories() -> [URL] {
+        guard (try? checkBackupRoot(create: false)) != nil else { return [] }
+        return ((try? FileManager.default.contentsOfDirectory(atPath: backupRoot.path)) ?? []).filter { UUID(uuidString: $0) != nil }.map { backupRoot.appendingPathComponent($0, isDirectory: true) }.filter { $0.resolvingSymlinksInPath().path == $0.path && FileManager.default.fileExists(atPath: $0.appendingPathComponent("receipt.json").path) }.sorted { ((try? $0.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast) > ((try? $1.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast) }
+    }
     func latestReceipt() throws -> (URL, ProfileReceipt) {
         try checkBackupRoot(create: false)
         let directories = try FileManager.default.contentsOfDirectory(atPath: backupRoot.path).filter { UUID(uuidString: $0) != nil }.map { backupRoot.appendingPathComponent($0, isDirectory: true) }.sorted { ((try? $0.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast) > ((try? $1.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast) }
@@ -226,7 +273,7 @@ final class ProfileEngine {
         var info = stat()
         guard lstat(file.path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_nlink == 1, info.st_uid == getuid(), info.st_mode & 0o077 == 0 else { throw fail("The backup receipt must be a private regular file.") }
         let receipt = try JSONDecoder().decode(ProfileReceipt.self, from: Data(contentsOf: file))
-        guard !receipt.originals.isEmpty, receipt.originals.count <= 2, Set(receipt.originals.map(\.name)).count == receipt.originals.count, receipt.originals.allSatisfy({ [".zprofile", ".zshrc"].contains($0.name) && $0.permissions >= 0 && $0.permissions <= 0o777 && ($0.data?.count ?? 0) <= 1_000_000 }), Set(receipt.applied.keys) == Set(receipt.originals.map(\.name)) else { throw fail("Invalid backup targets.") }
+        guard !receipt.originals.isEmpty, receipt.originals.count <= 4, Set(receipt.originals.map(\.name)).count == receipt.originals.count, receipt.originals.allSatisfy({ [".zprofile", ".zshrc", ".gitconfig", ".orbit-starship.toml"].contains($0.name) && $0.permissions >= 0 && $0.permissions <= 0o777 && ($0.data?.count ?? 0) <= 1_000_000 }), Set(receipt.applied.keys) == Set(receipt.originals.map(\.name)) else { throw fail("Invalid backup targets.") }
         return (directory, receipt)
     }
     func restore() throws {
@@ -253,6 +300,20 @@ final class ProfileEngine {
 }
 
 @MainActor final class TerminalState: ObservableObject {
+    @Published var details: String?
+    @Published var aliasName = ""
+    @Published var aliasCommand = ""
+    @Published var tab = "Environment"
+    @Published var configuration = TerminalConfiguration()
+    @Published var snapshots: [ProfileSnapshot] = []
+    @Published var managed: Set<String> = []
+    @Published var tools: [TerminalTool] = []
+    @Published var sshKeys: [String] = []
+    @Published var project: TerminalProject?
+    @Published var runtimeChoices: Set<String> = []
+    @Published var runtimeReview: String?
+    @Published var runtimeOutput = ""
+    @Published var showRuntime = false
     @Published var selected = TerminalOption.essentials
     @Published var outside = ""
     @Published var scanned = false
@@ -263,9 +324,11 @@ final class ProfileEngine {
     @Published var missing: [String] = []
     @Published var backupURL: URL?
     let engine: ProfileEngine
+    let preferences: UserDefaults?
     let packageLoader: (String) async throws -> Package
-    init(engine: ProfileEngine = ProfileEngine(), packageLoader: ((String) async throws -> Package)? = nil) {
-        self.engine = engine; self.packageLoader = packageLoader ?? Self.fetchPackage
+    init(engine: ProfileEngine = ProfileEngine(), packageLoader: ((String) async throws -> Package)? = nil, preferences: UserDefaults? = nil) {
+        self.engine = engine; self.packageLoader = packageLoader ?? Self.fetchPackage; self.preferences = preferences
+        if let data = preferences?.data(forKey: "orbit.terminal.configuration"), let saved = try? JSONDecoder().decode(TerminalConfiguration.self, from: data), (try? saved.validate()) != nil { configuration = saved }
     }
     static func fetchPackage(_ token: String) async throws -> Package {
         guard OfficialCatalog.validToken(token) else { throw ProfileProblem(message: "Invalid package token.") }
@@ -281,18 +344,20 @@ final class ProfileEngine {
     func scan() {
         refreshBackup()
         do {
-            let (_, text, managed) = try engine.scan(); outside = text
+            let (files, text, managed) = try engine.scan(); outside = text; snapshots = files; self.managed = managed
             selected = (scanned ? selected : TerminalOption.essentials.union(managed)).filter { id in !TerminalOption.all.contains { $0.id == id && ProfileEngine.conflicts($0, outside: text) } }
             scanned = true; plan = nil; message = "Profiles scanned. Existing settings outside Orbit will be preserved."
         } catch { scanned = false; plan = nil; message = error.localizedDescription }
     }
-    func review() { do { let new = try engine.plan(selected); try engine.validate(new); plan = new; message = new.changes.isEmpty ? "Your profiles already match these choices." : "Review the Orbit blocks below. Nothing has changed yet." } catch { plan = nil; message = error.localizedDescription } }
-    func apply() { guard let plan else { return }; do { let backup = try engine.apply(plan); self.plan = nil; refreshBackup(); message = "Applied. Open a new Terminal window to use the settings. Backup: \(backup.path)" } catch { self.plan = nil; message = error.localizedDescription } }
-    func restore() { do { try engine.restore(); scanned = false; plan = nil; refreshBackup(); message = "Backup restored. Scan again to review your profiles." } catch { message = error.localizedDescription } }
+    func review() { do { let new = try engine.plan(selected, configuration: configuration); try engine.validate(new); plan = new; tab = "Changes & Backups"; message = new.changes.isEmpty ? "Your profiles already match these choices." : "Review the Orbit blocks below. Nothing has changed yet." } catch { plan = nil; message = error.localizedDescription } }
+    func apply() { guard let plan else { return }; guard plan.options == selected, plan.configuration == configuration else { self.plan = nil; message = "Choices changed. Review again before applying."; return }; do { let backup = try engine.apply(plan); if let saved = try? JSONEncoder().encode(plan.configuration) { preferences?.set(saved, forKey: "orbit.terminal.configuration") }; self.plan = nil; managed = selected; refreshBackup(); message = "Applied. Open a new Terminal window to use the settings. Backup: \(backup.path)" } catch { self.plan = nil; message = error.localizedDescription } }
+    func restore() { do { try engine.restore(); preferences?.removeObject(forKey: "orbit.terminal.configuration"); configuration = (try? engine.latestReceipt().1.configuration) ?? TerminalConfiguration(); if let data = try? JSONEncoder().encode(configuration) { preferences?.set(data, forKey: "orbit.terminal.configuration") }; selected = []; scanned = false; plan = nil; refreshBackup(); message = "Backup restored. Scan again to review your profiles." } catch { message = error.localizedDescription } }
     func refreshMissing(store: Store) {
         let prefix = store.brew == "/usr/local/bin/brew" ? "/usr/local" : "/opt/homebrew"
-        let tokens = Set(TerminalOption.all.filter { selected.contains($0.id) }.flatMap(\.packages))
+        let tokens = Set(((try? configuration.options()) ?? TerminalOption.all).filter { selected.contains($0.id) || runtimeChoices.contains($0.id) }.flatMap(\.packages))
         missing = tokens.filter { token in
+            let executable = ["git": "git", "uv": "uv", "go": "go", "rustup": "rustup", "rbenv": "rbenv", "starship": "starship", "fzf": "fzf"][token]
+            if let executable, tools.contains(where: { $0.id == executable && !$0.path.hasPrefix("/usr/bin/") }) { return false }
             if token == "nvm", FileManager.default.fileExists(atPath: engine.home.appendingPathComponent(".nvm/nvm.sh").path) { return false }
             if token == "rustup", FileManager.default.fileExists(atPath: engine.home.appendingPathComponent(".cargo/env").path) { return false }
             return !FileManager.default.fileExists(atPath: prefix + "/opt/" + token) && !store.packages.contains { $0.token == token && store.installed.contains($0.id) }
@@ -308,52 +373,9 @@ final class ProfileEngine {
                 guard package.token == token, !package.cask, package.installable else { throw ProfileProblem(message: "Invalid package metadata.") }
                 packages.append(package)
             }
-            guard !store.locked, store.startupReady, store.inventoryKnown else { throw ProfileProblem(message: "Installation state changed. Try adding tools again when Orbit is ready.") }
+            guard !store.lockedWithoutTerminal, store.startupReady, store.inventoryKnown else { throw ProfileProblem(message: "Installation state changed. Try adding tools again when Orbit is ready.") }
             for package in packages { store.registerPersonal(package); if store.canInstall(package) { store.selected.insert(package.id) } }
             store.navigate(.install); message = "Tools added to the install selection. Review installation there; return here afterward."
         } catch { message = error.localizedDescription }
-    }
-}
-
-struct TerminalSetupView: View {
-    @ObservedObject var store: Store
-    @ObservedObject var state: TerminalState
-    var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack { VStack(alignment: .leading, spacing: 5) { Text("Terminal Setup").font(.largeTitle.bold()); Text("Choose your developer environment. Review changes before applying.").foregroundStyle(.secondary) }; Spacer(); Button("Scan profiles") { state.scan(); state.refreshMissing(store: store) }.disabled(state.working) }
-            Text(state.message).font(.callout).textSelection(.enabled)
-            Text("Zsh profiles only · ~/.zprofile and ~/.zshrc · no profile commands run during scanning or review").font(.caption).foregroundStyle(.secondary)
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-                    ForEach(["Developer essentials", "Languages", "Terminal experience"], id: \.self) { group in
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack { Text(group).font(.headline); Spacer(); if group == "Developer essentials" { Button("Select essentials") { state.selected.formUnion(TerminalOption.essentials.filter { id in !TerminalOption.all.contains { $0.id == id && ProfileEngine.conflicts($0, outside: state.outside) } }); state.plan = nil; state.refreshMissing(store: store) }.disabled(!state.scanned) } }
-                            ForEach(TerminalOption.all.filter { $0.group == group }) { option in
-                                HStack(alignment: .top) {
-                                    Toggle(isOn: Binding(get: { state.selected.contains(option.id) }, set: { value in if value { state.selected.insert(option.id) } else { state.selected.remove(option.id) }; state.plan = nil; state.refreshMissing(store: store) })) { VStack(alignment: .leading, spacing: 4) { Text(option.title).font(.body.bold()); Text(option.detail).font(.caption).foregroundStyle(.secondary) } }.toggleStyle(.checkbox).disabled(!state.scanned || ProfileEngine.conflicts(option, outside: state.outside))
-                                    Spacer()
-                                    if state.scanned && ProfileEngine.conflicts(option, outside: state.outside) { Text("Existing settings").font(.caption).foregroundStyle(.orange) }
-                                }
-                            }
-                        }.padding(16).background(.quaternary.opacity(0.4)).clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-                    if !state.missing.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) { Text("Tools to install separately").font(.headline); Text(state.missing.joined(separator: ", ")).font(.callout); Text("Profile changes do not install software. Add tools to the normal reviewed installation flow. Existing tools are not reinstalled.").font(.caption).foregroundStyle(.secondary); Button("Add missing tools to install selection") { Task { await state.queuePackages(store: store) } }.disabled(!store.startupReady || !store.inventoryKnown || state.working) }
-                    }
-                    if state.selected.contains("node") { Text("After installing NVM, choose a Node version in a new terminal: mkdir -p ~/.nvm, then nvm install --lts and nvm alias default 'lts/*'. For a project with .nvmrc, use nvm install and nvm use. Homebrew NVM is not supported by NVM upstream; its official installation is also detected. Orbit never installs Homebrew Node or Corepack automatically.").font(.caption).foregroundStyle(.secondary) }
-                    if state.selected.contains("rust") { Text("After installing Rustup, run rustup default stable in a new terminal when you want to download the toolchain.").font(.caption).foregroundStyle(.secondary) }
-                    if state.selected.contains("python") { Text("Inside a project, ov creates .venv with uv; oa activates it. Use uv python pin to select a project version. No global pip installations or automatic downloads run at shell startup.").font(.caption).foregroundStyle(.secondary) }
-                    if let plan = state.plan, !plan.changes.isEmpty {
-                        Text("Review profile changes").font(.title2.bold())
-                        Text("Only the Orbit block is added or replaced. Existing content is preserved; changed profiles are backed up privately. Unchecking an Orbit-managed option removes it from the block.").font(.caption).foregroundStyle(.secondary)
-                        ForEach(plan.changes, id: \.before.name) { change in VStack(alignment: .leading, spacing: 8) { Text("~/" + change.before.name).font(.headline); Text(change.block.isEmpty ? "Remove the Orbit block." : change.block).font(.system(.caption, design: .monospaced)).textSelection(.enabled) }.frame(maxWidth: .infinity, alignment: .leading).padding(14).background(.quaternary).clipShape(RoundedRectangle(cornerRadius: 8)) }
-                    }
-                }
-            }
-            Divider()
-            HStack { Button("Restore latest backup") { state.showRestore = true }.disabled(store.preview || state.backupURL == nil); if let backup = state.backupURL { Button("Open backup folder") { NSWorkspace.shared.open(backup) } }; Spacer(); if state.working { ProgressView().controlSize(.small) }; Button("Review changes") { state.review() }.disabled(!state.scanned || state.working); Button("Apply reviewed changes") { state.apply() }.buttonStyle(.borderedProminent).disabled(store.preview || state.plan?.changes.isEmpty != false || state.working) }
-        }.padding(24).disabled(store.locked || state.working)
-        .onAppear { if !store.preview { state.refreshBackup(); if state.scanned { state.refreshMissing(store: store) } } }
-        .alert("Restore profile backup?", isPresented: $state.showRestore) { Button("Cancel", role: .cancel) {}; Button("Restore") { state.restore() } } message: { Text("Restore the profiles saved before the latest Orbit change. Restore is blocked if you edited those profiles afterward.") }
     }
 }
