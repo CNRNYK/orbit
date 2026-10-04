@@ -25,7 +25,7 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, startRecord, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
@@ -58,31 +58,43 @@ struct MenuBarPanel: View {
             }
             Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
             VStack(alignment: .leading, spacing: 10) {
-                HStack { Label("Screen Recorder", systemImage: "record.circle").font(.subheadline.bold()); Spacer(); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
+                HStack { Label("Screen Capture", systemImage: "rectangle.dashed.badge.record").font(.subheadline.bold()); Spacer(); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
                 if recorder.phase == .recording || recorder.phase == .paused {
                     HStack { Circle().fill(recorder.phase == .paused ? .orange : .red).frame(width: 7, height: 7); Text(recorder.elapsedLabel).monospacedDigit().bold(); Spacer(); Button(recorder.phase == .paused ? "Resume" : "Pause") { action(.pauseRecord) }; Button("Stop") { action(.stopRecord) }.tint(.red) }
                 } else if recorder.active {
                     HStack { ProgressView().controlSize(.small); Text(recorder.phase == .countdown ? "Starting in \(recorder.countdown)…" : "Preparing or saving…").font(.caption); Spacer(); if recorder.phase == .preparing || recorder.phase == .countdown { Button("Cancel") { recorder.cancelStart() } } }
                 } else {
-                    Picker("", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).onChange(of: recorder.options.mode) { _, _ in recorder.modeChanged() }.disabled(state.operating)
-                    Button("Recording controls", systemImage: "record.circle") { action(.record) }.buttonStyle(.bordered).frame(maxWidth:.infinity, alignment:.leading).disabled(state.operating)
+                    Picker("", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).onChange(of: recorder.options.mode) { _, mode in recorder.modeChanged(); if mode == "Window" { Task { await recorder.loadSources() } } }.disabled(state.operating)
+                    if recorder.options.mode == "Window" {
+                        Picker("Window", selection: $recorder.windowID) {
+                            Text("Choose a window").tag(CGWindowID(0))
+                            ForEach(recorder.windows, id: \.windowID) { window in
+                                Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID)
+                            }
+                        }.disabled(state.operating)
+                        if recorder.windows.isEmpty {
+                            Button("Refresh windows", systemImage: "arrow.clockwise") { Task { await recorder.loadSources() } }.disabled(state.operating)
+                        }
+                    }
+                    HStack {
+                        Button("Take screenshot", systemImage: "camera.viewfinder") {
+                            action(recorder.options.mode == "Window" ? .screenshotWindow : recorder.options.mode == "Selected area" ? .screenshotArea : .screenshotFull)
+                        }.buttonStyle(.bordered).disabled(!state.canNavigate)
+                        Button("Start recording", systemImage: "record.circle") { action(.startRecord) }
+                            .buttonStyle(.borderedProminent).disabled(state.operating || (recorder.options.mode == "Window" && recorder.selectedWindow == nil))
+                    }
+                    Button("Open screenshot editor") { action(.screenshots) }.font(.caption).buttonStyle(.borderless).disabled(!state.canNavigate)
                 }
             }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
-                row(state.updatesLabel, symbol: "arrow.triangle.2.circlepath", enabled: state.canNavigate) { action(.updates) }
-                row("Check for updates", symbol: "arrow.clockwise", enabled: state.canCheckUpdates) { action(.checkUpdates) }
-                Menu { Button("Full screen",systemImage:"display") { action(.screenshotFull) }; Button("Selected area",systemImage:"viewfinder") { action(.screenshotArea) }; Button("Window",systemImage:"macwindow") { action(.screenshotWindow) }; Divider(); Button("Open editor") { action(.screenshots) } } label: { Label("Take screenshot",systemImage:"camera.viewfinder").frame(maxWidth:.infinity,alignment:.leading).padding(10) }.menuStyle(.borderlessButton).frame(maxWidth:.infinity,alignment:.leading).disabled(!state.canNavigate)
                 row("Setup Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
-                row("App Health Check", symbol: "stethoscope", enabled: state.canNavigate) { action(.health) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
                 row("Cleanup", symbol: "sparkles", enabled: state.canNavigate) { action(.cleanup) }
-                row("Operation details", symbol: "text.alignleft", enabled: true) { action(.details) }
             }
             Divider()
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Runs here when its window is closed.")
-                    Text(store.lastUpdateCheck.map { "Updates checked " + $0.formatted(date: .omitted, time: .shortened) } ?? "Updates are checked on request.")
                 }.font(.caption2).foregroundStyle(.secondary)
                 Spacer(minLength: 8)
                 Button("Quit Orbit") { action(.quit) }.buttonStyle(.borderless).font(.caption)
@@ -173,6 +185,10 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.revealActiveRecorder() } else { store.navigate(.recorder) }; openWindow()
         case .record:
             guard !state.operating else { return }; popover.close(); store.recorderState.showCompactControls(); mainWindow?.orderOut(nil)
+        case .startRecord:
+            guard !state.operating else { return }
+            popover.close(); mainWindow?.orderOut(nil)
+            store.recorderState.start(compact: true)
         case .pauseRecord: store.recorderState.togglePause()
         case .stopRecord: Task { await store.recorderState.stop() }
         case .details: openWindow(); store.showLog = true
