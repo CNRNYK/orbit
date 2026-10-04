@@ -27,8 +27,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleDisplayName</key><string>Orbit</string>
 <key>CFBundleIconFile</key><string>Orbit</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.20.1</string>
-<key>CFBundleVersion</key><string>28</string>
+<key>CFBundleShortVersionString</key><string>0.21.0</string>
+<key>CFBundleVersion</key><string>29</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSScreenCaptureUsageDescription</key><string>Orbit records the screen, window or area you choose and saves the video locally.</string>
 <key>NSMicrophoneUsageDescription</key><string>Include your microphone in a recording only when you enable Microphone.</string>

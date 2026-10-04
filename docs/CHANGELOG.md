@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.21.0
+
+- Reorganize Terminal Setup into Environment, Shell & Appearance, and Changes & Backups.
+- Automatically inspect Zsh profiles and executable paths; distinguish external configuration from verified tool versions.
+- Add developer presets, project requirement inspection, configurable runtime downloads and optional package-manager setup without Homebrew Node/Corepack.
+- Add Git identity review, public SSH-key filename discovery, custom aliases, modern CLI tools and Starship theme previews.
+- Back up Git/theme changes alongside profiles, retain dated backups, and import/export portable setup choices.
+- Keep installation, downloads and profile changes separate; never execute user profiles or project scripts during scanning/review.
+
 ## 0.20.1
 
 - Hide the Dock icon when the main window closes while keeping Orbit and running operations available in the menu bar.

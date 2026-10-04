@@ -108,7 +108,7 @@ struct SystemCommands: CommandExecuting {
     let maintenanceState = MaintenanceState()
     let recorderState = RecorderState()
     private var recorderSubscription: AnyCancellable?
-    let terminalState = TerminalState()
+    let terminalState: TerminalState
     @Published var explorePackages = [Package]()
     var exploreSearch: String { get { search } set { search = newValue } }
     @Published var exploreKind = "All"
@@ -239,7 +239,8 @@ struct SystemCommands: CommandExecuting {
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
-    var locked: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources }
+    var lockedWithoutTerminal: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources }
+    var locked: Bool { lockedWithoutTerminal || terminalState.working }
     let permissions = PermissionState()
     let health = HealthState()
     let login = LoginState()
@@ -251,13 +252,14 @@ struct SystemCommands: CommandExecuting {
     private let preferences: UserDefaults
     var personalPersistence: Bool { persistSelection }
     init(preview: Bool = false, persistSelection: Bool = true, preferences: UserDefaults = .standard) {
+        terminalState = TerminalState(preferences: !preview && persistSelection ? preferences : nil)
         self.preferences = preferences
         self.preview = preview
         self.persistSelection = persistSelection && !preview
         if !preview { keepInMenuBar = preferences.object(forKey:"orbit.keep-in-menu-bar") as? Bool ?? true }
         recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
         permissions.preview = preview; health.preview = preview; login.preview = preview; screenshots.preview = preview; screenshots.source.preview = preview
-        for publisher in [permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
+        for publisher in [terminalState.objectWillChange,permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
         let canAct: () -> Bool = { [weak self] in guard let self else { return false }; return !self.locked && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
         permissions.canAct = canAct; health.canAct = canAct; login.canAct = canAct; screenshots.canAct = canAct
         permissions.screenFailure = { [weak self] in self?.recorderState.notice }
@@ -363,7 +365,7 @@ struct SystemCommands: CommandExecuting {
         else { showRemovalReview = true }
     }
     func uninstall() async {
-        guard !busy, !preparing, startupReady, showRemovalReview, let brew else { return }
+        guard !busy, !preparing, !terminalState.working, startupReady, showRemovalReview, let brew else { return }
         let queue = removalPlan
         let clean = cleanRemoval
         let cleanupQueue = leftovers.filter { selectedLeftovers.contains($0.id) }
@@ -407,7 +409,7 @@ struct SystemCommands: CommandExecuting {
         await refresh()
     }
     func install() async {
-        guard !busy, startupReady, showReview, let brew else { return }
+        guard !busy, !terminalState.working, startupReady, showReview, let brew else { return }
         let queue = actionable; let shouldAdopt = adopt
         guard !queue.isEmpty else { showReview = false; return }
         showReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; output = ""; statuses = [:]
