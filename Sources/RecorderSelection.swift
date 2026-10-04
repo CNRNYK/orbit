@@ -72,7 +72,7 @@ struct RecorderHUD: View {
                 }
                 Text("Saves to Movies/Orbit Recordings").font(.caption).foregroundStyle(.secondary)
                 HStack {
-                    Button("Start",systemImage:"record.circle") { state.start(compact:true) }.buttonStyle(.borderedProminent).tint(.red).disabled(state.busy || !state.canBegin() || (state.options.mode == "Window" && state.selectedWindow == nil))
+                    Button(state.startLabel,systemImage:"record.circle") { state.start(compact:true) }.buttonStyle(.borderedProminent).tint(.red).disabled(state.busy || !state.canBegin() || (state.options.mode == "Window" && state.selectedWindow == nil))
                     Spacer()
                     if let url = state.recordingURL { Button("Show last recording") { NSWorkspace.shared.activateFileViewerSelecting([url]) } }
                 }

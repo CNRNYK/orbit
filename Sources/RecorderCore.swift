@@ -189,8 +189,29 @@ enum RecorderFiles {
         guard link(temporary.path,destination.path) == 0 else { throw RecorderProblem(message:"Could not save without replacing an existing file: \(String(cString:strerror(errno))). The finished recording is kept at \(temporary.path).") }
         try? FileManager.default.removeItem(at:temporary)
     }
-    static func export(_ source: URL, to destination: URL, range: CMTimeRange? = nil, mixAudio: Bool = false) async throws {
-        let asset = AVURLAsset(url:source)
+    static func export(_ source: URL, to destination: URL, range: CMTimeRange? = nil, mixAudio: Bool = false, removing: CMTimeRange? = nil) async throws {
+        let sourceAsset = AVURLAsset(url:source)
+        var asset: AVAsset = sourceAsset
+        if let removing {
+            let duration = try await sourceAsset.load(.duration)
+            let start = removing.start.seconds, end = removing.end.seconds, total = duration.seconds
+            guard start.isFinite, end.isFinite, total.isFinite, start >= 0, end > start, end <= total, end-start < total else { throw RecorderProblem(message:"Select a valid interval smaller than the complete video.") }
+            let composition = AVMutableComposition()
+            let ranges = [CMTimeRange(start:.zero,end:removing.start),CMTimeRange(start:removing.end,end:duration)].filter { $0.duration > .zero }
+            let tracks = try await sourceAsset.load(.tracks)
+            for track in tracks where track.mediaType == .video || track.mediaType == .audio {
+                guard let target = composition.addMutableTrack(withMediaType:track.mediaType,preferredTrackID:kCMPersistentTrackID_Invalid) else { throw RecorderProblem(message:"Could not create an edit track.") }
+                target.preferredTransform = try await track.load(.preferredTransform)
+                var cursor = CMTime.zero
+                let trackRange = try await track.load(.timeRange)
+                for range in ranges {
+                    let available = CMTimeRangeGetIntersection(range,otherRange:trackRange)
+                    if available.duration > .zero { try target.insertTimeRange(available,of:track,at:cursor + (available.start-range.start)) }
+                    cursor = cursor + range.duration
+                }
+            }
+            asset = composition
+        }
         guard let session = AVAssetExportSession(asset:asset,presetName:AVAssetExportPresetHighestQuality) else { throw RecorderProblem(message:"Could not prepare MP4 export.") }
         let temporary = destination.deletingLastPathComponent().appendingPathComponent(".orbit-\(UUID().uuidString).mp4")
         session.shouldOptimizeForNetworkUse = true

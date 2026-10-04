@@ -10,11 +10,14 @@ import CoreImage
     @Published var image: CGImage?
     @Published var working = false
     @Published var message = "Capture a display, selected area or window. Screenshots stay on your Mac."
+    var onCaptured: (() -> Void)?
+    var onCaptureFailed: (() -> Void)?
+    private var quickPanel: NSPanel?
     var preview = false
     var canAct: () -> Bool = { true }
     func capture() async {
-        guard !preview, !working, canAct() else { return }; working = true; defer { working = false }
-        guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; return }
+        guard !preview, !working, canAct() else { return }; working = true; var captured = false, failed = false; defer { working = false; if captured { quickPanel?.orderOut(nil); quickPanel = nil; onCaptured?() } else if failed { onCaptureFailed?() } }
+        guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; failed = true; return }
         if source.options.mode == "Selected area" { source.area = nil; await source.chooseArea() }
         guard let frame = source.captureFrame else { message = "Choose a window or area before capturing."; return }
         do {
@@ -31,9 +34,23 @@ import CoreImage
             if #available(macOS 14.2, *) { configuration.ignoreShadowsSingleWindow = true }
             if source.options.mode == "Selected area", let display = source.selectedDisplay { let bounds = CGDisplayBounds(display.displayID); configuration.sourceRect = CGRect(x:frame.minX-bounds.minX,y:frame.minY-bounds.minY,width:frame.width,height:frame.height) }
             image = try await SCScreenshotManager.captureImage(contentFilter:filter,configuration:configuration)
-            annotations.clear(); message = "Captured. Add annotations or redactions, then copy or save a PNG."
-        } catch { message = RecorderCaptureAccess.message(error) }
+            annotations.clear(); captured = true; message = "Captured. Add annotations or redactions, then copy or save a PNG."
+        } catch { message = RecorderCaptureAccess.message(error); failed = true }
     }
+    func quickCapture(_ mode: String) async {
+        guard !preview, !working, canAct() else { return }
+        source.options.mode = mode; source.modeChanged()
+        if mode != "Window" { await capture(); return }
+        guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; showWindowPicker(); return }
+        showWindowPicker()
+    }
+    private func showWindowPicker() {
+        if let quickPanel { quickPanel.orderFrontRegardless(); return }
+        let panel = RecorderControlPanel(contentRect:CGRect(x:0,y:0,width:440,height:240),styleMask:[.titled,.closable,.nonactivatingPanel],backing:.buffered,defer:false)
+        panel.title = "Orbit · Capture window"; panel.level = .floating; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
+        panel.contentViewController = NSHostingController(rootView:ScreenshotWindowPicker(state:self,source:source)); panel.center(); panel.orderFrontRegardless(); quickPanel = panel
+    }
+    func closeQuickPicker() { quickPanel?.orderOut(nil); quickPanel = nil }
     func composed() -> CGImage? {
         guard let image else { return nil }
         let rendered = AnnotationRenderer.render(CIImage(cgImage:image),values:annotations.values)
@@ -85,5 +102,18 @@ struct ScreenshotView: View {
             } else { ContentUnavailableView("Capture your screen",systemImage:"camera.viewfinder",description:Text("Then draw arrows, boxes, highlights or text, and redact selected areas.")) }
             if state.working { ProgressView() }
         }.padding(24)
+    }
+}
+
+struct ScreenshotWindowPicker: View {
+    @ObservedObject var state: ScreenshotState
+    @ObservedObject var source: RecorderState
+    var body: some View {
+        VStack(alignment:.leading,spacing:16) {
+            Text("Choose a window").font(.title2.bold())
+            Picker("Window",selection:$source.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(source.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }
+            Text(state.message).font(.caption).foregroundStyle(.secondary).lineLimit(3)
+            HStack { Button("Cancel") { state.closeQuickPicker() }; Button("Refresh") { Task { await source.loadSources(); state.message = source.notice ?? "Choose a window to capture." } }.disabled(source.loadingSources); Spacer(); Button("Capture window") { Task { await state.capture() } }.buttonStyle(.borderedProminent).disabled(state.working || source.windowID == 0) }
+        }.padding(20).frame(width:440,height:240)
     }
 }
