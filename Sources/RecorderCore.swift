@@ -111,6 +111,10 @@ final class RecorderInputTracker: @unchecked Sendable {
 }
 
 final class RecorderCompositor {
+    var annotations: AnnotationBuffer?
+    private var annotationRevision = -1
+    private var annotationImage: CIImage?
+    private var annotationSize = CGSize.zero
     let options: RecorderOptions
     private var center: CGPoint?
     private var cachedLabel = "", cachedImage: CIImage?
@@ -118,6 +122,13 @@ final class RecorderCompositor {
     func image(_ source: CIImage, frame: CGRect, size: CGSize, pointer: RecorderPointer, camera: CIImage?, now: Double) -> CIImage {
         let bounds = CGRect(origin: .zero, size: size)
         var result = source.transformed(by: CGAffineTransform(translationX: -source.extent.minX, y: -source.extent.minY)).transformed(by: CGAffineTransform(scaleX: size.width/source.extent.width, y: size.height/source.extent.height)).cropped(to: bounds)
+        if let annotations {
+            let (values,revision) = annotations.snapshot()
+            if revision != annotationRevision || annotationSize != size {
+                annotationImage = AnnotationRenderer.image(values,size:size).map { CIImage(cgImage:$0) }; annotationRevision = revision; annotationSize = size
+            }
+            if let annotationImage { result = annotationImage.composited(over:result) }
+        }
         for mask in options.masks {
             let rect = RecorderGeometry.pixels(mask.rect, size: size)
             guard !rect.isNull, rect.width > 0, rect.height > 0 else { continue }

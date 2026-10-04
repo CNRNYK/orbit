@@ -6,8 +6,13 @@ import AVKit
 import Combine
 import UniformTypeIdentifiers
 
+final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { true } }
+
 @MainActor final class RecorderState: ObservableObject {
     enum Phase: String { case idle, preparing, countdown, recording, paused, finishing }
+    let annotations = AnnotationState()
+    private lazy var recordingOverlay = RecordingOverlay(state:annotations)
+    var onSourcesVerified: ((Bool) -> Void)?
     @Published var options = RecorderOptions()
     @Published var phase = Phase.idle
     @Published var displays = [SCDisplay]()
@@ -30,6 +35,8 @@ import UniformTypeIdentifiers
     @Published var trimEnd = 0.0
     @Published var coverMask = false
     @Published var compactControls = false
+    private var annotationSubscription: AnyCancellable?
+    init() { annotationSubscription = annotations.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() } }
     private var hudSubscription: AnyCancellable?
     private var hudHost: NSHostingController<RecorderHUD>?
     var controlsVisible: Bool { hud?.isVisible == true }
@@ -70,10 +77,10 @@ import UniformTypeIdentifiers
             windows = content.windows.filter { $0.owningApplication?.processID != ProcessInfo.processInfo.processIdentifier && $0.frame.width >= 40 && $0.frame.height >= 40 && $0.windowLayer == 0 }.sorted { ($0.owningApplication?.applicationName ?? "").localizedCaseInsensitiveCompare($1.owningApplication?.applicationName ?? "") == .orderedAscending }
             if selectedDisplay == nil { displayID = displays.first(where:{ $0.displayID == CGMainDisplayID() })?.displayID ?? displays.first?.displayID ?? 0; area = nil }
             if selectedWindow == nil { windowID = 0 }
-            status = "Choose your capture source and effects. Audio and camera are optional."; return true
+            status = "Choose your capture source and effects. Audio and camera are optional."; onSourcesVerified?(true); return true
         } catch {
             displays = []; windows = []; displayID = 0; windowID = 0; area = nil; options.masks = []
-            notice = RecorderCaptureAccess.message(error); status = "Screen sources could not be refreshed."; return false
+            onSourcesVerified?(false); notice = RecorderCaptureAccess.message(error); status = "Screen sources could not be refreshed."; return false
         }
     }
     func modeChanged() { area = nil; options.masks = [] }
@@ -99,7 +106,7 @@ import UniformTypeIdentifiers
     }
     func cancelStart() {
         guard phase == .preparing || phase == .countdown else { return }
-        token = UUID(); startTask?.cancel(); picker.cancel(); tracker.stop(); hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; if startTask == nil { phase = .idle }; status = "Cancelling recording…"
+        token = UUID(); startTask?.cancel(); picker.cancel(); tracker.stop(); recordingOverlay.close(); hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; if startTask == nil { phase = .idle }; status = "Cancelling recording…"
     }
     private func begin(ticket: UUID) async {
         defer { startTask = nil }
@@ -144,8 +151,9 @@ import UniformTypeIdentifiers
             let config = SCStreamConfiguration(); config.width = Int(size.width); config.height = Int(size.height); config.pixelFormat = kCVPixelFormatType_32BGRA; config.minimumFrameInterval = CMTime(value:1,timescale:CMTimeScale(capturedOptions.fps)); config.queueDepth = 3; config.preservesAspectRatio = false; config.showsCursor = true; config.capturesAudio = capturedOptions.systemAudio; config.excludesCurrentProcessAudio = true; config.sampleRate = 48000; config.channelCount = 2
             if #available(macOS 14.2, *) { config.ignoreShadowsSingleWindow = true }
             if capturedOptions.mode == "Selected area", let display = selectedDisplay { let bounds = CGDisplayBounds(display.displayID); config.sourceRect = CGRect(x:frame.minX-bounds.minX,y:frame.minY-bounds.minY,width:frame.width,height:frame.height) }
-            phase = .countdown; showHUD(); for count in (1...3).reversed() { countdown = count; try await Task.sleep(nanoseconds:1_000_000_000); try check(ticket) }
-            let engine = try RecorderEngine(url:raw,options:capturedOptions,size:size,frame:frame,tracker:tracker); self.engine = engine
+            annotations.clear(); recordingOverlay.show(frame:frame); phase = .countdown; showHUD(); for count in (1...3).reversed() { countdown = count; try await Task.sleep(nanoseconds:1_000_000_000); try check(ticket) }
+            let engine = try RecorderEngine(url:raw,options:capturedOptions,size:size,frame:frame,tracker:tracker,annotations:annotations.buffer); self.engine = engine
+            engine.onFrameChanged = { [weak self] frame in Task { @MainActor in guard let self, self.phase == .countdown || self.phase == .recording || self.phase == .paused else { return }; self.recordingOverlay.show(frame:frame) } }
             engine.onFailure = { [weak self] message in Task { @MainActor in guard let self else { return }; if self.phase == .recording || self.phase == .paused { await self.stop(interruption:message) } else if self.phase == .countdown || self.phase == .preparing { self.notice = message; self.cancelStart() } } }
             tracker.clear()
             try await engine.start(filter:filter,configuration:config,trackingWindow:capturedOptions.mode == "Window")
@@ -156,7 +164,7 @@ import UniformTypeIdentifiers
             sleepObserver = NSWorkspace.shared.notificationCenter.addObserver(forName:NSWorkspace.willSleepNotification,object:nil,queue:.main) { [weak self] _ in Task { @MainActor in await self?.stop(interruption:"The Mac is going to sleep.") } }
         } catch {
             if let engine { try? await engine.finish() }; engine = nil
-            tracker.stop(); ticker?.invalidate(); ticker = nil; hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil
+            tracker.stop(); recordingOverlay.close(); ticker?.invalidate(); ticker = nil; hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil
             if !(error is CancellationError) { notice = error.localizedDescription }
             if let directory { try? FileManager.default.removeItem(at:directory) }; directory = nil; phase = .idle; status = error is CancellationError ? "Recording cancelled." : "Recording did not start."; if compactControls { showHUD() }
         }
@@ -170,7 +178,7 @@ import UniformTypeIdentifiers
     }
     func stop(interruption: String? = nil) async {
         guard phase == .recording || phase == .paused, let engine, let destination else { return }
-        phase = .finishing; ticker?.invalidate(); ticker = nil; tracker.stop(); player?.pause(); status = "Finalizing video and mixing selected audio…"
+        phase = .finishing; recordingOverlay.close(); ticker?.invalidate(); ticker = nil; tracker.stop(); player?.pause(); status = "Finalizing video and mixing selected audio…"
         if let sleepObserver { NSWorkspace.shared.notificationCenter.removeObserver(sleepObserver) }; sleepObserver = nil
         defer { self.engine = nil; self.destination = nil; phase = .idle; if compactControls { showHUD() } else { hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil } }
         do {
@@ -218,7 +226,7 @@ import UniformTypeIdentifiers
     }
     private func showHUD() {
         if let hud { resizeHUD(); hud.orderFrontRegardless(); return }
-        let panel = NSPanel(contentRect:CGRect(x:0,y:0,width:420,height:100),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
+        let panel = RecorderControlPanel(contentRect:CGRect(x:0,y:0,width:420,height:100),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
         panel.title = "Orbit Recording Controls"; panel.isOpaque = false; panel.backgroundColor = .clear; panel.level = .statusBar; panel.collectionBehavior = [.canJoinAllSpaces,.fullScreenAuxiliary]; panel.isReleasedWhenClosed = false; panel.isMovableByWindowBackground = true; panel.hidesOnDeactivate = false; panel.becomesKeyOnlyIfNeeded = true
         let host = NSHostingController(rootView:RecorderHUD(state:self)); hudHost = host; panel.contentViewController = host
         hud = panel; resizeHUD()

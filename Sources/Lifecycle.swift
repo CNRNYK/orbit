@@ -1,7 +1,7 @@
 import Foundation
 import AppKit
 
-enum ActionMode: String { case install, uninstall, updates, cleanup, explore, terminal, recorder }
+enum ActionMode: String { case install, uninstall, updates, cleanup, explore, terminal, recorder, permissions, health, login, screenshots }
 
 struct UpdateItem: Identifiable, Hashable {
     let package: Package

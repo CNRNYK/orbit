@@ -207,7 +207,12 @@ struct SystemCommands: CommandExecuting {
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
-    var locked: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy }
+    var locked: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources }
+    let permissions = PermissionState()
+    let health = HealthState()
+    let login = LoginState()
+    let screenshots = ScreenshotState()
+    private var toolSubscriptions = [AnyCancellable]()
     let preview: Bool
     private let persistSelection: Bool
     private let preferences: UserDefaults
@@ -217,8 +222,16 @@ struct SystemCommands: CommandExecuting {
         self.preview = preview
         self.persistSelection = persistSelection && !preview
         recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
+        permissions.preview = preview; health.preview = preview; login.preview = preview; screenshots.preview = preview; screenshots.source.preview = preview
+        for publisher in [permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
+        let canAct: () -> Bool = { [weak self] in guard let self else { return false }; return !self.locked && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
+        permissions.canAct = canAct; health.canAct = canAct; login.canAct = canAct; screenshots.canAct = canAct
+        permissions.screenFailure = { [weak self] in self?.recorderState.notice }
+        permissions.verifyScreen = { [weak self] in guard let self else { return false }; return await self.recorderState.loadSources() }
+        let verified: (Bool) -> Void = { [weak self] value in self?.permissions.screenVerified = value; self?.permissions.refresh() }
+        recorderState.onSourcesVerified = verified; screenshots.source.onSourcesVerified = verified
         recorderState.preview = preview
-        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working }
+        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
         } else {
@@ -262,6 +275,7 @@ struct SystemCommands: CommandExecuting {
         sanitizeInstallSelection()
     }
     func prepare() async {
+        permissions.refresh()
         guard !locked, startupReady, !selection.isEmpty, brew != nil else { return }
         preparing = true; review = []; adopt = false
         defer { preparing = false }

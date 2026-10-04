@@ -87,7 +87,9 @@ import AudioToolbox
         do { try RecorderFiles.publish(temporary,to:old); preconditionFailure("Existing output must never be replaced") } catch { let original = try Data(contentsOf:old); precondition(original == Data("original".utf8)) }
         options.webcam = false; options.systemAudio = true; options.microphone = true
         let raw = folder.appendingPathComponent("test.mov"), output = folder.appendingPathComponent("test.mp4"), trimmed = folder.appendingPathComponent("trimmed.mp4")
-        let engine = try RecorderEngine(url:raw,options:options,size:bounds.size,frame:bounds,tracker:RecorderInputTracker())
+        let annotationBuffer = AnnotationBuffer()
+        annotationBuffer.replace([OrbitAnnotation(tool:"Pen",points:[CGPoint(x:0.1,y:0.1),CGPoint(x:0.9,y:0.1)],color:"Blue",width:20),OrbitAnnotation(tool:"Pen",points:[CGPoint(x:0.1,y:0.5),CGPoint(x:0.9,y:0.5)],color:"Blue",width:20)])
+        let engine = try RecorderEngine(url:raw,options:options,size:bounds.size,frame:bounds,tracker:RecorderInputTracker(),annotations:annotationBuffer)
         for index in 0..<30 {
             let time = CMTime(seconds:10+Double(index)/30,preferredTimescale:48000)
             await engine.syntheticFrame(input,at:time)
@@ -106,6 +108,12 @@ import AudioToolbox
         let videoReader = AVAssetReaderTrackOutput(track:tracks[0],outputSettings:[kCVPixelBufferPixelFormatTypeKey as String:kCVPixelFormatType_32BGRA]); reader.add(videoReader); precondition(reader.startReading())
         guard let sample = videoReader.copyNextSampleBuffer(), let buffer = sample.imageBuffer else { preconditionFailure("MP4 must decode") }
         let decoded = rgba(CIImage(cvPixelBuffer:buffer),size:bounds.size); precondition(decoded[(90*320+160)*4] < 120, "Saved MP4 must contain the privacy cover")
+        let decodedCG = try AVAssetImageGenerator(asset:asset).copyCGImage(at:.zero,actualTime:nil)
+        let thumbnail = NSBitmapImageRep(cgImage:decodedCG)
+        let topLine = thumbnail.colorAt(x:50,y:18)!.usingColorSpace(.deviceRGB)!
+        let unrelatedBottom = thumbnail.colorAt(x:50,y:162)!.usingColorSpace(.deviceRGB)!
+        precondition(topLine.blueComponent > 0.4 && unrelatedBottom.blueComponent < 0.4, "Saved video annotations must remain at the chosen top-of-frame location")
+        precondition(decoded[(90*320+160)*4+2] < 120, "Privacy cover must remain above video annotations")
         reader.cancelReading()
         try await RecorderFiles.export(output,to:trimmed,range:CMTimeRange(start:CMTime(seconds:0.2,preferredTimescale:600),duration:CMTime(seconds:0.5,preferredTimescale:600)))
         let trimDuration = try await AVURLAsset(url:trimmed).load(.duration).seconds

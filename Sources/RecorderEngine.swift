@@ -19,9 +19,10 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
     private var sessionStarted = false, closing = false, reportedError = false
     private var trackWindowFrame = false
     private var runtimeObserver: NSObjectProtocol?
+    var onFrameChanged: (@Sendable (CGRect) -> Void)?
     var onFailure: (@Sendable (String) -> Void)?
-    init(url: URL, options: RecorderOptions, size: CGSize, frame: CGRect, tracker: RecorderInputTracker) throws {
-        self.url = url; self.options = options; self.size = size; self.frame = frame; self.tracker = tracker; compositor = RecorderCompositor(options:options)
+    init(url: URL, options: RecorderOptions, size: CGSize, frame: CGRect, tracker: RecorderInputTracker, annotations: AnnotationBuffer? = nil) throws {
+        self.url = url; self.options = options; self.size = size; self.frame = frame; self.tracker = tracker; compositor = RecorderCompositor(options:options); compositor.annotations = annotations
         writer = try AVAssetWriter(outputURL:url,fileType:.mov)
         video = AVAssetWriterInput(mediaType:.video,outputSettings:[AVVideoCodecKey:AVVideoCodecType.h264,AVVideoWidthKey:Int(size.width),AVVideoHeightKey:Int(size.height),AVVideoCompressionPropertiesKey:[AVVideoAverageBitRateKey:max(1_500_000,Int(size.width*size.height*3)),AVVideoExpectedSourceFrameRateKey:options.fps,AVVideoMaxKeyFrameIntervalKey:options.fps*2]])
         video.expectsMediaDataInRealTime = true
@@ -86,7 +87,7 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
         if status == .blank || status == .suspended || status == .stopped { fail("The capture source became blank or unavailable."); return }
         guard status == .complete, let image = sampleBuffer.imageBuffer else { return }
         latest = CIImage(cvPixelBuffer:image)
-        if trackWindowFrame, let dictionary = info[.screenRect] as? NSDictionary, let rect = CGRect(dictionaryRepresentation:dictionary), rect.width > 0, rect.height > 0 { frame = rect }
+        if trackWindowFrame, let dictionary = info[.screenRect] as? NSDictionary, let rect = CGRect(dictionaryRepresentation:dictionary), rect.width > 0, rect.height > 0 { if frame != rect { frame = rect; onFrameChanged?(rect) } }
     }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard !closing else { return }
