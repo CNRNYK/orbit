@@ -520,7 +520,20 @@ struct OrbitApp: App {
             window.title = "Orbit"; window.contentView = NSHostingView(rootView: ContentView(store: store)); window.isReleasedWhenClosed = false
             controller.install(); controller.popover.animates = false; controller.remember(window); window.makeKeyAndOrderFront(nil)
             pump(0.2)
-            window.performClose(nil); precondition(!window.isVisible && controller.statusItem != nil)
+            window.orderOut(nil); controller.updateDockVisibility(); precondition(app.activationPolicy() == .regular, "Programmatic capture hiding must not behave like closing")
+            controller.openWindow()
+            store.busy = true; store.total = 2; store.recorderState.phase = .recording
+            window.performClose(nil); pump(0.2)
+            precondition(!window.isVisible && controller.statusItem != nil && app.activationPolicy() == .accessory)
+            precondition(store.busy && store.recorderState.phase == .recording, "Closing must preserve operations and recording state")
+            store.busy = false; store.recorderState.phase = .idle
+            controller.openWindow(); pump(0.2); precondition(window.isVisible && app.activationPolicy() == .regular)
+            store.keepInMenuBar = false; window.performClose(nil); pump(0.2)
+            precondition(!window.isVisible && app.activationPolicy() == .regular, "Disabling background mode must keep the Dock icon")
+            controller.openWindow(); store.keepInMenuBar = true
+            window.miniaturize(nil); pump(0.2); controller.updateDockVisibility()
+            precondition(app.activationPolicy() == .regular, "Minimized windows must retain their Dock icon")
+            controller.openWindow()
             controller.openWindow(); precondition(window.isVisible)
             controller.perform(.cleanup); precondition(store.mode == .cleanup && window.isVisible)
             controller.perform(.updates); precondition(store.mode == .updates)
@@ -559,7 +572,7 @@ struct OrbitApp: App {
             store.screenshots.working = true; controller.perform(.health); precondition(store.mode == .screenshots); store.screenshots.working = false
             controller.remove(); precondition(controller.statusItem == nil)
             window.orderOut(nil)
-            print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation, floating recording controls without main-window activation and details")
+            print("PASS: native status item, close hides Dock while preserving operations, preference override, reopen restores Dock, minimize retains Dock, popover interaction, shared navigation and floating recording controls")
             return
         }
         if let index = CommandLine.arguments.firstIndex(of: "--render-preview"), CommandLine.arguments.count > index + 1 {

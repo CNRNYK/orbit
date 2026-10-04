@@ -245,6 +245,7 @@ struct SystemCommands: CommandExecuting {
     let login = LoginState()
     let screenshots = ScreenshotState()
     private var toolSubscriptions = [AnyCancellable]()
+    @Published var keepInMenuBar = true { didSet { if persistSelection { preferences.set(keepInMenuBar,forKey:"orbit.keep-in-menu-bar") } } }
     let preview: Bool
     private let persistSelection: Bool
     private let preferences: UserDefaults
@@ -253,6 +254,7 @@ struct SystemCommands: CommandExecuting {
         self.preferences = preferences
         self.preview = preview
         self.persistSelection = persistSelection && !preview
+        if !preview { keepInMenuBar = preferences.object(forKey:"orbit.keep-in-menu-bar") as? Bool ?? true }
         recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
         permissions.preview = preview; health.preview = preview; login.preview = preview; screenshots.preview = preview; screenshots.source.preview = preview
         for publisher in [permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
