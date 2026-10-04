@@ -72,6 +72,6 @@ All 437 numbered source entries are represented. Repeated packages share one sel
 - Microsoft Remote Desktop is represented by its successor Windows App.
 - Repeated entries retain each category/subcategory placement, but share one package ID.
 - Popularity rankings, vendor comparisons, and unverified claims in the supplied text are not presented as facts in the app.
-- Azure CLI is available as an optional catalog choice. It is not preselected or added to the personal Lingoda Brewfile.
+- Azure CLI is available as an optional catalog choice. It is not preselected or added to the personal Brewfile.
 - Homebrew metadata was read from the official cask.json and formula.json APIs.
 - Manual entries with no exact current package are not silently replaced with similar products.

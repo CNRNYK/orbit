@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an improvement to Orbit.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem should Orbit solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed experience
+      description: Describe the user flow and who would benefit.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or examples
+  - type: textarea
+    id: impact
+    attributes:
+      label: Permissions, data or system changes
+      description: Does this require new access, uploads, file deletion or background activity?
