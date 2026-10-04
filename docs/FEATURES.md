@@ -1,3 +1,7 @@
+# Recorder editor update (v0.20)
+
+Screen Recorder uses Record, Edit and Settings tabs. Edit opens automatically after saving or opening a video. A single thumbnail timeline has draggable Start/End handles that pause playback and seek precisely; the End preview shows the last included frame before the exclusive end boundary. Arrow-key buttons adjust the selected handle by one source-frame interval. Blue marks kept content; red marks removed content. Keep/Remove mode displays the resulting duration. Unchanged or empty-result edits cannot be exported. Preview edit creates a temporary local MP4, removed when the original is restored or another video is opened; Save edited copy never replaces the original. Recorder preferences and the chosen output directory are remembered locally. Annotation tools remain in the floating recording controls.
+
 # Current workflow (0.19.0)
 
 Homebrew Center now uses Discover, Library and Updates. Discover combines recommended matches with deduplicated official Homebrew results. Library combines installed apps and saved favorites with All/Installed/Saved filters, explicit save/unsave actions and reviewed manual Uninstall & Clean. Manual removal rechecks app identity and Homebrew ownership, refuses running apps and uses exact bundle-identifier leftovers with sensitive data unchecked.

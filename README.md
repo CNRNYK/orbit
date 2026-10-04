@@ -61,11 +61,13 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 ## Record what matters
 
-Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Menu recording opens compact floating controls without bringing the main window forward; press Start there. All recordings start without a filename dialog and save automatically to Movies/Orbit Recordings. Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
+Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Start recording directly from the menu without bringing the main window forward; floating controls provide pause and stop. Recordings start without a filename dialog and save automatically to your selected folder (Movies/Orbit Recordings by default). Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
 
-A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording. When saving finishes, Orbit opens the preview. Select a time range to **Keep selection** or **Remove selection**, export a new copy, and retain the original. Recordings stay local; no account or upload is involved.
+A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording. The recorder has **Record**, **Edit** and **Settings** tabs. When saving finishes, Orbit opens Edit. Drag the start/end handles on one thumbnail timeline and see the corresponding frame as you move. Choose **Keep selected range** or **Remove selected range**, preview the result, then **Save edited copy** while retaining the original. Open existing videos and adjust either handle frame by frame. Recordings stay local; no account or upload is involved.
 
-![Orbit Screen Recorder with capture source, pointer effects, audio, camera and privacy areas](docs/images/recorder.png)
+![Orbit Screen Recorder Record tab](docs/images/recorder.png)
+
+![Orbit video editor with a shared trim timeline and pinned preview/save actions](docs/images/recorder-editor.png)
 
 ![Compact floating recorder controls](docs/images/recorder-controls.png)
 
@@ -95,7 +97,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.19.1/Orbit-0.19.1-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.19.1)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.20.0/Orbit-0.20.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.20.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

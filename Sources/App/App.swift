@@ -633,12 +633,29 @@ struct OrbitApp: App {
             }
             if CommandLine.arguments.contains("--annotation-controls-preview") { previewStore.recorderState.phase = .recording; previewStore.recorderState.annotations.drawing = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:700,height:320) }
             if CommandLine.arguments.contains("--recorder-preview") { previewStore.navigate(.recorder); root = AnyView(ContentView(store: previewStore)) }
-            if CommandLine.arguments.contains("--recorder-playback-preview") { previewStore.navigate(.recorder); previewStore.recorderState.player = AVPlayer(); previewStore.recorderState.recordingURL = URL(fileURLWithPath:"/private/tmp/Orbit-preview.mp4"); previewStore.recorderState.duration = 5; previewStore.recorderState.trimEnd = 5; root = AnyView(ContentView(store:previewStore)) }
+            if CommandLine.arguments.contains("--recorder-playback-preview") { previewStore.navigate(.recorder); previewStore.recorderState.tab = "Edit"; previewStore.recorderState.player = AVPlayer(); previewStore.recorderState.recordingURL = URL(fileURLWithPath:"/private/tmp/Orbit-preview.mp4"); previewStore.recorderState.duration = 5; previewStore.recorderState.trimEnd = 5; root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--menu-bar-preview") {
                 previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 670)
                 if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }
             }
             if CommandLine.arguments.contains("--menu-bar-area-preview") { previewStore.recorderState.options.mode = "Selected area"; root = AnyView(MenuBarPanel(store:previewStore) { _ in }); size = NSSize(width:340,height:700) }
+            if CommandLine.arguments.contains("--recorder-settings-preview") { previewStore.navigate(.recorder); previewStore.recorderState.tab = "Settings"; previewStore.recorderState.outputFolder = URL(fileURLWithPath:"/Users/you/Movies/Orbit Recordings"); root = AnyView(ContentView(store:previewStore)) }
+            if CommandLine.arguments.contains("--recorder-playback-preview") {
+                previewStore.recorderState.trimStart = 0.8; previewStore.recorderState.trimEnd = 4.2
+                if let fixtureIndex = CommandLine.arguments.firstIndex(of:"--video-fixture"), CommandLine.arguments.count > fixtureIndex+1 {
+                    let fixture = URL(fileURLWithPath:CommandLine.arguments[fixtureIndex+1]); previewStore.recorderState.player = AVPlayer(url:fixture); previewStore.recorderState.recordingURL = fixture
+                }
+                if let fixtureIndex = CommandLine.arguments.firstIndex(of:"--video-fixture"), CommandLine.arguments.count > fixtureIndex+1 {
+                    let fixture = URL(fileURLWithPath:CommandLine.arguments[fixtureIndex+1])
+                    Task { @MainActor in
+                        let generator = AVAssetImageGenerator(asset:AVURLAsset(url:fixture)); generator.appliesPreferredTrackTransform = true
+                        var images = [NSImage]()
+                        for index in 0..<12 { if let result = try? await generator.image(at:CMTime(seconds:Double(index)*5/12,preferredTimescale:600)) { images.append(NSImage(cgImage:result.image,size:.zero)) } }
+                        previewStore.recorderState.thumbnails = images
+                    }
+                }
+
+            }
             if CommandLine.arguments.contains("--recorder-controls-preview") { previewStore.recorderState.compactControls = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:420,height:220) }
             if CommandLine.arguments.contains("--export-preview") { root = AnyView(SetupExportView(store: previewStore)); size = NSSize(width: 650, height: 620) }
             if CommandLine.arguments.contains("--repair-preview") {
