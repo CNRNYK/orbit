@@ -11,6 +11,10 @@ struct ContentView: View {
             if store.mode == .cleanup { MaintenanceView(store: store) }
             else if store.mode == .explore { ExploreView(store: store) }
             else if store.mode == .recorder { RecorderView(state: store.recorderState) }
+            else if store.mode == .permissions { PermissionCenterView(state:store.permissions) }
+            else if store.mode == .health { HealthView(store:store,state:store.health) }
+            else if store.mode == .login { LoginView(store:store,state:store.login) }
+            else if store.mode == .screenshots { ScreenshotView(state:store.screenshots) }
             else if store.mode == .terminal { TerminalSetupView(store: store, state: store.terminalState) }
             else {
             VStack(spacing: 0) {
@@ -135,8 +139,8 @@ struct ContentView: View {
                 }
             }
             }
-            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder { Divider() }
-            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder && store.mode != .permissions && store.mode != .health && store.mode != .login && store.mode != .screenshots { Divider() }
+            if store.mode != .cleanup && store.mode != .explore && store.mode != .terminal && store.mode != .recorder && store.mode != .permissions && store.mode != .health && store.mode != .login && store.mode != .screenshots && !store.updateMode && !(store.uninstallMode && store.manualTab) { selectionPanel.frame(width: 255) }
         }.frame(minWidth: 1080, minHeight: 700)
         .background(Color(nsColor: .windowBackgroundColor))
         .onChange(of: store.popularSort) { _, enabled in if enabled && store.popularity.isEmpty && !store.preview { Task { await store.loadPopularity() } } }
@@ -158,20 +162,26 @@ struct ContentView: View {
     var sidebar: some View {
         VStack(alignment: .leading, spacing: 7) {
             Label { Text("Orbit") } icon: { OrbitBrandIcon(size: 30) }.font(.title2.bold()).padding(.bottom, 18).padding(.top, 18)
+            ScrollViewReader { proxy in ScrollView { VStack(alignment:.leading,spacing:4) {
             destinationButton("All Apps", symbol: "square.grid.2x2", mode: .install, count: String(store.packages.count))
             destinationButton("Installed", symbol: "checkmark.circle", mode: .uninstall, count: store.inventoryKnown ? String(store.packages.filter { store.installed.contains($0.id) }.count + store.manualApps.count) : "—")
             destinationButton("Updates", symbol: "arrow.triangle.2.circlepath", mode: .updates, count: store.updatesChecked ? String(store.updates.count) : "—")
             destinationButton("Cleanup", symbol: "sparkles", mode: .cleanup, count: "")
             destinationButton("Screen Recorder", symbol: "record.circle", mode: .recorder, count: "")
+            destinationButton("Screenshot Studio", symbol:"camera.viewfinder",mode:.screenshots,count:"")
+            destinationButton("Permission Center", symbol:"checkmark.shield",mode:.permissions,count:"")
+            destinationButton("App Health Check", symbol:"stethoscope",mode:.health,count:"")
+            destinationButton("Login Items", symbol:"power",mode:.login,count:"")
             destinationButton("Terminal Setup", symbol: "terminal", mode: .terminal, count: "")
             destinationButton("Explore Homebrew", symbol: "globe", mode: .explore, count: "")
             Button { store.navigate(.install, category: "My apps") } label: { HStack { Label("My apps", systemImage: "star"); Spacer(); Text(String(store.myAppIDs.count)).font(.caption) }.font(.system(size: 13, weight: .medium)).padding(9) }.buttonStyle(.plain).background(store.category == "My apps" && store.mode == .install ? Color.accentColor.opacity(0.15) : .clear).clipShape(RoundedRectangle(cornerRadius:8))
             Divider().padding(.vertical, 10)
             Text("CATEGORIES").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary).padding(.horizontal, 8)
-            ScrollView {
-                VStack(alignment: .leading, spacing: 6) {
-                    ForEach(Catalog.categories, id: \.self) { category in navigationButton(category) }
-                }.padding(.vertical, 6)
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(Catalog.categories, id: \.self) { category in navigationButton(category) }
+            }.padding(.vertical, 6)
+            } }.onChange(of:store.mode) { _,mode in proxy.scrollTo(mode.rawValue,anchor:.center) }
+            .onAppear { if store.mode != .install { proxy.scrollTo(store.mode.rawValue,anchor:.center) } }
             }
             Button("Setup check", systemImage: "checklist") { Task { await store.openStartup() } }.font(.caption).buttonStyle(.plain).padding(.bottom, 8)
             Link(destination: URL(string: "https://formulae.brew.sh")!) { Label("Homebrew catalog", systemImage: "arrow.up.right.square") }.font(.caption).padding(.bottom, 12)
@@ -182,7 +192,7 @@ struct ContentView: View {
         }.padding(16).background(.thinMaterial)
     }
     func destinationButton(_ title: String, symbol: String, mode: ActionMode, count: String) -> some View {
-        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || mode == .terminal || mode == .recorder || store.category == "All Apps")
+        let active = store.mode == mode && (mode == .updates || mode == .cleanup || mode == .explore || mode == .terminal || mode == .recorder || mode == .permissions || mode == .health || mode == .login || mode == .screenshots || store.category == "All Apps")
         return Button { store.navigate(mode) } label: {
             HStack(spacing: 9) {
                 Image(systemName: symbol).frame(width: 18)
@@ -190,7 +200,7 @@ struct ContentView: View {
                 Spacer(minLength: 0)
                 Text(count).font(.caption).monospacedDigit().opacity(0.7)
             }.padding(.horizontal, 9).padding(.vertical, 10).contentShape(Rectangle())
-        }.buttonStyle(.plain).background(active ? Color.accentColor : .clear).foregroundStyle(active ? .white : .primary).clipShape(RoundedRectangle(cornerRadius: 8))
+        }.buttonStyle(.plain).background(active ? Color.accentColor : .clear).foregroundStyle(active ? .white : .primary).clipShape(RoundedRectangle(cornerRadius: 8)).id(mode.rawValue)
     }
     func navigationButton(_ category: String) -> some View {
         let active = (store.mode == .install || store.mode == .uninstall) && store.category == category
@@ -391,6 +401,7 @@ struct ReviewView: View {
                     }
                 }
             }
+            GroupBox("Orbit permissions") { VStack(alignment:.leading) { HStack { Text("Current access status").font(.caption.bold()); Spacer(); Button("Check permissions") { store.permissions.refresh() } }; Text(store.permissions.items.map { $0.title + ": " + $0.status }.joined(separator:" · ")).font(.caption); Text("Installing packages does not grant them permissions. Installed apps request access when opened.").font(.caption).foregroundStyle(.secondary) } }
             Text("Apps already on this Mac are not installation candidates. Use Installed → Installed manually to manage them with Homebrew.").font(.caption).foregroundStyle(.secondary)
             Text("Unavailable packages are skipped. Existing apps are never forcibly overwritten by this workflow.").font(.caption).foregroundStyle(.secondary)
             HStack {
@@ -524,6 +535,8 @@ struct OrbitApp: App {
             store.recorderState.closeControls(); precondition(!store.recorderState.controlsVisible)
             controller.openWindow()
             window.miniaturize(nil); pump(0.5); controller.openWindow(); pump(0.8); precondition(!window.isMiniaturized)
+            for (action,mode) in [(MenuBarAction.permissions,ActionMode.permissions),(.health,.health),(.login,.login),(.screenshots,.screenshots)] { controller.perform(action); precondition(store.mode == mode && window.isVisible) }
+            store.screenshots.working = true; controller.perform(.health); precondition(store.mode == .screenshots); store.screenshots.working = false
             controller.remove(); precondition(controller.statusItem == nil)
             window.orderOut(nil)
             print("PASS: native status item, popover toggle/dynamic size, close-to-menu-bar, reopen/minimize recovery, shared navigation, floating recording controls without main-window activation and details")
@@ -578,13 +591,30 @@ struct OrbitApp: App {
                 previewStore.localApps = [LocalApp(path: "/Applications/Figma.app", name: "Figma", identifier: "com.figma.Desktop", version: "126.9.11", package: p, identityMatched: false, inode: 0), LocalApp(path: "/Applications/Example.app", name: "Example", identifier: "org.example.app", version: "1.0", package: nil, identityMatched: false, inode: 0)]
                 root = AnyView(ContentView(store: previewStore))
             }
+            if CommandLine.arguments.contains("--permissions-preview") || CommandLine.arguments.contains("--startup-preview") {
+                previewStore.permissions.items = [OrbitPermission(id:"screen",title:"Screen & system audio",purpose:"Capture only the display, area or window you choose.",status:"Verified",settings:"Privacy_ScreenCapture"),OrbitPermission(id:"microphone",title:"Microphone",purpose:"Add your voice to recordings.",status:"Not requested",settings:"Privacy_Microphone"),OrbitPermission(id:"camera",title:"Camera",purpose:"Add an optional webcam bubble.",status:"Not requested",settings:"Privacy_Camera"),OrbitPermission(id:"input",title:"Input Monitoring",purpose:"Show shortcut labels without typed text.",status:"Allowed",settings:"Privacy_ListenEvent"),OrbitPermission(id:"automation",title:"System Events automation",purpose:"Manage the login apps you choose.",status:"Not requested",settings:"Privacy_Automation")]
+                if CommandLine.arguments.contains("--permissions-preview") { previewStore.navigate(.permissions); root = AnyView(ContentView(store:previewStore)) }
+            }
+            if CommandLine.arguments.contains("--health-preview") { previewStore.health.findings = [HealthFinding(id:"brew",title:"Homebrew",detail:"Homebrew is available. Demonstration data.",healthy:true),HealthFinding(id:"dependencies",title:"Missing dependencies",detail:"No issues reported.",healthy:true),HealthFinding(id:"apps",title:"Managed app bundles",detail:"Not found in standard locations: Example App. A custom app directory may be valid; review before repairing.",healthy:false)]; previewStore.navigate(.health); root = AnyView(ContentView(store:previewStore)) }
+            if CommandLine.arguments.contains("--login-preview") { previewStore.login.orbitStatus = "Disabled"; previewStore.login.entries = [LoginEntry(name:"Example App",path:"/Applications/Example App.app",hidden:false)]; previewStore.navigate(.login); root = AnyView(ContentView(store:previewStore)) }
+            if CommandLine.arguments.contains("--screenshot-preview") {
+                let bitmap = NSBitmapImageRep(bitmapDataPlanes:nil,pixelsWide:960,pixelsHigh:540,bitsPerSample:8,samplesPerPixel:4,hasAlpha:true,isPlanar:false,colorSpaceName:.deviceRGB,bytesPerRow:0,bitsPerPixel:0)!
+                NSGraphicsContext.saveGraphicsState(); NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep:bitmap)
+                NSColor(calibratedRed:0.07,green:0.13,blue:0.24,alpha:1).setFill(); NSBezierPath(rect:CGRect(x:0,y:0,width:960,height:540)).fill()
+                NSAttributedString(string:"Orbit Screenshot Studio",attributes:[.font:NSFont.systemFont(ofSize:42,weight:.bold),.foregroundColor:NSColor.white]).draw(at:CGPoint(x:80,y:350))
+                NSAttributedString(string:"Demonstration image · no screen was captured",attributes:[.font:NSFont.systemFont(ofSize:22),.foregroundColor:NSColor.lightGray]).draw(at:CGPoint(x:80,y:300)); NSGraphicsContext.restoreGraphicsState()
+                previewStore.screenshots.image = bitmap.cgImage
+                previewStore.screenshots.annotations.values = [OrbitAnnotation(tool:"Rectangle",points:[CGPoint(x:0.06,y:0.22),CGPoint(x:0.72,y:0.47)],color:"Blue"),OrbitAnnotation(tool:"Arrow",points:[CGPoint(x:0.83,y:0.7),CGPoint(x:0.7,y:0.47)],color:"Yellow")]
+                previewStore.navigate(.screenshots); root = AnyView(ContentView(store:previewStore))
+            }
+            if CommandLine.arguments.contains("--annotation-controls-preview") { previewStore.recorderState.phase = .recording; previewStore.recorderState.annotations.drawing = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:700,height:320) }
             if CommandLine.arguments.contains("--recorder-preview") { previewStore.navigate(.recorder); root = AnyView(ContentView(store: previewStore)) }
             if CommandLine.arguments.contains("--recorder-playback-preview") { previewStore.navigate(.recorder); previewStore.recorderState.player = AVPlayer(); previewStore.recorderState.recordingURL = URL(fileURLWithPath:"/private/tmp/Orbit-preview.mp4"); previewStore.recorderState.duration = 5; previewStore.recorderState.trimEnd = 5; root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--menu-bar-preview") {
-                previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 400)
+                previewStore.updatesChecked = true; previewStore.lastUpdateCheck = Date(); root = AnyView(MenuBarPanel(store: previewStore) { _ in }); size = NSSize(width: 340, height: 670)
                 if CommandLine.arguments.contains("--menu-bar-active-preview") { previewStore.busy = true; previewStore.total = 5; previewStore.completed = 2; previewStore.headline = "Updating Figma…"; size = NSSize(width: 340, height: 510) }
             }
-            if CommandLine.arguments.contains("--menu-bar-area-preview") { previewStore.recorderState.options.mode = "Selected area"; root = AnyView(MenuBarPanel(store:previewStore) { _ in }); size = NSSize(width:340,height:600) }
+            if CommandLine.arguments.contains("--menu-bar-area-preview") { previewStore.recorderState.options.mode = "Selected area"; root = AnyView(MenuBarPanel(store:previewStore) { _ in }); size = NSSize(width:340,height:700) }
             if CommandLine.arguments.contains("--recorder-controls-preview") { previewStore.recorderState.compactControls = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:420,height:220) }
             if CommandLine.arguments.contains("--export-preview") { root = AnyView(SetupExportView(store: previewStore)); size = NSSize(width: 650, height: 620) }
             if CommandLine.arguments.contains("--repair-preview") {

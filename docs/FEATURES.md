@@ -225,3 +225,13 @@ Main-window reopening requests Dock restoration only for genuinely minimized win
 ### Screen permission refresh (v0.16.3)
 
 Source refresh queries ScreenCaptureKit directly; the previous CoreGraphics preflight/request gate could return false before the recorder API was ever reached. ScreenCaptureKit success is accepted immediately. Only its explicit userDeclined error is described as denied access, with guidance for a stale installed-copy permission and the actual error domain/code. Other source failures retain their original details. Failed refresh clears stale sources, selected IDs, area and masks; successful refresh clears previous error text. No permissions are bypassed or reset automatically. Regression tests use injected success/denial/source errors and do not prove the installed app's TCC authorization. Ad-hoc builds may still need their installed copy reauthorized; stable signed distribution remains separate work.
+
+## Mac tools and capture studio (0.17.0)
+
+- Permission Center: passive status inspection, explicit requests, direct ScreenCaptureKit verification and Settings links. Also available during first-launch/setup checks and installation review. Permissions belong to Orbit, not apps it installs.
+- App Health Check: Homebrew version, missing dependencies, doctor output, known managed bundle locations, Orbit location and packaged helper. Diagnostic only; custom app locations can require manual review.
+- Login Items: SMAppService for Orbit, exact-identity System Events management for standard login apps, confirmation before removal, native Settings for background services.
+- Recording annotations: arrow, rectangle, pen, highlight, text, color, Undo and Clear. Drawing mode intercepts region clicks; switch off for normal app interaction. The red capture border is visible locally but excluded from recordings.
+- Screenshot Studio: display/area/window capture, annotation editing, blur/solid cover, flattened PNG clipboard and exclusive new-file export. No upload.
+
+Automated verification uses synthetic images, real local video encoding/decoding with annotation location and privacy-cover assertions, injected command responses and nonoperating native UI fixtures. macOS consent prompts, live ScreenCaptureKit capture and actual login registration require device acceptance testing.

@@ -19,6 +19,10 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Remove an app | Review removal and optionally select app-specific leftovers to move to Trash. |
 | Review clutter | Inspect caches, logs, and optional developer caches before moving selected items to Trash. |
 | Prepare your terminal | Choose Zsh essentials and language environments, review changes, and apply with private backups. |
+| Check permissions | Review Orbit access in Permission Center, first-launch setup and installation review. |
+| Diagnose app setup | Run App Health Check for Homebrew, missing dependencies and known managed app bundles. |
+| Manage startup apps | Enable Orbit at login and review standard Open at Login apps. |
+| Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
 ## Discover apps beyond the starter list
@@ -55,6 +59,20 @@ A three-second countdown gives you time to prepare. Pause or stop from the float
 
 ![Compact floating recorder controls](docs/images/recorder-controls.png)
 
+## Capture, annotate and check your Mac
+
+**Screenshot Studio** captures a display, window or selected area. Draw arrows, rectangles, freehand lines, highlights or text; use Blur or an opaque Cover for selected regions. Undo and Clear let you revise edits, then copy or save the flattened PNG. Saved files do not overwrite an existing file. Blur can leave recognizable detail; use Cover for secrets and check the exported result before sharing.
+
+![Screenshot Studio with a demonstration image and annotation tools](docs/images/screenshot-studio.png)
+
+During recording, a thin red border marks the captured region, including a moving window. The border and floating controls are excluded from capture. Enable **Draw on recording** to add arrows, rectangles, pen strokes, highlights and text to the saved video. Drawing intercepts clicks inside the region; switch it off to interact with your apps. Annotations are applied before the recording's privacy masks and zoom.
+
+**Permission Center** shows Orbit's screen, microphone, camera, input monitoring, accessibility and System Events access. First-launch setup, Setup check and installation review also expose access status. Passive checks do not open permission prompts; explicit Request or Verify buttons do. Screen access is verified with ScreenCaptureKit rather than a legacy permission hint. macOS can require reopening Orbit after a permission change. Installed applications request their own access; Orbit cannot grant it on their behalf.
+
+**App Health Check** runs diagnostic Homebrew commands and checks Orbit's packaged helper and known app bundles. Results do not run repairs or remove files. A missing app in the standard Applications folders may be in a custom location and needs review.
+
+**Login Items** can enable Orbit at login, load standard Open at Login applications, add an existing app or remove the specific entry you confirm. Removing a login item does not uninstall the app. Other background services stay in the native macOS Login Items settings.
+
 ## Orbit, one click away
 
 Orbit lives in the macOS menu bar with a small monochrome orbit icon. Open its compact panel to start a screen recording, check available updates, jump to Cleanup or review operation details. During app operations it shows the current app, processed and remaining counts, and **Stop after current app**.
@@ -67,7 +85,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.16.3/Orbit-0.16.3-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.16.3)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.17.0/Orbit-0.17.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.17.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

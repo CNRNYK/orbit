@@ -55,6 +55,7 @@ enum StartupInspector {
         checkingStartup = true
         defer { checkingStartup = false }
         startupChecks = await StartupInspector.checks(startupEnvironment?() ?? .current(brew:brew), commands:commandRunner)
+        permissions.refresh()
         if startupChecks.contains(where: { $0.required && !$0.ready }) { inventoryKnown = false }
     }
     func openStartup() async {
@@ -97,9 +98,10 @@ struct StartupView: View {
                             Spacer(minLength:0)
                         }.padding(12).frame(maxWidth:.infinity,alignment:.leading).background(Color.primary.opacity(0.035)).clipShape(RoundedRectangle(cornerRadius:10))
                     }
+                    GroupBox("Orbit permissions · optional") { PermissionCards(state:store.permissions).padding(8) }
                 }
             }
-            Text("These checks do not install software or change your Mac. There is no blanket permission: macOS asks when access or administrator approval is needed.").font(.caption).foregroundStyle(.secondary)
+            Text("Status checks do not install software or change your Mac. Request buttons open macOS permission prompts. There is no blanket permission: macOS asks when access or administrator approval is needed.").font(.caption).foregroundStyle(.secondary)
             HStack {
                 Button("Check again") { Task { await store.checkStartup() } }.disabled(store.checkingStartup || store.locked)
                 Spacer()

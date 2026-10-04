@@ -12,6 +12,10 @@ import Combine
     var updatesLabel: String { store.updatesChecked ? (updateCount == 0 ? "Updates · up to date" : "Updates · \(updateCount) available") : "Updates · not checked" }
     var status: String {
         if store.recorderState.busy { return store.recorderState.phase == .recording || store.recorderState.phase == .paused ? "\(store.recorderState.phase == .paused ? "Paused" : "Recording") · \(store.recorderState.elapsedLabel)" : "Preparing or saving recording…" }
+        if store.permissions.working { return "Checking permission access…" }
+        if store.health.working { return "Running App Health Check…" }
+        if store.login.working { return "Managing login items…" }
+        if store.screenshots.working || store.screenshots.source.loadingSources { return "Preparing screenshot…" }
         if store.maintenanceState.working { return "Cleanup in progress" }
         if store.terminalState.working { return "Preparing developer setup" }
         if store.busy { return store.headline }
@@ -21,7 +25,7 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord, screenshots, permissions, health, login }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
@@ -67,6 +71,10 @@ struct MenuBarPanel: View {
             VStack(spacing: 2) {
                 row(state.updatesLabel, symbol: "arrow.triangle.2.circlepath", enabled: state.canNavigate) { action(.updates) }
                 row("Check for updates", symbol: "arrow.clockwise", enabled: state.canCheckUpdates) { action(.checkUpdates) }
+                row("Screenshot Studio", symbol: "camera.viewfinder", enabled: state.canNavigate) { action(.screenshots) }
+                row("Permission Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
+                row("App Health Check", symbol: "stethoscope", enabled: state.canNavigate) { action(.health) }
+                row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
                 row("Cleanup", symbol: "sparkles", enabled: state.canNavigate) { action(.cleanup) }
                 row("Operation details", symbol: "text.alignleft", enabled: true) { action(.details) }
             }
@@ -150,6 +158,10 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             guard state.canNavigate else { return }; store.search = ""; store.navigate(action == .updates ? .updates : .cleanup); openWindow()
         case .checkUpdates:
             guard state.canCheckUpdates else { return }; store.search = ""; store.navigate(.updates); openWindow(); Task { await store.checkUpdates() }
+        case .screenshots, .permissions, .health, .login:
+            guard state.canNavigate else { return }
+            let mode: ActionMode = action == .screenshots ? .screenshots : action == .permissions ? .permissions : action == .health ? .health : .login
+            store.navigate(mode); openWindow()
         case .recorder:
             if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.mode = .recorder } else { store.navigate(.recorder) }; openWindow()
         case .record:

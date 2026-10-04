@@ -51,6 +51,8 @@ final class RecorderSelectionCanvas: NSView {
 
 struct RecorderHUD: View {
     @ObservedObject var state: RecorderState
+    @ObservedObject var annotations: AnnotationState
+    init(state:RecorderState) { self.state = state; annotations = state.annotations }
     var body: some View {
         VStack(alignment:.leading,spacing:12) {
             HStack {
@@ -83,6 +85,11 @@ struct RecorderHUD: View {
                     else if state.phase == .countdown || state.phase == .preparing { ProgressView().controlSize(.small); Button("Cancel") { state.cancelStart() } }
                     else { ProgressView().controlSize(.small); Text("Saving…") }
                 }
+            }
+            if state.phase == .recording || state.phase == .paused {
+                Toggle("Draw on recording",isOn:$annotations.drawing)
+                if state.annotations.drawing { AnnotationToolbar(state:state.annotations) }
+                Text("Red border marks the captured area. Drawing mode intercepts clicks; turn it off to use your apps.").font(.caption).foregroundStyle(.secondary)
             }
             if let notice = state.notice {
                 Text(notice).font(.caption).foregroundStyle(.orange).fixedSize(horizontal:false,vertical:true)
