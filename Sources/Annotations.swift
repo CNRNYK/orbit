@@ -109,15 +109,20 @@ struct AnnotationEditor: NSViewRepresentable {
     func updateNSView(_ view:AnnotationCanvas,context:Context) { view.image = image; view.state = state; view.values = state.values; view.changed = { if state.values.count < 500 { state.values.append($0) } }; view.needsDisplay = true }
 }
 struct AnnotationToolbar: View {
+    static func symbol(_ tool: String) -> String { ["Arrow":"arrow.up.right","Rectangle":"rectangle","Pen":"pencil.tip","Highlight":"highlighter","Text":"textformat","Blur":"drop.halffull","Cover":"rectangle.fill"][tool] ?? "pencil" }
     @ObservedObject var state: AnnotationState
     var screenshot = false
     var body: some View {
         VStack(alignment:.leading,spacing:8) {
             HStack {
-                Picker("Tool",selection:$state.tool) { ForEach(["Arrow","Rectangle","Pen","Highlight","Text"] + (screenshot ? ["Blur","Cover"] : []),id:\.self) { Text($0).tag($0) } }.frame(maxWidth:200)
+                ForEach(["Arrow","Rectangle","Pen","Highlight","Text"] + (screenshot ? ["Blur","Cover"] : []),id:\.self) { tool in
+                    Button { state.tool = tool } label: { Image(systemName:Self.symbol(tool)).frame(width:25,height:25).background(state.tool == tool ? Color.accentColor.opacity(0.2) : .clear).clipShape(RoundedRectangle(cornerRadius:5)) }.help(tool).accessibilityLabel(tool)
+                }
+            }
+            HStack {
                 Picker("Color",selection:$state.color) { ForEach(["Red","Blue","Yellow","Green"],id:\.self) { Text($0).tag($0) } }.frame(maxWidth:130)
-                Button("Undo") { state.undo() }.disabled(state.values.isEmpty)
-                Button("Clear") { state.clear() }.disabled(state.values.isEmpty)
+                Button("Undo",systemImage:"arrow.uturn.backward") { state.undo() }.disabled(state.values.isEmpty)
+                Button("Clear",systemImage:"trash") { state.clear() }.disabled(state.values.isEmpty)
             }
             if state.tool == "Text" { TextField("Annotation text",text:$state.text).textFieldStyle(.roundedBorder) }
         }

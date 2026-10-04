@@ -25,7 +25,7 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord, screenshots, permissions, health, login }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
@@ -71,7 +71,7 @@ struct MenuBarPanel: View {
             VStack(spacing: 2) {
                 row(state.updatesLabel, symbol: "arrow.triangle.2.circlepath", enabled: state.canNavigate) { action(.updates) }
                 row("Check for updates", symbol: "arrow.clockwise", enabled: state.canCheckUpdates) { action(.checkUpdates) }
-                row("Screenshot Studio", symbol: "camera.viewfinder", enabled: state.canNavigate) { action(.screenshots) }
+                Menu { Button("Full screen",systemImage:"display") { action(.screenshotFull) }; Button("Selected area",systemImage:"viewfinder") { action(.screenshotArea) }; Button("Window",systemImage:"macwindow") { action(.screenshotWindow) }; Divider(); Button("Open editor") { action(.screenshots) } } label: { Label("Take screenshot",systemImage:"camera.viewfinder").frame(maxWidth:.infinity,alignment:.leading).padding(10) }.menuStyle(.borderlessButton).disabled(!state.canNavigate)
                 row("Permission Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
                 row("App Health Check", symbol: "stethoscope", enabled: state.canNavigate) { action(.health) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
@@ -115,6 +115,9 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     init(store: Store) { self.store = store; super.init() }
     func install() {
         guard statusItem == nil else { return }
+        store.recorderState.onRecordingSaved = { [weak self] in self?.store.navigate(.recorder); self?.openWindow() }
+        store.screenshots.onCaptured = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
+        store.screenshots.onCaptureFailed = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength); statusItem = item
         item.button?.target = self; item.button?.action = #selector(togglePanel)
         item.button?.setAccessibilityLabel("Orbit menu")
@@ -158,6 +161,10 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             guard state.canNavigate else { return }; store.search = ""; store.navigate(action == .updates ? .updates : .cleanup); openWindow()
         case .checkUpdates:
             guard state.canCheckUpdates else { return }; store.search = ""; store.navigate(.updates); openWindow(); Task { await store.checkUpdates() }
+        case .screenshotFull, .screenshotArea, .screenshotWindow:
+            guard state.canNavigate else { return }; popover.close(); mainWindow?.orderOut(nil)
+            let mode = action == .screenshotFull ? "Full screen" : action == .screenshotArea ? "Selected area" : "Window"
+            Task { await store.screenshots.quickCapture(mode) }
         case .screenshots, .permissions, .health, .login:
             guard state.canNavigate else { return }
             let mode: ActionMode = action == .screenshots ? .screenshots : action == .permissions ? .permissions : action == .health ? .health : .login

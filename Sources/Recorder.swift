@@ -12,6 +12,7 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     enum Phase: String { case idle, preparing, countdown, recording, paused, finishing }
     let annotations = AnnotationState()
     private lazy var recordingOverlay = RecordingOverlay(state:annotations)
+    var onRecordingSaved: (() -> Void)?
     var onSourcesVerified: ((Bool) -> Void)?
     @Published var options = RecorderOptions()
     @Published var phase = Phase.idle
@@ -124,14 +125,8 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             if capturedOptions.webcam { guard await AVCaptureDevice.requestAccess(for:.video) else { throw RecorderProblem(message:"Camera access was denied. Allow it in System Settings or turn Webcam off.") } }
             try check(ticket)
             try tracker.start(shortcuts:capturedOptions.shortcuts)
-            let target: URL
-            if compactControls {
-                guard let movies = FileManager.default.urls(for:.moviesDirectory,in:.userDomainMask).first else { throw RecorderProblem(message:"Movies folder is unavailable.") }
-                target = try Self.compactDestination(in:movies.appendingPathComponent("Orbit Recordings",isDirectory:true))
-            } else {
-                guard let chosen = savePanel(name:"Orbit-\(Self.timestamp()).mp4") else { throw CancellationError() }
-                target = chosen
-            }
+            guard let movies = FileManager.default.urls(for:.moviesDirectory,in:.userDomainMask).first else { throw RecorderProblem(message:"Movies folder is unavailable.") }
+            let target = try Self.compactDestination(in:movies.appendingPathComponent("Orbit Recordings",isDirectory:true))
             try check(ticket)
             destination = target
             let folder = FileManager.default.temporaryDirectory.appendingPathComponent("Orbit-Recording-\(UUID().uuidString)",isDirectory:true)
@@ -180,11 +175,12 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
         guard phase == .recording || phase == .paused, let engine, let destination else { return }
         phase = .finishing; recordingOverlay.close(); ticker?.invalidate(); ticker = nil; tracker.stop(); player?.pause(); status = "Finalizing video and mixing selected audio…"
         if let sleepObserver { NSWorkspace.shared.notificationCenter.removeObserver(sleepObserver) }; sleepObserver = nil
-        defer { self.engine = nil; self.destination = nil; phase = .idle; if compactControls { showHUD() } else { hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil } }
+        var saved = false
+        defer { self.engine = nil; self.destination = nil; phase = .idle; hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; compactControls = false; if saved { onRecordingSaved?() } }
         do {
             try await engine.finish(); recoveryURL = engine.url
             try await RecorderFiles.export(engine.url,to:destination,mixAudio:true)
-            await showRecording(destination)
+            await showRecording(destination); saved = true
             if let directory { try? FileManager.default.removeItem(at:directory) }; directory = nil; recoveryURL = nil
             status = interruption == nil ? "Recording saved locally. Preview before sharing." : "Recording saved after interruption: \(interruption!)"
         } catch { notice = "\(error.localizedDescription)\nIf a finalized source is available, use Show recovery file."; recoveryURL = FileManager.default.fileExists(atPath:engine.url.path) ? engine.url : nil; status = "Recording could not be saved as MP4." }
@@ -193,10 +189,12 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
         recordingURL = url; recent.removeAll { $0 == url }; recent.insert(url,at:0); recent = Array(recent.prefix(8)); player = AVPlayer(url:url)
         duration = (try? await AVURLAsset(url:url).load(.duration).seconds) ?? 0; trimStart = 0; trimEnd = duration
     }
-    func trim() async {
-        guard !preview, !busy, let recordingURL, trimStart >= 0, trimEnd > trimStart, trimEnd <= duration, let target = savePanel(name:"Orbit-\(Self.timestamp())-trimmed.mp4") else { return }
+    var startLabel: String { options.mode == "Selected area" && area == nil ? "Select area & record" : "Start recording" }
+    func trim(remove: Bool = false) async {
+        guard !preview, !busy, let recordingURL, trimStart >= 0, trimEnd > trimStart, trimEnd <= duration, let target = savePanel(name:"Orbit-\(Self.timestamp())-edited.mp4") else { return }
         editing = true; player?.pause(); defer { editing = false }
-        do { try await RecorderFiles.export(recordingURL,to:target,range:CMTimeRange(start:CMTime(seconds:trimStart,preferredTimescale:600),duration:CMTime(seconds:trimEnd-trimStart,preferredTimescale:600))); await showRecording(target); status = "Trimmed copy saved. The original is unchanged." } catch { notice = error.localizedDescription }
+        let range = CMTimeRange(start:CMTime(seconds:trimStart,preferredTimescale:600),duration:CMTime(seconds:trimEnd-trimStart,preferredTimescale:600))
+        do { try await RecorderFiles.export(recordingURL,to:target,range:remove ? nil : range,removing:remove ? range : nil); await showRecording(target); status = "Edited copy saved. The original is unchanged." } catch { notice = error.localizedDescription }
     }
     func openRecent(_ url: URL) { guard !busy else { return }; Task { await showRecording(url) } }
     func copyFile() { guard let recordingURL else { return }; NSPasteboard.general.clearContents(); NSPasteboard.general.writeObjects([recordingURL as NSURL]) }
@@ -244,6 +242,19 @@ struct RecorderView: View {
             HStack { VStack(alignment:.leading,spacing:5) { Text("Screen Recorder").font(.largeTitle.bold()); Text("Show your workflow. Keep the recording on your Mac.").foregroundStyle(.secondary) }; Spacer(); if state.active { Label(state.phase == .paused ? "Paused · \(state.elapsedLabel)" : "\(state.phase.rawValue.capitalized) · \(state.elapsedLabel)",systemImage:"record.circle").foregroundStyle(.red) } }
             ScrollView {
                 VStack(alignment:.leading,spacing:18) {
+                    if let player = state.player, let url = state.recordingURL {
+                        GroupBox("Preview & trim") {
+                            VStack(alignment:.leading,spacing:12) {
+                                RecorderPlayerView(player:player).frame(height:280)
+                                HStack { Text(url.lastPathComponent).lineLimit(1); Spacer(); Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }; Button("Copy file") { state.copyFile() } }
+                                if state.duration > 0.2 {
+                                    HStack { Text("Start").frame(width:40,alignment:.leading); Slider(value:$state.trimStart,in:0...max(0,state.trimEnd-0.1)).onChange(of:state.trimStart) { _,value in player.seek(to:CMTime(seconds:value,preferredTimescale:600)) }; Text(String(format:"%.1fs",state.trimStart)).frame(width:55) }
+                                    HStack { Text("End").frame(width:40,alignment:.leading); Slider(value:$state.trimEnd,in:min(state.trimStart+0.1,state.duration)...state.duration); Text(String(format:"%.1fs",state.trimEnd)).frame(width:55) }
+                                    HStack { Text("Export a new copy of the selected edit.").font(.caption).foregroundStyle(.secondary); Spacer(); Button("Keep selection",systemImage:"scissors") { Task { await state.trim() } }.disabled(state.busy); Button("Remove selection",systemImage:"minus.rectangle") { Task { await state.trim(remove:true) } }.disabled(state.busy || state.trimStart == 0 && state.trimEnd == state.duration) }
+                                }
+                            }.padding(10)
+                        }
+                    }
                     GroupBox("Capture") {
                         VStack(alignment:.leading,spacing:12) {
                             Picker("Record",selection:$state.options.mode) { ForEach(["Full screen","Selected area","Window"],id:\.self) { Text($0).tag($0) } }.pickerStyle(.segmented).onChange(of:state.options.mode) { _,_ in state.modeChanged() }
@@ -286,19 +297,6 @@ struct RecorderView: View {
                             ForEach(Array(state.options.masks.enumerated()),id:\.element.id) { index,mask in HStack { Label("\(mask.cover ? "Cover" : "Blur") area \(index+1)",systemImage:mask.cover ? "rectangle.fill" : "eye.slash"); Spacer(); Button("Remove") { state.options.masks.removeAll { $0.id == mask.id } } } }
                         }.padding(10)
                     }.disabled(state.busy)
-                    if let player = state.player, let url = state.recordingURL {
-                        GroupBox("Preview & trim") {
-                            VStack(alignment:.leading,spacing:12) {
-                                RecorderPlayerView(player:player).frame(height:280)
-                                HStack { Text(url.lastPathComponent).lineLimit(1); Spacer(); Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }; Button("Copy file") { state.copyFile() } }
-                                if state.duration > 0.2 {
-                                    HStack { Text("Start").frame(width:40,alignment:.leading); Slider(value:$state.trimStart,in:0...max(0,state.trimEnd-0.1)).onChange(of:state.trimStart) { _,value in player.seek(to:CMTime(seconds:value,preferredTimescale:600)) }; Text(String(format:"%.1fs",state.trimStart)).frame(width:55) }
-                                    HStack { Text("End").frame(width:40,alignment:.leading); Slider(value:$state.trimEnd,in:min(state.trimStart+0.1,state.duration)...state.duration); Text(String(format:"%.1fs",state.trimEnd)).frame(width:55) }
-                                    HStack { Text("Save a trimmed copy; keep the original.").font(.caption).foregroundStyle(.secondary); Spacer(); Button(state.editing ? "Exporting…" : "Save trimmed copy") { Task { await state.trim() } }.disabled(state.busy) }
-                                }
-                            }.padding(10)
-                        }
-                    }
                     if !state.recent.isEmpty { GroupBox("This session") { ForEach(state.recent,id:\.self) { url in Button(url.lastPathComponent) { state.openRecent(url) }.buttonStyle(.borderless).disabled(state.busy).frame(maxWidth:.infinity,alignment:.leading).padding(5) } } }
                 }
             }
@@ -309,7 +307,7 @@ struct RecorderView: View {
                 if state.phase == .recording || state.phase == .paused { Button(state.phase == .paused ? "Resume" : "Pause") { state.togglePause() }; Button("Stop & save") { Task { await state.stop() } }.buttonStyle(.borderedProminent).tint(.red) }
                 else if state.phase == .countdown || state.phase == .preparing { Button("Cancel") { state.cancelStart() } }
                 else if state.phase == .finishing || state.editing { ProgressView().controlSize(.small); Text("Saving…") }
-                else { Button("Start recording") { state.start() }.buttonStyle(.borderedProminent).disabled(state.busy || !state.canBegin()) }
+                else { Button(state.startLabel) { state.start() }.buttonStyle(.borderedProminent).disabled(state.busy || !state.canBegin()) }
             }
         }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor))
         .alert("Screen Recorder",isPresented:Binding(get:{ !state.compactControls && state.notice != nil },set:{ if !$0 { state.notice = nil } })) { Button("OK") { state.notice = nil }; Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) } } message: { Text(state.notice ?? "") }

@@ -116,6 +116,19 @@ import AudioToolbox
         precondition(decoded[(90*320+160)*4+2] < 120, "Privacy cover must remain above video annotations")
         reader.cancelReading()
         try await RecorderFiles.export(output,to:trimmed,range:CMTimeRange(start:CMTime(seconds:0.2,preferredTimescale:600),duration:CMTime(seconds:0.5,preferredTimescale:600)))
+        let removed = folder.appendingPathComponent("removed.mp4")
+        let originalDuration = try await AVURLAsset(url:output).load(.duration).seconds
+        let cut = CMTimeRange(start:CMTime(seconds:0.2,preferredTimescale:600),duration:CMTime(seconds:0.3,preferredTimescale:600))
+        try await RecorderFiles.export(output,to:removed,removing:cut)
+        let removedAsset = AVURLAsset(url:removed)
+        let removedDuration = try await removedAsset.load(.duration).seconds
+        precondition(abs(removedDuration-(originalDuration-0.3)) < 0.1)
+        let originalAudio = try await AVURLAsset(url:output).loadTracks(withMediaType:.audio)
+        let removedAudio = try await removedAsset.loadTracks(withMediaType:.audio)
+        precondition(originalAudio.count == removedAudio.count && FileManager.default.fileExists(atPath:output.path))
+        let removedGenerator = AVAssetImageGenerator(asset:removedAsset)
+        _ = try removedGenerator.copyCGImage(at:CMTime(seconds:0.4,preferredTimescale:600),actualTime:nil)
+        do { try await RecorderFiles.export(output,to:folder.appendingPathComponent("invalid.mp4"),removing:CMTimeRange(start:.zero,duration:CMTime(seconds:originalDuration,preferredTimescale:600))); preconditionFailure("Removing the complete video must fail") } catch {}
         let trimDuration = try await AVURLAsset(url:trimmed).load(.duration).seconds
         precondition(trimDuration > 0.4 && trimDuration < 0.65 && FileManager.default.fileExists(atPath:output.path))
         let silentRaw = folder.appendingPathComponent("silent.mov"), silentMP4 = folder.appendingPathComponent("silent.mp4")
@@ -150,6 +163,7 @@ import AudioToolbox
         originalPlayer.play()
         try await Task.sleep(nanoseconds:250_000_000)
         precondition(originalPlayer.currentTime().seconds > 0, "Preview playback must advance")
+        precondition(previewState.startLabel == "Start recording"); previewState.options.mode = "Selected area"; precondition(previewState.startLabel == "Select area & record")
         previewState.player = AVPlayer(url:trimmed)
         hosting.layoutSubtreeIfNeeded()
         try await Task.sleep(nanoseconds:100_000_000)
