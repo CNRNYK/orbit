@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.1
+
+- Combine screenshot and recording shortcuts in one menu-bar Screen Capture card with a shared mode selector.
+- Start recording directly from the selected mode, with window selection available in the menu and floating pause/stop controls.
+- Remove update, health-check and operation-log shortcuts from the menu; keep them in the main app.
+
 ## 0.19.0
 
 - Unified Discover search, deduplicating recommended and official Homebrew results.
