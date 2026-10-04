@@ -1,7 +1,7 @@
 # Catalog integration report
 
 All 437 numbered source entries are represented. Repeated packages share one selection and installation.
-432 unique catalog entries: 373 active Homebrew entries, 59 manual/unavailable entries. 27 top-level categories.
+432 unique catalog entries: 373 active Homebrew entries, 59 manual/unavailable entries. 10 top-level categories after taxonomy consolidation.
 
 ## Manual or unavailable entries
 

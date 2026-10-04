@@ -1,6 +1,27 @@
 import SwiftUI
 import AppKit
 
+enum ManualAppOwnership {
+    static func mayRemove(_ app: LocalApp, metadata: Data, tokens: Set<String>, packages: [Package] = Catalog.packages) throws -> Bool {
+        guard let root = try JSONSerialization.jsonObject(with:metadata) as? [String:Any], let casks = root["casks"] as? [[String:Any]],
+              Set(casks.compactMap { $0["token"] as? String }) == tokens else { throw RecorderProblem(message:"Installed Homebrew app ownership could not be verified.") }
+        let target = URL(fileURLWithPath:app.path).lastPathComponent
+        for cask in casks {
+            guard let token = cask["token"] as? String, let artifacts = cask["artifacts"] as? [[String:Any]] else { throw RecorderProblem(message:"Homebrew returned incomplete app metadata.") }
+            var names = [String]()
+            for artifact in artifacts {
+                if let bundle = artifact["app"] as? [Any] {
+                    guard let name = (bundle.last as? [String:Any])?["target"] as? String ?? bundle.first as? String, name.hasSuffix(".app") else { throw RecorderProblem(message:"Homebrew app paths could not be verified.") }
+                    names.append(URL(fileURLWithPath:name).lastPathComponent)
+                }
+            }
+            if let known = packages.first(where:{ $0.cask && $0.token == token })?.appName { names.append(known + ".app") }
+            if names.contains(where:{ $0.caseInsensitiveCompare(target) == .orderedSame }) { return false }
+            if names.isEmpty && artifacts.contains(where:{ $0["pkg"] != nil || $0["installer"] != nil }) { throw RecorderProblem(message:"A vendor-installed Homebrew app has no verified bundle mapping (\(token)). Review it before removing an unmatched app.") }
+        }
+        return true
+    }
+}
 struct ManualRemovalPlan: Identifiable {
     let app: LocalApp
     let device: UInt64
@@ -41,9 +62,22 @@ struct ManualRemovalPlan: Identifiable {
             if savedInstallSelection.contains(package.id) { savedInstallSelection.remove(package.id) } else { savedInstallSelection.insert(package.id) }
         } else { toggle(package) }
     }
+    func verifiedManualOwnership(_ app: LocalApp) async -> Bool {
+        let tokens = Set(installed.filter { $0.hasPrefix("cask:") }.map { String($0.dropFirst(5)) })
+        guard !tokens.isEmpty else { return true }
+        guard let brew else { notice = "Homebrew ownership cannot be verified."; return false }
+        let response = await runJSONCommand(brew,["info","--json=v2","--cask"] + tokens.sorted())
+        do {
+            guard response.0 == 0 else { throw RecorderProblem(message:"Could not read installed Homebrew app metadata. Refresh and try again.") }
+            let removable = try ManualAppOwnership.mayRemove(app,metadata:Data(response.1.utf8),tokens:tokens,packages:packages)
+            if !removable { notice = "This app is managed by Homebrew. Use Homebrew removal rather than manual Trash." }
+            return removable
+        } catch { notice = error.localizedDescription; return false }
+    }
     func reviewManualRemoval(_ app: LocalApp) async {
         guard !preview, !locked, inventoryKnown, manualApps.contains(where: { $0.id == app.id }) else { return }
         preparing = true; defer { preparing = false }
+        guard await verifiedManualOwnership(app) else { return }
         guard let plan = await Task.detached(operation:{ ManualRemovalPlan.inspect(app) }).value else { notice = "This app changed or is outside Applications. Refresh before trying again."; return }
         manualRemoval = plan; manualLeftovers = Set(plan.leftovers.filter { !$0.dataSensitive }.map(\.id))
     }
@@ -52,6 +86,7 @@ struct ManualRemovalPlan: Identifiable {
         preparing = true; defer { preparing = false }
         await refresh()
         guard inventoryKnown, manualApps.contains(where: { $0.id == plan.app.id }), plan.unchanged() else { manualRemoval = nil; notice = "The app changed or is now managed by Homebrew. Refresh and review again."; return }
+        guard await verifiedManualOwnership(plan.app), plan.unchanged() else { return }
         guard !NSWorkspace.shared.runningApplications.contains(where: { $0.bundleURL?.standardizedFileURL.path == plan.app.path }) else { notice = "Quit \(plan.app.name) before removing it."; return }
         do {
             try FileManager.default.trashItem(at:URL(fileURLWithPath:plan.app.path),resultingItemURL:nil)
@@ -83,7 +118,7 @@ struct LibraryView: View {
                             }
                             AppIcon(package:package).frame(width:36,height:36)
                             Button { store.detailPackage = package } label: { VStack(alignment:.leading,spacing:4) { Text(package.name).bold(); Text(package.detail).font(.caption).foregroundStyle(.secondary) }.frame(maxWidth:.infinity,alignment:.leading) }.buttonStyle(.plain)
-                            Text(store.installed.contains(package.id) ? "Homebrew-managed" : package.manualAppExists ? "Installed manually" : "Saved").font(.caption).foregroundStyle(.secondary)
+                            Text(store.installed.contains(package.id) ? "Homebrew-managed" : store.appPresent(package) ? "Installed manually" : "Saved").font(.caption).foregroundStyle(.secondary)
                             if store.myAppIDs.contains(package.id) { Button("Unsave",systemImage:"star.slash") { store.removeFavorite(package) }.help("Remove from saved apps without uninstalling") }
                             else { Button("Save",systemImage:"star") { store.registerPersonal(package,favorite:true) } }
                         }.padding(.vertical,12).disabled(store.locked)
@@ -92,8 +127,9 @@ struct LibraryView: View {
                     if !store.libraryManualApps.isEmpty { Text("Installed manually").font(.headline).padding(.top,20) }
                     ForEach(store.libraryManualApps) { app in
                         HStack(spacing:12) {
-                            Image(nsImage:NSWorkspace.shared.icon(forFile:app.path)).resizable().scaledToFit().frame(width:36,height:36)
+                            if let package = app.package { AppIcon(package:package).frame(width:36,height:36) } else { Image(systemName:"app").font(.title).frame(width:36,height:36) }
                             VStack(alignment:.leading,spacing:4) { Text(app.name).bold(); Text(app.path).font(.caption).foregroundStyle(.secondary) }; Spacer()
+                            if let package = app.package { Button { if store.myAppIDs.contains(package.id) { store.removeFavorite(package) } else { store.registerPersonal(package,favorite:true) } } label: { Image(systemName:store.myAppIDs.contains(package.id) ? "star.fill" : "star") }.help(store.myAppIDs.contains(package.id) ? "Unsave from Library" : "Save to Library") }
                             if app.package?.installable == true { Button("Manage with Homebrew") { store.selectedManual = [app.id]; Task { await store.prepareAdoption() } } }
                             Button("Uninstall & Clean",systemImage:"trash") { Task { await store.reviewManualRemoval(app) } }.disabled(!store.inventoryKnown)
                         }.padding(.vertical,12).disabled(store.locked); Divider()

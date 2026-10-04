@@ -38,7 +38,7 @@ final class WorkflowLogCapture: @unchecked Sendable {
         center.explorePackages = [extra,pending]; center.search = "center-fixture"; center.navigate(.install)
         precondition(center.discoverMatches.map(\.id) == [extra.id])
         center.search = "git"; precondition(center.discoverMatches.filter { $0.id == pending.id }.count == 1)
-        center.search = ""; precondition(!center.discoverMatches.contains { $0.id == extra.id })
+        center.search = ""; precondition(!center.discoverMatches.contains { $0.id == extra.id }); precondition(center.displayedDiscoverMatches.count > 300,"All recommended packages must remain browsable")
         center.navigate(.uninstall); center.myAppIDs = [pending.id]; center.libraryFilter = .all
         precondition(Set(center.libraryPackages.map(\.id)) == [pending.id,removable.id])
         center.libraryFilter = .saved; precondition(center.libraryPackages.map(\.id) == [pending.id])

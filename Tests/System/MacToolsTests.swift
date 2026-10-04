@@ -42,6 +42,14 @@ import CoreImage
         precondition(loginCalls.count == 2 && loginCalls[0] == ["-l","JavaScript","-e",LoginScripts.remove(items[0])] && login.entries.isEmpty)
         login.canAct = { false }; await login.change(items[0],add:false,commands:removal)
         let guarded = await removal.recorded(); precondition(guarded.count == 2)
+        let automatic = LoginState(); var asked = [Bool](); automatic.automationAccess = { ask in asked.append(ask); return noErr }
+        let list = FakeCommands([(0,"[]")]); await automatic.loadOnOpen(commands:list)
+        let listCalls = await list.recorded(); precondition(asked == [false] && listCalls.count == 1)
+        automatic.automationAccess = { ask in asked.append(ask); return -1743 }
+        await automatic.loadOnOpen(commands:list); let deniedCalls = await list.recorded(); precondition(deniedCalls.count == 1 && automatic.message.contains("Allow"))
+        automatic.preview = true; await automatic.authorizeAndLoad(commands:list); precondition(asked == [false,false])
+        precondition(LoginState.applicationDirectory(home:"/fixture",exists:{ _ in false }).path == "/fixture/Applications")
+        precondition(LoginState.applicationDirectory(exists:{ _ in true }).path == "/Applications")
         print("PASS: permission status semantics, login script injection protection/identity checks, screenshot redaction/PNG, baked video annotations/cache clearing, border coordinates and shared operation guards")
     }
 }

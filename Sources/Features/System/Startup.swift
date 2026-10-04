@@ -72,41 +72,5 @@ enum StartupInspector {
 }
 struct StartupView: View {
     @ObservedObject var store: Store
-    var ready: Bool { !store.startupChecks.isEmpty && store.startupChecks.allSatisfy { !$0.required || $0.ready } }
-    var body: some View {
-        VStack(alignment:.leading,spacing:18) {
-            Label { Text("Welcome to Orbit") } icon: { OrbitBrandIcon(size: 48) }.font(.title.bold())
-            Text("A few checks before you choose your apps.").foregroundStyle(.secondary)
-            if store.checkingStartup { ProgressView("Checking your Mac…") }
-            ScrollView {
-                VStack(alignment:.leading,spacing:12) {
-                    ForEach(store.startupChecks) { check in
-                        HStack(alignment:.top,spacing:12) {
-                            Image(systemName:check.ready ? "checkmark.circle.fill" : check.required ? "exclamationmark.circle.fill" : "info.circle.fill").foregroundStyle(check.ready ? .green : check.required ? .orange : .secondary)
-                            VStack(alignment:.leading,spacing:5) {
-                                Text(check.title).font(.headline)
-                                Text(check.detail).font(.subheadline).foregroundStyle(.secondary).textSelection(.enabled)
-                                if check.id == "brew" && !check.ready { Link("Open official Homebrew setup",destination:URL(string:"https://brew.sh")!) }
-                                if check.id == "tools" && !check.ready {
-                                    HStack {
-                                        Button("Copy tools setup command") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString("xcode-select --install",forType:.string) }
-                                        Button("Open Terminal") { if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier:"com.apple.Terminal") { NSWorkspace.shared.openApplication(at:url,configuration:NSWorkspace.OpenConfiguration()) } }
-                                    }
-                                    Text("Run the copied command in Terminal to open Apple's installer.").font(.caption).foregroundStyle(.secondary)
-                                }
-                            }
-                            Spacer(minLength:0)
-                        }.padding(12).frame(maxWidth:.infinity,alignment:.leading).background(Color.primary.opacity(0.035)).clipShape(RoundedRectangle(cornerRadius:10))
-                    }
-                    GroupBox("Orbit permissions · optional") { PermissionCards(state:store.permissions).padding(8) }
-                }
-            }
-            Text("Status checks do not install software or change your Mac. Request buttons open macOS permission prompts. There is no blanket permission: macOS asks when access or administrator approval is needed.").font(.caption).foregroundStyle(.secondary)
-            HStack {
-                Button("Check again") { Task { await store.checkStartup() } }.disabled(store.checkingStartup || store.locked)
-                Spacer()
-                Button(ready ? "Continue" : "Browse apps for now") { Task { await store.finishStartup() } }.buttonStyle(.borderedProminent).disabled(store.checkingStartup || store.startupChecks.isEmpty)
-            }
-        }.padding(26).frame(width:680,height:680).background(Color(nsColor:.windowBackgroundColor))
-    }
+    var body: some View { SetupCenterView(store:store,onboarding:true).frame(width:720,height:680) }
 }

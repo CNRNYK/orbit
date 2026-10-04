@@ -13,29 +13,31 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | What you need | What Orbit does |
 | --- | --- |
 | Set up a new Mac | Browse 432 curated entries, use starter selections, and install the missing apps you choose. |
-| Find something new | Search the official Homebrew catalog in **Homebrew Center → Discover → All Homebrew** and save favorites in **My Apps**. |
+| Find something new | Search the official Homebrew catalog in **Homebrew Center → Discover** and save favorites in **Library**. |
 | Manage existing apps | See Homebrew-managed and manually installed apps; review supported apps for Homebrew adoption. |
 | Keep apps current | Check available updates and upgrade only your selected packages. |
 | Remove an app | Review removal and optionally select app-specific leftovers to move to Trash. |
 | Review clutter | Inspect caches, logs, and optional developer caches before moving selected items to Trash. |
 | Prepare your terminal | Choose Zsh essentials and language environments, review changes, and apply with private backups. |
-| Check permissions | Review Orbit access in Permission Center, first-launch setup and installation review. |
+| Check permissions | Use Setup Center for requirements, optional permissions and Orbit startup. |
 | Diagnose app setup | Run App Health Check for Homebrew, missing dependencies and known managed app bundles. |
-| Manage startup apps | Enable Orbit at login and review standard Open at Login apps. |
+| Manage startup apps | Review standard Open at Login apps; configure Orbit startup in Setup Center. |
 | Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
 ## Homebrew Center
 
-Discover, Installed, Updates and My Apps now live together in **Homebrew Center**. In Discover, choose **Curated** for the starter catalog or **All Homebrew** for official formulas and casks. The two catalog sources share the search field, and Discover remembers the last source while you switch tabs.
+**Discover · Library · Updates** — three tabs for the complete app workflow.
 
-**To install** stays visible across all four tabs. Installation and removal choices are separate: browsing Installed or selecting an app to uninstall does not erase your pending installation plan. Updates retain their own selection and review flow. Closing and reopening Orbit preserves installation choices, even if you last used Installed.
+- **Discover:** one search, recommended apps first and additional official Homebrew matches below. Duplicate packages appear once. With no query, browse the curated starter catalog.
+- **Library:** installed and saved apps together, with **All / Installed / Saved** filters. Homebrew-managed apps, manual apps and saved favorites have clear status labels. Save or unsave without installing or uninstalling.
+- **Updates:** choose exactly which available updates to install, then review the plan.
 
-## Discover apps beyond the starter list
+**To install** stays visible across all three tabs. Installation and removal choices stay separate. Your install plan survives switching tabs or reopening Orbit.
 
-Search official Homebrew formulas and casks by name or description. **Add to My Apps** saves a favorite; **Select to install** adds it to a reviewed installation plan. Only the packages you choose become direct Brewfile entries; dependencies are handled by Homebrew.
+![Library with installed apps and saved favorites](docs/images/library.png)
 
-![Explore Homebrew with searchable apps and separate favorite and installation actions](docs/images/explore.png)
+Manually installed apps offer **Manage with Homebrew** when a supported match exists, or **Uninstall & Clean**. Removal first reviews the app and exact matching leftover paths, leaves personal data unchecked, rechecks app identity and Homebrew ownership, and moves selected items to Trash. Running apps must be closed first. Shared vendor folders are excluded; Orbit does not promise to find every leftover.
 
 ## Review cleanup before changing anything
 
@@ -57,9 +59,9 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 ## Record what matters
 
-Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Menu recording opens compact floating controls without bringing the main window forward; press Start there and save automatically to Movies/Orbit Recordings. Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
+Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Menu recording opens compact floating controls without bringing the main window forward; press Start there. All recordings start without a filename dialog and save automatically to Movies/Orbit Recordings. Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
 
-A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording, then preview the MP4, copy the file or save a trimmed copy while keeping the original. Recordings stay local; no account or upload is involved.
+A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording, when saving finishes, Orbit opens the preview. Select a time range to **Keep selection** or **Remove selection**, export a new copy, and retain the original. Recordings stay local; no account or upload is involved.
 
 ![Orbit Screen Recorder with capture source, pointer effects, audio, camera and privacy areas](docs/images/recorder.png)
 
@@ -67,17 +69,17 @@ A three-second countdown gives you time to prepare. Pause or stop from the float
 
 ## Capture, annotate and check your Mac
 
-**Screenshot Studio** captures a display, window or selected area. Draw arrows, rectangles, freehand lines, highlights or text; use Blur or an opaque Cover for selected regions. Undo and Clear let you revise edits, then copy or save the flattened PNG. Saved files do not overwrite an existing file. Blur can leave recognizable detail; use Cover for secrets and check the exported result before sharing.
+**Screenshot Studio** captures a display, window or selected area, including directly from the menu bar. Capture first, then Orbit opens the editor. Draw arrows, rectangles, freehand lines, highlights or text; use Blur or an opaque Cover for selected regions. Undo and Clear let you revise edits, then copy or save the flattened PNG. Saved files do not overwrite an existing file. Blur can leave recognizable detail; use Cover for secrets and check the exported result before sharing.
 
 ![Screenshot Studio with a demonstration image and annotation tools](docs/images/screenshot-studio.png)
 
 During recording, a thin red border marks the captured region, including a moving window. The border and floating controls are excluded from capture. Enable **Draw on recording** to add arrows, rectangles, pen strokes, highlights and text to the saved video. Drawing intercepts clicks inside the region; switch it off to interact with your apps. Annotations are applied before the recording's privacy masks and zoom.
 
-**Permission Center** shows Orbit's screen, microphone, camera, input monitoring, accessibility and System Events access. First-launch setup, Setup check and installation review also expose access status. Passive checks do not open permission prompts; explicit Request or Verify buttons do. Screen access is verified with ScreenCaptureKit rather than a legacy permission hint. macOS can require reopening Orbit after a permission change. Installed applications request their own access; Orbit cannot grant it on their behalf.
+**Setup Center → Permissions** shows Orbit's screen, microphone, camera, input monitoring, accessibility and System Events access. First-launch setup uses the same Requirements, Permissions and Startup sections; installation review also exposes access status. Optional permissions do not block setup. Passive checks do not open permission prompts; explicit Request or Verify buttons do. Screen access is verified with ScreenCaptureKit rather than a legacy permission hint. macOS can require reopening Orbit after a permission change. Installed applications request their own access; Orbit cannot grant it on their behalf.
 
 **App Health Check** runs diagnostic Homebrew commands and checks Orbit's packaged helper and known app bundles. Results do not run repairs or remove files. A missing app in the standard Applications folders may be in a custom location and needs review.
 
-**Login Items** can enable Orbit at login, load standard Open at Login applications, add an existing app or remove the specific entry you confirm. Removing a login item does not uninstall the app. Other background services stay in the native macOS Login Items settings.
+**Setup Center → Startup** controls Orbit at login. **Login Items** automatically loads standard Open at Login applications when System Events access is already allowed; otherwise it offers an explicit Allow access action. Add application opens Applications, and removing an item requires confirmation. Removing a login item does not uninstall the app. Other background services stay in the native macOS Login Items settings.
 
 ## Orbit, one click away
 
@@ -91,7 +93,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.18.0/Orbit-0.18.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.18.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.19.0/Orbit-0.19.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.19.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
@@ -116,10 +118,16 @@ The repository is currently private, so cloning requires access. Builds target y
 
 App licenses, subscriptions, and vendor sign-in are separate. Orbit does not restore application settings or install App Store products.
 
+## Built to evolve
+
+Source and tests are organized by feature. Read the [architecture](docs/ARCHITECTURE.md), [development with AI guide](docs/AI-DEVELOPMENT.md), [test guide](docs/TESTING.md), [release checklist](docs/RELEASING.md), [changelog](docs/CHANGELOG.md) and [idea map](docs/ROADMAP.md).
+
+![Setup Center with requirements and optional access controls](docs/images/setup-center.png)
+
 ## More details
 
 - [Feature behavior, permissions, and cleanup scope](docs/FEATURES.md)
-- [Catalog mapping and unavailable entries](CATALOG-NOTES.md)
+- [Catalog mapping and unavailable entries](docs/CATALOG.md)
 - [Install Homebrew](https://brew.sh)
 - [Homebrew documentation](https://docs.brew.sh/Manpage)
 

@@ -4,7 +4,9 @@ cd "$(dirname "$0")"
 app="dist/Orbit.app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" .build/module-cache
 architecture="$(uname -m)"
-xcrun swiftc -swift-version 5 -O -parse-as-library -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache Sources/*.swift -o "$app/Contents/MacOS/Orbit"
+sources=()
+while IFS= read -r source; do sources+=("$source"); done < <(find Sources -type f -name '*.swift' | sort)
+xcrun swiftc -swift-version 5 -O -parse-as-library -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache "${sources[@]}" -o "$app/Contents/MacOS/Orbit"
 xcrun swiftc -swift-version 5 -O -target "${architecture}-apple-macosx14.0" -module-cache-path .build/module-cache Helpers/Askpass.swift -o "$app/Contents/Resources/OrbitAskpass"
 codesign --force --sign "${ORBIT_SIGNING_IDENTITY:--}" "$app/Contents/Resources/OrbitAskpass"
 cp Resources/askpass.sh "$app/Contents/Resources/askpass.sh"
@@ -25,8 +27,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleDisplayName</key><string>Orbit</string>
 <key>CFBundleIconFile</key><string>Orbit</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.18.0</string>
-<key>CFBundleVersion</key><string>24</string>
+<key>CFBundleShortVersionString</key><string>0.19.0</string>
+<key>CFBundleVersion</key><string>25</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSScreenCaptureUsageDescription</key><string>Orbit records the screen, window or area you choose and saves the video locally.</string>
 <key>NSMicrophoneUsageDescription</key><string>Include your microphone in a recording only when you enable Microphone.</string>

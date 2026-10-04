@@ -97,6 +97,7 @@ struct SystemCommands: CommandExecuting {
     @Published var adoptionPlan = [AdoptionItem]()
     @Published var adoptionStatuses = [String: String]()
     @Published var showAdoptionReview = false
+    @Published var setupSection = SetupSection.requirements
     @Published var manualTab = false
     @Published var libraryFilter = LibraryFilter.all
     @Published var manualRemoval: ManualRemovalPlan?
