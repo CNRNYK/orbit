@@ -8,6 +8,34 @@ final class WorkflowLogCapture: @unchecked Sendable {
 }
 @MainActor enum WorkflowUITests {
     static func run() async throws {
+        let center = Store(preview:true,persistSelection:false); center.selected = []; center.inventoryKnown = true; center.appPresent = { _ in false }
+        let pending = Catalog.packages.first { $0.token == "git" && !$0.cask }!
+        let removable = Catalog.packages.first { $0.token == "figma" }!
+        center.installed = [removable.id]; center.toggle(pending)
+        center.navigate(.explore); center.search = "git"; precondition(center.exploreSearch == "git")
+        center.selectHomebrewTab(.installed); center.toggle(removable)
+        precondition(center.selected == [removable.id] && center.centerInstallSelection.map(\.id) == [pending.id], "Removal choices must remain separate from shared install choices")
+        center.recorderState.phase = .recording; center.revealActiveRecorder()
+        precondition(center.selected == [pending.id] && center.mode == .recorder, "Active recorder navigation must preserve installation choices when leaving Installed")
+        center.recorderState.phase = .idle; center.selectHomebrewTab(.installed); precondition(center.selected == [removable.id])
+        center.selectHomebrewTab(.updates); precondition(center.selected == [pending.id] && center.homebrewTab == .updates)
+        center.selectHomebrewTab(.discover); precondition(center.mode == .explore, "Discover should remember its catalog source")
+        center.selectHomebrewTab(.myApps); precondition(center.homebrewTab == .myApps && center.selected == [pending.id])
+        center.selectHomebrewTab(.installed); precondition(center.selected == [removable.id]); center.removeCenterInstall(pending)
+        precondition(center.centerInstallSelection.isEmpty && center.selected == [removable.id])
+        center.navigate(.cleanup); center.openHomebrewCenter(); precondition(center.homebrewTab == .installed)
+        center.busy = true; center.selectHomebrewTab(.updates); precondition(center.homebrewTab == .installed)
+        center.busy = false; center.selectHomebrewTab(.discover); precondition(center.selected.isEmpty)
+        let suite = "OrbitHomebrewCenterTests-" + UUID().uuidString
+        let prefs = UserDefaults(suiteName:suite)!; defer { prefs.removePersistentDomain(forName:suite) }
+        let persisted = Store(preferences:prefs); persisted.inventoryKnown = true; persisted.appPresent = { _ in false }; persisted.selected = [pending.id]; persisted.installed = [removable.id]
+        persisted.navigate(.uninstall); persisted.toggle(removable)
+        precondition(Set(prefs.stringArray(forKey:"selection") ?? []) == [pending.id], "Removal selections must never overwrite persisted installation choices")
+        let reopened = Store(preferences:prefs); precondition(reopened.selected == [pending.id])
+        let extra = try OfficialCatalog.parse(Data(#"[{"name":"center-fixture","tap":"homebrew/core","versions":{"stable":"1"}}]"#.utf8),cask:false)[0]
+        center.registerPersonal(extra,favorite:true); center.navigate(.install); center.search = ""; precondition(!center.visible.contains { $0.id == extra.id })
+        center.selectHomebrewTab(.myApps); precondition(center.visible.contains { $0.id == extra.id })
+        print("PASS: Homebrew Center tabs, remembered source/shared search, curated catalog scope, independent removal/install selections and persisted installation choices")
         let cleanup = MaintenanceState()
         let cache = MaintenanceItem(path:"/fixture/cache",group:"Homebrew cache",bytes:1,inode:1,device:1,removable:true)
         let app = MaintenanceItem(path:"/fixture/app",group:"App caches & logs",bytes:1,inode:1,device:1,removable:true)

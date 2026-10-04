@@ -13,7 +13,7 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | What you need | What Orbit does |
 | --- | --- |
 | Set up a new Mac | Browse 432 curated entries, use starter selections, and install the missing apps you choose. |
-| Find something new | Search the official Homebrew catalog in **Explore Homebrew** and save favorites in **My apps**. |
+| Find something new | Search the official Homebrew catalog in **Homebrew Center → Discover → All Homebrew** and save favorites in **My Apps**. |
 | Manage existing apps | See Homebrew-managed and manually installed apps; review supported apps for Homebrew adoption. |
 | Keep apps current | Check available updates and upgrade only your selected packages. |
 | Remove an app | Review removal and optionally select app-specific leftovers to move to Trash. |
@@ -25,9 +25,15 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
+## Homebrew Center
+
+Discover, Installed, Updates and My Apps now live together in **Homebrew Center**. In Discover, choose **Curated** for the starter catalog or **All Homebrew** for official formulas and casks. The two catalog sources share the search field, and Discover remembers the last source while you switch tabs.
+
+**To install** stays visible across all four tabs. Installation and removal choices are separate: browsing Installed or selecting an app to uninstall does not erase your pending installation plan. Updates retain their own selection and review flow. Closing and reopening Orbit preserves installation choices, even if you last used Installed.
+
 ## Discover apps beyond the starter list
 
-Search official Homebrew formulas and casks by name or description. **Add to My apps** saves a favorite; **Select to install** adds it to a reviewed installation plan. Only the packages you choose become direct Brewfile entries; dependencies are handled by Homebrew.
+Search official Homebrew formulas and casks by name or description. **Add to My Apps** saves a favorite; **Select to install** adds it to a reviewed installation plan. Only the packages you choose become direct Brewfile entries; dependencies are handled by Homebrew.
 
 ![Explore Homebrew with searchable apps and separate favorite and installation actions](docs/images/explore.png)
 
@@ -85,7 +91,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.17.0/Orbit-0.17.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.17.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.18.0/Orbit-0.18.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.18.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

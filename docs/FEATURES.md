@@ -235,3 +235,9 @@ Source refresh queries ScreenCaptureKit directly; the previous CoreGraphics pref
 - Screenshot Studio: display/area/window capture, annotation editing, blur/solid cover, flattened PNG clipboard and exclusive new-file export. No upload.
 
 Automated verification uses synthetic images, real local video encoding/decoding with annotation location and privacy-cover assertions, injected command responses and nonoperating native UI fixtures. macOS consent prompts, live ScreenCaptureKit capture and actual login registration require device acceptance testing.
+
+## Homebrew Center (0.18.0)
+
+The five former sidebar destinations are grouped into one Homebrew Center with Discover, Installed, Updates and My Apps tabs. Discover switches between Curated and All Homebrew, shares search across sources and remembers its source when switching tabs. Category browsing remains available within Curated/Installed.
+
+The shared To install panel persists across all four tabs. Homebrew removal choices are parked separately, so entering Installed never deletes or overwrites persisted installation choices. Update and manual-adoption selections remain independent. Review installation from Installed/Updates explicitly returns to the normal installation review.
