@@ -3,6 +3,15 @@ import AppKit
 
 @MainActor enum MenuBarTests {
     static func run() async throws {
+        let suite = "Orbit-menu-preferences-\(UUID().uuidString)"
+        let preferences = UserDefaults(suiteName:suite)!
+        defer { preferences.removePersistentDomain(forName:suite) }
+        let fresh = Store(preferences:preferences)
+        precondition(fresh.keepInMenuBar)
+        fresh.keepInMenuBar = false
+        precondition(!Store(preferences:preferences).keepInMenuBar, "Dock preference must persist")
+        let isolated = Store(preview:true,preferences:preferences); isolated.keepInMenuBar = true
+        precondition(preferences.object(forKey:"orbit.keep-in-menu-bar") as? Bool == false, "Previews must not change preferences")
         let model = Store(preview: true, persistSelection: false)
         model.brewExecutable = "/fixture/brew"; model.selected = []; model.inventoryKnown = true
         let state = MenuBarState(store: model)

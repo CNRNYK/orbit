@@ -20,7 +20,14 @@ struct SetupCenterView: View {
                     switch store.setupSection {
                     case .requirements: SetupRequirements(store:store)
                     case .permissions: PermissionCards(state:store.permissions)
-                    case .startup: OrbitStartupCard(state:store.login)
+                    case .startup:
+                        GroupBox("Window & menu bar") {
+                            VStack(alignment:.leading,spacing:8) {
+                                Toggle("Keep Orbit in the menu bar when the window closes",isOn:$store.keepInMenuBar)
+                                Text("When enabled, closing the window hides Orbit from the Dock. Open Orbit from its menu to bring the window and Dock icon back. Recording and other operations continue; Quit Orbit exits the app.").font(.caption).foregroundStyle(.secondary)
+                            }.padding(12)
+                        }
+                        OrbitStartupCard(state:store.login)
                     }
                 }.frame(maxWidth:.infinity,alignment:.leading)
             }

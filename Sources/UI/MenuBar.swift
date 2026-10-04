@@ -109,8 +109,9 @@ struct MenuBarPanel: View {
 // Preserve SwiftUI's window delegate for every event except closing the main window.
 final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     let original: NSWindowDelegate?
-    init(original: NSWindowDelegate?) { self.original = original }
-    func windowShouldClose(_ sender: NSWindow) -> Bool { sender.orderOut(nil); return false }
+    let onClose: () -> Void
+    init(original: NSWindowDelegate?, onClose: @escaping () -> Void) { self.original = original; self.onClose = onClose }
+    func windowShouldClose(_ sender: NSWindow) -> Bool { sender.orderOut(nil); onClose(); return false }
     override func responds(to selector: Selector!) -> Bool { super.responds(to: selector) || (original?.responds(to: selector) ?? false) }
     override func forwardingTarget(for selector: Selector!) -> Any? { original?.responds(to: selector) == true ? original : super.forwardingTarget(for: selector) }
 }
@@ -124,6 +125,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     private var eventMonitors = [Any]()
     private var windowDelegates = [ObjectIdentifier: OrbitWindowDelegate]()
     private weak var mainWindow: NSWindow?
+    private var windowClosed = false
     init(store: Store) { self.store = store; super.init() }
     func install() {
         guard statusItem == nil else { return }
@@ -138,7 +140,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         host.sizingOptions = [.preferredContentSize]
         panelHost = host; popover.contentViewController = host
         for publisher in [store.objectWillChange, store.maintenanceState.objectWillChange, store.terminalState.objectWillChange, store.recorderState.objectWillChange] {
-            publisher.sink { [weak self] _ in DispatchQueue.main.async { self?.refreshIcon() } }.store(in: &subscriptions)
+            publisher.sink { [weak self] _ in DispatchQueue.main.async { self?.refreshIcon(); self?.updateDockVisibility() } }.store(in: &subscriptions)
         }
         NotificationCenter.default.publisher(for: NSWindow.didBecomeMainNotification).sink { [weak self] note in
             guard let window = note.object as? NSWindow else { return }; DispatchQueue.main.async { self?.remember(window) }
@@ -157,12 +159,21 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     func remember(_ window: NSWindow) {
         guard window.title == "Orbit", window.styleMask.contains(.titled), window.sheetParent == nil else { return }
         mainWindow = window
+        if window.isVisible || window.isMiniaturized { windowClosed = false }
         let key = ObjectIdentifier(window)
-        if windowDelegates[key] == nil { let bridge = OrbitWindowDelegate(original: window.delegate); windowDelegates[key] = bridge; window.delegate = bridge }
+        if windowDelegates[key] == nil { let bridge = OrbitWindowDelegate(original: window.delegate) { [weak self] in self?.windowClosed = true; self?.updateDockVisibility() }; windowDelegates[key] = bridge; window.delegate = bridge }
+    }
+    func updateDockVisibility() {
+        guard mainWindow != nil else { return }
+        let visible = NSApp.windows.contains { $0.title == "Orbit" && $0.styleMask.contains(.titled) && !($0 is NSPanel) && ($0.isVisible || $0.isMiniaturized) }
+        let policy: NSApplication.ActivationPolicy = store.keepInMenuBar && windowClosed && !visible ? .accessory : .regular
+        if NSApp.activationPolicy() != policy { NSApp.setActivationPolicy(policy) }
     }
     func openWindow() {
+        windowClosed = false
         popover.close()
         if mainWindow == nil { NSApp.windows.forEach { remember($0) } }
+        NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true); if mainWindow?.isMiniaturized == true { mainWindow?.deminiaturize(nil) }; mainWindow?.makeKeyAndOrderFront(nil)
     }
     func perform(_ action: MenuBarAction) {

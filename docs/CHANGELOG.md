@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.1
+
+- Hide the Dock icon when the main window closes while keeping Orbit and running operations available in the menu bar.
+- Restore regular Dock/window behavior on Open Orbit; minimized windows retain their Dock icon.
+- Add a default-on, persisted menu-bar background preference in Setup Center > Startup.
+- Verify native activation-policy transitions and operation preservation without hardware recording.
+
 ## 0.20.0
 
 - Split Screen Recorder into Record, Edit and Settings; automatically open Edit after recording.
