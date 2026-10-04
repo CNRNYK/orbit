@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a reproducible Orbit problem.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include passwords, tokens, personal recordings, private file paths or unredacted logs. For a suspected security issue, use the repository's private vulnerability reporting when available; see SECURITY.md."
+  - type: input
+    id: version
+    attributes:
+      label: Orbit version
+      placeholder: "0.19.0, build 25"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: macOS version and Mac architecture
+      placeholder: "macOS version, Apple Silicon or Intel"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature
+      options:
+        - Homebrew Center
+        - Cleanup
+        - Screen Recorder
+        - Screenshot Studio
+        - Setup Center
+        - Login Items
+        - Terminal Setup
+        - Menu bar
+        - Installation or launch
+        - Other
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include the app/package name and the actions you took.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Redacted diagnostics or screenshots
+      description: Copy only relevant errors from Operation details. Review and remove sensitive content before sharing.

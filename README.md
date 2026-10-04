@@ -4,6 +4,8 @@
 
 **Set up your Mac. Manage your apps. Record your workflow.**
 
+**Early-access beta** · [Product page](https://towlar.com/en/products/orbit/) · [Report a bug](https://github.com/CNRNYK/orbit/issues/new/choose) · [Contribute](CONTRIBUTING.md)
+
 A native macOS app for discovering, installing, updating, and uninstalling Homebrew packages—with reviewed cleanup, reusable Brewfiles and local screen recording. Pick the apps you want, review the plan, and let Homebrew handle the installation.
 
 ![Orbit app catalog with categories and installation selections](docs/images/catalog.png)
@@ -61,7 +63,7 @@ Scan your existing Zsh profiles, review Orbit's proposed blocks, then apply. Exi
 
 Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Menu recording opens compact floating controls without bringing the main window forward; press Start there. All recordings start without a filename dialog and save automatically to Movies/Orbit Recordings. Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
 
-A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording, when saving finishes, Orbit opens the preview. Select a time range to **Keep selection** or **Remove selection**, export a new copy, and retain the original. Recordings stay local; no account or upload is involved.
+A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording. When saving finishes, Orbit opens the preview. Select a time range to **Keep selection** or **Remove selection**, export a new copy, and retain the original. Recordings stay local; no account or upload is involved.
 
 ![Orbit Screen Recorder with capture source, pointer effects, audio, camera and privacy areas](docs/images/recorder.png)
 
@@ -95,7 +97,7 @@ Requires **macOS 14 or later**. Homebrew must be installed to perform package op
 
 **[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.19.0/Orbit-0.19.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.19.0)
 
-Open the DMG and drag **Orbit.app** to **Applications**. Downloads require access to this private repository. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
+Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
 To build from source, install Apple Command Line Tools, clone this repository, then run:
 
@@ -106,7 +108,15 @@ bash build.sh
 open "dist/Orbit.app"
 ```
 
-The repository is currently private, so cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published. The DMG is available to repository members through Releases.
+While the repository is private, cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published. The DMG is distributed through GitHub Releases.
+
+## Beta status and support
+
+The published DMG currently targets Apple Silicon. Source builds target the current Mac architecture; Intel distribution has not been validated. Recordings, permission changes, multiple displays and vendor installers should be checked on the installed build. Generated media tests do not replace those device checks.
+
+The release is ad-hoc signed and not notarized. macOS may require approval or reauthorization for a new installed copy. Orbit's release check links to GitHub; it does not silently replace the app. Cleanup does not guarantee removal of every leftover, and a missing bundle in standard folders can be valid in a custom location.
+
+Use the [bug and feature request forms](https://github.com/CNRNYK/orbit/issues/new/choose). Review [data handling](docs/PRIVACY.md) before sharing logs and [SECURITY.md](SECURITY.md) for suspected vulnerabilities.
 
 ## You choose the changes
 
@@ -127,6 +137,7 @@ Source and tests are organized by feature. Read the [architecture](docs/ARCHITEC
 ## More details
 
 - [Feature behavior, permissions, and cleanup scope](docs/FEATURES.md)
+- [Data handling](docs/PRIVACY.md) and [asset provenance](docs/ASSETS.md)
 - [Catalog mapping and unavailable entries](docs/CATALOG.md)
 - [Install Homebrew](https://brew.sh)
 - [Homebrew documentation](https://docs.brew.sh/Manpage)
