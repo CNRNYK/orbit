@@ -71,6 +71,15 @@ enum OfficialCatalog {
             return $0.name == $1.name ? $0.id < $1.id : $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
     }
+    var otherDiscoverMatches: [Package] {
+        guard !search.trimmingCharacters(in:.whitespaces).isEmpty else { return [] }
+        let curated = Set(Catalog.packages.map(\.id))
+        return exploreMatches.filter { !curated.contains($0.id) }
+    }
+    var discoverMatches: [Package] {
+        let curated = orderedPackages(visible).filter { (exploreKind == "All" || (exploreKind == "Apps" ? $0.cask : !$0.cask)) && (!exploreAvailableOnly || $0.installable) }
+        return curated + otherDiscoverMatches.filter { !notInstalledOnly || canInstall($0) }
+    }
     var exploreCacheURL: URL? {
         guard personalPersistence else { return nil }
         return FileManager.default.urls(for:.cachesDirectory,in:.userDomainMask).first?.appendingPathComponent("io.macsetup.desktop/explore.json")
@@ -105,21 +114,23 @@ struct ExploreView: View {
     @ObservedObject var store: Store
     var body: some View {
         VStack(alignment:.leading,spacing:16) {
-            HStack { VStack(alignment:.leading,spacing:5) { Text("Discover · All Homebrew").font(.title2.bold()); Text("Find apps and tools beyond the starter catalog.").foregroundStyle(.secondary) }; Spacer(); Button("Refresh catalog") { Task { await store.loadExplore(force:true) } }.disabled(store.loadingExplore) }
+            HStack { VStack(alignment:.leading,spacing:5) { Text("Discover").font(.title2.bold()); Text("Recommended apps first, then matching official Homebrew packages.").foregroundStyle(.secondary) }; Spacer(); Button("Refresh catalog") { Task { await store.loadExplore(force:true) } }.disabled(store.loadingExplore) }
             HStack {
                 TextField("Search names and descriptions",text:$store.exploreSearch).textFieldStyle(.roundedBorder)
                 Picker("Packages",selection:$store.exploreKind) { Text("All").tag("All"); Text("Apps").tag("Apps"); Text("CLI tools").tag("Tools") }.frame(width:190)
                 Toggle("Available only",isOn:$store.exploreAvailableOnly)
             }
+            HStack { Toggle("Not installed",isOn:$store.notInstalledOnly); Spacer(); Menu("Starter selections") { ForEach(Catalog.presets.keys.sorted(),id:\.self) { title in Button(title) { store.selectPreset(title) } } }; Button("Refresh installed") { Task { await store.refresh() } }; Button("Import Brewfile") { store.importFile() } }.disabled(store.locked)
             if store.loadingExplore { ProgressView("Refreshing official Homebrew catalog…") }
             if store.preparing || store.refreshing { ProgressView("Checking Homebrew…") }
             if let date = store.exploreFetched { Text("Catalog fetched: " + date.formatted()).font(.caption).foregroundStyle(.secondary) }
             if !store.exploreMessage.isEmpty { Text(store.exploreMessage).font(.caption).foregroundStyle(.orange) }
-            let matches = store.exploreMatches
+            let matches = store.discoverMatches
             Text("\(matches.count) matches · showing up to 150. Narrow your search for more results.").font(.caption).foregroundStyle(.secondary)
             ScrollView {
                 LazyVStack(spacing:0) {
                     ForEach(Array(matches.prefix(150))) { package in
+                        if package.id == store.otherDiscoverMatches.first?.id { Text("More from Homebrew").font(.headline).frame(maxWidth:.infinity,alignment:.leading).padding(.top,18) }
                         HStack(spacing:12) {
                             Toggle("Select " + package.name, isOn: Binding(get: { store.selected.contains(package.id) }, set: { _ in store.toggle(package) })).labelsHidden().toggleStyle(.checkbox).disabled(store.locked || !store.canInstall(package)).accessibilityLabel("Select " + package.name)
                             AppIcon(package: package).frame(width: 32, height: 32)
@@ -130,7 +141,7 @@ struct ExploreView: View {
                             else if store.appPresent(package) { Text("On this Mac").font(.caption).foregroundStyle(.secondary) }
                             if let status = store.statuses[package.id], status != "Installed" { Text(status).font(.caption).foregroundStyle(status == "Failed" ? .orange : .secondary) }
                             if !package.installable { Text(package.availability).font(.caption).foregroundStyle(.orange) }
-                            Button(store.myAppIDs.contains(package.id) ? "Saved" : "Add to My Apps") { store.registerPersonal(package,favorite:true) }.disabled(store.locked || !package.installable || store.myAppIDs.contains(package.id))
+                            Button(store.myAppIDs.contains(package.id) ? "Saved" : "Save to Library") { store.registerPersonal(package,favorite:true) }.disabled(store.locked || !package.installable || store.myAppIDs.contains(package.id))
                             Button(store.selected.contains(package.id) ? "Selected" : "Select to install") { store.toggle(package) }.disabled(store.locked || !store.canInstall(package))
                         }.padding(.vertical,12)
                         Divider()
@@ -149,6 +160,6 @@ struct ExploreView: View {
                 Button("Export setup") { store.exportSelected.formUnion(store.selected); store.showSetupExport = true }.disabled(store.locked)
                 Button("Review \(store.installSelection.count) apps") { Task { await store.prepare() } }.buttonStyle(.borderedProminent).disabled(store.locked || store.installSelection.isEmpty || !store.startupReady || store.brew == nil)
             }
-        }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor)).task { await store.loadExplore() }
+        }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor)).task(id:store.search) { if !store.search.trimmingCharacters(in:.whitespaces).isEmpty { try? await Task.sleep(nanoseconds:300_000_000); if !Task.isCancelled { await store.loadExplore() } } }
     }
 }
