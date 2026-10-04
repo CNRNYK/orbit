@@ -141,6 +141,8 @@ import AudioToolbox
         _ = NSApplication.shared
         let previewState = RecorderState()
         previewState.preview = true
+        previewState.tab = "Edit"
+        previewState.options = RecorderOptions()
         previewState.player = AVPlayer(url:output)
         previewState.recordingURL = output
         previewState.duration = duration
@@ -171,6 +173,39 @@ import AudioToolbox
         let detached = players(in:hosting).first!
         RecorderPlayerView.dismantleNSView(detached,coordinator:())
         precondition(detached.player == nil, "Closing preview must release playback")
+        let editor = RecorderState()
+        await editor.showRecording(output)
+        precondition(editor.tab == "Edit" && editor.recordingURL == output && !editor.selectionChanged)
+        editor.moveHandle("Start",to:0.2); editor.moveHandle("End",to:0.7)
+        precondition(editor.trimStart == 0.2 && editor.trimEnd == 0.7 && editor.selectionChanged)
+        try await Task.sleep(nanoseconds:150_000_000)
+        precondition(abs(editor.player!.currentTime().seconds - (0.7-editor.minimumRange)) < 0.05, "The end handle must seek the last kept frame")
+        editor.moveHandle("Start",to:0.3)
+        try await Task.sleep(nanoseconds:150_000_000)
+        precondition(abs(editor.player!.currentTime().seconds-0.3) < 0.05, "The start handle must seek the first kept frame")
+        editor.moveHandle("Start",to:9); precondition(editor.trimStart < editor.trimEnd)
+        editor.moveHandle("End",to:-1); precondition(editor.trimEnd > editor.trimStart)
+        editor.resetEdit(); precondition(!editor.selectionChanged)
+        editor.moveHandle("Start",to:0.2); editor.moveHandle("End",to:0.7)
+        await editor.previewEdit()
+        precondition(editor.editPreview && editor.recordingURL == output && editor.editPreviewURL != output)
+        let previewFile = editor.editPreviewURL!
+        let previewDuration = try await AVURLAsset(url:previewFile).load(.duration).seconds
+        precondition(abs(previewDuration-0.5) < 0.08)
+        editor.moveHandle("End",to:0.8)
+        precondition(!editor.editPreview && !FileManager.default.fileExists(atPath:previewFile.path))
+        editor.removeSelection = true; await editor.previewEdit()
+        let removalDuration = try await AVURLAsset(url:editor.editPreviewURL!).load(.duration).seconds
+        precondition(abs(removalDuration-(editor.duration-0.6)) < 0.08)
+        editor.restoreOriginal(); await editor.thumbnailTask?.value
+        precondition(!editor.thumbnails.isEmpty, "Generated video must provide real timeline thumbnails")
+        precondition(FileManager.default.fileExists(atPath:output.path))
+        precondition(RecorderEditPlan.make(duration:1,start:0,end:1,remove:true) == nil)
+        precondition(RecorderEditPlan.make(duration:1,start:0.8,end:0.2,remove:false) == nil)
+        precondition(RecorderEditPlan.make(duration:.nan,start:0,end:1,remove:false) == nil)
+        let short = RecorderState(); short.duration = 0.01; short.trimEnd = 0.01; short.moveHandle("Start",to:1)
+        precondition(short.trimStart == 0 && short.trimEnd == 0.01)
+        print("PASS: editor tab, both handle seeks, crossing guards, unchanged/invalid selections, real keep/remove previews, temporary cleanup and original preservation")
         print("PASS: completed-recording player UI, native playback controls, recording replacement and playback teardown")
         let store = Store(preview:true,persistSelection:false); store.recorderState.phase = .recording; store.recorderState.elapsed = 65
         precondition(store.locked && MenuBarState(store:store).operating && store.recorderState.elapsedLabel == "01:05")

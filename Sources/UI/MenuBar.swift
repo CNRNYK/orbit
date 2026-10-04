@@ -182,7 +182,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             let mode: ActionMode = action == .screenshots ? .screenshots : action == .permissions ? .permissions : action == .health ? .health : .login
             store.navigate(mode); openWindow()
         case .recorder:
-            if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.revealActiveRecorder() } else { store.navigate(.recorder) }; openWindow()
+            if state.operating && !store.recorderState.busy { return }; if store.recorderState.busy { store.revealActiveRecorder() } else { store.recorderState.tab = "Settings"; store.navigate(.recorder) }; openWindow()
         case .record:
             guard !state.operating else { return }; popover.close(); store.recorderState.showCompactControls(); mainWindow?.orderOut(nil)
         case .startRecord:

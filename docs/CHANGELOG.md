@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.0
+
+- Split Screen Recorder into Record, Edit and Settings; automatically open Edit after recording.
+- Add a thumbnail timeline with two handles, exact live frame seeking, frame-step adjustments and an original playback marker.
+- Show keep/remove selection colors, resulting duration, reset, temporary edited preview and non-destructive Save edited copy.
+- Open existing videos, remember recorder preferences and choose the automatic recording destination folder.
+- Verify editor seeks and real keep/remove preview exports with generated videos; no hardware capture is performed by tests.
+
 ## 0.19.1
 
 - Combine screenshot and recording shortcuts in one menu-bar Screen Capture card with a shared mode selector.
