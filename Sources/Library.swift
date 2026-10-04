@@ -1,0 +1,118 @@
+import SwiftUI
+import AppKit
+
+struct ManualRemovalPlan: Identifiable {
+    let app: LocalApp
+    let device: UInt64
+    let leftovers: [Leftover]
+    var id: String { app.id }
+    static func inspect(_ app: LocalApp, home: String = NSHomeDirectory(), roots: [String]? = nil) -> Self? {
+        let allowed = roots ?? ["/Applications",home + "/Applications"]
+        guard allowed.contains(where: { app.path.hasPrefix($0 + "/") }), app.unchanged,
+              let device = (try? FileManager.default.attributesOfItem(atPath:app.path)[.systemNumber] as? NSNumber)?.uint64Value else { return nil }
+        var found = [Leftover]()
+        if app.identifier.contains("."), app.identifier.range(of:#"^[A-Za-z0-9.-]+$"#,options:.regularExpression) != nil {
+            for folder in Cleanup.folders {
+                let basename = folder == "Preferences" ? app.identifier + ".plist" : folder == "Saved Application State" ? app.identifier + ".savedState" : folder == "Cookies" ? app.identifier + ".binarycookies" : app.identifier
+                if let item = Cleanup.snapshot(packageID:app.id,appName:app.name,path:home + "/Library/" + folder + "/" + basename,kind:folder,home:home) { found.append(item) }
+            }
+        }
+        return Self(app:app,device:device,leftovers:found)
+    }
+    func unchanged() -> Bool {
+        app.unchanged && (try? FileManager.default.attributesOfItem(atPath:app.path)[.systemNumber] as? NSNumber)?.uint64Value == device
+    }
+}
+@MainActor extension Store {
+    var libraryPackages: [Package] {
+        packages.filter { package in
+            let managed = installed.contains(package.id), saved = myAppIDs.contains(package.id)
+            if !managed && localApps.contains(where: { $0.package?.id == package.id }) { return false }
+            return (libraryFilter == .installed ? managed : libraryFilter == .saved ? saved : managed || saved) &&
+                (search.isEmpty || (package.name + " " + package.detail).localizedCaseInsensitiveContains(search)) &&
+                (category == "All Apps" || category == "My apps" || package.belongs(to:category,subcategory:subcategory))
+        }.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+    var libraryManualApps: [LocalApp] { visibleManualApps.filter { libraryFilter != .saved || $0.package.map { myAppIDs.contains($0.id) } == true } }
+    func toggleLibraryInstall(_ package: Package) {
+        guard !locked, canInstall(package) else { return }
+        registerPersonal(package)
+        if mode == .uninstall {
+            if savedInstallSelection.contains(package.id) { savedInstallSelection.remove(package.id) } else { savedInstallSelection.insert(package.id) }
+        } else { toggle(package) }
+    }
+    func reviewManualRemoval(_ app: LocalApp) async {
+        guard !preview, !locked, inventoryKnown, manualApps.contains(where: { $0.id == app.id }) else { return }
+        preparing = true; defer { preparing = false }
+        guard let plan = await Task.detached(operation:{ ManualRemovalPlan.inspect(app) }).value else { notice = "This app changed or is outside Applications. Refresh before trying again."; return }
+        manualRemoval = plan; manualLeftovers = Set(plan.leftovers.filter { !$0.dataSensitive }.map(\.id))
+    }
+    func removeManualApp() async {
+        guard !preview, !locked, let plan = manualRemoval else { return }
+        preparing = true; defer { preparing = false }
+        await refresh()
+        guard inventoryKnown, manualApps.contains(where: { $0.id == plan.app.id }), plan.unchanged() else { manualRemoval = nil; notice = "The app changed or is now managed by Homebrew. Refresh and review again."; return }
+        guard !NSWorkspace.shared.runningApplications.contains(where: { $0.bundleURL?.standardizedFileURL.path == plan.app.path }) else { notice = "Quit \(plan.app.name) before removing it."; return }
+        do {
+            try FileManager.default.trashItem(at:URL(fileURLWithPath:plan.app.path),resultingItemURL:nil)
+            var failures = [String]()
+            for item in plan.leftovers where manualLeftovers.contains(item.id) {
+                do { try Cleanup.trash(item) } catch { failures.append(item.path + ": " + error.localizedDescription) }
+            }
+            appendLog("Moved \(plan.app.name) to Trash.\n" + failures.joined(separator:"\n")); manualRemoval = nil
+            if !failures.isEmpty { notice = "The app was moved to Trash. Some leftovers could not be moved; see Operation details." }
+            await refresh()
+        } catch { notice = "Could not move the app to Trash: " + error.localizedDescription }
+    }
+}
+struct LibraryView: View {
+    @ObservedObject var store: Store
+    var body: some View {
+        VStack(alignment:.leading,spacing:14) {
+            HStack { Text("Library").font(.title2.bold()); Spacer(); TextField("Search your library",text:$store.search).textFieldStyle(.roundedBorder).frame(width:240); Button("Refresh",systemImage:"arrow.clockwise") { Task { await store.refresh() } }.disabled(store.locked) }
+            Text("Installed apps and saved favorites together. Saving an app does not install it.").foregroundStyle(.secondary)
+            Picker("Show",selection:$store.libraryFilter) { ForEach(LibraryFilter.allCases,id:\.self) { Text($0.rawValue).tag($0) } }.pickerStyle(.segmented).disabled(store.locked)
+            ScrollView {
+                LazyVStack(alignment:.leading,spacing:0) {
+                    ForEach(store.libraryPackages) { package in
+                        HStack(spacing:12) {
+                            if store.installed.contains(package.id) {
+                                Toggle("Select for uninstall",isOn:Binding(get:{store.selected.contains(package.id)},set:{_ in store.toggle(package)})).labelsHidden().disabled(store.locked || !store.inventoryKnown)
+                            } else {
+                                Toggle("Select for installation",isOn:Binding(get:{store.centerInstallSelection.contains { $0.id == package.id }},set:{_ in store.toggleLibraryInstall(package)})).labelsHidden().disabled(store.locked || !store.canInstall(package))
+                            }
+                            AppIcon(package:package).frame(width:36,height:36)
+                            Button { store.detailPackage = package } label: { VStack(alignment:.leading,spacing:4) { Text(package.name).bold(); Text(package.detail).font(.caption).foregroundStyle(.secondary) }.frame(maxWidth:.infinity,alignment:.leading) }.buttonStyle(.plain)
+                            Text(store.installed.contains(package.id) ? "Homebrew-managed" : package.manualAppExists ? "Installed manually" : "Saved").font(.caption).foregroundStyle(.secondary)
+                            if store.myAppIDs.contains(package.id) { Button("Unsave",systemImage:"star.slash") { store.removeFavorite(package) }.help("Remove from saved apps without uninstalling") }
+                            else { Button("Save",systemImage:"star") { store.registerPersonal(package,favorite:true) } }
+                        }.padding(.vertical,12).disabled(store.locked)
+                        Divider()
+                    }
+                    if !store.libraryManualApps.isEmpty { Text("Installed manually").font(.headline).padding(.top,20) }
+                    ForEach(store.libraryManualApps) { app in
+                        HStack(spacing:12) {
+                            Image(nsImage:NSWorkspace.shared.icon(forFile:app.path)).resizable().scaledToFit().frame(width:36,height:36)
+                            VStack(alignment:.leading,spacing:4) { Text(app.name).bold(); Text(app.path).font(.caption).foregroundStyle(.secondary) }; Spacer()
+                            if app.package?.installable == true { Button("Manage with Homebrew") { store.selectedManual = [app.id]; Task { await store.prepareAdoption() } } }
+                            Button("Uninstall & Clean",systemImage:"trash") { Task { await store.reviewManualRemoval(app) } }.disabled(!store.inventoryKnown)
+                        }.padding(.vertical,12).disabled(store.locked); Divider()
+                    }
+                    if store.libraryPackages.isEmpty && store.libraryManualApps.isEmpty { ContentUnavailableView("Your library is empty",systemImage:"books.vertical",description:Text("Refresh installed apps or save apps from Discover.")) }
+                }
+            }
+            if store.busy { ProgressView(value:Double(store.completed),total:Double(max(store.total,1))); HStack { Text(store.progressSummary).font(.caption); Spacer(); Button("Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested) } }
+            Toggle("Review leftover files when uninstalling",isOn:$store.cleanRemoval).disabled(store.locked)
+            HStack { Button("Operation details") { store.showLog = true }; Button("Export setup") { store.showSetupExport = true }; Spacer(); Button("Uninstall \(store.removable.count) apps") { Task { await store.prepareRemoval() } }.buttonStyle(.borderedProminent).disabled(store.locked || store.removable.isEmpty || !store.startupReady) }
+        }.padding(24).sheet(item:$store.manualRemoval) { plan in
+            VStack(alignment:.leading,spacing:16) {
+                Text("Uninstall & Clean · " + plan.app.name).font(.title2.bold())
+                Text("The application and selected files will move to Trash. Application data is optional; review each path. Shared vendor folders are excluded.").foregroundStyle(.secondary)
+                Label(plan.app.path,systemImage:"app.badge.checkmark").textSelection(.enabled)
+                ScrollView { ForEach(plan.leftovers) { item in Toggle(isOn:Binding(get:{store.manualLeftovers.contains(item.id)},set:{if $0 {store.manualLeftovers.insert(item.id)} else {store.manualLeftovers.remove(item.id)}})) { VStack(alignment:.leading) { Text(item.kind + " · " + item.size); Text(item.path).font(.caption).textSelection(.enabled); if item.dataSensitive { Text("May contain settings or personal data").font(.caption).foregroundStyle(.orange) } } }.padding(.vertical,8) } }
+                if plan.leftovers.isEmpty { Text("No exact matching leftover paths were found.").foregroundStyle(.secondary) }
+                HStack { Button("Cancel") { store.manualRemoval = nil }; Spacer(); Button("Move to Trash",role:.destructive) { Task { await store.removeManualApp() } }.buttonStyle(.borderedProminent).disabled(store.locked) }
+            }.padding(24).frame(width:720,height:520)
+        }
+    }
+}

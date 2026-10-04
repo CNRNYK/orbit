@@ -98,6 +98,9 @@ struct SystemCommands: CommandExecuting {
     @Published var adoptionStatuses = [String: String]()
     @Published var showAdoptionReview = false
     @Published var manualTab = false
+    @Published var libraryFilter = LibraryFilter.all
+    @Published var manualRemoval: ManualRemovalPlan?
+    @Published var manualLeftovers = Set<String>()
     @Published var notInstalledOnly = false
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
@@ -200,13 +203,13 @@ struct SystemCommands: CommandExecuting {
         }
         return browsingPackages.filter { $0.belongs(to: category, subcategory: section) }.count
     }
-    @Published var savedInstallSelection = Set<String>()
+    @Published var savedInstallSelection = Set<String>() { didSet { if persistSelection && mode == .uninstall { preferences.set(Array(savedInstallSelection),forKey:"selection") } } }
     private var savedRemovalSelection = Set<String>()
     private var discoverMode = ActionMode.install
     private var lastHomebrewMode = ActionMode.install
     private var lastHomebrewCategory = "All Apps"
     var isHomebrewCenter: Bool { [.install,.uninstall,.updates,.explore].contains(mode) }
-    var homebrewTab: HomebrewTab { mode == .uninstall ? .installed : mode == .updates ? .updates : category == "My apps" && mode == .install ? .myApps : .discover }
+    var homebrewTab: HomebrewTab { mode == .uninstall || category == "My apps" && mode == .install ? .library : mode == .updates ? .updates : .discover }
     var centerInstallSelection: [Package] { mode == .uninstall ? packages.filter { savedInstallSelection.contains($0.id) && canInstall($0) } : installSelection }
     func removeCenterInstall(_ package: Package) {
         guard !locked else { return }
@@ -220,7 +223,7 @@ struct SystemCommands: CommandExecuting {
     }
     func openHomebrewCenter() { navigate(lastHomebrewMode,category:lastHomebrewCategory) }
     func selectHomebrewTab(_ tab: HomebrewTab) {
-        switch tab { case .discover: navigate(discoverMode); case .installed: navigate(.uninstall); case .updates: navigate(.updates); case .myApps: navigate(.install,category:"My apps") }
+        switch tab { case .discover: navigate(.install); case .library: navigate(.uninstall); case .updates: navigate(.updates) }
     }
     func navigate(_ mode: ActionMode, category: String = "All Apps") {
         guard !locked else { return }

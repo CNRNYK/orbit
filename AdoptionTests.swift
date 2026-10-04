@@ -19,6 +19,15 @@ enum AdoptionTests {
         precondition(!wrong[0].identityMatched)
         let unknown = AppScanner.scan(roots: [root], packages: [], references: [:])
         precondition(unknown.count == 1 && unknown[0].package == nil)
+        let plan = ManualRemovalPlan.inspect(apps[0],home:root,roots:[root])!
+        precondition(plan.unchanged() && ManualRemovalPlan.inspect(apps[0],home:root) == nil)
+        let cache = root + "/Library/Caches/org.fixture.app"
+        let data = root + "/Library/Application Support/org.fixture.app"
+        for folder in [cache,data] { try! fm.createDirectory(atPath:folder,withIntermediateDirectories:true) }
+        let reviewed = ManualRemovalPlan.inspect(apps[0],home:root,roots:[root])!
+        precondition(reviewed.leftovers.count == 2 && reviewed.leftovers.filter { !$0.dataSensitive }.map(\.path) == [cache])
+        try! fm.createDirectory(atPath:root + "/Library/Application Support/org.fixture",withIntermediateDirectories:true)
+        precondition(ManualRemovalPlan.inspect(apps[0],home:root,roots:[root])!.leftovers.count == 2,"Shared vendor directories must be excluded")
         let app = apps[0]
         let item = AdoptionItem(app: app, installer: false, version: "1", problem: nil)
         precondition(item.arguments == ["install", "--cask", "--appdir=" + root, "--adopt", "figma"])
