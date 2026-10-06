@@ -109,6 +109,7 @@ struct SystemCommands: CommandExecuting {
     let recorderState = RecorderState()
     private var recorderSubscription: AnyCancellable?
     let terminalState: TerminalState
+    let shortcuts: KeyboardShortcutState
     @Published var explorePackages = [Package]()
     var exploreSearch: String { get { search } set { search = newValue } }
     @Published var exploreKind = "All"
@@ -217,6 +218,11 @@ struct SystemCommands: CommandExecuting {
         if mode == .uninstall { savedInstallSelection.remove(package.id); if persistSelection { preferences.set(Array(savedInstallSelection),forKey:"selection") } }
         else { selected.remove(package.id) }
     }
+    func setMenuCaptureMode(_ mode: String) {
+        guard !locked, ["Full screen","Selected area","Window"].contains(mode) else { return }
+        recorderState.options.mode = mode; recorderState.modeChanged()
+        screenshots.source.options.mode = mode; screenshots.source.modeChanged()
+    }
     func revealActiveRecorder() {
         guard recorderState.busy else { return }
         if mode == .uninstall { savedRemovalSelection = selected; mode = .recorder; selected = savedInstallSelection; sanitizeInstallSelection() }
@@ -240,7 +246,7 @@ struct SystemCommands: CommandExecuting {
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
     var lockedWithoutTerminal: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources }
-    var locked: Bool { lockedWithoutTerminal || terminalState.working }
+    var locked: Bool { lockedWithoutTerminal || terminalState.working || screenshots.selectingWindow }
     let permissions = PermissionState()
     let health = HealthState()
     let login = LoginState()
@@ -252,6 +258,7 @@ struct SystemCommands: CommandExecuting {
     private let preferences: UserDefaults
     var personalPersistence: Bool { persistSelection }
     init(preview: Bool = false, persistSelection: Bool = true, preferences: UserDefaults = .standard) {
+        shortcuts = KeyboardShortcutState(preferences: !preview && persistSelection ? preferences : nil)
         terminalState = TerminalState(preferences: !preview && persistSelection ? preferences : nil)
         self.preferences = preferences
         self.preview = preview
@@ -259,15 +266,22 @@ struct SystemCommands: CommandExecuting {
         if !preview { keepInMenuBar = preferences.object(forKey:"orbit.keep-in-menu-bar") as? Bool ?? true }
         recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
         permissions.preview = preview; health.preview = preview; login.preview = preview; screenshots.preview = preview; screenshots.source.preview = preview
-        for publisher in [terminalState.objectWillChange,permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
+        for publisher in [shortcuts.objectWillChange,terminalState.objectWillChange,permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
         let canAct: () -> Bool = { [weak self] in guard let self else { return false }; return !self.locked && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
-        permissions.canAct = canAct; health.canAct = canAct; login.canAct = canAct; screenshots.canAct = canAct
+        permissions.canAct = canAct; health.canAct = canAct; login.canAct = canAct; screenshots.canAct = { [weak self] in guard let self else { return false }; return !self.lockedWithoutTerminal && !self.terminalState.working && !self.maintenanceState.working }
         permissions.screenFailure = { [weak self] in self?.recorderState.notice }
         permissions.verifyScreen = { [weak self] in guard let self else { return false }; return await self.recorderState.loadSources() }
         let verified: (Bool) -> Void = { [weak self] value in self?.permissions.screenVerified = value; self?.permissions.refresh() }
         recorderState.onSourcesVerified = verified; screenshots.source.onSourcesVerified = verified
+        if !preview && persistSelection {
+            if let data = preferences.data(forKey:"orbit.recorder.options"), var saved = try? JSONDecoder().decode(RecorderOptions.self,from:data) { saved.masks = []; recorderState.options = saved }
+            if let mode = preferences.string(forKey:"orbit.screenshot.mode"), ["Full screen","Selected area","Window"].contains(mode) { screenshots.source.options.mode = mode }
+            else { screenshots.source.options.mode = "Full screen" }
+            recorderState.onOptionsChanged = { options in var saved = options; saved.masks = []; preferences.set(try? JSONEncoder().encode(saved),forKey:"orbit.recorder.options") }
+            screenshots.source.onOptionsChanged = { options in preferences.set(options.mode,forKey:"orbit.screenshot.mode") }
+        }
         recorderState.preview = preview
-        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
+        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.selectingWindow && !self.screenshots.source.loadingSources }
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
         } else {

@@ -17,6 +17,7 @@ import Foundation
         precondition(stderrFlood.0 == 0 && (try! UpdatePlan.parse(Data(stderrFlood.1.utf8))).isEmpty, "Large stderr must not deadlock or contaminate JSON")
         try! await MacToolsTests.run()
         try! await RecorderTests.run()
+        try! await CaptureShortcutTests.run()
         try! await MenuBarTests.run()
         try! await WorkflowUITests.run()
         try! await TerminalSetupTests.run()

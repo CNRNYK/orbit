@@ -261,3 +261,7 @@ The shared To install panel persists across all four tabs. Homebrew removal choi
 ## Terminal Setup workspace (0.21.0)
 
 See [Terminal Setup](TERMINAL-SETUP.md) for the three-tab workflow, automatic read-only discovery, explicit version probes, project requirements, custom aliases, Git identity, portable setup files and private multi-file backups.
+
+## Multi-display capture and shortcuts (0.22.0)
+
+See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.
