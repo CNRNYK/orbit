@@ -39,3 +39,7 @@ Preview mode suppresses operations, prompts and device capture. README screensho
 On a test Mac, keep one copy in Applications. Verify optional permission requests and denied/retry behavior. Record full screen, area and window with the selected audio options; pause, stop and confirm preview. Check the visible capture border, menu bar screenshot capture/editor, retained audio after both trim actions, multiple displays and window movement. Test manual removal only on a disposable app after reviewing exact paths. Confirm login refresh after granting access and Add application's initial folder.
 
 Passing generated media tests does not prove the installed app's ScreenCaptureKit/TCC access, microphone/camera behavior or multi-monitor capture. Those remain separate device checks.
+
+## Multi-display capture and shortcuts (0.22.0)
+
+See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.

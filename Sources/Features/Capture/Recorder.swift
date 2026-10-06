@@ -15,7 +15,10 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     var onRecordingSaved: (() -> Void)?
     var onSourcesVerified: ((Bool) -> Void)?
     @Published var tab = "Record"
-    @Published var options = RecorderOptions()
+    @Published var options = RecorderOptions() { didSet { onOptionsChanged?(options) } }
+    var onOptionsChanged: ((RecorderOptions) -> Void)?
+    var selectedArea: CaptureAreaSelection?
+    var displayGeometry: () -> [CaptureDisplayGeometry] = { CaptureDisplayGeometry.current() }
     @Published var outputFolder = FileManager.default.urls(for:.moviesDirectory,in:.userDomainMask).first!.appendingPathComponent("Orbit Recordings",isDirectory:true)
     @Published var thumbnails = [NSImage]()
     @Published var removeSelection = false
@@ -27,7 +30,8 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     @Published var phase = Phase.idle
     @Published var displays = [SCDisplay]()
     @Published var windows = [SCWindow]()
-    @Published var displayID: UInt32 = 0
+    private var requestedDisplayID: UInt32?
+    @Published var displayID: UInt32 = 0 { didSet { if displayID != 0 { requestedDisplayID = displayID } } }
     @Published var windowID: UInt32 = 0
     @Published var area: CGRect?
     @Published var loadingSources = false
@@ -70,6 +74,7 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     private let tracker = RecorderInputTracker(), picker = RecorderRegionPicker()
     private var began: Date?, pausedAt: Date?, pausedDuration = 0.0
     private var sleepObserver: NSObjectProtocol?
+    private var displayObserver: NSObjectProtocol?
     var active: Bool { phase != .idle }
     var busy: Bool { active || loadingSources || editing }
     var canPause: Bool { phase == .recording || phase == .paused }
@@ -94,7 +99,8 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             let content = try await requestSources()
             displays = content.displays
             windows = content.windows.filter { $0.owningApplication?.processID != ProcessInfo.processInfo.processIdentifier && $0.frame.width >= 40 && $0.frame.height >= 40 && $0.windowLayer == 0 }.sorted { ($0.owningApplication?.applicationName ?? "").localizedCaseInsensitiveCompare($1.owningApplication?.applicationName ?? "") == .orderedAscending }
-            if selectedDisplay == nil { displayID = displays.first(where:{ $0.displayID == CGMainDisplayID() })?.displayID ?? displays.first?.displayID ?? 0; area = nil }
+            if displayID == 0 { displayID = requestedDisplayID ?? displays.first(where:{ $0.displayID == CGMainDisplayID() })?.displayID ?? displays.first?.displayID ?? 0 }
+            if displayID != 0 && selectedDisplay == nil { area = nil; selectedArea = nil; notice = "The selected display is disconnected. Choose another display." }
             if selectedWindow == nil { windowID = 0 }
             status = "Choose your capture source and effects. Audio and camera are optional."; onSourcesVerified?(true); return true
         } catch {
@@ -102,13 +108,27 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             onSourcesVerified?(false); notice = RecorderCaptureAccess.message(error); status = "Screen sources could not be refreshed."; return false
         }
     }
-    func modeChanged() { area = nil; options.masks = [] }
+    func modeChanged() { area = nil; selectedArea = nil; options.masks = [] }
     func chooseArea() async {
         guard !preview, !busy else { return }
         if displays.isEmpty { await loadSources() }
-        guard let display = selectedDisplay else { return }
         phase = .preparing; defer { phase = .idle }
-        if let rect = await picker.select(displayID:display.displayID) { area = rect; options.masks = [] }
+        if let selection = await picker.selectArea(displayIDs:displays.map(\.displayID),preferredDisplayID:displayID) { applyArea(selection) }
+    }
+    func applyArea(_ selection: CaptureAreaSelection) {
+        displayID = selection.displayID; area = selection.rect; selectedArea = selection; options.masks = []
+    }
+    func displayRequest(availableIDs: [UInt32]? = nil) throws -> CaptureDisplayRequest {
+        if options.mode == "Selected area", selectedArea?.rect != area { throw RecorderProblem(message:"Select a capture area again.") }
+        return try CaptureDisplayRequest(displayID:displayID,selection:selectedArea,areaMode:options.mode == "Selected area",current:displayGeometry(),availableIDs:availableIDs ?? displays.map(\.displayID))
+    }
+    func validatedAreaSourceRect() throws -> CGRect {
+        guard let selectedArea, selectedArea.displayID == displayID, selectedArea.rect == area else { throw RecorderProblem(message:"Select a capture area again.") }
+        guard let crop = try displayRequest().sourceRect else { throw RecorderProblem(message:"Select a capture area again.") }; return crop
+    }
+    func validateDisplay() throws {
+        guard displayGeometry().contains(where: { $0.id == displayID }) else { throw RecorderProblem(message:"The selected display is disconnected. Choose another display.") }
+        if options.mode == "Selected area" { _ = try validatedAreaSourceRect() }
     }
     func addMask() async {
         guard !preview, !busy, let frame = captureFrame else { return }
@@ -134,10 +154,11 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             try check(ticket)
             guard !displays.isEmpty else { throw RecorderProblem(message:"No screen is available. Refresh sources after allowing Screen Recording.") }
             if options.mode == "Selected area", area == nil {
-                guard let display = selectedDisplay, let rect = await picker.select(displayID:display.displayID) else { throw CancellationError() }; area = rect; options.masks = []
+                guard let selection = await picker.selectArea(displayIDs:displays.map(\.displayID),preferredDisplayID:displayID) else { throw CancellationError() }; applyArea(selection)
             }
             try check(ticket)
-            guard let frame = captureFrame else { throw RecorderProblem(message:options.mode == "Window" ? "Choose a window before starting a window recording." : "Choose a capture source first.") }
+            guard let frame = captureFrame else { throw RecorderProblem(message:notice ?? (options.mode == "Window" ? "Choose a window before starting a window recording." : "Choose a capture source first.")) }
+            let captureDisplay = options.mode == "Window" ? nil : displayGeometry().first { $0.id == displayID }
             let capturedOptions = options
             if capturedOptions.microphone { guard await AVCaptureDevice.requestAccess(for:.audio) else { throw RecorderProblem(message:"Microphone access was denied. Allow it in System Settings or turn Microphone off.") } }
             if capturedOptions.webcam { guard await AVCaptureDevice.requestAccess(for:.video) else { throw RecorderProblem(message:"Camera access was denied. Allow it in System Settings or turn Webcam off.") } }
@@ -153,27 +174,34 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             let filter: SCContentFilter
             if capturedOptions.mode == "Window" { guard let window = selectedWindow else { throw RecorderProblem(message:"The selected window is no longer available.") }; filter = SCContentFilter(desktopIndependentWindow:window) }
             else {
-                guard let display = selectedDisplay else { throw RecorderProblem(message:"The selected display is no longer available.") }
+                guard selectedDisplay != nil else { throw RecorderProblem(message:"The selected display is no longer available.") }
                 let content = try await SCShareableContent.excludingDesktopWindows(true,onScreenWindowsOnly:true)
                 let ownApps = content.applications.filter { $0.processID == ProcessInfo.processInfo.processIdentifier }
-                filter = SCContentFilter(display:display,excludingApplications:ownApps,exceptingWindows:[])
+                let request = try displayRequest(availableIDs:content.displays.map(\.displayID))
+                guard let currentDisplay = content.displays.first(where: { $0.displayID == request.displayID }) else { throw RecorderProblem(message:"The selected display is disconnected. Choose another display.") }
+                filter = SCContentFilter(display:currentDisplay,excludingApplications:ownApps,exceptingWindows:[])
             }
             try check(ticket)
             let scale = CGFloat(filter.pointPixelScale)
             let size = RecorderGeometry.outputSize(CGSize(width:frame.width*scale,height:frame.height*scale),maxWidth:capturedOptions.maxWidth)
             let config = SCStreamConfiguration(); config.width = Int(size.width); config.height = Int(size.height); config.pixelFormat = kCVPixelFormatType_32BGRA; config.minimumFrameInterval = CMTime(value:1,timescale:CMTimeScale(capturedOptions.fps)); config.queueDepth = 3; config.preservesAspectRatio = false; config.showsCursor = true; config.capturesAudio = capturedOptions.systemAudio; config.excludesCurrentProcessAudio = true; config.sampleRate = 48000; config.channelCount = 2
             if #available(macOS 14.2, *) { config.ignoreShadowsSingleWindow = true }
-            if capturedOptions.mode == "Selected area", let display = selectedDisplay { let bounds = CGDisplayBounds(display.displayID); config.sourceRect = CGRect(x:frame.minX-bounds.minX,y:frame.minY-bounds.minY,width:frame.width,height:frame.height) }
+            if capturedOptions.mode == "Selected area" { config.sourceRect = try validatedAreaSourceRect() }
             annotations.clear(); recordingOverlay.show(frame:frame); phase = .countdown; showHUD(); for count in (1...3).reversed() { countdown = count; try await Task.sleep(nanoseconds:1_000_000_000); try check(ticket) }
+            if capturedOptions.mode != "Window" { try validateDisplay(); guard let captureDisplay, displayGeometry().contains(captureDisplay) else { throw RecorderProblem(message:"The display arrangement changed. Choose the source again.") } }
             let engine = try RecorderEngine(url:raw,options:capturedOptions,size:size,frame:frame,tracker:tracker,annotations:annotations.buffer); self.engine = engine
             engine.onFrameChanged = { [weak self] frame in Task { @MainActor in guard let self, self.phase == .countdown || self.phase == .recording || self.phase == .paused else { return }; self.recordingOverlay.show(frame:frame) } }
             engine.onFailure = { [weak self] message in Task { @MainActor in guard let self else { return }; if self.phase == .recording || self.phase == .paused { await self.stop(interruption:message) } else if self.phase == .countdown || self.phase == .preparing { self.notice = message; self.cancelStart() } } }
             tracker.clear()
             try await engine.start(filter:filter,configuration:config,trackingWindow:capturedOptions.mode == "Window")
             try check(ticket)
+            if let captureDisplay, !displayGeometry().contains(captureDisplay) { throw RecorderProblem(message:"The display arrangement changed while capture was starting. Choose the source again.") }
             phase = .recording; began = Date(); pausedDuration = 0; elapsed = 0; status = "Recording \(sourceLabel). Orbit controls are excluded."
             ticker = Timer.scheduledTimer(withTimeInterval:0.25,repeats:true) { [weak self] _ in Task { @MainActor in guard let self, self.phase == .recording, let began = self.began else { return }; self.elapsed = max(0,Date().timeIntervalSince(began)-self.pausedDuration) } }
             if let ticker { RunLoop.main.add(ticker,forMode:.common) }
+            displayObserver = NotificationCenter.default.addObserver(forName:NSApplication.didChangeScreenParametersNotification,object:nil,queue:.main) { [weak self] _ in
+                Task { @MainActor in guard let self, let captureDisplay, !self.displayGeometry().contains(captureDisplay) else { return }; await self.stop(interruption:"The captured display disconnected or changed arrangement.") }
+            }
             sleepObserver = NSWorkspace.shared.notificationCenter.addObserver(forName:NSWorkspace.willSleepNotification,object:nil,queue:.main) { [weak self] _ in Task { @MainActor in await self?.stop(interruption:"The Mac is going to sleep.") } }
         } catch {
             if let engine { try? await engine.finish() }; engine = nil
@@ -193,6 +221,7 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
         guard phase == .recording || phase == .paused, let engine, let destination else { return }
         phase = .finishing; recordingOverlay.close(); ticker?.invalidate(); ticker = nil; tracker.stop(); player?.pause(); status = "Finalizing video and mixing selected audio…"
         if let sleepObserver { NSWorkspace.shared.notificationCenter.removeObserver(sleepObserver) }; sleepObserver = nil
+        if let displayObserver { NotificationCenter.default.removeObserver(displayObserver) }; displayObserver = nil
         var saved = false
         defer { self.engine = nil; self.destination = nil; phase = .idle; hud?.orderOut(nil); hud = nil; hudHost = nil; hudSubscription = nil; compactControls = false; if saved { onRecordingSaved?() } }
         do {
@@ -238,9 +267,9 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
         guard panel.runModal() == .OK, let url = panel.url else { return nil }
         guard !FileManager.default.fileExists(atPath:url.path) else { notice = "Choose a new filename; Orbit does not replace existing files."; return nil }; return url
     }
-    func showCompactControls() {
+    func showCompactControls(preserveNotice: Bool = false) {
         guard !busy, canBegin() else { return }
-        compactControls = true; notice = nil; if options.mode == "Selected area" { area = nil }; showHUD()
+        compactControls = true; if !preserveNotice { notice = nil }; if options.mode == "Selected area" { area = nil }; showHUD()
     }
     func closeControls() {
         guard !active, !editing else { return }
@@ -284,11 +313,11 @@ struct RecorderView: View {
                             Picker("Record",selection:$state.options.mode) { ForEach(["Full screen","Selected area","Window"],id:\.self) { Text($0).tag($0) } }.pickerStyle(.segmented).onChange(of:state.options.mode) { _,_ in state.modeChanged() }
                             HStack {
                                 if state.options.mode == "Window" { Picker("Window",selection:$state.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(state.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }.onChange(of:state.windowID) { _,_ in state.options.masks = [] } }
-                                else { Picker("Display",selection:$state.displayID) { if state.displays.isEmpty { Text("Main display · refresh to choose").tag(UInt32(0)) }; ForEach(state.displays,id:\.displayID) { display in Text("Display \(state.displays.firstIndex(where: { $0.displayID == display.displayID })!+1) · \(display.width) × \(display.height)").tag(display.displayID) } }.onChange(of:state.displayID) { _,_ in state.area = nil; state.options.masks = [] } }
+                                else { Picker("Display",selection:Binding(get:{ state.displayID },set:{ state.displayID = $0; state.modeChanged() })) { if state.displays.isEmpty { Text("Main display · refresh to choose").tag(UInt32(0)) }; ForEach(state.displays,id:\.displayID) { display in Text("Display \(state.displays.firstIndex(where: { $0.displayID == display.displayID })!+1) · \(display.width) × \(display.height)").tag(display.displayID) } } }
                                 Button("Refresh sources") { Task { await state.loadSources() } }
                                 if state.loadingSources { ProgressView().controlSize(.small) }
                             }
-                            if state.options.mode == "Selected area" { HStack { Text(state.area == nil ? "Drag a rectangle on the selected display." : state.sourceLabel).foregroundStyle(.secondary); Spacer(); Button("Select area") { Task { await state.chooseArea() } } } }
+                            if state.options.mode == "Selected area" { HStack { Text(state.area == nil ? "Move to any display and drag a rectangle." : state.sourceLabel).foregroundStyle(.secondary); Spacer(); Button("Select area") { Task { await state.chooseArea() } } } }
 
                         }.padding(10)
                     }.disabled(state.busy)
@@ -346,7 +375,6 @@ struct RecorderView: View {
                 else if state.tab == "Record" { Button(state.startLabel) { state.start() }.buttonStyle(.borderedProminent).disabled(state.busy || !state.canBegin()) }
             }
         }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity).background(Color(nsColor:.windowBackgroundColor))
-        .onChange(of:state.options) { _, options in if !state.preview, let data = try? JSONEncoder().encode(options) { UserDefaults.standard.set(data,forKey:"orbit.recorder.options") } }
         .alert("Screen Recorder",isPresented:Binding(get:{ !state.compactControls && state.notice != nil },set:{ if !$0 { state.notice = nil } })) { Button("OK") { state.notice = nil }; if state.tab != "Edit" { Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) } } } message: { Text(state.notice ?? "") }
     }
 }

@@ -42,3 +42,7 @@ Setup Center shares first-launch requirements and permission controls. Passive c
 ## Build boundaries
 
 The root build/test scripts recursively collect Swift sources. Tests exclude the app's @main file and include their own runner. Resource fallback paths remain rooted at the repository working directory; bundled resources take precedence. No package manager or new third-party runtime dependency is introduced.
+
+## Multi-display capture and shortcuts (0.22.0)
+
+See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.

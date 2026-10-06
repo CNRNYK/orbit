@@ -4,53 +4,68 @@ import ScreenCaptureKit
 import UniformTypeIdentifiers
 import CoreImage
 
+@MainActor final class ScreenshotPickerDelegate: NSObject, NSWindowDelegate {
+    let cancel: () -> Void
+    init(cancel: @escaping () -> Void) { self.cancel = cancel }
+    func windowShouldClose(_ sender: NSWindow) -> Bool { cancel(); return false }
+}
 @MainActor final class ScreenshotState: ObservableObject {
     let source = RecorderState()
     let annotations = AnnotationState()
     @Published var image: CGImage?
     @Published var working = false
+    @Published var selectingWindow = false
     @Published var message = "Capture a display, selected area or window. Screenshots stay on your Mac."
     var onCaptured: (() -> Void)?
     var onCaptureFailed: (() -> Void)?
     private var quickPanel: NSPanel?
+    private var quickPanelDelegate: ScreenshotPickerDelegate?
     var preview = false
     var canAct: () -> Bool = { true }
     func capture() async {
-        guard !preview, !working, canAct() else { return }; working = true; var captured = false, failed = false; defer { working = false; if captured { quickPanel?.orderOut(nil); quickPanel = nil; onCaptured?() } else if failed { onCaptureFailed?() } }
+        guard !preview, !working, canAct() else { return }; working = true; var captured = false, failed = false; defer { working = false; if captured { quickPanel?.orderOut(nil); quickPanel = nil; quickPanelDelegate = nil; selectingWindow = false; onCaptured?() } else if failed { closeQuickPicker(); onCaptureFailed?() } }
         guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; failed = true; return }
         if source.options.mode == "Selected area" { source.area = nil; await source.chooseArea() }
-        guard let frame = source.captureFrame else { message = "Choose a window or area before capturing."; return }
+        guard let frame = source.captureFrame else { message = source.notice ?? "Choose a window, display or area before capturing."; return }
+        let captureDisplay = source.options.mode == "Window" ? nil : source.displayGeometry().first { $0.id == source.displayID }
         do {
             let filter: SCContentFilter
             if source.options.mode == "Window", let window = source.selectedWindow { filter = SCContentFilter(desktopIndependentWindow:window) }
             else {
-                guard let display = source.selectedDisplay else { throw RecorderProblem(message:"Display unavailable.") }
+                guard source.selectedDisplay != nil else { throw RecorderProblem(message:"Display unavailable.") }
                 let content = try await SCShareableContent.excludingDesktopWindows(true,onScreenWindowsOnly:true)
-                filter = SCContentFilter(display:display,excludingApplications:content.applications.filter { $0.processID == ProcessInfo.processInfo.processIdentifier },exceptingWindows:[])
+                let request = try source.displayRequest(availableIDs:content.displays.map(\.displayID))
+                guard let currentDisplay = content.displays.first(where: { $0.displayID == request.displayID }) else { throw RecorderProblem(message:"The selected display is disconnected. Choose another display.") }
+                filter = SCContentFilter(display:currentDisplay,excludingApplications:content.applications.filter { $0.processID == ProcessInfo.processInfo.processIdentifier },exceptingWindows:[])
             }
             let configuration = SCStreamConfiguration(), scale = CGFloat(filter.pointPixelScale)
             let size = RecorderGeometry.outputSize(CGSize(width:frame.width*scale,height:frame.height*scale),maxWidth:5120)
             configuration.width = Int(size.width); configuration.height = Int(size.height); configuration.showsCursor = false
             if #available(macOS 14.2, *) { configuration.ignoreShadowsSingleWindow = true }
-            if source.options.mode == "Selected area", let display = source.selectedDisplay { let bounds = CGDisplayBounds(display.displayID); configuration.sourceRect = CGRect(x:frame.minX-bounds.minX,y:frame.minY-bounds.minY,width:frame.width,height:frame.height) }
-            image = try await SCScreenshotManager.captureImage(contentFilter:filter,configuration:configuration)
+            if source.options.mode != "Window" { try source.validateDisplay(); guard let captureDisplay, source.displayGeometry().contains(captureDisplay) else { throw RecorderProblem(message:"The display arrangement changed. Choose the source again.") } }
+            if source.options.mode == "Selected area" { configuration.sourceRect = try source.validatedAreaSourceRect() }
+            let capturedImage = try await SCScreenshotManager.captureImage(contentFilter:filter,configuration:configuration)
+            if let captureDisplay, !source.displayGeometry().contains(captureDisplay) { throw RecorderProblem(message:"The display arrangement changed during capture. Capture again.") }
+            image = capturedImage
             annotations.clear(); captured = true; message = "Captured. Add annotations or redactions, then copy or save a PNG."
         } catch { message = RecorderCaptureAccess.message(error); failed = true }
     }
     func quickCapture(_ mode: String) async {
-        guard !preview, !working, canAct() else { return }
-        source.options.mode = mode; source.modeChanged()
+        guard !preview, !working, !source.loadingSources, canAct() else { return }
+        if source.options.mode != mode { source.options.mode = mode; source.modeChanged() }
         if mode != "Window" { await capture(); return }
         guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; showWindowPicker(); return }
-        showWindowPicker()
+        if source.selectedWindow != nil { await capture() } else { showWindowPicker() }
     }
     private func showWindowPicker() {
+        selectingWindow = true
         if let quickPanel { quickPanel.orderFrontRegardless(); return }
         let panel = RecorderControlPanel(contentRect:CGRect(x:0,y:0,width:440,height:240),styleMask:[.titled,.closable,.nonactivatingPanel],backing:.buffered,defer:false)
+        let delegate = ScreenshotPickerDelegate { [weak self] in self?.closeQuickPicker() }; quickPanelDelegate = delegate; panel.delegate = delegate
         panel.title = "Orbit · Capture window"; panel.level = .floating; panel.hidesOnDeactivate = false; panel.isReleasedWhenClosed = false
         panel.contentViewController = NSHostingController(rootView:ScreenshotWindowPicker(state:self,source:source)); panel.center(); panel.orderFrontRegardless(); quickPanel = panel
     }
-    func closeQuickPicker() { quickPanel?.orderOut(nil); quickPanel = nil }
+    func closeQuickPicker() { quickPanel?.orderOut(nil); quickPanel = nil; quickPanelDelegate = nil; selectingWindow = false }
     func composed() -> CGImage? {
         guard let image else { return nil }
         let rendered = AnnotationRenderer.render(CIImage(cgImage:image),values:annotations.values)
@@ -89,7 +104,7 @@ struct ScreenshotView: View {
                 Spacer(); Button("Capture") { Task { await state.capture() } }.buttonStyle(.borderedProminent).disabled(state.working || !state.canAct())
             }
             if source.options.mode == "Window" { Picker("Window",selection:$source.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(source.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App")+" · "+(window.title ?? "Window")).tag(window.windowID) } } }
-            else if !source.displays.isEmpty { Picker("Display",selection:$source.displayID) { ForEach(source.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } }.onChange(of:source.displayID) { _,_ in source.modeChanged() } }
+            else if !source.displays.isEmpty { Picker("Display",selection:Binding(get:{ source.displayID },set:{ source.displayID = $0; source.modeChanged() })) { ForEach(source.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } } }
             Text(state.message).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
             if let image = state.image {
                 AnnotationToolbar(state:state.annotations,screenshot:true)

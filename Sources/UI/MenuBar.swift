@@ -25,7 +25,7 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, startRecord, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, startRecord, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login, shortcuts }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
@@ -56,15 +56,15 @@ struct MenuBarPanel: View {
                     } else { HStack(spacing: 8) { ProgressView().controlSize(.small); Text("You can follow the operation in Orbit.").font(.caption).foregroundStyle(.secondary) } }
                 }.padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Color.accentColor.opacity(0.07)).clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
+            Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Text(store.shortcuts.label(.open)).font(.caption); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
             VStack(alignment: .leading, spacing: 10) {
-                HStack { Label("Screen Capture", systemImage: "rectangle.dashed.badge.record").font(.subheadline.bold()); Spacer(); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
+                HStack { Label("Screen Capture", systemImage: "rectangle.dashed.badge.record").font(.subheadline.bold()); Spacer(); Text(store.shortcuts.label(.selector)).font(.caption2).foregroundStyle(.secondary); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
                 if recorder.phase == .recording || recorder.phase == .paused {
                     HStack { Circle().fill(recorder.phase == .paused ? .orange : .red).frame(width: 7, height: 7); Text(recorder.elapsedLabel).monospacedDigit().bold(); Spacer(); Button(recorder.phase == .paused ? "Resume" : "Pause") { action(.pauseRecord) }; Button("Stop") { action(.stopRecord) }.tint(.red) }
                 } else if recorder.active {
                     HStack { ProgressView().controlSize(.small); Text(recorder.phase == .countdown ? "Starting in \(recorder.countdown)…" : "Preparing or saving…").font(.caption); Spacer(); if recorder.phase == .preparing || recorder.phase == .countdown { Button("Cancel") { recorder.cancelStart() } } }
                 } else {
-                    Picker("", selection: $recorder.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).onChange(of: recorder.options.mode) { _, mode in recorder.modeChanged(); if mode == "Window" { Task { await recorder.loadSources() } } }.disabled(state.operating)
+                    Picker("", selection: Binding(get:{ recorder.options.mode },set:{ mode in store.setMenuCaptureMode(mode); if mode == "Window" { Task { await recorder.loadSources() } } })) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).disabled(state.operating)
                     if recorder.options.mode == "Window" {
                         Picker("Window", selection: $recorder.windowID) {
                             Text("Choose a window").tag(CGWindowID(0))
@@ -83,10 +83,12 @@ struct MenuBarPanel: View {
                         Button("Start recording", systemImage: "record.circle") { action(.startRecord) }
                             .buttonStyle(.borderedProminent).disabled(state.operating || (recorder.options.mode == "Window" && recorder.selectedWindow == nil))
                     }
+                    HStack { Text(store.shortcuts.label(.screenshot)); Spacer(); Text(store.shortcuts.label(.recording)) }.font(.caption2).foregroundStyle(.secondary)
                     Button("Open screenshot editor") { action(.screenshots) }.font(.caption).buttonStyle(.borderless).disabled(!state.canNavigate)
                 }
             }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
+                row("Keyboard Shortcuts", symbol: "keyboard", enabled: state.canNavigate) { action(.shortcuts) }
                 row("Setup Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
                 row("Cleanup", symbol: "sparkles", enabled: state.canNavigate) { action(.cleanup) }
@@ -127,11 +129,14 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     private weak var mainWindow: NSWindow?
     private var windowClosed = false
     init(store: Store) { self.store = store; super.init() }
+    private var shortcutDispatching = false
     func install() {
         guard statusItem == nil else { return }
         store.recorderState.onRecordingSaved = { [weak self] in self?.store.navigate(.recorder); self?.openWindow() }
         store.screenshots.onCaptured = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
         store.screenshots.onCaptureFailed = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
+        store.shortcuts.perform = { [weak self] action in self?.performShortcut(action) }
+        if !store.preview { store.shortcuts.start(CarbonShortcutRegistrar()) }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength); statusItem = item
         item.button?.target = self; item.button?.action = #selector(togglePanel)
         item.button?.setAccessibilityLabel("Orbit menu")
@@ -188,6 +193,8 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             guard state.canNavigate else { return }; popover.close(); mainWindow?.orderOut(nil)
             let mode = action == .screenshotFull ? "Full screen" : action == .screenshotArea ? "Selected area" : "Window"
             Task { await store.screenshots.quickCapture(mode) }
+        case .shortcuts:
+            guard state.canNavigate else { return }; store.setupSection = .shortcuts; store.navigate(.permissions); openWindow()
         case .screenshots, .permissions, .health, .login:
             guard state.canNavigate else { return }
             let mode: ActionMode = action == .screenshots ? .screenshots : action == .permissions ? .permissions : action == .health ? .health : .login
@@ -204,6 +211,26 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         case .stopRecord: Task { await store.recorderState.stop() }
         case .details: openWindow(); store.showLog = true
         case .quit: popover.close(); NSApp.terminate(nil)
+        }
+    }
+    func performShortcut(_ action: OrbitShortcutAction) {
+        let route = CaptureShortcutRoute.resolve(action,phase:store.recorderState.phase,blocked:!MenuBarState(store:store).canNavigate,dispatching:shortcutDispatching,screenshotMode:store.screenshots.source.options.mode,recordingMode:store.recorderState.options.mode)
+        switch route { case .ignore: return; case .open: openWindow(); return; case .stopRecording: perform(.stopRecord); return; case .selector: if !popover.isShown { togglePanel() }; return; default: break }
+        popover.close(); mainWindow?.orderOut(nil)
+        shortcutDispatching = true
+        Task {
+            defer { shortcutDispatching = false }
+            if case let .screenshot(mode) = route { await store.screenshots.quickCapture(mode) }
+            else if case let .startRecording(mode) = route {
+                let recorder = store.recorderState
+                if recorder.options.mode != mode { recorder.options.mode = mode; recorder.modeChanged() }
+                if recorder.options.mode == "Window" {
+                    guard await recorder.loadSources() else { recorder.showCompactControls(preserveNotice:true); return }
+                    guard recorder.selectedWindow != nil else { recorder.showCompactControls(); return }
+                }
+                if recorder.options.mode == "Selected area" { recorder.modeChanged() }
+                recorder.start(compact:true)
+            }
         }
     }
     @objc func togglePanel() {
@@ -238,5 +265,5 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         }
         image.isTemplate = true; return image
     }
-    func remove() { popover.close(); eventMonitors.forEach { NSEvent.removeMonitor($0) }; eventMonitors.removeAll(); subscriptions.removeAll(); if let item = statusItem { NSStatusBar.system.removeStatusItem(item) }; statusItem = nil }
+    func remove() { store.shortcuts.stop(); store.shortcuts.perform = nil; popover.close(); eventMonitors.forEach { NSEvent.removeMonitor($0) }; eventMonitors.removeAll(); subscriptions.removeAll(); if let item = statusItem { NSStatusBar.system.removeStatusItem(item) }; statusItem = nil }
 }

@@ -27,7 +27,7 @@ import AudioToolbox
         precondition(!unavailable && accessState.notice?.contains("Source unavailable") == true && accessState.notice?.contains("denied screen access") == false, "Source failures must not be mislabeled as denied permission")
         accessState.requestSources = { RecorderSourceSnapshot(displays:[],windows:[]) }
         let retry = await accessState.loadSources()
-        precondition(retry && accessState.notice == nil, "Successful retry must clear stale errors")
+        precondition(retry && accessState.notice?.contains("denied screen access") != true && accessState.displayID == 99, "Retry clears permission errors but retains missing display identity")
         print("PASS: actual recorder source refresh, success/retry, denied access diagnostics, non-permission errors and stale-selection clearing")
         let defaults = RecorderOptions()
         precondition(!defaults.microphone && !defaults.systemAudio && !defaults.webcam && !defaults.shortcuts && !defaults.zoom)

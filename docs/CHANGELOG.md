@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.0
+
+- Share multi-display area selection between screenshots and recordings, with pointer highlighting, display-locked dragging and complete Esc cleanup.
+- Preserve the chosen display ID through capture filters, handle negative/vertical origins and mixed scaling, and reject disconnected or stale display geometry.
+- Add configurable background keyboard shortcuts for screenshot, capture mode selection, record/stop and Open Orbit in Setup Center and the menu bar.
+- Register native macOS hotkeys without Accessibility/Input Monitoring, persist separate capture modes, suppress repeat/overlapping actions and retain working assignments on registration errors.
+- Add conflict/disable/default controls, native synthetic overlay and background-window smoke tests, and a physical two-display/manual permission acceptance checklist.
+
 ## 0.21.0
 
 - Reorganize Terminal Setup into Environment, Shell & Appearance, and Changes & Backups.

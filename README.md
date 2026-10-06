@@ -67,6 +67,8 @@ Read the [Terminal Setup guide](docs/TERMINAL-SETUP.md) for the reviewed workflo
 
 ## Record what matters
 
+Use configurable global shortcuts from **Setup Center → Keyboard Shortcuts** while Orbit runs in the background. Area selection spans all available displays: move to highlight one, then drag within it. [Capture behavior, shortcut defaults and acceptance checklist](docs/CAPTURE-SHORTCUTS.md).
+
 Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Start recording directly from the menu without bringing the main window forward; floating controls provide pause and stop. Recordings start without a filename dialog and save automatically to your selected folder (Movies/Orbit Recordings by default). Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
 
 A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording. The recorder has **Record**, **Edit** and **Settings** tabs. When saving finishes, Orbit opens Edit. Drag the start/end handles on one thumbnail timeline and see the corresponding frame as you move. Choose **Keep selected range** or **Remove selected range**, preview the result, then **Save edited copy** while retaining the original. Open existing videos and adjust either handle frame by frame. Recordings stay local; no account or upload is involved.
@@ -103,7 +105,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.21.0/Orbit-0.21.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.21.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.22.0/Orbit-0.22.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.22.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

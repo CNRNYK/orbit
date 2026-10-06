@@ -21,3 +21,7 @@ The app displays operation logs and diagnostics. They can contain usernames, loc
 Administrator passwords entered into the native helper are written directly to sudo's askpass channel. The helper does not persist them or add them to Orbit logs. Permission requests are feature-specific macOS prompts; optional access is not blanket authorization.
 
 This document summarizes current source behavior. It does not describe data handling by apps installed through Homebrew or by external services.
+
+## Global keyboard shortcuts
+
+Configurable capture shortcuts use macOS hotkey registration and process only the combinations assigned to Orbit while it is running. They do not request Accessibility or Input Monitoring and do not collect other keystrokes. The optional recording effect that displays shortcut labels retains its separate Input Monitoring requirement.

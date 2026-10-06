@@ -2,8 +2,8 @@ import SwiftUI
 import AppKit
 import ServiceManagement
 
-enum SetupSection: String, CaseIterable { case requirements = "Requirements", permissions = "Permissions", startup = "Startup"
-    var symbol: String { switch self { case .requirements: return "checklist"; case .permissions: return "checkmark.shield"; case .startup: return "power" } }
+enum SetupSection: String, CaseIterable { case requirements = "Requirements", permissions = "Permissions", startup = "Startup", shortcuts = "Keyboard Shortcuts"
+    var symbol: String { switch self { case .requirements: return "checklist"; case .permissions: return "checkmark.shield"; case .startup: return "power"; case .shortcuts: return "keyboard" } }
 }
 struct SetupCenterView: View {
     @ObservedObject var store: Store
@@ -12,12 +12,13 @@ struct SetupCenterView: View {
     var body: some View {
         VStack(alignment:.leading,spacing:18) {
             HStack { Label { Text(onboarding ? "Welcome to Orbit" : "Setup Center") } icon: { OrbitBrandIcon(size:40) }.font(.largeTitle.bold()); Spacer(); Button("Check again",systemImage:"arrow.clockwise") { Task { await store.checkStartup(); store.permissions.refresh(); store.login.refreshStatus() } }.disabled(store.locked) }
-            Text("Requirements, Orbit permissions and launch preferences in one place.").foregroundStyle(.secondary)
+            Text("Requirements, permissions, launch preferences and keyboard shortcuts in one place.").foregroundStyle(.secondary)
             HStack { ForEach(SetupSection.allCases,id:\.self) { tab in Button { store.setupSection = tab } label: { Label(tab.rawValue,systemImage:tab.symbol).padding(8).background(store.setupSection == tab ? Color.accentColor.opacity(0.15) : Color.primary.opacity(0.04)).clipShape(RoundedRectangle(cornerRadius:8)) }.buttonStyle(.plain) }; Spacer() }
             if store.checkingStartup { ProgressView("Checking your Mac…") }
             ScrollView {
                 VStack(alignment:.leading,spacing:14) {
                     switch store.setupSection {
+                    case .shortcuts: KeyboardShortcutsView(state:store.shortcuts)
                     case .requirements: SetupRequirements(store:store)
                     case .permissions: PermissionCards(state:store.permissions)
                     case .startup:

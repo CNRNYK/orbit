@@ -502,12 +502,17 @@ struct OrbitApp: App {
     static let store = Store()
     var body: some Scene {
         WindowGroup("Orbit") { ContentView(store: model) }.defaultSize(width: 1180, height: 780)
-        .commands { CommandGroup(replacing: .newItem) {} }
+        .commands { CommandGroup(replacing: .newItem) {}; CommandGroup(replacing: .appSettings) { Button("Keyboard Shortcuts…") { delegate.menuBar?.perform(.shortcuts) }.keyboardShortcut(",",modifiers:.command) } }
     }
 }
 
 @main enum Entry {
     @MainActor static func main() {
+        if CommandLine.arguments.contains("--capture-ui-smoke-test") {
+            let app = NSApplication.shared; app.setActivationPolicy(.accessory)
+            Task { await CaptureUISmoke.run(); app.stop(nil); app.postEvent(NSEvent.otherEvent(with:.applicationDefined,location:.zero,modifierFlags:[],timestamp:0,windowNumber:0,context:nil,subtype:0,data1:0,data2:0)!,atStart:false) }
+            app.run(); return
+        }
         if CommandLine.arguments.contains("--menu-bar-smoke-test") {
             let app = NSApplication.shared; app.setActivationPolicy(.regular); app.finishLaunching()
             func pump(_ seconds: TimeInterval) {
@@ -570,7 +575,11 @@ struct OrbitApp: App {
             store.recorderState.onRecordingSaved?(); precondition(store.mode == .recorder && window.isVisible)
             window.orderOut(nil); store.screenshots.onCaptured?(); precondition(store.mode == .screenshots && window.isVisible)
             store.screenshots.working = true; controller.perform(.health); precondition(store.mode == .screenshots); store.screenshots.working = false
-            controller.remove(); precondition(controller.statusItem == nil)
+            let fakeShortcuts = FakeSmokeShortcutRegistrar(); store.shortcuts.start(fakeShortcuts)
+            window.performClose(nil); pump(0.2); precondition(app.activationPolicy() == .accessory)
+            fakeShortcuts.event?(.open,true); pump(0.2); precondition(window.isVisible && app.activationPolicy() == .regular)
+            controller.perform(.shortcuts); precondition(store.setupSection == .shortcuts && store.mode == .permissions)
+            controller.remove(); precondition(controller.statusItem == nil && fakeShortcuts.closed)
             window.orderOut(nil)
             print("PASS: native status item, close hides Dock while preserving operations, preference override, reopen restores Dock, minimize retains Dock, popover interaction, shared navigation and floating recording controls")
             return
@@ -636,6 +645,7 @@ struct OrbitApp: App {
                 previewStore.permissions.items = [OrbitPermission(id:"screen",title:"Screen & system audio",purpose:"Capture only the display, area or window you choose.",status:"Verified",settings:"Privacy_ScreenCapture"),OrbitPermission(id:"microphone",title:"Microphone",purpose:"Add your voice to recordings.",status:"Not requested",settings:"Privacy_Microphone"),OrbitPermission(id:"camera",title:"Camera",purpose:"Add an optional webcam bubble.",status:"Not requested",settings:"Privacy_Camera"),OrbitPermission(id:"input",title:"Input Monitoring",purpose:"Show shortcut labels without typed text.",status:"Allowed",settings:"Privacy_ListenEvent"),OrbitPermission(id:"automation",title:"System Events automation",purpose:"Manage the login apps you choose.",status:"Not requested",settings:"Privacy_Automation")]
                 if CommandLine.arguments.contains("--permissions-preview") || CommandLine.arguments.contains("--setup-preview") { previewStore.setupSection = CommandLine.arguments.contains("--permissions-preview") ? .permissions : .requirements; previewStore.navigate(.permissions); root = AnyView(ContentView(store:previewStore)) }
             }
+            if CommandLine.arguments.contains("--shortcuts-preview") { previewStore.setupSection = .shortcuts; previewStore.navigate(.permissions); root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--health-preview") { previewStore.health.findings = [HealthFinding(id:"brew",title:"Homebrew",detail:"Homebrew is available. Demonstration data.",healthy:true),HealthFinding(id:"dependencies",title:"Missing dependencies",detail:"No issues reported.",healthy:true),HealthFinding(id:"apps",title:"Managed app bundles",detail:"Not found in standard locations: Example App. A custom app directory may be valid; review before repairing.",healthy:false)]; previewStore.navigate(.health); root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--login-preview") { previewStore.login.orbitStatus = "Disabled"; previewStore.login.entries = [LoginEntry(name:"Example App",path:"/Applications/Example App.app",hidden:false)]; previewStore.navigate(.login); root = AnyView(ContentView(store:previewStore)) }
             if CommandLine.arguments.contains("--screenshot-preview") {
