@@ -163,7 +163,10 @@ import AudioToolbox
         precondition(originalPlayer.currentItem?.status == .readyToPlay, "Generated MP4 must become playable in the preview")
         originalPlayer.isMuted = true
         originalPlayer.play()
-        try await Task.sleep(nanoseconds:250_000_000)
+        for _ in 0..<30 {
+            if originalPlayer.currentTime().seconds > 0 { break }
+            try await Task.sleep(nanoseconds:100_000_000)
+        }
         precondition(originalPlayer.currentTime().seconds > 0, "Preview playback must advance")
         precondition(previewState.startLabel == "Start recording"); previewState.options.mode = "Selected area"; precondition(previewState.startLabel == "Select area & record")
         previewState.player = AVPlayer(url:trimmed)

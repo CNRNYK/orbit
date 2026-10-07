@@ -76,7 +76,8 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     private var sleepObserver: NSObjectProtocol?
     private var displayObserver: NSObjectProtocol?
     var active: Bool { phase != .idle }
-    var busy: Bool { active || loadingSources || editing }
+    @Published var choosingWindow = false
+    var busy: Bool { active || loadingSources || editing || choosingWindow }
     var canPause: Bool { phase == .recording || phase == .paused }
     var elapsedLabel: String { let value = max(0,Int(elapsed)); return value >= 3600 ? String(format:"%02d:%02d:%02d",value/3600,value/60%60,value%60) : String(format:"%02d:%02d",value/60,value%60) }
     var selectedDisplay: SCDisplay? { displays.first { $0.displayID == displayID } }
@@ -139,7 +140,7 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
     }
     func start(compact: Bool = false) {
         guard !preview, !busy, canBegin() else { return }
-        compactControls = compact
+        CaptureWindowHighlight.shared.clear(); compactControls = compact
         phase = .preparing; notice = nil; recoveryURL = nil; if compactControls { showHUD() }; let ticket = UUID(); token = ticket
         startTask = Task { await begin(ticket:ticket) }
     }
@@ -187,7 +188,7 @@ final class RecorderControlPanel: NSPanel { override var canBecomeKey: Bool { tr
             let config = SCStreamConfiguration(); config.width = Int(size.width); config.height = Int(size.height); config.pixelFormat = kCVPixelFormatType_32BGRA; config.minimumFrameInterval = CMTime(value:1,timescale:CMTimeScale(capturedOptions.fps)); config.queueDepth = 3; config.preservesAspectRatio = false; config.showsCursor = true; config.capturesAudio = capturedOptions.systemAudio; config.excludesCurrentProcessAudio = true; config.sampleRate = 48000; config.channelCount = 2
             if #available(macOS 14.2, *) { config.ignoreShadowsSingleWindow = true }
             if capturedOptions.mode == "Selected area" { config.sourceRect = try validatedAreaSourceRect() }
-            annotations.clear(); recordingOverlay.show(frame:frame); phase = .countdown; showHUD(); for count in (1...3).reversed() { countdown = count; try await Task.sleep(nanoseconds:1_000_000_000); try check(ticket) }
+            annotations.reset(); recordingOverlay.show(frame:frame); phase = .countdown; showHUD(); for count in (1...3).reversed() { countdown = count; try await Task.sleep(nanoseconds:1_000_000_000); try check(ticket) }
             if capturedOptions.mode != "Window" { try validateDisplay(); guard let captureDisplay, displayGeometry().contains(captureDisplay) else { throw RecorderProblem(message:"The display arrangement changed. Choose the source again.") } }
             let engine = try RecorderEngine(url:raw,options:capturedOptions,size:size,frame:frame,tracker:tracker,annotations:annotations.buffer); self.engine = engine
             engine.onFrameChanged = { [weak self] frame in Task { @MainActor in guard let self, self.phase == .countdown || self.phase == .recording || self.phase == .paused else { return }; self.recordingOverlay.show(frame:frame) } }
@@ -312,7 +313,7 @@ struct RecorderView: View {
                         VStack(alignment:.leading,spacing:12) {
                             Picker("Record",selection:$state.options.mode) { ForEach(["Full screen","Selected area","Window"],id:\.self) { Text($0).tag($0) } }.pickerStyle(.segmented).onChange(of:state.options.mode) { _,_ in state.modeChanged() }
                             HStack {
-                                if state.options.mode == "Window" { Picker("Window",selection:$state.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(state.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }.onChange(of:state.windowID) { _,_ in state.options.masks = [] } }
+                                if state.options.mode == "Window" { CaptureWindowMenu(state:state).onChange(of:state.windowID) { _,_ in state.options.masks = [] } }
                                 else { Picker("Display",selection:Binding(get:{ state.displayID },set:{ state.displayID = $0; state.modeChanged() })) { if state.displays.isEmpty { Text("Main display · refresh to choose").tag(UInt32(0)) }; ForEach(state.displays,id:\.displayID) { display in Text("Display \(state.displays.firstIndex(where: { $0.displayID == display.displayID })!+1) · \(display.width) × \(display.height)").tag(display.displayID) } } }
                                 Button("Refresh sources") { Task { await state.loadSources() } }
                                 if state.loadingSources { ProgressView().controlSize(.small) }

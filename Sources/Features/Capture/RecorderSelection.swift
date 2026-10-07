@@ -165,7 +165,7 @@ struct RecorderHUD: View {
                 Picker("",selection:$state.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().onChange(of:state.options.mode) { _,_ in state.modeChanged() }
                 if state.options.mode == "Window" {
                     HStack {
-                        Picker("Window",selection:$state.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(state.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }.labelsHidden()
+                        CaptureWindowMenu(state:state)
                         Button("Refresh") { Task { await state.loadSources() } }.disabled(state.busy)
                     }
                 } else if !state.displays.isEmpty {

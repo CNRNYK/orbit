@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.23.0
+
+- Select, move, edit text and delete individual screenshot annotations with undo and editor-only selection outlines (#34).
+- Share window hover outlines and on-screen window picking between screenshots and recording (#35).
+- Explain cleanup candidates, add risk labels/filters, select only recommended downloads in bulk, and review effects before Trash (#36).
+- Review supported single-app casks for stopping Homebrew management while retaining the app/data, with private backups, launch verification and rollback (#37).
+- Add synthetic regression fixtures and a [manual acceptance checklist](RELEASE-0.23.md); hardware capture and real detach are not automated tests.
+
 ## 0.22.0
 
 - Share multi-display area selection between screenshots and recordings, with pointer highlighting, display-locked dragging and complete Esc cleanup.

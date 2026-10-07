@@ -23,7 +23,7 @@ import CoreImage
     var preview = false
     var canAct: () -> Bool = { true }
     func capture() async {
-        guard !preview, !working, canAct() else { return }; working = true; var captured = false, failed = false; defer { working = false; if captured { quickPanel?.orderOut(nil); quickPanel = nil; quickPanelDelegate = nil; selectingWindow = false; onCaptured?() } else if failed { closeQuickPicker(); onCaptureFailed?() } }
+        guard !preview, !working, canAct() else { return }; CaptureWindowHighlight.shared.clear(); working = true; var captured = false, failed = false; defer { working = false; if captured { quickPanel?.orderOut(nil); quickPanel = nil; quickPanelDelegate = nil; selectingWindow = false; onCaptured?() } else if failed { closeQuickPicker(); onCaptureFailed?() } }
         guard await source.loadSources() else { message = source.notice ?? "Screen access unavailable."; failed = true; return }
         if source.options.mode == "Selected area" { source.area = nil; await source.chooseArea() }
         guard let frame = source.captureFrame else { message = source.notice ?? "Choose a window, display or area before capturing."; return }
@@ -47,7 +47,7 @@ import CoreImage
             let capturedImage = try await SCScreenshotManager.captureImage(contentFilter:filter,configuration:configuration)
             if let captureDisplay, !source.displayGeometry().contains(captureDisplay) { throw RecorderProblem(message:"The display arrangement changed during capture. Capture again.") }
             image = capturedImage
-            annotations.clear(); captured = true; message = "Captured. Add annotations or redactions, then copy or save a PNG."
+            annotations.reset(); captured = true; message = "Captured. Draw annotations; use Select to move, edit text or delete one. Copy or save a PNG."
         } catch { message = RecorderCaptureAccess.message(error); failed = true }
     }
     func quickCapture(_ mode: String) async {
@@ -103,7 +103,7 @@ struct ScreenshotView: View {
                 Button("Refresh sources") { Task { guard !state.preview, state.canAct() else { return }; await source.loadSources(); if let notice = source.notice { state.message = notice } } }.disabled(state.working || source.loadingSources)
                 Spacer(); Button("Capture") { Task { await state.capture() } }.buttonStyle(.borderedProminent).disabled(state.working || !state.canAct())
             }
-            if source.options.mode == "Window" { Picker("Window",selection:$source.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(source.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App")+" · "+(window.title ?? "Window")).tag(window.windowID) } } }
+            if source.options.mode == "Window" { CaptureWindowMenu(state:source) }
             else if !source.displays.isEmpty { Picker("Display",selection:Binding(get:{ source.displayID },set:{ source.displayID = $0; source.modeChanged() })) { ForEach(source.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } } }
             Text(state.message).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
             if let image = state.image {
@@ -126,7 +126,7 @@ struct ScreenshotWindowPicker: View {
     var body: some View {
         VStack(alignment:.leading,spacing:16) {
             Text("Choose a window").font(.title2.bold())
-            Picker("Window",selection:$source.windowID) { Text("Choose a window").tag(UInt32(0)); ForEach(source.windows,id:\.windowID) { window in Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID) } }
+            CaptureWindowMenu(state:source)
             Text(state.message).font(.caption).foregroundStyle(.secondary).lineLimit(3)
             HStack { Button("Cancel") { state.closeQuickPicker() }; Button("Refresh") { Task { await source.loadSources(); state.message = source.notice ?? "Choose a window to capture." } }.disabled(source.loadingSources); Spacer(); Button("Capture window") { Task { await state.capture() } }.buttonStyle(.borderedProminent).disabled(state.working || source.windowID == 0) }
         }.padding(20).frame(width:440,height:240)

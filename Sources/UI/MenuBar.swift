@@ -66,12 +66,7 @@ struct MenuBarPanel: View {
                 } else {
                     Picker("", selection: Binding(get:{ recorder.options.mode },set:{ mode in store.setMenuCaptureMode(mode); if mode == "Window" { Task { await recorder.loadSources() } } })) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).disabled(state.operating)
                     if recorder.options.mode == "Window" {
-                        Picker("Window", selection: $recorder.windowID) {
-                            Text("Choose a window").tag(CGWindowID(0))
-                            ForEach(recorder.windows, id: \.windowID) { window in
-                                Text((window.owningApplication?.applicationName ?? "App") + " · " + (window.title ?? "Window")).tag(window.windowID)
-                            }
-                        }.disabled(state.operating)
+                        CaptureWindowMenu(state:recorder).disabled(state.operating)
                         if recorder.windows.isEmpty {
                             Button("Refresh windows", systemImage: "arrow.clockwise") { Task { await recorder.loadSources() } }.disabled(state.operating)
                         }
