@@ -656,6 +656,7 @@ struct OrbitApp: App {
                 NSAttributedString(string:"Demonstration image · no screen was captured",attributes:[.font:NSFont.systemFont(ofSize:22),.foregroundColor:NSColor.lightGray]).draw(at:CGPoint(x:80,y:300)); NSGraphicsContext.restoreGraphicsState()
                 previewStore.screenshots.image = bitmap.cgImage
                 previewStore.screenshots.annotations.values = [OrbitAnnotation(tool:"Rectangle",points:[CGPoint(x:0.06,y:0.22),CGPoint(x:0.72,y:0.47)],color:"Blue"),OrbitAnnotation(tool:"Arrow",points:[CGPoint(x:0.83,y:0.7),CGPoint(x:0.7,y:0.47)],color:"Yellow")]
+                previewStore.screenshots.annotations.tool = "Select"; previewStore.screenshots.annotations.selectedID = previewStore.screenshots.annotations.values.first?.id
                 previewStore.navigate(.screenshots); root = AnyView(ContentView(store:previewStore))
             }
             if CommandLine.arguments.contains("--annotation-controls-preview") { previewStore.recorderState.phase = .recording; previewStore.recorderState.annotations.drawing = true; root = AnyView(RecorderHUD(state:previewStore.recorderState)); size = NSSize(width:700,height:320) }

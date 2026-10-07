@@ -105,6 +105,7 @@ struct SystemCommands: CommandExecuting {
     @Published var notInstalledOnly = false
     @Published var exportSelected = Set<String>()
     @Published var showSetupExport = false
+    let detachState = CaskDetachState()
     let maintenanceState = MaintenanceState()
     let recorderState = RecorderState()
     private var recorderSubscription: AnyCancellable?
@@ -245,7 +246,7 @@ struct SystemCommands: CommandExecuting {
         headline = mode == .updates ? "Check for updates to your installed apps." : mode == .uninstall ? "Select installed apps to remove or clean." : "Choose your apps. Make it yours."
     }
     var startupReady: Bool { startupChecks.isEmpty || startupChecks.allSatisfy { !$0.required || $0.ready } }
-    var lockedWithoutTerminal: Bool { busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources }
+    var lockedWithoutTerminal: Bool { detachState.working || busy || preparing || refreshing || checkingStartup || recorderState.busy || permissions.working || health.working || login.working || screenshots.working || screenshots.source.loadingSources || screenshots.source.choosingWindow }
     var locked: Bool { lockedWithoutTerminal || terminalState.working || screenshots.selectingWindow }
     let permissions = PermissionState()
     let health = HealthState()
@@ -266,9 +267,10 @@ struct SystemCommands: CommandExecuting {
         if !preview { keepInMenuBar = preferences.object(forKey:"orbit.keep-in-menu-bar") as? Bool ?? true }
         recorderSubscription = recorderState.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
         permissions.preview = preview; health.preview = preview; login.preview = preview; screenshots.preview = preview; screenshots.source.preview = preview
-        for publisher in [shortcuts.objectWillChange,terminalState.objectWillChange,permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
-        let canAct: () -> Bool = { [weak self] in guard let self else { return false }; return !self.locked && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources }
+        for publisher in [detachState.objectWillChange,shortcuts.objectWillChange,terminalState.objectWillChange,permissions.objectWillChange,health.objectWillChange,login.objectWillChange,screenshots.objectWillChange,screenshots.source.objectWillChange] { publisher.sink { [weak self] _ in self?.objectWillChange.send() }.store(in:&toolSubscriptions) }
+        let canAct: () -> Bool = { [weak self] in guard let self else { return false }; return !self.locked && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.source.loadingSources && !self.screenshots.source.choosingWindow }
         permissions.canAct = canAct; health.canAct = canAct; login.canAct = canAct; screenshots.canAct = { [weak self] in guard let self else { return false }; return !self.lockedWithoutTerminal && !self.terminalState.working && !self.maintenanceState.working }
+        screenshots.source.canBegin = screenshots.canAct
         permissions.screenFailure = { [weak self] in self?.recorderState.notice }
         permissions.verifyScreen = { [weak self] in guard let self else { return false }; return await self.recorderState.loadSources() }
         let verified: (Bool) -> Void = { [weak self] value in self?.permissions.screenVerified = value; self?.permissions.refresh() }
@@ -280,8 +282,12 @@ struct SystemCommands: CommandExecuting {
             recorderState.onOptionsChanged = { options in var saved = options; saved.masks = []; preferences.set(try? JSONEncoder().encode(saved),forKey:"orbit.recorder.options") }
             screenshots.source.onOptionsChanged = { options in preferences.set(options.mode,forKey:"orbit.screenshot.mode") }
         }
+        if !preview && persistSelection, let brew {
+            let prefix = URL(fileURLWithPath:brew).deletingLastPathComponent().deletingLastPathComponent().path
+            detachState.backup = CaskDetachBackup.latest(in:URL(fileURLWithPath:NSHomeDirectory()).appendingPathComponent("Library/Application Support/Orbit/Homebrew Backups"),prefix:prefix)
+        }
         recorderState.preview = preview
-        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.selectingWindow && !self.screenshots.source.loadingSources }
+        recorderState.canBegin = { [weak self] in guard let self else { return false }; return !self.detachState.working && !self.busy && !self.preparing && !self.refreshing && !self.checkingStartup && !self.maintenanceState.working && !self.terminalState.working && !self.permissions.working && !self.health.working && !self.login.working && !self.screenshots.working && !self.screenshots.selectingWindow && !self.screenshots.source.loadingSources && !self.screenshots.source.choosingWindow }
         if preview {
             selected = Set(Catalog.packages.filter { ["google-chrome", "chatgpt", "visual-studio-code", "git", "python@3.14", "slack"].contains($0.token) }.map(\.id))
         } else {

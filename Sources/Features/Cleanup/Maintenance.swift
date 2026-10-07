@@ -8,7 +8,27 @@ struct MaintenanceItem: Identifiable, Hashable {
     let inode: UInt64
     let device: UInt64
     let removable: Bool
+    var appName: String? = nil
+    var appIdentifier: String? = nil
+    var appPath: String? = nil
     var id: String { path }
+    private static let referenceIDs = AppScanner.identifiers
+    var package: Package? { Catalog.packages.first { $0.cask && Self.referenceIDs[$0.token] == URL(fileURLWithPath:path).lastPathComponent } }
+    var title: String { appName ?? package?.name ?? (group == "Homebrew cache" ? "Homebrew · " + URL(fileURLWithPath:path).lastPathComponent : group == "Developer caches" ? "Xcode · " + URL(fileURLWithPath:path).lastPathComponent : URL(fileURLWithPath:path).lastPathComponent) }
+    var level: String { !removable ? "Review" : group == "Homebrew cache" && URL(fileURLWithPath:path).lastPathComponent == "downloads" ? "Recommended" : appName != nil || package != nil || group == "Developer caches" ? "Review" : "Advanced" }
+    var explanation: String {
+        if !removable { return "Personal file. Discovery only; Orbit cannot select it for cleanup." }
+        if level == "Recommended" { return "Downloaded Homebrew installers and archives. Homebrew can download them again; future installations may take longer." }
+        if group == "Developer caches" { return "Generated Xcode build files. Builds and indexing may take longer until recreated." }
+        if appName != nil || package != nil { return group == "App leftovers" ? "Cache or log files matching a known app identifier that was not found. Review before removing; this is not proof the app has no other installation." : "App cache or logs. Close the app first. Cached or offline content may need downloading again; some apps may require signing in again. Logs will be lost." }
+        return "Unknown or system-owned cache/log. Orbit cannot verify its effects. Review the path and purpose before selecting; removal may disrupt cached state or diagnostics."
+    }
+    func includedPaths() -> [String] {
+        guard let enumerator = FileManager.default.enumerator(at:URL(fileURLWithPath:path),includingPropertiesForKeys:[.isSymbolicLinkKey],options:[.skipsHiddenFiles]) else { return [path] }
+        var paths = [String]()
+        for case let url as URL in enumerator { if (try? url.resourceValues(forKeys:[.isSymbolicLinkKey]).isSymbolicLink) == true { enumerator.skipDescendants(); continue }; paths.append(url.path); if paths.count == 100 { break } }
+        return paths.isEmpty ? [path] : paths
+    }
     var size: String { ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file) }
 }
 enum MaintenanceScan {
@@ -98,6 +118,9 @@ enum MaintenanceScan {
     @Published var working = false
     @Published var scanned = false
     @Published var confirm = false
+    @Published var filter = "All"
+    func selectRecommended(group: String? = nil) { selected.formUnion(items.filter { $0.removable && $0.level == "Recommended" && (group == nil || $0.group == group) }.map(\.id)) }
+    func visible(_ item: MaintenanceItem) -> Bool { switch filter { case "Recommended": return item.level == "Recommended"; case "Large items": return item.bytes >= 500_000_000; case "Apps": return item.appName != nil || item.package != nil; case "Developer": return item.group == "Developer caches"; case "Advanced": return item.level == "Advanced"; default: return true } }
     @Published var status = "Scan to review files. Nothing is selected automatically."
 }
 struct MaintenanceView: View {
@@ -123,19 +146,22 @@ struct MaintenanceView: View {
                 Button("Scan") { Task { await scan() } }.disabled(state.working || store.locked)
             }
             Text(state.status).font(.caption).foregroundStyle(.secondary)
+            Picker("Filter",selection:$state.filter) { ForEach(["All","Recommended","Large items","Apps","Developer","Advanced"],id:\.self) { Text($0).tag($0) } }.pickerStyle(.segmented)
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 18) {
                     ForEach(MaintenanceScan.groups, id: \.self) { group in
-                        let rows = state.items.filter { $0.group == group }
+                        let rows = state.items.filter { $0.group == group && state.visible($0) }
                         if !rows.isEmpty {
-                            HStack { Text(group).font(.headline); Spacer(); if rows.contains(where: { $0.removable }) { Button("Select group") { state.selectCleanable(group: group) }.disabled(state.working); Button("Clear group") { state.clearGroup(group) }.disabled(state.working) } }
+                            HStack { Text(group).font(.headline); Text(ByteCountFormatter.string(fromByteCount:rows.reduce(0) { $0 + $1.bytes },countStyle:.file)).font(.caption); Spacer(); if rows.contains(where: { $0.removable }) { Button("Select recommended") { state.selectRecommended(group: group) }.disabled(state.working); Button("Clear group") { state.clearGroup(group) }.disabled(state.working) } }
                             ForEach(rows) { item in
                                 HStack {
                                     if item.removable {
                                         Toggle("", isOn: Binding(get: { state.selected.contains(item.id) }, set: { if $0 { state.selected.insert(item.id) } else { state.selected.remove(item.id) } })).labelsHidden().disabled(state.working)
                                     } else { Image(systemName: "doc") }
                                     VStack(alignment: .leading) {
-                                        Text(URL(fileURLWithPath: item.path).lastPathComponent).font(.subheadline.bold())
+                                        HStack { if let path = item.appPath { Image(nsImage:NSWorkspace.shared.icon(forFile:path)).resizable().frame(width:24,height:24) } else if let package = item.package { AppIcon(package:package).frame(width:24,height:24) } else { Image(systemName:item.group == "Developer caches" ? "hammer" : item.group == "Homebrew cache" ? "shippingbox" : "folder") }; Text(item.title).font(.subheadline.bold()); Text(item.level).font(.caption.bold()).foregroundStyle(item.level == "Recommended" ? .green : item.level == "Advanced" ? .orange : .secondary) }
+                                        Text(item.explanation).font(.caption).foregroundStyle(.secondary)
+                                        MaintenancePathDisclosure(item:item)
                                         Text(item.path).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                                     }
                                     Spacer(); Text(item.size).monospacedDigit()
@@ -150,7 +176,7 @@ struct MaintenanceView: View {
             .overlay { if state.working { VStack(spacing: 12) { ProgressView(); Text("Scanning or moving reviewed files…").font(.headline) }.padding(24).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius: 12)).frame(maxWidth: .infinity, maxHeight: .infinity) } }
             Text("Large files: Downloads and Desktop, 500 MB or larger. App leftovers: known app cache/log identifiers only. Other leftovers are reviewed during Uninstall & Clean.").font(.caption).foregroundStyle(.secondary)
             HStack {
-                Button("Select all cleanable items") { state.selectCleanable() }.disabled(state.working || state.items.allSatisfy { !$0.removable })
+                Button("Select recommended") { state.selectRecommended() }.disabled(state.working || state.items.allSatisfy { !$0.removable })
                 Button("Clear selection") { state.selected = [] }.disabled(state.working)
                 Button("Operation details") { store.showLog = true }
                 Spacer()
@@ -159,11 +185,18 @@ struct MaintenanceView: View {
             }
 
         }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(nsColor: .windowBackgroundColor))
-        .alert("Move selected files to Trash?", isPresented: $state.confirm) {
-            Button("Cancel", role: .cancel) {}
-            Button("Move to Trash", role: .destructive) { Task { await clean() } }
-        } message: { Text("\(selection.count) reviewed items will be moved to Trash. Only paths whose filesystem identity still matches the scan will be processed.") }
+        .sheet(isPresented:$state.confirm) {
+            VStack(alignment:.leading,spacing:16) {
+                Text("Review cleanup").font(.title2.bold())
+                Text("\(selection.count) items · " + ByteCountFormatter.string(fromByteCount:selection.reduce(0) { $0 + $1.bytes },countStyle:.file)).bold()
+                if !selection.compactMap({ $0.appName ?? $0.package?.name }).isEmpty { Text("Close: " + Set(selection.compactMap { $0.appName ?? $0.package?.name }).sorted().joined(separator:", ")).font(.subheadline.bold()) }
+                Text("Close affected apps before continuing. Files move to Trash; open Trash in Finder and use Put Back to restore them before emptying it. Sizes are estimates; space remains occupied until Trash is emptied. Changed paths are skipped.")
+                ScrollView { ForEach(selection) { item in VStack(alignment:.leading) { Text(item.title + " · " + item.level).bold(); Text(item.explanation); Text(item.path).font(.caption).textSelection(.enabled) }.padding(.vertical,6) } }
+                HStack { Button("Cancel") { state.confirm = false }; Spacer(); Button("Move to Trash",role:.destructive) { state.confirm = false; Task { await clean() } }.buttonStyle(.borderedProminent).disabled(state.working || store.locked) }
+            }.padding(24).frame(width:640,height:480)
+        }
     }
+
     func scan() async {
         guard !store.preview, !state.working, !store.locked else { return }
         state.working = true; state.selected = []; store.preparing = true
@@ -171,8 +204,12 @@ struct MaintenanceView: View {
         let installed = store.installed
         let includeDeveloper = state.developer
         state.items = await Task.detached {
-            let ids = Set(AppScanner.scan().map(\.identifier))
-            return MaintenanceScan.scan(installed: installed, appIDs: ids, developer: includeDeveloper)
+            let apps = AppScanner.scan(), ids = Set(apps.map(\.identifier))
+            return MaintenanceScan.scan(installed: installed, appIDs: ids, developer: includeDeveloper).map { candidate in
+                var item = candidate
+                if let app = apps.first(where:{ $0.identifier == URL(fileURLWithPath:item.path).lastPathComponent }) { item.appName = app.name; item.appIdentifier = app.identifier; item.appPath = app.path }
+                return item
+            }
         }.value
         state.scanned = true; state.status = "\(state.items.count) candidates. Sizes are estimates; inaccessible paths are omitted."
     }
@@ -183,6 +220,7 @@ struct MaintenanceView: View {
         var failures = 0
         for item in queue {
             do {
+                if let identifier = item.appIdentifier ?? item.package.flatMap({ AppScanner.identifiers[$0.token] }), NSWorkspace.shared.runningApplications.contains(where:{ $0.bundleIdentifier == identifier }) { throw RecorderProblem(message:"Close " + (item.appName ?? item.package?.name ?? identifier) + " before cleaning its files.") }
                 try MaintenanceScan.trash(item)
                 state.items.removeAll { $0.id == item.id }; state.selected.remove(item.id)
                 store.appendLog("\nCleanup: moved to Trash: \(item.path)\n")
@@ -190,5 +228,20 @@ struct MaintenanceView: View {
             await Task.yield()
         }
         state.status = "Moved \(queue.count - failures) items to Trash. \(failures) skipped or failed."
+    }
+}
+
+@MainActor final class MaintenancePathState: ObservableObject {
+    @Published var expanded = false
+    @Published var paths: [String]?
+}
+struct MaintenancePathDisclosure: View {
+    let item: MaintenanceItem
+    @StateObject private var detail = MaintenancePathState()
+    var body: some View {
+        DisclosureGroup("Included paths (first 100)",isExpanded:$detail.expanded) {
+            if let paths = detail.paths { ForEach(paths,id:\.self) { Text($0).font(.caption2).textSelection(.enabled) } }
+            else { Text("Loading paths…").font(.caption) }
+        }.task(id:detail.expanded) { if detail.expanded, detail.paths == nil { detail.paths = await Task.detached { item.includedPaths() }.value } }
     }
 }

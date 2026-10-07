@@ -27,6 +27,10 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
+## New in 0.23
+
+Edit existing screenshot annotations, choose windows with a visible hover outline, review explained cleanup results, and check supported apps for **Stop managing with Homebrew** without uninstalling. See [behavior, limits and acceptance checks](docs/RELEASE-0.23.md).
+
 ## Homebrew Center
 
 **Discover · Library · Updates** — three tabs for the complete app workflow.
@@ -105,7 +109,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.22.0/Orbit-0.22.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.22.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.23.0/Orbit-0.23.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.23.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 

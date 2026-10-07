@@ -102,6 +102,8 @@ struct ManualRemovalPlan: Identifiable {
 }
 struct LibraryView: View {
     @ObservedObject var store: Store
+    @ObservedObject var detach: CaskDetachState
+    init(store: Store) { self.store = store; detach = store.detachState }
     var body: some View {
         VStack(alignment:.leading,spacing:14) {
             HStack { Text("Library").font(.title2.bold()); Spacer(); TextField("Search your library",text:$store.search).textFieldStyle(.roundedBorder).frame(width:240); Button("Refresh",systemImage:"arrow.clockwise") { Task { await store.refresh() } }.disabled(store.locked) }
@@ -119,6 +121,7 @@ struct LibraryView: View {
                             AppIcon(package:package).frame(width:36,height:36)
                             Button { store.detailPackage = package } label: { VStack(alignment:.leading,spacing:4) { Text(package.name).bold(); Text(package.detail).font(.caption).foregroundStyle(.secondary) }.frame(maxWidth:.infinity,alignment:.leading) }.buttonStyle(.plain)
                             Text(store.installed.contains(package.id) ? "Homebrew-managed" : store.appPresent(package) ? "Installed manually" : "Saved").font(.caption).foregroundStyle(.secondary)
+                            if package.cask && store.installed.contains(package.id) { if let reason = detach.unsupported[package.id] { Text("Cannot detach safely").font(.caption).foregroundStyle(.secondary).help(reason) } else { Button("Stop managing with Homebrew…") { Task { await store.reviewDetach(package) } }.help("Review eligibility before changing management") } }
                             if store.myAppIDs.contains(package.id) { Button("Unsave",systemImage:"star.slash") { store.removeFavorite(package) }.help("Remove from saved apps without uninstalling") }
                             else { Button("Save",systemImage:"star") { store.registerPersonal(package,favorite:true) } }
                         }.padding(.vertical,12).disabled(store.locked)
@@ -137,10 +140,19 @@ struct LibraryView: View {
                     if store.libraryPackages.isEmpty && store.libraryManualApps.isEmpty { ContentUnavailableView("Your library is empty",systemImage:"books.vertical",description:Text("Refresh installed apps or save apps from Discover.")) }
                 }
             }
+            if let backup = detach.backup { HStack { Text("Recoverable Homebrew backup").font(.caption); Button("Show backup") { NSWorkspace.shared.activateFileViewerSelecting([backup.directory]) }; Button("Restore management") { Task { await store.restoreDetach() } }.disabled(store.locked) } }
             if store.busy { ProgressView(value:Double(store.completed),total:Double(max(store.total,1))); HStack { Text(store.progressSummary).font(.caption); Spacer(); Button("Stop after current app") { store.stopRequested = true }.disabled(store.stopRequested) } }
             Toggle("Review leftover files when uninstalling",isOn:$store.cleanRemoval).disabled(store.locked)
             HStack { Button("Operation details") { store.showLog = true }; Button("Export setup") { store.showSetupExport = true }; Spacer(); Button("Uninstall \(store.removable.count) apps") { Task { await store.prepareRemoval() } }.buttonStyle(.borderedProminent).disabled(store.locked || store.removable.isEmpty || !store.startupReady) }
-        }.padding(24).sheet(item:$store.manualRemoval) { plan in
+        }.padding(24).sheet(item:$detach.plan) { plan in
+            VStack(alignment:.leading,spacing:16) {
+                Text("Stop managing " + plan.app.name + " with Homebrew?").font(.title2.bold())
+                Text("The app remains installed at its current path. Personal data, preferences and support files remain untouched. Homebrew will no longer update, uninstall or list this cask. A built-in updater may become available, depending on the app.")
+                Text("Orbit backs up the app and registration, removes only the registration, then opens the app once to verify launch. A failed check restores registration. This feature supports only verified, standard single-app casks; installers and background components cannot detach safely.").foregroundStyle(.secondary)
+                Text(plan.app.path).font(.caption).textSelection(.enabled)
+                HStack { Button("Cancel") { detach.plan = nil }; Spacer(); Button("Back up & stop managing") { Task { await store.detachApp() } }.buttonStyle(.borderedProminent).disabled(store.locked) }
+            }.padding(24).frame(width:640)
+        }.sheet(item:$store.manualRemoval) { plan in
             VStack(alignment:.leading,spacing:16) {
                 Text("Uninstall & Clean · " + plan.app.name).font(.title2.bold())
                 Text("The application and selected files will move to Trash. Application data is optional; review each path. Shared vendor folders are excluded.").foregroundStyle(.secondary)
