@@ -2,6 +2,9 @@ import Foundation
 
 @main enum Tests {
     @MainActor static func main() async {
+        await WritingAssistantTests.run()
+        if CommandLine.arguments.contains("--writing-tests") { return }
+
         let literal = "space ' quote; $(never-run)"
         let arguments = await BrewRunner.run("/usr/bin/printf", ["%s", literal])
         precondition(arguments.0 == 0 && arguments.1 == literal, "Arguments must never be evaluated by a shell")

@@ -25,7 +25,7 @@ import Combine
     }
 }
 
-enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, startRecord, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login, shortcuts }
+enum MenuBarAction { case open, updates, checkUpdates, cleanup, details, quit, record, startRecord, recorder, pauseRecord, stopRecord, screenshots, screenshotFull, screenshotArea, screenshotWindow, permissions, health, login, shortcuts, writing }
 
 struct MenuBarPanel: View {
     @ObservedObject var store: Store
@@ -83,6 +83,7 @@ struct MenuBarPanel: View {
                 }
             }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
+                row("Writing Assistant " + store.shortcuts.label(.writing), symbol: "pencil.and.outline", enabled: state.canNavigate) { action(.writing) }
                 row("Keyboard Shortcuts", symbol: "keyboard", enabled: state.canNavigate) { action(.shortcuts) }
                 row("Setup Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
@@ -122,10 +123,26 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     private var eventMonitors = [Any]()
     private var windowDelegates = [ObjectIdentifier: OrbitWindowDelegate]()
     private weak var mainWindow: NSWindow?
+    private var recoveredWindow: NSWindow?
+    var recoveryContent: (() -> NSViewController)?
     private var windowClosed = false
     init(store: Store) { self.store = store; super.init() }
+    private var menuSourceApp: NSRunningApplication?
+    private let writing = WritingAssistantController()
+    private let writingMarks = WritingSpellingMarks()
+    private let writingBadge = WritingSelectionBadge()
     private var shortcutDispatching = false
     func install() {
+        if !store.preview {
+            writingMarks.start(allowed:{ [weak self] in
+                guard let self else { return false }
+                return !self.writing.isVisible && !self.popover.isShown && MenuBarState(store:self.store).canNavigate
+            }, language:{ [weak self] in self?.writing.liveLanguage ?? "auto" })
+            writingBadge.start(canShow:{ [weak self] in
+                guard let self else { return false }
+                return !self.popover.isShown && MenuBarState(store:self.store).canNavigate
+            },open:{ [weak self] selection in self?.writing.show(selection:selection) })
+        }
         guard statusItem == nil else { return }
         store.recorderState.onRecordingSaved = { [weak self] in self?.store.navigate(.recorder); self?.openWindow() }
         store.screenshots.onCaptured = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
@@ -157,7 +174,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         NSApp.windows.forEach { remember($0) }; refreshIcon()
     }
     func remember(_ window: NSWindow) {
-        guard window.title == "Orbit", window.styleMask.contains(.titled), window.sheetParent == nil else { return }
+        guard window.title == "Orbit", window.styleMask.contains(.titled), window.sheetParent == nil, !(window is NSPanel) else { return }
         mainWindow = window
         if window.isVisible || window.isMiniaturized { windowClosed = false }
         let key = ObjectIdentifier(window)
@@ -172,13 +189,39 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     func openWindow() {
         windowClosed = false
         popover.close()
-        if mainWindow == nil { NSApp.windows.forEach { remember($0) } }
         NSApp.setActivationPolicy(.regular)
-        NSApp.activate(ignoringOtherApps: true); if mainWindow?.isMiniaturized == true { mainWindow?.deminiaturize(nil) }; mainWindow?.makeKeyAndOrderFront(nil)
+        if mainWindow == nil { NSApp.windows.forEach { remember($0) } }
+        if mainWindow == nil, let content = recoveryContent?() {
+            // A login launch can leave the menu item available before a SwiftUI window exists.
+            let window = NSWindow(contentRect:CGRect(x:0,y:0,width:1180,height:780),
+                                  styleMask:[.titled,.closable,.miniaturizable,.resizable],
+                                  backing:.buffered,defer:false)
+            window.title = "Orbit"
+            window.isReleasedWhenClosed = false
+            window.isRestorable = false
+            window.contentViewController = content
+            recoveredWindow = window
+            remember(window)
+        }
+        guard let window = mainWindow else { return }
+        NSApp.activate(ignoringOtherApps:true)
+        if window.isMiniaturized { window.deminiaturize(nil) }
+        if !window.styleMask.contains(.fullScreen) {
+            let screens = NSScreen.screens
+            if let screen = screens.first(where:{ $0.frame.contains(NSEvent.mouseLocation) }) ?? NSScreen.main,
+               let frame = OrbitWindowRecovery.frameIfOffscreen(window.frame,visibleAreas:screens.map(\.visibleFrame),destination:screen.visibleFrame) {
+                window.setFrame(frame,display:false)
+            }
+        }
+        window.makeKeyAndOrderFront(nil)
     }
     func perform(_ action: MenuBarAction) {
         let state = MenuBarState(store: store)
         switch action {
+        case .writing:
+            guard state.canNavigate, !store.preview else { return }
+            let selection = WritingSelection.read(from:popover.isShown ? menuSourceApp : NSWorkspace.shared.frontmostApplication)
+            popover.close(); writing.show(selection:selection)
         case .open: openWindow()
         case .updates, .cleanup:
             guard state.canNavigate else { return }; store.search = ""; store.navigate(action == .updates ? .updates : .cleanup); openWindow()
@@ -210,7 +253,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     }
     func performShortcut(_ action: OrbitShortcutAction) {
         let route = CaptureShortcutRoute.resolve(action,phase:store.recorderState.phase,blocked:!MenuBarState(store:store).canNavigate,dispatching:shortcutDispatching,screenshotMode:store.screenshots.source.options.mode,recordingMode:store.recorderState.options.mode)
-        switch route { case .ignore: return; case .open: openWindow(); return; case .stopRecording: perform(.stopRecord); return; case .selector: if !popover.isShown { togglePanel() }; return; default: break }
+        switch route { case .writing: perform(.writing); return; case .ignore: return; case .open: openWindow(); return; case .stopRecording: perform(.stopRecord); return; case .selector: if !popover.isShown { togglePanel() }; return; default: break }
         popover.close(); mainWindow?.orderOut(nil)
         shortcutDispatching = true
         Task {
@@ -231,7 +274,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     @objc func togglePanel() {
         guard let button = statusItem?.button else { return }
         if popover.isShown { popover.close() }
-        else { resizePanel(); popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY); popover.contentViewController?.view.window?.makeKey() }
+        else { menuSourceApp = NSWorkspace.shared.frontmostApplication; resizePanel(); popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY); popover.contentViewController?.view.window?.makeKey() }
     }
     func resizePanel() {
         guard let host = panelHost else { return }
@@ -260,5 +303,17 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
         }
         image.isTemplate = true; return image
     }
-    func remove() { store.shortcuts.stop(); store.shortcuts.perform = nil; popover.close(); eventMonitors.forEach { NSEvent.removeMonitor($0) }; eventMonitors.removeAll(); subscriptions.removeAll(); if let item = statusItem { NSStatusBar.system.removeStatusItem(item) }; statusItem = nil }
+    func remove() { writingMarks.stop(); store.shortcuts.stop(); store.shortcuts.perform = nil; popover.close(); eventMonitors.forEach { NSEvent.removeMonitor($0) }; eventMonitors.removeAll(); subscriptions.removeAll(); if let item = statusItem { NSStatusBar.system.removeStatusItem(item) }; statusItem = nil }
+}
+
+enum OrbitWindowRecovery {
+    static func frameIfOffscreen(_ frame: CGRect, visibleAreas: [CGRect], destination: CGRect) -> CGRect? {
+        let titleBar = CGRect(x:frame.minX,y:frame.maxY-28,width:frame.width,height:28)
+        guard !visibleAreas.contains(where:{
+            let visible = $0.intersection(titleBar)
+            return !visible.isNull && visible.width >= 120 && visible.height >= 20
+        }) else { return nil }
+        let size = CGSize(width:min(frame.width,destination.width),height:min(frame.height,destination.height))
+        return CGRect(x:destination.midX-size.width/2,y:destination.midY-size.height/2,width:size.width,height:size.height)
+    }
 }

@@ -4,10 +4,10 @@ import Carbon
 
 // Registration, not a global keyboard event monitor. No Accessibility/Input Monitoring.
 enum OrbitShortcutAction: String, CaseIterable, Codable, Identifiable {
-    case screenshot, selector, recording, open
+    case screenshot, selector, recording, open, writing
     var id: String { rawValue }
-    var title: String { switch self { case .screenshot: return "Take a screenshot"; case .selector: return "Open capture mode selector"; case .recording: return "Start or stop recording"; case .open: return "Open Orbit" } }
-    var defaultShortcut: OrbitShortcut { let code: UInt32 = switch self { case .screenshot: 20; case .selector: 21; case .recording: 23; case .open: 31 }; return OrbitShortcut(keyCode:code,modifiers:[.command,.option,.control]) }
+    var title: String { switch self { case .screenshot: return "Take a screenshot"; case .selector: return "Open capture mode selector"; case .recording: return "Start or stop recording"; case .writing: return "Writing Assistant"; case .open: return "Open Orbit" } }
+    var defaultShortcut: OrbitShortcut { let code: UInt32 = switch self { case .screenshot: 20; case .selector: 21; case .recording: 23; case .open: 31; case .writing: 13 }; return OrbitShortcut(keyCode:code,modifiers:[.command,.option,.control]) }
 }
 struct ShortcutModifiers: OptionSet, Codable, Hashable {
     let rawValue: UInt32
