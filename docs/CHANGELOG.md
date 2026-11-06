@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.24.0 (unreleased)
+## 0.24.0
 
 - Share one temporary authorization terminal across a reviewed Homebrew update queue, so sudo can reuse an approval according to system policy.
 

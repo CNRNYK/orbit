@@ -27,9 +27,9 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
-## What’s coming in 0.24
+## New in 0.24
 
-The source tree includes **Writing Assistant** and main-window recovery after login. These changes are in preview; the download below is the latest published release. See the [0.24 changelog](docs/CHANGELOG.md) and [acceptance checklist](docs/RELEASE-0.24.md).
+**Writing Assistant** adds local proofreading, rewriting and translation, with optional inline spelling marks. Orbit can also recover its main window after login and reuse sudo approval across a reviewed update queue when system policy allows. See the [0.24 changelog](docs/CHANGELOG.md) and [acceptance checklist](docs/RELEASE-0.24.md).
 
 ## Released in 0.23
 
@@ -109,7 +109,7 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 <img src="docs/images/menu-bar.png" alt="Orbit menu bar panel with status and quick actions" width="340">
 
-## Writing Assistant (0.24 preview)
+## Writing Assistant
 
 Open **Writing Assistant** from the menu bar, paste text into the panel, or select text in a compatible app and press **⌃⌥⌘W**. If you already customized Orbit shortcuts, assign the action in **Keyboard Shortcuts**. Review the result before choosing **Copy** or **Replace**. Proofread shows colored change cards and lets you accept individual changes.
 
@@ -122,13 +122,13 @@ Pasting into Orbit does not need Accessibility permission. To read selected text
 
 Text stays on your Mac. Orbit checks the original app, field and text before replacing a selection. If the editor does not support replacement, use **Copy** and paste manually. See [data handling](docs/PRIVACY.md) and the [preview test checklist](docs/RELEASE-0.24.md).
 
-Closing the main window can hide Orbit from the Dock while keeping its menu bar controls and operations running. **Open Orbit** brings back the main window; **Quit Orbit** exits. Configure this in **Setup Center → Startup**. In the 0.24 preview, **Open Orbit** can recreate a missing main window after login and recover a window that is outside the visible displays.
+Closing the main window can hide Orbit from the Dock while keeping its menu bar controls and operations running. **Open Orbit** brings back the main window; **Quit Orbit** exits. Configure this in **Setup Center → Startup**. **Open Orbit** can recreate a missing main window after login and recover a window that is outside the visible displays.
 
 ## Get started
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.23.0/Orbit-0.23.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.23.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.24.0/Orbit-0.24.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.24.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
