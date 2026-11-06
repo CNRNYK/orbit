@@ -23,21 +23,24 @@ enum BrewRunner {
     static var path: String? {
         ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"].first { FileManager.default.isExecutableFile(atPath: $0) }
     }
+    static func environment() -> [String:String] {
+        var env = ProcessInfo.processInfo.environment
+        env["PATH"] = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        env["HOMEBREW_NO_AUTO_UPDATE"] = "1"
+        env["HOMEBREW_NO_INSTALL_UPGRADE"] = "1"
+        env["HOMEBREW_NO_COLOR"] = "1"
+        env["HOMEBREW_NO_AUTOREMOVE"] = "1"
+        env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY")
+        env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY_CASKS")
+        if let helper = Bundle.main.path(forResource: "askpass", ofType: "sh") { env["SUDO_ASKPASS"] = helper }
+        return env
+    }
     static func run(_ executable: String, _ arguments: [String], separateError: Bool = false, log: @escaping @Sendable (String) -> Void = { _ in }) async -> (Int32, String) {
         await Task.detached(priority: .userInitiated) {
             let process = Process(); let pipe = Pipe()
             process.executableURL = URL(fileURLWithPath: executable)
             process.arguments = arguments
-            var env = ProcessInfo.processInfo.environment
-            env["PATH"] = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-            env["HOMEBREW_NO_AUTO_UPDATE"] = "1"
-            env["HOMEBREW_NO_INSTALL_UPGRADE"] = "1"
-            env["HOMEBREW_NO_COLOR"] = "1"
-            env["HOMEBREW_NO_AUTOREMOVE"] = "1"
-            env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY")
-            env.removeValue(forKey: "HOMEBREW_UPGRADE_GREEDY_CASKS")
-            if let helper = Bundle.main.path(forResource: "askpass", ofType: "sh") { env["SUDO_ASKPASS"] = helper }
-            process.environment = env
+            process.environment = environment()
             process.standardInput = FileHandle.nullDevice
             process.standardOutput = pipe
             let errorURL = FileManager.default.temporaryDirectory.appendingPathComponent("orbit-stderr-" + UUID().uuidString)

@@ -5,16 +5,23 @@ import SwiftUI
 private final class SpellingMarkButton: NSButton {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
     override func draw(_ dirtyRect: NSRect) {
-        NSColor.systemRed.withAlphaComponent(0.82).setStroke()
+        // A fully transparent window region can pass clicks to the editor below.
+        NSColor.systemRed.withAlphaComponent(0.08).setFill()
+        NSBezierPath(roundedRect:bounds,xRadius:3,yRadius:3).fill()
+        NSColor.systemRed.withAlphaComponent(0.9).setStroke()
         let path = NSBezierPath()
         path.lineWidth = 1.5
         path.lineCapStyle = .round
-        path.move(to:CGPoint(x:1,y:2))
+        path.move(to:CGPoint(x:1,y:4))
         for x in stride(from:3,through:max(3,Int(bounds.width)-1),by:2) {
-            path.line(to:CGPoint(x:CGFloat(x),y:x % 4 == 3 ? 3.5 : 2))
+            path.line(to:CGPoint(x:CGFloat(x),y:x % 4 == 3 ? 5.5 : 4))
         }
         path.stroke()
     }
+}
+
+private final class SpellingCardHost<Content: View>: NSHostingView<Content> {
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
 
 @MainActor final class WritingSpellingMarks: NSObject {
@@ -95,27 +102,51 @@ private final class SpellingMarkButton: NSButton {
                   let bounds = WritingSelection.screenBounds(element:field,range:range),
                   bounds.width >= 4, bounds.height <= 70,
                   let screen = NSScreen.screens.first(where:{ $0.visibleFrame.contains(bounds) }) else { continue }
-            let frame = CGRect(x:bounds.minX,y:max(screen.visibleFrame.minY,bounds.minY-2),width:bounds.width,height:6)
+            let frame = CGRect(x:bounds.minX,y:max(screen.visibleFrame.minY,bounds.minY-7),width:bounds.width,height:10)
             visible.insert(index)
             let panel: NSPanel
             if let existing = marks[index] { panel = existing }
             else {
-                panel = makePanel(frame:frame)
-                let button = SpellingMarkButton(frame:CGRect(origin:.zero,size:frame.size))
-                button.title = ""; button.isBordered = false; button.autoresizingMask = [.width,.height]
-                button.tag = index; button.target = self; button.action = #selector(showCard(_:))
-                button.setAccessibilityLabel("Review spelling suggestion")
-                panel.contentView = button
+                panel = makeMark(frame:frame,index:index)
                 marks[index] = panel
             }
             if panel.frame != frame { panel.setFrame(frame,display:true) }
             if !panel.isVisible { panel.orderFrontRegardless() }
             if active == index, let card {
-                card.setFrameOrigin(WritingPanelPlacement.origin(size:card.frame.size,near:bounds,within:screen.visibleFrame))
+                card.setFrameOrigin(WritingPanelPlacement.origin(size:card.frame.size,near:frame,within:screen.visibleFrame))
             }
         }
         for index in Array(marks.keys) where !visible.contains(index) { marks.removeValue(forKey:index)?.orderOut(nil) }
         if let active, !visible.contains(active) { closeCard() }
+    }
+
+    private func makeMark(frame: CGRect, index: Int) -> NSPanel {
+        let panel = makePanel(frame:frame)
+        let button = SpellingMarkButton(frame:CGRect(origin:.zero,size:frame.size))
+        button.title = ""; button.isBordered = false; button.autoresizingMask = [.width,.height]
+        button.tag = index; button.target = self; button.action = #selector(showCard(_:))
+        button.toolTip = "Orbit · Review spelling"
+        button.setAccessibilityLabel("Orbit · Review spelling suggestion")
+        panel.contentView = button
+        return panel
+    }
+
+    static func smokeTest() {
+        guard let screen = NSScreen.main else { preconditionFailure("A display is required") }
+        let fixture = WritingSpellingMarks()
+        fixture.text = "sentnce"
+        fixture.edits = [(NSRange(location:0,length:7),"sentence")]
+        let frame = CGRect(x:screen.visibleFrame.midX,y:screen.visibleFrame.midY,width:52,height:10)
+        let mark = fixture.makeMark(frame:frame,index:0)
+        fixture.marks[0] = mark
+        mark.orderFrontRegardless()
+        guard let button = mark.contentView as? NSButton else { preconditionFailure("Missing mark button") }
+        precondition(button.hitTest(CGPoint(x:26,y:5)) === button && button.acceptsFirstMouse(for:nil))
+        button.performClick(nil)
+        precondition(fixture.card?.isVisible == true && fixture.active == 0 && !NSApp.isActive)
+        fixture.reset()
+        precondition(!mark.isVisible && fixture.card == nil)
+        print("PASS: Orbit spelling mark has a clickable region and opens a nonactivating suggestion card")
     }
 
     private func makePanel(frame: CGRect) -> NSPanel {
@@ -135,6 +166,7 @@ private final class SpellingMarkButton: NSButton {
         let size = CGSize(width:256,height:126)
         let panel = makePanel(frame:CGRect(origin:WritingPanelPlacement.origin(size:size,near:anchor,within:screen.visibleFrame),size:size))
         panel.hasShadow = true
+        panel.level = NSWindow.Level(rawValue:NSWindow.Level.floating.rawValue+1)
         let view = VStack(alignment:.leading,spacing:9) {
             HStack {
                 Label("Spelling suggestion",systemImage:"text.badge.checkmark").font(.caption.weight(.medium))
@@ -150,7 +182,7 @@ private final class SpellingMarkButton: NSButton {
             }
         }.padding(14).frame(width:size.width,height:size.height)
             .background(.regularMaterial,in:RoundedRectangle(cornerRadius:14))
-        panel.contentView = NSHostingView(rootView:view)
+        panel.contentView = SpellingCardHost(rootView:view)
         active = index; card = panel; panel.orderFrontRegardless()
     }
 
