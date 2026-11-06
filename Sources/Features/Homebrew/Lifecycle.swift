@@ -158,7 +158,8 @@ enum Cleanup {
         guard !locked, startupReady, showUpdateReview, let brew else { return }
         let queue = updateQueue; guard !queue.isEmpty else { return }
         showUpdateReview = false; busy = true; stopRequested = false; completed = 0; total = queue.count; statuses = [:]
-        defer { busy = false }
+        let authorization = commandRunner is SystemCommands ? UpdateAuthorizationSession(brew:brew) : nil
+        defer { authorization?.close(); busy = false }
         var failures = 0
         for item in queue { statuses[item.id] = "Waiting" }
         for item in queue {
@@ -169,7 +170,11 @@ enum Cleanup {
                 statuses[item.id] = "Already current — skipped"; completed += 1; continue
             }
             appendLog("\n—— Update \(item.package.name) ——\n")
-            let result = await runCommand(brew, UpdatePlan.arguments(item)) { [weak self] chunk in Task { @MainActor in self?.appendLog(chunk) } }
+            let log: @Sendable (String) -> Void = { [weak self] chunk in Task { @MainActor in self?.appendLog(chunk) } }
+            let result: (Int32,String)
+            if let authorization { result = await authorization.run(item,log:log) }
+            else { result = await runCommand(brew,UpdatePlan.arguments(item),log:log) }
+            if result.0 == 125 { appendLog("\n" + result.1 + "\n") }
             if result.0 == 0 { statuses[item.id] = "Updated"; selectedUpdates.remove(item.id); updates.removeAll { $0.id == item.id } }
             else { statuses[item.id] = "Failed"; failures += 1 }
             completed += 1

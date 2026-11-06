@@ -2,6 +2,8 @@
 
 ## 0.24.0 (unreleased)
 
+- Share one temporary authorization terminal across a reviewed Homebrew update queue, so sudo can reuse an approval according to system policy.
+
 - Recover the main window when opening Orbit after a background login launch, and reposition it if the title bar is outside all visible displays.
 
 - Add Writing Assistant to the menu bar and Keyboard Shortcuts. Review selected or pasted text, then copy the suggestion or replace a compatible selection.
@@ -9,7 +11,7 @@
 - Offer English and Turkish with availability determined by the local model and dictionaries. Selected-text access is optional; pasting into the panel requires no Accessibility permission.
 - Add individual proofreading change cards and a combined result based on accepted changes.
 - Add English/Turkish detection, US/UK preferences, faithful and natural translation, writing profiles, tone detection, drafts, local dictionary and snippets.
-- Add opt-in inline spelling marks and a compact Apply/Ignore card for compatible fields.
+- Add opt-in inline spelling marks with a larger click target, an Orbit tooltip and a compact suggestion card for compatible fields.
 
 
 ## 0.23.0

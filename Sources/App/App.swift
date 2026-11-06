@@ -514,6 +514,11 @@ struct OrbitApp: App {
             Task { await CaptureUISmoke.run(); app.stop(nil); app.postEvent(NSEvent.otherEvent(with:.applicationDefined,location:.zero,modifierFlags:[],timestamp:0,windowNumber:0,context:nil,subtype:0,data1:0,data2:0)!,atStart:false) }
             app.run(); return
         }
+        if CommandLine.arguments.contains("--writing-spelling-smoke-test") {
+            let app = NSApplication.shared; app.setActivationPolicy(.accessory); app.finishLaunching()
+            WritingSpellingMarks.smokeTest()
+            return
+        }
         if CommandLine.arguments.contains("--menu-bar-smoke-test") {
             let app = NSApplication.shared; app.setActivationPolicy(.regular); app.finishLaunching()
             func pump(_ seconds: TimeInterval) {

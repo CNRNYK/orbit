@@ -22,6 +22,8 @@ Collect findings first. Apply fixes together after acceptance testing, rerun the
 
 ### Additional acceptance checks
 
+- To distinguish Orbit marks from the editor’s own dotted underlines, hover Orbit’s tinted underline for **Orbit · Review spelling**. Click that mark to open the card. The native smoke command `dist/Orbit.app/Contents/MacOS/Orbit --writing-spelling-smoke-test` uses synthetic text to exercise the button and card without inspecting another application.
+
 - Accept one proofreading card and reject another; Copy and Replace should use only accepted changes.
 - Try short and mixed-language text in Auto, then choose a language manually. Check US/UK conventions with installed dictionaries.
 - Add a dictionary term and a snippet, reopen Orbit and confirm both persist. Verify a snippet does not write into the original app.
@@ -34,3 +36,12 @@ Collect findings first. Apply fixes together after acceptance testing, rerun the
 ## Login launch acceptance
 
 With Start at Login enabled, sign out and back in with the normal monitor setup. Use **Open Orbit** from the menu bar and check that the main window appears without restarting Orbit. Repeat after the display arrangement changes or after an external display is reconnected. A window already in a usable position should retain its location. The native smoke test covers opening with no main window and synthetic off-screen geometry; it does not perform a real logout or change Login Items.
+
+## Update authorization acceptance
+
+The update queue keeps the same controlling terminal for its sequential Homebrew commands. Homebrew still runs as the signed-in user, and sudo decides whether to reuse authorization. Orbit does not retain passwords or edit PAM or sudoers settings. The bundled askpass dialog remains available when sudo needs a password.
+
+Run `python3 Tests/Homebrew/UpdateSessionFixture.py` to verify that simulated cask and formula upgrades share a terminal and preserve exit codes and literal arguments. This fixture never calls sudo. On a Mac with Touch ID for sudo already enabled, manually update two reviewed casks that actually require administrator access. Check whether macOS offers Touch ID at the first request, the second package reuses the approval, cancellation is reported and vendor dialogs are handled separately. Repeat without Touch ID to check the password fallback. Reuse depends on sudo policy and timeout.
+
+
+Build 40: the native fixture opened the Orbit suggestion card with synthetic text. A manual TextEdit screenshot confirmed that the card appeared there. The screenshot of the other editor did not confirm Orbit marks or replacement; test that editor separately.

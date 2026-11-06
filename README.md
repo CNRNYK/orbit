@@ -118,7 +118,7 @@ Orbit can detect English or Turkish when confident, or you can choose the langua
 Pasting into Orbit does not need Accessibility permission. To read selected text in another app, enable Accessibility. In **Dictionary & snippets**, you can also enable either of these optional features:
 
 - **Show Orbit button beside selected text:** click the small icon to open Writing Assistant. Orbit checks the selection range and position and reads its text when you click.
-- **Live spelling pilot:** enable individual apps. A compatible text field can show a small red underline; click it to review, apply or ignore the correction. The main Writing Assistant panel pauses the marks. Chrome and ChatGPT coverage depends on the editor’s Accessibility support; Orbit does not install a browser extension.
+- **Live spelling pilot:** enable individual apps. A compatible text field can show a tinted red underline. Hover for **Orbit · Review spelling**, then click to review, apply or ignore the correction. The editor’s own underlines do not open Orbit’s card. The main Writing Assistant panel pauses the marks. Chrome and ChatGPT coverage depends on the editor’s Accessibility support; Orbit does not install a browser extension.
 
 Text stays on your Mac. Orbit checks the original app, field and text before replacing a selection. If the editor does not support replacement, use **Copy** and paste manually. See [data handling](docs/PRIVACY.md) and the [preview test checklist](docs/RELEASE-0.24.md).
 
@@ -156,7 +156,7 @@ Use the [bug and feature request forms](https://github.com/CNRNYK/orbit/issues/n
 - Installation, updates, removal, and adoption have review steps before execution.
 - Installed apps cannot accidentally join a new installation selection.
 - Cleanup moves selected, validated paths to Trash; it does not automatically delete personal files.
-- Homebrew runs as your user. Individual vendor installers may request administrator permission through the bundled native password dialog.
+- Homebrew runs as your user. During a reviewed update batch, sudo can reuse its first approval according to macOS policy. If Touch ID for sudo is already configured, macOS can offer it; otherwise Orbit’s password dialog remains available. Vendor installers may ask separately.
 - **Operation details** shows progress and errors; **Stop after current app** lets the current operation finish.
 
 App licenses, subscriptions, and vendor sign-in are separate. Orbit does not restore application settings or install App Store products.
