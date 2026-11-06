@@ -480,6 +480,7 @@ struct RemovalReviewView: View {
     var menuBar: MenuBarController?
     func applicationDidFinishLaunching(_ notification: Notification) {
         menuBar = MenuBarController(store: OrbitApp.store)
+        menuBar?.recoveryContent = { NSHostingController(rootView:ContentView(store:OrbitApp.store)) }
         menuBar?.install()
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
@@ -580,7 +581,23 @@ struct OrbitApp: App {
             fakeShortcuts.event?(.open,true); pump(0.2); precondition(window.isVisible && app.activationPolicy() == .regular)
             controller.perform(.shortcuts); precondition(store.setupSection == .shortcuts && store.mode == .permissions)
             controller.remove(); precondition(controller.statusItem == nil && fakeShortcuts.closed)
-            window.orderOut(nil)
+            window.orderOut(nil); window.title = "Smoke fixture retired"
+            let recovery = MenuBarController(store:store)
+            recovery.recoveryContent = { NSHostingController(rootView:ContentView(store:store)) }
+            recovery.install()
+            recovery.perform(.open); pump(0.2)
+            guard let recovered = app.windows.first(where:{ $0.title == "Orbit" && $0.isVisible }) else {
+                preconditionFailure("Open Orbit must recover from a launch with no main window")
+            }
+            recovery.perform(.open); pump(0.2)
+            precondition(app.windows.filter { $0.title == "Orbit" && $0.isVisible }.count == 1)
+            recovered.orderOut(nil); recovery.remove()
+            let screen = CGRect(x:-1920,y:40,width:1920,height:1040)
+            let offscreen = CGRect(x:4000,y:2200,width:1180,height:780)
+            precondition(OrbitWindowRecovery.frameIfOffscreen(offscreen,visibleAreas:[screen],destination:screen).map { screen.contains($0) } == true)
+            let visible = CGRect(x:-1800,y:150,width:1180,height:780)
+            precondition(OrbitWindowRecovery.frameIfOffscreen(visible,visibleAreas:[screen],destination:screen) == nil)
+            print("PASS: missing and off-screen main-window recovery")
             print("PASS: native status item, close hides Dock while preserving operations, preference override, reopen restores Dock, minimize retains Dock, popover interaction, shared navigation and floating recording controls")
             return
         }
@@ -596,6 +613,17 @@ struct OrbitApp: App {
                let package = Catalog.packages.first(where: { $0.token == CommandLine.arguments[detailIndex + 1] }) {
                 root = AnyView(PackageDetailView(package: package, store: previewStore))
                 size = NSSize(width: 680, height: 620)
+            }
+            if CommandLine.arguments.contains("--writing-preview") {
+                let state = WritingAssistantState()
+                state.input = "This is a sentnce. Please confirm, the date."
+                state.output = "This is a sentence. Please confirm the date."
+                let review = WritingReview(original:state.input,revised:state.output)
+                state.reviewResult = review
+                state.accepted = Set(review.changes.prefix(1).map(\.id))
+                state.status = "Preview · synthetic text"
+                root = AnyView(WritingAssistantView(state:state))
+                size = NSSize(width:740,height:640)
             }
             if CommandLine.arguments.contains("--explore-preview") {
                 previewStore.navigate(.explore); previewStore.inventoryKnown = true; previewStore.appPresent = { _ in false }

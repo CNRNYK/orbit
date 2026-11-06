@@ -2,7 +2,7 @@
 
 <img src="Resources/Branding/Orbit.png" alt="Orbit icon" width="104">
 
-**Set up your Mac. Manage your apps. Record your workflow.**
+**Set up your Mac. Manage your apps. Capture your workflow.**
 
 **Early-access beta** · [Product page](https://towlar.com/en/products/orbit/) · [Report a bug](https://github.com/CNRNYK/orbit/issues/new/choose) · [Contribute](CONTRIBUTING.md)
 
@@ -27,7 +27,11 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 | Capture and explain | Record with live annotations or edit a screenshot locally in Screenshot Studio. |
 | Reuse your setup | Import or export a Brewfile with a separate selection that can include installed apps. |
 
-## New in 0.23
+## What’s coming in 0.24
+
+The source tree includes **Writing Assistant** and main-window recovery after login. These changes are in preview; the download below is the latest published release. See the [0.24 changelog](docs/CHANGELOG.md) and [acceptance checklist](docs/RELEASE-0.24.md).
+
+## Released in 0.23
 
 Edit existing screenshot annotations, choose windows with a visible hover outline, review explained cleanup results, and check supported apps for **Stop managing with Homebrew** without uninstalling. See [behavior, limits and acceptance checks](docs/RELEASE-0.23.md).
 
@@ -47,7 +51,7 @@ Manually installed apps offer **Manage with Homebrew** when a supported match ex
 
 ## Review cleanup before changing anything
 
-Cleanup has its own page in the main window. Scan supported locations, inspect paths and estimated sizes, then choose what to move to Trash. Nothing is selected by default. Select a group or all cleanable items explicitly; personal large files remain outside bulk cleanup. Large files in Downloads and Desktop can be revealed in Finder for your own review.
+Cleanup has its own page in the main window. Scan supported locations, inspect paths and estimated sizes, then choose what to move to Trash. Nothing is selected by default. Select recommended items in bulk or review individual candidates; personal large files are shown for discovery only. Large files in Downloads and Desktop can be revealed in Finder for your own review.
 
 ![Cleanup page with cache groups, estimated sizes, and a reviewed Trash action](docs/images/cleanup.png)
 
@@ -105,13 +109,28 @@ Closing the main window keeps Orbit in the menu bar. **Open Orbit** or its Dock 
 
 <img src="docs/images/menu-bar.png" alt="Orbit menu bar panel with status and quick actions" width="340">
 
+## Writing Assistant (0.24 preview)
+
+Open **Writing Assistant** from the menu bar, paste text into the panel, or select text in a compatible app and press **⌃⌥⌘W**. If you already customized Orbit shortcuts, assign the action in **Keyboard Shortcuts**. Review the result before choosing **Copy** or **Replace**. Proofread shows colored change cards and lets you accept individual changes.
+
+Orbit can detect English or Turkish when confident, or you can choose the language yourself. The panel also offers US/UK English, rewriting, tone changes and analysis, faithful or natural English ↔ Turkish translation, drafting from notes, writing profiles, a personal dictionary and snippets. Advanced actions depend on an available on-device Apple Intelligence model and support for the selected language. Without it, Proofread uses the installed macOS spelling dictionary.
+
+Pasting into Orbit does not need Accessibility permission. To read selected text in another app, enable Accessibility. In **Dictionary & snippets**, you can also enable either of these optional features:
+
+- **Show Orbit button beside selected text:** click the small icon to open Writing Assistant. Orbit checks the selection range and position and reads its text when you click.
+- **Live spelling pilot:** enable individual apps. A compatible text field can show a small red underline; click it to review, apply or ignore the correction. The main Writing Assistant panel pauses the marks. Chrome and ChatGPT coverage depends on the editor’s Accessibility support; Orbit does not install a browser extension.
+
+Text stays on your Mac. Orbit checks the original app, field and text before replacing a selection. If the editor does not support replacement, use **Copy** and paste manually. See [data handling](docs/PRIVACY.md) and the [preview test checklist](docs/RELEASE-0.24.md).
+
+Closing the main window can hide Orbit from the Dock while keeping its menu bar controls and operations running. **Open Orbit** brings back the main window; **Quit Orbit** exits. Configure this in **Setup Center → Startup**. In the 0.24 preview, **Open Orbit** can recreate a missing main window after login and recover a window that is outside the visible displays.
+
 ## Get started
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
 **[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.23.0/Orbit-0.23.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.23.0)
 
-Open the DMG and drag **Orbit.app** to **Applications**. While the repository is private, downloads require repository access. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
+Open the DMG and drag **Orbit.app** to **Applications**. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
 To build from source, install Apple Command Line Tools, clone this repository, then run:
 
@@ -122,7 +141,7 @@ bash build.sh
 open "dist/Orbit.app"
 ```
 
-While the repository is private, cloning requires access. Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published. The DMG is distributed through GitHub Releases.
+Builds target your Mac's architecture. Local builds use ad-hoc signing; a notarized public installer and a Homebrew cask for Orbit are not currently published. The DMG is distributed through GitHub Releases.
 
 ## Beta status and support
 
@@ -163,5 +182,3 @@ For automated validation, run `bash test.sh`. Tests use simulated commands and t
 ## License
 
 [MIT](LICENSE) for the source code. Third-party apps, icons, and trademarks retain their respective owners' terms. Orbit is independent of Homebrew and application vendors.
-
-Closing the main window hides Orbit from the Dock while keeping its menu bar controls and operations running. **Open Orbit** restores the window and Dock icon; **Quit Orbit** exits. Configure this behavior in **Setup Center → Startup**.

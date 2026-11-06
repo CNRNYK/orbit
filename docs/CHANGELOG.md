@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.24.0 (unreleased)
+
+- Recover the main window when opening Orbit after a background login launch, and reposition it if the title bar is outside all visible displays.
+
+- Add Writing Assistant to the menu bar and Keyboard Shortcuts. Review selected or pasted text, then copy the suggestion or replace a compatible selection.
+- Add on-device proofreading, rewriting and tone changes when Apple Intelligence supports the selected language. Use macOS spelling dictionaries as the fallback.
+- Offer English and Turkish with availability determined by the local model and dictionaries. Selected-text access is optional; pasting into the panel requires no Accessibility permission.
+- Add individual proofreading change cards and a combined result based on accepted changes.
+- Add English/Turkish detection, US/UK preferences, faithful and natural translation, writing profiles, tone detection, drafts, local dictionary and snippets.
+- Add opt-in inline spelling marks and a compact Apply/Ignore card for compatible fields.
+
+
 ## 0.23.0
 
 - Select, move, edit text and delete individual screenshot annotations with undo and editor-only selection outlines (#34).

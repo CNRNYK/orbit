@@ -25,3 +25,9 @@ This document summarizes current source behavior. It does not describe data hand
 ## Global keyboard shortcuts
 
 Configurable capture shortcuts use macOS hotkey registration and process only the combinations assigned to Orbit while it is running. They do not request Accessibility or Input Monitoring and do not collect other keystrokes. The optional recording effect that displays shortcut labels retains its separate Input Monitoring requirement.
+
+## Writing Assistant (0.24 preview)
+
+Pasted or selected writing is processed locally with macOS spelling dictionaries or a supported on-device Apple Intelligence model. Orbit does not send writing to an external service. **Copy** writes the reviewed result to the system clipboard. Personal dictionary entries and snippets are saved in local preferences; closing the assistant clears its current input and suggestion.
+
+Reading another app’s selection requires Accessibility and a compatible focused text field. The optional selection button checks range and position information while enabled and retrieves the selection text on click. The separate live spelling pilot reads the focused field in explicitly enabled apps while Orbit runs; it is off by default, skips secure text fields and stops showing marks when leaving a supported field. It does not record keystrokes or automatically apply corrections. Orbit rechecks the source before applying a clicked correction.
