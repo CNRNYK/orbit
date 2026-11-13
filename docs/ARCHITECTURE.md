@@ -46,3 +46,5 @@ The root build/test scripts recursively collect Swift sources. Tests exclude the
 ## Multi-display capture and shortcuts (0.22.0)
 
 See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.
+
+The [Capture Tools release](CAPTURE-PREVIEW.md) separates post-capture editor windows from the main Orbit window. Capture geometry drives floating toolbar placement; the recording engine applies live input inclusion on its capture queue. Original export uses a byte copy for an unchanged MP4 or passthrough for edits; Balanced uses the highest-quality export preset.

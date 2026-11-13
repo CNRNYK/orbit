@@ -12,6 +12,29 @@ import CoreImage
 @MainActor final class ScreenshotState: ObservableObject {
     let source = RecorderState()
     let annotations = AnnotationState()
+    @Published var pixelX = 0
+    @Published var pixelY = 0
+    @Published var rulerX = 0
+    @Published var rulerY = 0
+    @Published var showRuler = false
+    @Published var jpeg = UserDefaults.standard.bool(forKey:"orbit.screenshot.jpeg") { didSet { if !preview { UserDefaults.standard.set(jpeg,forKey:"orbit.screenshot.jpeg") } } }
+    @Published var quality = UserDefaults.standard.object(forKey:"orbit.screenshot.quality") as? Double ?? 0.9 { didSet { if !preview { UserDefaults.standard.set(quality,forKey:"orbit.screenshot.quality") } } }
+    @Published var folder = UserDefaults.standard.string(forKey:"orbit.screenshot.folder").map { URL(fileURLWithPath:$0,isDirectory:true) }
+    @Published var savedURL: URL?
+    @Published var recognizedText = ""
+    @Published var recognizing = false
+    func chooseFolder() {
+        guard !preview else { return }
+        let panel = NSOpenPanel(); panel.canChooseFiles = false; panel.canChooseDirectories = true; panel.canCreateDirectories = true
+        panel.directoryURL = folder
+        if panel.runModal() == .OK, let url = panel.url { folder = url; UserDefaults.standard.set(url.path,forKey:"orbit.screenshot.folder") }
+    }
+    func extractText() async {
+        guard !recognizing, let image = composed() else { return }
+        recognizing = true; defer { recognizing = false }
+        do { recognizedText = try await CaptureImageTools.recognize(image); if recognizedText.isEmpty { message = "No text recognized." } }
+        catch { message = error.localizedDescription }
+    }
     @Published var image: CGImage?
     @Published var working = false
     @Published var selectingWindow = false
@@ -39,15 +62,14 @@ import CoreImage
                 filter = SCContentFilter(display:currentDisplay,excludingApplications:content.applications.filter { $0.processID == ProcessInfo.processInfo.processIdentifier },exceptingWindows:[])
             }
             let configuration = SCStreamConfiguration(), scale = CGFloat(filter.pointPixelScale)
-            let size = RecorderGeometry.outputSize(CGSize(width:frame.width*scale,height:frame.height*scale),maxWidth:5120)
-            configuration.width = Int(size.width); configuration.height = Int(size.height); configuration.showsCursor = false
+            configuration.width = max(1,Int((frame.width*scale).rounded())); configuration.height = max(1,Int((frame.height*scale).rounded())); configuration.showsCursor = false
             if #available(macOS 14.2, *) { configuration.ignoreShadowsSingleWindow = true }
             if source.options.mode != "Window" { try source.validateDisplay(); guard let captureDisplay, source.displayGeometry().contains(captureDisplay) else { throw RecorderProblem(message:"The display arrangement changed. Choose the source again.") } }
             if source.options.mode == "Selected area" { configuration.sourceRect = try source.validatedAreaSourceRect() }
             let capturedImage = try await SCScreenshotManager.captureImage(contentFilter:filter,configuration:configuration)
             if let captureDisplay, !source.displayGeometry().contains(captureDisplay) { throw RecorderProblem(message:"The display arrangement changed during capture. Capture again.") }
-            image = capturedImage
-            annotations.reset(); captured = true; message = "Captured. Draw annotations; use Select to move, edit text or delete one. Copy or save a PNG."
+            image = capturedImage; recognizedText = ""; savedURL = nil
+            annotations.reset(); captured = true; message = "Captured. Draw annotations; use Select to move, edit text or delete one. Copy or save the screenshot."
         } catch { message = RecorderCaptureAccess.message(error); failed = true }
     }
     func quickCapture(_ mode: String) async {
@@ -80,24 +102,30 @@ import CoreImage
     }
     func save() {
         guard !preview, !working, let image = composed() else { return }
-        let panel = NSSavePanel(); panel.allowedContentTypes = [.png]; panel.nameFieldStringValue = "Orbit-Screenshot-\(RecorderState.timestamp()).png"; panel.message = "Choose a new filename. Existing files are kept."
+        let panel = NSSavePanel(); panel.allowedContentTypes = [jpeg ? .jpeg : .png]; panel.directoryURL = folder; panel.nameFieldStringValue = RecorderState.fileName(kind:"Screenshot",ext:jpeg ? "jpg" : "png"); panel.message = "Choose a new filename. Existing files are kept."
         guard panel.runModal() == .OK, let target = panel.url else { return }
         do {
-            let data = try Self.png(image)
+            let data: Data
+            if jpeg {
+                guard let encoded = NSBitmapImageRep(cgImage:image).representation(using:.jpeg,properties:[.compressionFactor:min(1,max(0.1,quality))]) else { throw RecorderProblem(message:"JPEG encoding failed.") }
+                data = encoded
+            } else { data = try Self.png(image) }
             let temporary = target.deletingLastPathComponent().appendingPathComponent(".orbit-screenshot-\(UUID().uuidString).png")
             try data.write(to:temporary,options:.withoutOverwriting); try FileManager.default.setAttributes([.posixPermissions:0o600],ofItemAtPath:temporary.path)
             defer { try? FileManager.default.removeItem(at:temporary) }
-            try RecorderFiles.publish(temporary,to:target); message = "Saved \(target.lastPathComponent)."
+            try RecorderFiles.publish(temporary,to:target); savedURL = target; message = "Saved \(target.lastPathComponent)."
         } catch { message = error.localizedDescription }
     }
 }
 struct ScreenshotView: View {
     @ObservedObject var state: ScreenshotState
     @ObservedObject var source: RecorderState
-    init(state:ScreenshotState) { self.state = state; source = state.source }
+    let editorOnly: Bool
+    init(state:ScreenshotState, editorOnly: Bool = false) { self.state = state; source = state.source; self.editorOnly = editorOnly }
     var body: some View {
         VStack(alignment:.leading,spacing:14) {
             Text("Screenshot Studio").font(.largeTitle.bold())
+            if !editorOnly {
             HStack {
                 Picker("Capture",selection:$source.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().onChange(of:source.options.mode) { _,_ in source.modeChanged() }.frame(maxWidth:420)
                 Button("Refresh sources") { Task { guard !state.preview, state.canAct() else { return }; await source.loadSources(); if let notice = source.notice { state.message = notice } } }.disabled(state.working || source.loadingSources)
@@ -105,15 +133,52 @@ struct ScreenshotView: View {
             }
             if source.options.mode == "Window" { CaptureWindowMenu(state:source) }
             else if !source.displays.isEmpty { Picker("Display",selection:Binding(get:{ source.displayID },set:{ source.displayID = $0; source.modeChanged() })) { ForEach(source.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } } }
+            }
             Text(state.message).font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
             if let image = state.image {
+                HStack {
+                    Picker("Format",selection:$state.jpeg) { Text("PNG").tag(false); Text("JPEG").tag(true) }.frame(maxWidth:160)
+                    if state.jpeg { Slider(value:$state.quality,in:0.1...1).frame(width:100); Text("Quality \(Int(state.quality*100))%") }
+                    Button("Screenshot folder") { state.chooseFolder() }.help(state.folder?.path ?? "Choose a separate screenshot folder")
+                    Spacer()
+                    Button("Extract text") { Task { await state.extractText() } }.disabled(state.recognizing || state.working)
+                }
+                if !state.recognizedText.isEmpty {
+                    HStack {
+                        ScrollView { Text(state.recognizedText).textSelection(.enabled) }.frame(maxHeight:80)
+                        Button("Copy text") { NSPasteboard.general.clearContents(); NSPasteboard.general.setString(state.recognizedText,forType:.string) }
+                        Button("Close") { state.recognizedText = "" }
+                    }
+                }
+                HStack {
+                    Text("\(image.width) × \(image.height) px").monospacedDigit()
+                    TextField("X",value:$state.pixelX,format:.number).frame(width:64).accessibilityLabel("Pixel X")
+                    TextField("Y",value:$state.pixelY,format:.number).frame(width:64).accessibilityLabel("Pixel Y")
+                    Button("Copy pixel color") {
+                        if let composed = state.composed(), let color = CaptureImageTools.color(composed,x:state.pixelX,y:state.pixelY) {
+                            NSPasteboard.general.clearContents(); NSPasteboard.general.setString(color,forType:.string); state.message = color
+                        } else { state.message = "Enter a pixel within the image." }
+                    }
+                    Toggle("Ruler",isOn:$state.showRuler).toggleStyle(.button)
+                    Spacer()
+                    if let url = state.savedURL { ShareLink(item:url); Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) } }
+                }.font(.caption)
+                if state.showRuler {
+                    HStack {
+                        Text("Measure from X/Y to")
+                        TextField("End X",value:$state.rulerX,format:.number).frame(width:70)
+                        TextField("End Y",value:$state.rulerY,format:.number).frame(width:70)
+                        let dx = Double(state.rulerX)-Double(state.pixelX), dy = Double(state.rulerY)-Double(state.pixelY)
+                        Text(String(format:"%.0f × %.0f px · %.1f px diagonal",abs(dx),abs(dy),hypot(dx,dy))).monospacedDigit()
+                    }.font(.caption)
+                }
                 AnnotationToolbar(state:state.annotations,screenshot:true)
                 GeometryReader { proxy in
                     let ratio = CGFloat(image.width)/CGFloat(image.height)
                     let width = min(proxy.size.width,proxy.size.height*ratio)
                     AnnotationEditor(image:image,state:state.annotations).frame(width:width,height:width/ratio).background(Color.black).frame(maxWidth:.infinity,maxHeight:.infinity)
                 }
-                HStack { Text("Blur can leave recognizable detail. Use Cover for secrets; verify before sharing.").font(.caption).foregroundStyle(.secondary); Spacer(); Button("Copy PNG") { state.copy() }; Button("Save PNG") { state.save() }.buttonStyle(.borderedProminent) }
+                HStack { Text("Blur can leave recognizable detail. Use Cover for secrets; verify before sharing.").font(.caption).foregroundStyle(.secondary); Spacer(); Button("Copy PNG") { state.copy() }; Button(state.jpeg ? "Save JPEG" : "Save PNG") { state.save() }.buttonStyle(.borderedProminent) }
             } else { ContentUnavailableView("Capture your screen",systemImage:"camera.viewfinder",description:Text("Then draw arrows, boxes, highlights or text, and redact selected areas.")) }
             if state.working { ProgressView() }
         }.padding(24)

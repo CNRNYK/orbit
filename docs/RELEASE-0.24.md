@@ -45,3 +45,5 @@ Run `python3 Tests/Homebrew/UpdateSessionFixture.py` to verify that simulated ca
 
 
 Build 40: the native fixture opened the Orbit suggestion card with synthetic text. A manual TextEdit screenshot confirmed that the card appeared there. The screenshot of the other editor did not confirm Orbit marks or replacement; test that editor separately.
+
+For changes developed after this release, see the separate [Capture Tools 0.25.0 guide](CAPTURE-PREVIEW.md).

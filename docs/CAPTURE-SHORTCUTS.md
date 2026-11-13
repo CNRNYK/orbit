@@ -58,3 +58,5 @@ Native smoke tests use synthetic overlay windows and a fake registrar: secondary
 - Quit Orbit and confirm its shortcuts are inactive. Check fresh launches and keyboard-layout changes.
 
 Physical multi-monitor output, real background hotkey delivery, other-app conflicts and privacy-denied hardware capture require this manual acceptance; fixtures cannot establish them. Builds remain ad-hoc signed and not notarized, so macOS may require Screen Recording permission to be re-granted after replacement until a stable Developer ID distribution is established.
+
+In [build 45](CAPTURE-PREVIEW.md), starting a Window recording without a selection opens the picker and proceeds after selection. Pause/Resume can be assigned in Keyboard Shortcuts (default for new shortcut configurations: Control–Option–Command–P). Unassigned actions show no shortcut badge in the menu bar.

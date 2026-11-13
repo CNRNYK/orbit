@@ -17,12 +17,20 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
     private var latest: CIImage?, camera: CIImage?, frame: CGRect
     private var timer: DispatchSourceTimer?, stream: SCStream?, devices: AVCaptureSession?, cameraOutput: AVCaptureVideoDataOutput?, micOutput: AVCaptureAudioDataOutput?
     private var sessionStarted = false, closing = false, reportedError = false
+    var needsAudioMix: Bool { options.microphone && options.systemAudio }
+    private var systemEnabled = true, micEnabled = true, cameraEnabled = true
+    func setLiveInputs(system: Bool, mic: Bool, camera: Bool) {
+        queue.async {
+            self.systemEnabled = system; self.micEnabled = mic; self.cameraEnabled = camera
+        }
+    }
+    private let preferences: CapturePreferences
     private var trackWindowFrame = false
     private var runtimeObserver: NSObjectProtocol?
     var onFrameChanged: (@Sendable (CGRect) -> Void)?
     var onFailure: (@Sendable (String) -> Void)?
-    init(url: URL, options: RecorderOptions, size: CGSize, frame: CGRect, tracker: RecorderInputTracker, annotations: AnnotationBuffer? = nil) throws {
-        self.url = url; self.options = options; self.size = size; self.frame = frame; self.tracker = tracker; compositor = RecorderCompositor(options:options); compositor.annotations = annotations
+    init(url: URL, options: RecorderOptions, size: CGSize, frame: CGRect, tracker: RecorderInputTracker, annotations: AnnotationBuffer? = nil, preferences: CapturePreferences = .init()) throws {
+        self.preferences = preferences; self.url = url; self.options = options; self.size = size; self.frame = frame; self.tracker = tracker; compositor = RecorderCompositor(options:options,preferences:preferences); compositor.annotations = annotations
         writer = try AVAssetWriter(outputURL:url,fileType:.mov)
         video = AVAssetWriterInput(mediaType:.video,outputSettings:[AVVideoCodecKey:AVVideoCodecType.h264,AVVideoWidthKey:Int(size.width),AVVideoHeightKey:Int(size.height),AVVideoCompressionPropertiesKey:[AVVideoAverageBitRateKey:max(1_500_000,Int(size.width*size.height*3)),AVVideoExpectedSourceFrameRateKey:options.fps,AVVideoMaxKeyFrameIntervalKey:options.fps*2]])
         video.expectsMediaDataInRealTime = true
@@ -56,14 +64,14 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
             do {
                 let session = AVCaptureSession(); session.beginConfiguration(); session.sessionPreset = .medium
                 if self.options.webcam {
-                    guard let device = AVCaptureDevice.default(for:.video) else { throw RecorderProblem(message:"No camera is available.") }
+                    guard let device = CapturePreferences.device(.video,id:self.preferences.camera) else { throw RecorderProblem(message:"No camera is available.") }
                     let input = try AVCaptureDeviceInput(device:device), output = AVCaptureVideoDataOutput()
                     output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String:kCVPixelFormatType_32BGRA]; output.alwaysDiscardsLateVideoFrames = true; output.setSampleBufferDelegate(self,queue:self.queue)
                     guard session.canAddInput(input), session.canAddOutput(output) else { throw RecorderProblem(message:"Camera could not be configured.") }
                     session.addInput(input); session.addOutput(output); self.cameraOutput = output
                 }
                 if self.options.microphone {
-                    guard let device = AVCaptureDevice.default(for:.audio) else { throw RecorderProblem(message:"No microphone is available.") }
+                    guard let device = CapturePreferences.device(.audio,id:self.preferences.microphone) else { throw RecorderProblem(message:"No microphone is available.") }
                     let input = try AVCaptureDeviceInput(device:device), output = AVCaptureAudioDataOutput(); output.setSampleBufferDelegate(self,queue:self.queue)
                     guard session.canAddInput(input), session.canAddOutput(output) else { throw RecorderProblem(message:"Microphone could not be configured.") }
                     session.addInput(input); session.addOutput(output); self.micOutput = output
@@ -80,7 +88,7 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
     func stream(_ stream: SCStream, didStopWithError error: Error) { queue.async { if !self.closing { self.fail(error.localizedDescription) } } }
     func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
         guard !closing, sampleBuffer.isValid else { return }
-        if type == .audio { appendAudio(sampleBuffer,to:systemInput); return }
+        if type == .audio { if !systemEnabled { return }; appendAudio(sampleBuffer,to:systemInput); return }
         guard type == .screen,
               let info = (CMSampleBufferGetSampleAttachmentsArray(sampleBuffer,createIfNecessary:false) as? [[SCStreamFrameInfo:Any]])?.first,
               let raw = info[.status] as? Int, let status = SCFrameStatus(rawValue:raw) else { return }
@@ -92,7 +100,7 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard !closing else { return }
         if output === cameraOutput, let buffer = sampleBuffer.imageBuffer { camera = CIImage(cvPixelBuffer:buffer) }
-        else if output === micOutput { appendAudio(sampleBuffer,to:micInput) }
+        else if output === micOutput, micEnabled { appendAudio(sampleBuffer,to:micInput) }
     }
     private func tick(at hostTime: CMTime) {
         guard !closing, let latest, timeline.pausedAt == nil, video.isReadyForMoreMediaData, let pts = timeline.videoTime(at:hostTime) else { return }
@@ -100,7 +108,7 @@ final class RecorderEngine: NSObject, SCStreamOutput, SCStreamDelegate, AVCaptur
         guard let pool = adaptor.pixelBufferPool else { fail("The video buffer pool is unavailable."); return }
         var buffer: CVPixelBuffer?
         guard CVPixelBufferPoolCreatePixelBuffer(nil,pool,&buffer) == kCVReturnSuccess, let buffer else { fail("Could not allocate a recording frame."); return }
-        let image = compositor.image(latest,frame:frame,size:size,pointer:tracker.snapshot(),camera:camera,now:ProcessInfo.processInfo.systemUptime)
+        let image = compositor.image(latest,frame:frame,size:size,pointer:tracker.snapshot(),camera:cameraEnabled ? camera : nil,now:ProcessInfo.processInfo.systemUptime)
         context.render(image,to:buffer,bounds:CGRect(origin:.zero,size:size),colorSpace:CGColorSpaceCreateDeviceRGB())
         if !adaptor.append(buffer,withPresentationTime:pts) { fail(writer.error?.localizedDescription ?? "The video encoder stopped accepting frames.") }; lastTime = pts
     }

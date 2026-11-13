@@ -1,5 +1,14 @@
 # Changelog
 
+
+## 0.25.0 — Capture Tools (build 45)
+
+- Add a collapsible capture dock, resizable selection with dimension readouts, and recording controls anchored to the capture frame.
+- Add countdown, device previews, cursor effects, awake and presentation options, plus Pause/Resume and live controls for sources enabled before recording.
+- Open standalone capture editors with readable filenames, larger previews, native-resolution screenshots, PNG/JPEG, local OCR, pixel tools and sharing.
+- Offer Original and Balanced video export, show output size and preserve the source without a deletion prompt.
+- Continue directly after choosing a window and hide unassigned shortcut badges. See [behavior and verification](CAPTURE-PREVIEW.md).
+
 ## 0.24.0
 
 - Share one temporary authorization terminal across a reviewed Homebrew update queue, so sudo can reuse an approval according to system policy.

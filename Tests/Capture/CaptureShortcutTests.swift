@@ -16,6 +16,14 @@ import AppKit
     static func run() async throws {
         let main = CaptureDisplayGeometry(id:1,appKitFrame:CGRect(x:0,y:0,width:1440,height:900),captureFrame:CGRect(x:0,y:0,width:1440,height:900),scale:2)
         let left = CaptureDisplayGeometry(id:2,appKitFrame:CGRect(x:-1920,y:0,width:1920,height:1080),captureFrame:CGRect(x:-1920,y:-180,width:1920,height:1080),scale:1)
+        let screen = CGRect(x:-1600,y:30,width:1600,height:900)
+        let dock = CGSize(width:255,height:48)
+        let middle = CGRect(x:-1000,y:300,width:500,height:400)
+        let belowDock = CaptureHUDPlacement.frame(size:dock,selection:middle,visible:screen)
+        precondition(belowDock.maxY == middle.minY-8 && belowDock.midX == middle.midX)
+        let low = CGRect(x:-1500,y:32,width:100,height:500)
+        precondition(CaptureHUDPlacement.frame(size:dock,selection:low,visible:screen).minY == low.maxY+8)
+        precondition(screen.contains(CaptureHUDPlacement.frame(size:dock,selection:screen,visible:screen)))
         let above = CaptureDisplayGeometry(id:3,appKitFrame:CGRect(x:200,y:900,width:1280,height:720),captureFrame:CGRect(x:200,y:-720,width:1280,height:720),scale:2)
         let below = CaptureDisplayGeometry(id:4,appKitFrame:CGRect(x:100,y:-800,width:1280,height:800),captureFrame:CGRect(x:100,y:900,width:1280,height:800),scale:1)
         let displays = [main,left,above,below]

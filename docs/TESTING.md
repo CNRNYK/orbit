@@ -43,3 +43,5 @@ Passing generated media tests does not prove the installed app's ScreenCaptureKi
 ## Multi-display capture and shortcuts (0.22.0)
 
 See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.
+
+For build 45 hardware acceptance, use the [Capture Tools checklist](CAPTURE-PREVIEW.md). Keep generated-media results separate from actual device and capture permissions.

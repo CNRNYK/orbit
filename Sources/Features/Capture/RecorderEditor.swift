@@ -65,6 +65,7 @@ struct RecorderEditPlan {
 
 struct RecorderEditor: View {
     @ObservedObject var state: RecorderState
+    var previewHeight: CGFloat = 360
     var body: some View {
         VStack(alignment:.leading,spacing:12) {
             HStack { Label("Video editor",systemImage:"scissors").font(.title2.bold()); Spacer(); Button("Open video",systemImage:"folder") { state.openVideo() }.disabled(state.busy) }
@@ -72,7 +73,7 @@ struct RecorderEditor: View {
                 Group {
                     if state.preview, let poster = state.thumbnails.first { Image(nsImage:poster).resizable().scaledToFit().frame(maxWidth:.infinity).background(Color.black) }
                     else { RecorderPlayerView(player:player) }
-                }.frame(height:220)
+                }.frame(height:previewHeight)
                 HStack { Text(url.lastPathComponent).lineLimit(1); Spacer(); Text(state.editPreview ? "Edited preview" : "Original video").font(.caption).foregroundStyle(.secondary); Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }; Button("Copy file") { state.copyFile() } }
                 Picker("Edit action",selection:$state.removeSelection) { Text("Keep selected range").tag(false); Text("Remove selected range").tag(true) }.pickerStyle(.segmented).disabled(state.busy).onChange(of:state.removeSelection) { _,_ in state.restoreOriginal() }
                 RecorderRangeTimeline(state:state).frame(height:84).disabled(state.busy)
@@ -104,7 +105,15 @@ struct RecorderEditActions: View {
             if state.editPreview { Button("Back to original") { state.restoreOriginal() }.disabled(state.busy) }
             Button("Preview edit",systemImage:"play.rectangle") { Task { await state.previewEdit() } }.disabled(state.busy || !state.selectionChanged)
             Spacer()
-            Button("Save edited copy",systemImage:"square.and.arrow.down") { Task { await state.trim(remove:state.removeSelection) } }.buttonStyle(.borderedProminent).disabled(state.busy || !state.selectionChanged)
+            if let url = state.recordingURL {
+                ShareLink(item:url)
+                Button("Copy file") { state.copyFile() }
+                Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }
+            }
+            Picker("Quality",selection:$state.exportQuality) {
+                ForEach(VideoExportQuality.allCases,id:\.self) { Text($0.rawValue).tag($0) }
+            }.frame(maxWidth:170).disabled(state.busy).help(state.exportQuality.detail)
+            Button("Export copy",systemImage:"square.and.arrow.down") { Task { await state.trim(remove:state.removeSelection) } }.buttonStyle(.borderedProminent).disabled(state.busy || state.editPlan == nil)
         }
     }
 }
@@ -144,5 +153,24 @@ struct RecorderRangeTimeline: View {
         .accessibilityLabel("\(name) trim handle")
         .accessibilityValue(RecorderState.timeLabel(name == "Start" ? state.trimStart : state.trimEnd))
         .accessibilityAdjustableAction { direction in state.moveHandle(name,to:(name == "Start" ? state.trimStart : state.trimEnd)+(direction == .increment ? 1 : -1)/max(state.frameRate,1)) }
+    }
+}
+
+struct StandaloneRecordingEditor: View {
+    @ObservedObject var state: RecorderState
+    var body: some View {
+        VStack(alignment:.leading,spacing:14) {
+            Text("Recording Editor").font(.title2.bold())
+            GeometryReader { geometry in
+                ScrollView { RecorderEditor(state:state,previewHeight:max(300,geometry.size.height-245)) }
+            }
+            Divider()
+            Text(state.exportQuality.detail).font(.caption).foregroundStyle(.secondary)
+            RecorderEditActions(state:state)
+            Text(state.status).font(.caption).foregroundStyle(.secondary)
+        }.padding(20).frame(minWidth:720,minHeight:480)
+        .alert("Recording Editor",isPresented:Binding(get:{ state.notice != nil },set:{ if !$0 { state.notice = nil } })) {
+            Button("OK") { state.notice = nil }
+        } message: { Text(state.notice ?? "") }
     }
 }

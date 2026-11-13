@@ -67,6 +67,19 @@ final class RecorderSelectionWindow: NSWindow { override var canBecomeKey: Bool 
 final class RecorderSelectionCanvas: NSView {
     let allowed: CGRect, label: String
     var origin: CGPoint?, selection = CGRect.zero
+    var scale: CGFloat = 1
+    var review = false
+    private var reviewing = false
+    private var resizeCorner: CGPoint?
+    private var confirmFrame: CGRect {
+        CGRect(x:min(max(selection.maxX-120,allowed.minX),max(allowed.minX,allowed.maxX-120)),
+               y:selection.maxY+36 <= allowed.maxY ? selection.maxY+4 : max(allowed.minY,selection.minY-36),
+               width:120,height:30)
+    }
+    private var corners: [CGPoint] {
+        [CGPoint(x:selection.minX,y:selection.minY),CGPoint(x:selection.maxX,y:selection.minY),
+         CGPoint(x:selection.minX,y:selection.maxY),CGPoint(x:selection.maxX,y:selection.maxY)]
+    }
     var highlighted = false { didSet { needsDisplay = true } }
     var begin: (() -> Bool)?, hover: ((Bool) -> Void)?, retry: (() -> Void)?
     var complete: ((CGRect?) -> Void)?
@@ -88,18 +101,39 @@ final class RecorderSelectionCanvas: NSView {
         if selection.width > 0 {
             NSColor.clear.setFill(); selection.fill(using:.copy)
             NSColor.systemBlue.setStroke(); let border = NSBezierPath(rect:selection); border.lineWidth = 2; border.stroke()
+            NSColor.white.setFill()
+            for point in corners { NSBezierPath(roundedRect:CGRect(x:point.x-4,y:point.y-4,width:8,height:8),xRadius:2,yRadius:2).fill() }
+            let dimensions = "\(Int(selection.width)) × \(Int(selection.height)) pt · \(Int(selection.width*scale)) × \(Int(selection.height*scale)) px"
+            dimensions.draw(at:CGPoint(x:max(allowed.minX+8,selection.minX),y:max(allowed.minY+42,selection.minY-23)),withAttributes:[.font:NSFont.monospacedDigitSystemFont(ofSize:12,weight:.semibold),.foregroundColor:NSColor.white,.backgroundColor:NSColor.black.withAlphaComponent(0.8)])
+            if reviewing {
+                NSColor.systemBlue.setFill()
+                NSBezierPath(roundedRect:confirmFrame,xRadius:8,yRadius:8).fill()
+                "Use area ↵".draw(at:CGPoint(x:confirmFrame.minX+19,y:confirmFrame.minY+7),withAttributes:[.font:NSFont.systemFont(ofSize:13,weight:.semibold),.foregroundColor:NSColor.white])
+            }
         }
-        let text = label + " · Drag on this display · Esc to cancel"
+        let text = label + (reviewing ? " · Drag corners to resize · Return to confirm · Esc to cancel" : " · Drag on this display · Esc to cancel")
         text.draw(at:NSPoint(x:max(allowed.minX+18,18),y:max(allowed.minY+18,18)),withAttributes:[.font:NSFont.systemFont(ofSize:17,weight:.semibold),.foregroundColor:NSColor.white,.backgroundColor:NSColor.black.withAlphaComponent(0.65)])
     }
-    override func mouseDown(with event: NSEvent) { let p = convert(event.locationInWindow,from:nil); guard allowed.contains(p), begin?() != false else { return }; origin = p; selection = .zero }
+    override func mouseDown(with event: NSEvent) {
+        let p = convert(event.locationInWindow,from:nil)
+        if reviewing {
+            if confirmFrame.contains(p) { complete?(selection); return }
+            if let corner = corners.firstIndex(where:{ hypot($0.x-p.x,$0.y-p.y) <= 12 }) {
+                origin = corners[3-corner]; resizeCorner = corners[corner]
+            }
+            return
+        }
+        guard allowed.contains(p), begin?() != false else { return }
+        origin = p; selection = .zero
+    }
     override func mouseDragged(with event: NSEvent) {
         guard let origin else { return }; let point = convert(event.locationInWindow,from:nil)
         let p = CGPoint(x:min(max(point.x,allowed.minX),allowed.maxX),y:min(max(point.y,allowed.minY),allowed.maxY))
-        selection = CGRect(x:min(origin.x,p.x),y:min(origin.y,p.y),width:abs(p.x-origin.x),height:abs(p.y-origin.y)); needsDisplay = true
+        let next = CGRect(x:min(origin.x,p.x),y:min(origin.y,p.y),width:abs(p.x-origin.x),height:abs(p.y-origin.y))
+        if resizeCorner == nil || (next.width >= 8 && next.height >= 8) { selection = next }; needsDisplay = true
     }
-    override func mouseUp(with event: NSEvent) { guard origin != nil else { return }; mouseDragged(with:event); guard selection.width >= 8, selection.height >= 8 else { origin = nil; selection = .zero; retry?(); needsDisplay = true; return }; complete?(selection) }
-    override func keyDown(with event: NSEvent) { if event.keyCode == 53 { complete?(nil) } else { super.keyDown(with:event) } }
+    override func mouseUp(with event: NSEvent) { guard origin != nil else { return }; mouseDragged(with:event); guard selection.width >= 8, selection.height >= 8 else { origin = nil; selection = .zero; retry?(); needsDisplay = true; return }; origin = nil; resizeCorner = nil; if review { reviewing = true; needsDisplay = true } else { complete?(selection) } }
+    override func keyDown(with event: NSEvent) { if event.keyCode == 53 { complete?(nil) } else if event.keyCode == 36, reviewing { complete?(selection) } else { super.keyDown(with:event) } }
 }
 @MainActor final class RecorderRegionPicker {
     private var windows = [NSWindow](), canvases = [UInt32:RecorderSelectionCanvas]()
@@ -107,12 +141,12 @@ final class RecorderSelectionCanvas: NSView {
     private var session = CaptureSelectionSession(displays:[])
     private var topologyObserver: NSObjectProtocol?
     func selectArea(displayIDs: [UInt32], preferredDisplayID: UInt32) async -> CaptureAreaSelection? {
-        await select(displays:CaptureDisplayGeometry.current().filter { displayIDs.contains($0.id) },preferred:preferredDisplayID,within:nil,label:"Select capture area")
+        await select(displays:CaptureDisplayGeometry.current().filter { displayIDs.contains($0.id) },preferred:preferredDisplayID,within:nil,label:"Select capture area",review:true)
     }
     func select(displayID: CGDirectDisplayID, within source: CGRect? = nil, label: String = "Select recording area") async -> CGRect? {
         await select(displays:CaptureDisplayGeometry.current().filter { $0.id == displayID },preferred:displayID,within:source,label:label)?.rect
     }
-    func select(displays: [CaptureDisplayGeometry], preferred: UInt32, within source: CGRect?, label: String) async -> CaptureAreaSelection? {
+    func select(displays: [CaptureDisplayGeometry], preferred: UInt32, within source: CGRect?, label: String, review: Bool = false) async -> CaptureAreaSelection? {
         cancel(); guard !displays.isEmpty else { return nil }; session = CaptureSelectionSession(displays:displays)
         return await withCheckedContinuation { continuation in
             self.continuation = continuation
@@ -123,6 +157,7 @@ final class RecorderSelectionCanvas: NSView {
                 let window = RecorderSelectionWindow(contentRect:display.appKitFrame,styleMask:.borderless,backing:.buffered,defer:false)
                 window.isOpaque = false; window.backgroundColor = .clear; window.level = .screenSaver; window.collectionBehavior = [.canJoinAllSpaces,.fullScreenAuxiliary]; window.isReleasedWhenClosed = false; window.acceptsMouseMovedEvents = true
                 let canvas = RecorderSelectionCanvas(frame:display.localBounds,allowed:allowed,label:label)
+                canvas.scale = display.scale; canvas.review = review
                 canvas.begin = { [weak self] in self?.session.begin(display.id) ?? false }
                 canvas.retry = { [weak self] in self?.session.retry() }
                 canvas.hover = { [weak self, weak window, weak canvas] inside in
@@ -150,30 +185,73 @@ final class RecorderSelectionCanvas: NSView {
     func cancel() { complete(nil) }
 }
 
+enum CaptureHUDPlacement {
+    static func frame(size: CGSize, selection: CGRect?, visible: CGRect) -> CGRect {
+        let width = min(size.width,visible.width), height = min(size.height,visible.height)
+        let gap: CGFloat = 8
+        let center = selection?.midX ?? visible.midX
+        let x = min(max(center-width/2,visible.minX),visible.maxX-width)
+        guard let selection else { return CGRect(x:x,y:visible.minY+min(gap,visible.height-height),width:width,height:height) }
+        let below = selection.minY-gap-height
+        let above = selection.maxY+gap
+        let y: CGFloat
+        if below >= visible.minY { y = below }
+        else if above+height <= visible.maxY { y = above }
+        else {
+            let lowerRoom = selection.minY-visible.minY
+            let upperRoom = visible.maxY-selection.maxY
+            y = lowerRoom >= upperRoom ? below : above
+        }
+        return CGRect(x:x,y:min(max(y,visible.minY),visible.maxY-height),width:width,height:height)
+    }
+}
+
 struct RecorderHUD: View {
     @ObservedObject var state: RecorderState
     @ObservedObject var annotations: AnnotationState
     init(state:RecorderState) { self.state = state; annotations = state.annotations }
     var body: some View {
         VStack(alignment:.leading,spacing:12) {
-            HStack {
+            if state.phase == .idle { HStack {
                 Label("Orbit Recorder",systemImage:"record.circle").font(.subheadline.bold())
                 Spacer()
+                if state.phase == .idle {
+                    Button { state.dockCollapsed.toggle() } label: { Image(systemName:state.dockCollapsed ? "chevron.left" : "chevron.right") }.buttonStyle(.borderless).help(state.dockCollapsed ? "Expand capture dock" : "Collapse capture dock")
+                }
                 if state.phase == .idle { Button { state.closeControls() } label: { Image(systemName:"xmark") }.buttonStyle(.borderless).help("Close recording controls") }
             }
-            if state.phase == .idle {
+            }
+            if state.phase == .idle && state.dockCollapsed {
+                HStack {
+                    if let screenshot = state.onScreenshotControls { Button("Screenshot",systemImage:"camera",action:screenshot).labelStyle(.iconOnly) }
+                    Button("Record",systemImage:"record.circle") { state.start(compact:true) }.labelStyle(.iconOnly).disabled(!state.canBegin())
+                }
+            } else if state.phase == .idle {
                 Picker("",selection:$state.options.mode) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().onChange(of:state.options.mode) { _,_ in state.modeChanged() }
                 if state.options.mode == "Window" {
                     HStack {
-                        CaptureWindowMenu(state:state)
+                        CaptureWindowMenu(state:state,startAfterSelection:true)
                         Button("Refresh") { Task { await state.loadSources() } }.disabled(state.busy)
                     }
                 } else if !state.displays.isEmpty {
                     Picker("Display",selection:Binding(get:{ state.displayID },set:{ state.displayID = $0; state.modeChanged() })) { ForEach(state.displays,id:\.displayID) { display in Text("Display · \(display.width) × \(display.height)").tag(display.displayID) } }
                 }
-                Text("Saves to Movies/Orbit Recordings").font(.caption).foregroundStyle(.secondary)
                 HStack {
-                    Button(state.startLabel,systemImage:"record.circle") { state.start(compact:true) }.buttonStyle(.borderedProminent).tint(.red).disabled(state.busy || !state.canBegin() || (state.options.mode == "Window" && state.selectedWindow == nil))
+                    Toggle("Mic",isOn:$state.options.microphone)
+                    Toggle("System",isOn:$state.options.systemAudio)
+                    Toggle("Camera",isOn:$state.options.webcam)
+                    if let settings = state.onCaptureSettings { Button("Settings",systemImage:"gearshape",action:settings).labelStyle(.iconOnly).help("Capture settings") }
+                }.disabled(state.busy)
+                Button(state.presenting ? "End presentation" : "Present without recording") { state.togglePresentation() }.disabled(state.captureFrame == nil)
+                if state.presenting {
+                    Toggle("Draw on screen",isOn:$annotations.drawing)
+                    if annotations.drawing { AnnotationToolbar(state:annotations) }
+                }
+                Text(state.outputEstimate).font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                Text("Saves to " + state.outputFolder.lastPathComponent).font(.caption).foregroundStyle(.secondary)
+                HStack {
+                    if let screenshot = state.onScreenshotControls { Button("Screenshot",systemImage:"camera",action:screenshot).labelStyle(.iconOnly).help("Take screenshot") }
+                    Button(state.startLabel,systemImage:"record.circle") { state.start(compact:true) }.buttonStyle(.borderedProminent).tint(.red).disabled(state.busy || !state.canBegin())
                     Spacer()
                     if let url = state.recordingURL { Button("Show last recording") { NSWorkspace.shared.activateFileViewerSelecting([url]) } }
                 }
@@ -182,20 +260,41 @@ struct RecorderHUD: View {
                     Circle().fill(state.phase == .paused ? .orange : .red).frame(width:8,height:8)
                     Text(state.phase == .countdown ? "Starting in \(state.countdown)…" : state.elapsedLabel).font(.system(.body,design:.monospaced).bold())
                     Spacer()
-                    if state.phase == .recording || state.phase == .paused { Button(state.phase == .paused ? "Resume" : "Pause") { state.togglePause() }; Button("Stop") { Task { await state.stop() } }.tint(.red) }
+                    if state.phase == .recording || state.phase == .paused { Button(state.phase == .paused ? "Resume" : "Pause",systemImage:state.phase == .paused ? "play.fill" : "pause.fill") { state.togglePause() }.labelStyle(.iconOnly).help(state.phase == .paused ? "Resume recording" : "Pause recording")
+                        RecorderLiveInputButtons(state:state)
+                        Button("Draw",systemImage:annotations.drawing ? "pencil.circle.fill" : "pencil.circle") { annotations.drawing.toggle() }.labelStyle(.iconOnly).help("Toggle drawing")
+                        Button("Stop",systemImage:"stop.fill") { Task { await state.stop() } }.labelStyle(.iconOnly).buttonStyle(.borderedProminent).tint(.red).help("Stop and save") }
                     else if state.phase == .countdown || state.phase == .preparing { ProgressView().controlSize(.small); Button("Cancel") { state.cancelStart() } }
                     else { ProgressView().controlSize(.small); Text("Saving…") }
                 }
             }
             if state.phase == .recording || state.phase == .paused {
-                Toggle("Draw on recording",isOn:$annotations.drawing)
-                if state.annotations.drawing { AnnotationToolbar(state:state.annotations) }
-                Text("Red border marks the captured area. Drawing mode intercepts clicks; turn it off to use your apps.").font(.caption).foregroundStyle(.secondary)
+                if annotations.drawing { AnnotationToolbar(state:annotations) }
             }
             if let notice = state.notice {
                 Text(notice).font(.caption).foregroundStyle(.orange).fixedSize(horizontal:false,vertical:true)
                 Button("Privacy settings") { NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security")!) }
             }
-        }.padding(14).frame(width:420).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius:14))
+        }.padding(state.phase == .idle ? 14 : 9).frame(width:state.phase == .idle || annotations.drawing || state.notice != nil ? 420 : 340).background(.regularMaterial).clipShape(RoundedRectangle(cornerRadius:14))
+    }
+}
+
+struct RecorderLiveInputButtons: View {
+    @ObservedObject var state: RecorderState
+    var body: some View {
+        HStack(spacing:6) {
+            input("System audio","speaker.wave.2","speaker.slash",\.systemAudio)
+            input("Microphone","mic","mic.slash",\.microphone)
+            input("Camera bubble","video","video.slash",\.webcam)
+        }.buttonStyle(.bordered)
+    }
+    private func input(_ title:String,_ on:String,_ off:String,_ key:WritableKeyPath<RecorderOptions,Bool>) -> some View {
+        let enabled = state.liveInputs[keyPath:key]
+        let available = state.availableInputs[keyPath:key]
+        return Button { state.toggleLiveInput(key) } label: {
+            Image(systemName:enabled ? on : off).foregroundStyle(enabled ? Color.accentColor : Color.secondary)
+        }.accessibilityLabel(title).accessibilityValue(enabled ? "On" : "Off")
+            .help(available ? (enabled ? "Turn off " : "Turn on ") + title : "Enable " + title + " before starting a recording")
+            .disabled(!available)
     }
 }

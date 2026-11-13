@@ -265,3 +265,5 @@ See [Terminal Setup](TERMINAL-SETUP.md) for the three-tab workflow, automatic re
 ## Multi-display capture and shortcuts (0.22.0)
 
 See [Capture and keyboard shortcuts](CAPTURE-SHORTCUTS.md) for behavior, implementation boundaries, automated fixture coverage and physical hardware acceptance. Shared area selection returns display identity plus point coordinates; global shortcuts use registration-based Carbon hotkeys with transactional preferences and no global keyboard monitoring.
+
+The [Capture Tools release](CAPTURE-PREVIEW.md) describes build 45 behavior. Earlier versioned capture sections document the behavior of those releases.

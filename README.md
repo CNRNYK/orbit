@@ -31,6 +31,10 @@ A native macOS app for discovering, installing, updating, and uninstalling Homeb
 
 **Writing Assistant** adds local proofreading, rewriting and translation, with optional inline spelling marks. Orbit can also recover its main window after login and reuse sudo approval across a reviewed update queue when system policy allows. See the [0.24 changelog](docs/CHANGELOG.md) and [acceptance checklist](docs/RELEASE-0.24.md).
 
+## Capture Tools
+
+Orbit 0.25.0 adds a dock that follows the capture frame, standalone editors, native-resolution screenshots, and Original / Balanced video export. It also adds device previews and live controls for audio and camera sources enabled at recording start. See the [Capture Tools guide](docs/CAPTURE-PREVIEW.md) for setup and hardware checks.
+
 ## Released in 0.23
 
 Edit existing screenshot annotations, choose windows with a visible hover outline, review explained cleanup results, and check supported apps for **Stop managing with Homebrew** without uninstalling. See [behavior, limits and acceptance checks](docs/RELEASE-0.23.md).
@@ -79,7 +83,7 @@ Use configurable global shortcuts from **Setup Center → Keyboard Shortcuts** w
 
 Record a full display, a selected rectangle or a single window from **Screen Recorder** or Orbit's menu bar panel. Start recording directly from the menu without bringing the main window forward; floating controls provide pause and stop. Recordings start without a filename dialog and save automatically to your selected folder (Movies/Orbit Recordings by default). Add a colored mouse halo, click rings, optional cursor-follow zoom, shortcut labels and a webcam bubble. Microphone and system audio have separate switches and start off.
 
-A three-second countdown gives you time to prepare. Pause or stop from the floating controls or menu bar; Orbit's own windows are excluded from the video. Add blur areas or solid privacy covers before recording. The recorder has **Record**, **Edit** and **Settings** tabs. When saving finishes, Orbit opens Edit. Drag the start/end handles on one thumbnail timeline and see the corresponding frame as you move. Choose **Keep selected range** or **Remove selected range**, preview the result, then **Save edited copy** while retaining the original. Open existing videos and adjust either handle frame by frame. Recordings stay local; no account or upload is involved.
+Turn on **Disable countdown** to skip the three-second timer. Pause or stop from the floating controls or menu bar. Add blur areas or solid privacy covers before recording. When saving finishes, Orbit opens a separate Recording Editor. Drag the timeline handles to keep or remove a range, or export the full video using **Original** or **Balanced**. Export keeps the original. Recordings stay local.
 
 ![Orbit Screen Recorder Record tab](docs/images/recorder.png)
 
@@ -128,7 +132,7 @@ Closing the main window can hide Orbit from the Dock while keeping its menu bar 
 
 Requires **macOS 14 or later**. Homebrew must be installed to perform package operations; the first-launch setup check links to the official setup guide when it is missing. You can browse before completing setup.
 
-**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.24.0/Orbit-0.24.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.24.0)
+**[Download Orbit for Apple Silicon (.dmg)](https://github.com/CNRNYK/orbit/releases/download/v0.25.0/Orbit-0.25.0-macOS-arm64.dmg)** · [Release notes](https://github.com/CNRNYK/orbit/releases/tag/v0.25.0)
 
 Open the DMG and drag **Orbit.app** to **Applications**. This release is ad-hoc signed and has not been notarized, so macOS may require approval in Privacy & Security. Only approve a download you trust.
 
