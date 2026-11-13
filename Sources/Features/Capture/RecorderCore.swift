@@ -5,12 +5,28 @@ import CoreImage
 import CoreMedia
 import Darwin
 
+enum VideoExportQuality: String, CaseIterable {
+    case original = "Original", balanced = "Balanced"
+    var preset: String {
+        switch self {
+        case .original: return AVAssetExportPresetPassthrough
+        case .balanced: return AVAssetExportPresetHighestQuality
+        }
+    }
+    var detail: String {
+        switch self {
+        case .original: return "Preserves encoded quality without re-encoding. Cuts may align to keyframes."
+        case .balanced: return "Uses the highest-quality encoding preset. File size may not decrease."
+        }
+    }
+}
+
 struct RecorderOptions: Codable, Equatable {
     var mode = "Full screen"
     var microphone = false, systemAudio = false, webcam = false
     var halo = true, clicks = true, shortcuts = false, zoom = false
     var haloColor = "Blue", haloRadius = 28.0, zoomFactor = 1.4
-    var fps = 30, maxWidth = 1920
+    var fps = 30, maxWidth = Int.max
     var masks = [RecorderMask]()
 }
 struct RecorderMask: Identifiable, Codable, Equatable {
@@ -62,6 +78,7 @@ struct RecorderTimeline {
 }
 struct RecorderPointer {
     var location = CGPoint.zero
+    var rightClick = false
     var clickLocation = CGPoint.zero, clickAt = -100.0
     var shortcut = "", shortcutAt = -100.0
 }
@@ -84,7 +101,7 @@ final class RecorderInputTracker: @unchecked Sendable {
     func snapshot() -> RecorderPointer { lock.lock(); defer { lock.unlock() }; var copy = value; copy.location = CGEvent(source: nil)?.location ?? copy.location; return copy }
     @MainActor func start(shortcuts: Bool) throws {
         stop()
-        let click: (NSEvent) -> Void = { [weak self] _ in self?.clicked() }
+        let click: (NSEvent) -> Void = { [weak self] event in self?.clicked(right:event.type == .rightMouseDown) }
         if let m = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown,.rightMouseDown], handler: click) { monitors.append(m) }
         if shortcuts {
             guard CGPreflightListenEventAccess() || CGRequestListenEventAccess() else { throw RecorderProblem(message: "Allow Input Monitoring for shortcut labels, or turn Shortcut labels off. No typed text is collected.") }
@@ -101,7 +118,7 @@ final class RecorderInputTracker: @unchecked Sendable {
         }
     }
     func clear() { lock.lock(); value = RecorderPointer(); lock.unlock() }
-    private func clicked() { lock.lock(); value.clickLocation = CGEvent(source: nil)?.location ?? .zero; value.clickAt = ProcessInfo.processInfo.systemUptime; lock.unlock() }
+    private func clicked(right: Bool) { lock.lock(); value.rightClick = right; value.clickLocation = CGEvent(source: nil)?.location ?? .zero; value.clickAt = ProcessInfo.processInfo.systemUptime; lock.unlock() }
     @MainActor func stop() {
         monitors.forEach { NSEvent.removeMonitor($0) }; monitors.removeAll()
         if let tap { CGEvent.tapEnable(tap: tap, enable: false); CFMachPortInvalidate(tap) }
@@ -116,9 +133,10 @@ final class RecorderCompositor {
     private var annotationImage: CIImage?
     private var annotationSize = CGSize.zero
     let options: RecorderOptions
+    let preferences: CapturePreferences
     private var center: CGPoint?
     private var cachedLabel = "", cachedImage: CIImage?
-    init(options: RecorderOptions) { self.options = options }
+    init(options: RecorderOptions, preferences: CapturePreferences = .init()) { self.options = options; self.preferences = preferences }
     func image(_ source: CIImage, frame: CGRect, size: CGSize, pointer: RecorderPointer, camera: CIImage?, now: Double) -> CIImage {
         let bounds = CGRect(origin: .zero, size: size)
         var result = source.transformed(by: CGAffineTransform(translationX: -source.extent.minX, y: -source.extent.minY)).transformed(by: CGAffineTransform(scaleX: size.width/source.extent.width, y: size.height/source.extent.height)).cropped(to: bounds)
@@ -142,7 +160,7 @@ final class RecorderCompositor {
         let age = now-pointer.clickAt
         if options.clicks, age >= 0, age < 0.6, let point = RecorderGeometry.point(pointer.clickLocation, frame: frame, size: size) {
             let ringRadius = max(radius, 12)*(0.5+age*2)
-            let ring = CIFilter(name: "CIRadialGradient", parameters: ["inputCenter": CIVector(cgPoint: point), "inputRadius0": ringRadius-3, "inputRadius1": ringRadius, "inputColor0": CIColor.clear, "inputColor1": CIColor(red: 0.2,green: 0.65,blue: 1,alpha: 1-age/0.6)])!.outputImage!.cropped(to: CGRect(x:point.x-ringRadius,y:point.y-ringRadius,width:ringRadius*2,height:ringRadius*2))
+            let ring = CIFilter(name: "CIRadialGradient", parameters: ["inputCenter": CIVector(cgPoint: point), "inputRadius0": ringRadius-3, "inputRadius1": ringRadius, "inputColor0": CIColor.clear, "inputColor1": CIColor(color:CaptureSettingsView.color(pointer.rightClick ? preferences.rightColor : preferences.leftColor).withAlphaComponent(1-age/0.6)) ?? CIColor.blue])!.outputImage!.cropped(to: CGRect(x:point.x-ringRadius,y:point.y-ringRadius,width:ringRadius*2,height:ringRadius*2))
             let clippedRing = ring.applyingFilter("CIBlendWithAlphaMask", parameters: [kCIInputBackgroundImageKey: CIImage(color: .clear).cropped(to: ring.extent), kCIInputMaskImageKey: circle(point, radius: ringRadius+1, color: .white)])
             result = clippedRing.composited(over: result)
         }
@@ -153,12 +171,12 @@ final class RecorderCompositor {
             result = result.cropped(to:crop).transformed(by:CGAffineTransform(translationX:-crop.minX,y:-crop.minY)).transformed(by:CGAffineTransform(scaleX:size.width/crop.width,y:size.height/crop.height)).cropped(to:bounds)
         }
         if options.webcam, let camera {
-            let diameter = max(72,size.width*0.16), margin = size.width*0.018
+            let diameter = min(min(size.width,size.height)*0.8,max(72,size.width*0.16)), margin = min(size.width,size.height)*0.018
             let edge = min(camera.extent.width,camera.extent.height)
             let crop = CGRect(x:camera.extent.midX-edge/2,y:camera.extent.midY-edge/2,width:edge,height:edge)
-            let rect = CGRect(x:size.width-diameter-margin,y:margin,width:diameter,height:diameter)
+            let rect = CGRect(x:preferences.cameraCorner.hasSuffix("left") ? margin : size.width-diameter-margin,y:preferences.cameraCorner.hasPrefix("Top") ? size.height-diameter-margin : margin,width:diameter,height:diameter)
             let bubble = camera.cropped(to:crop).transformed(by:CGAffineTransform(translationX:-crop.minX,y:-crop.minY)).transformed(by:CGAffineTransform(scaleX:diameter/edge,y:diameter/edge)).transformed(by:CGAffineTransform(translationX:rect.minX,y:rect.minY))
-            let alpha = circle(CGPoint(x:rect.midX,y:rect.midY),radius:diameter/2,color:CIColor.white)
+            let alpha = preferences.cameraCircle ? circle(CGPoint(x:rect.midX,y:rect.midY),radius:diameter/2,color:CIColor.white) : (CIFilter(name:"CIRoundedRectangleGenerator",parameters:["inputExtent":CIVector(cgRect:rect),"inputRadius":diameter*0.12,"inputColor":CIColor.white])?.outputImage ?? CIImage(color:.white).cropped(to:rect))
             result = bubble.applyingFilter("CIBlendWithAlphaMask",parameters:[kCIInputBackgroundImageKey:result,kCIInputMaskImageKey:alpha]).cropped(to:bounds)
         }
         if options.shortcuts, !pointer.shortcut.isEmpty, now-pointer.shortcutAt >= 0, now-pointer.shortcutAt < 1.5, let label = shortcutImage(pointer.shortcut) {
@@ -189,7 +207,15 @@ enum RecorderFiles {
         guard link(temporary.path,destination.path) == 0 else { throw RecorderProblem(message:"Could not save without replacing an existing file: \(String(cString:strerror(errno))). The finished recording is kept at \(temporary.path).") }
         try? FileManager.default.removeItem(at:temporary)
     }
-    static func export(_ source: URL, to destination: URL, range: CMTimeRange? = nil, mixAudio: Bool = false, removing: CMTimeRange? = nil) async throws {
+    static func export(_ source: URL, to destination: URL, range: CMTimeRange? = nil, mixAudio: Bool = false, removing: CMTimeRange? = nil, quality: VideoExportQuality = .balanced) async throws {
+        if quality == .original, !mixAudio, range == nil, removing == nil, source.pathExtension.lowercased() == "mp4" {
+            let temporary = destination.deletingLastPathComponent().appendingPathComponent(".orbit-\(UUID().uuidString).mp4")
+            defer { try? FileManager.default.removeItem(at:temporary) }
+            try FileManager.default.copyItem(at:source,to:temporary)
+            try FileManager.default.setAttributes([.posixPermissions:0o600],ofItemAtPath:temporary.path)
+            try publish(temporary,to:destination)
+            return
+        }
         let sourceAsset = AVURLAsset(url:source)
         var asset: AVAsset = sourceAsset
         if let removing {
@@ -212,7 +238,7 @@ enum RecorderFiles {
             }
             asset = composition
         }
-        guard let session = AVAssetExportSession(asset:asset,presetName:AVAssetExportPresetHighestQuality) else { throw RecorderProblem(message:"Could not prepare MP4 export.") }
+        guard let session = AVAssetExportSession(asset:asset,presetName:mixAudio && quality == .original ? AVAssetExportPresetHighestQuality : quality.preset) else { throw RecorderProblem(message:"Could not prepare MP4 export.") }
         let temporary = destination.deletingLastPathComponent().appendingPathComponent(".orbit-\(UUID().uuidString).mp4")
         session.shouldOptimizeForNetworkUse = true
         if let range { session.timeRange = range }

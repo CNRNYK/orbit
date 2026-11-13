@@ -4,10 +4,10 @@ import Carbon
 
 // Registration, not a global keyboard event monitor. No Accessibility/Input Monitoring.
 enum OrbitShortcutAction: String, CaseIterable, Codable, Identifiable {
-    case screenshot, selector, recording, open, writing
+    case screenshot, selector, recording, open, writing, pauseRecording
     var id: String { rawValue }
-    var title: String { switch self { case .screenshot: return "Take a screenshot"; case .selector: return "Open capture mode selector"; case .recording: return "Start or stop recording"; case .writing: return "Writing Assistant"; case .open: return "Open Orbit" } }
-    var defaultShortcut: OrbitShortcut { let code: UInt32 = switch self { case .screenshot: 20; case .selector: 21; case .recording: 23; case .open: 31; case .writing: 13 }; return OrbitShortcut(keyCode:code,modifiers:[.command,.option,.control]) }
+    var title: String { switch self { case .screenshot: return "Take a screenshot"; case .selector: return "Open capture mode selector"; case .recording: return "Start or stop recording"; case .pauseRecording: return "Pause or resume recording"; case .writing: return "Writing Assistant"; case .open: return "Open Orbit" } }
+    var defaultShortcut: OrbitShortcut { let code: UInt32 = switch self { case .screenshot: 20; case .selector: 21; case .recording: 23; case .open: 31; case .writing: 13; case .pauseRecording: 35 }; return OrbitShortcut(keyCode:code,modifiers:[.command,.option,.control]) }
 }
 struct ShortcutModifiers: OptionSet, Codable, Hashable {
     let rawValue: UInt32
@@ -158,6 +158,7 @@ struct OrbitShortcut: Codable, Hashable {
         }
     }
     private func save() { preferences?.set(try? JSONEncoder().encode(Dictionary(uniqueKeysWithValues:assignments.map { ($0.key.rawValue,$0.value) })),forKey:"orbit.keyboard-shortcuts.v1") }
+    func badgeLabel(_ action: OrbitShortcutAction) -> String { assignments[action]?.label ?? "" }
     func label(_ action: OrbitShortcutAction) -> String { assignments[action]?.label ?? "Disabled" }
 }
 final class ShortcutRecordingView: NSView {

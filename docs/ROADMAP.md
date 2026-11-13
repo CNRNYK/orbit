@@ -7,7 +7,7 @@ These are possible directions, not implemented promises or automatic work author
 | App management | Discover, Library, selective updates, adoption, reviewed removal | Richer installed inventory for packages outside the curated/saved catalog; per-app history |
 | New Mac setup | Brewfile import/export and starter choices | Named setup collections and a portable setup preview |
 | Cleanup | Scoped caches/logs, app-specific leftovers to Trash | Better scan summaries and space history without expanding deletion scope silently |
-| Capture | Full display/area/window recording, annotations, screenshot editing, range edits | Multi-step edit history, audio levels, custom output preference and keyboard shortcuts |
+| Capture | Full display/area/window recording, annotations, screenshot editing, range edits | Validate the Capture Tools release on real devices; evaluate multi-step edit history, noise reduction and separate audio export |
 | Setup | Requirements, optional permissions, Orbit at login | Clearer diagnostics for duplicate installed copies and signed release identity |
 | Startup | Standard login item management | Read-only background service inventory with native Settings links |
 | Developer tools | Reviewed Zsh profiles and language environment choices | Project-specific presets with explicit tool requirements |
@@ -23,3 +23,5 @@ These are possible directions, not implemented promises or automatic work author
 4. Capture quality: reliable source selection, understandable editing and local storage.
 
 Any data deletion, automatic background operations, cloud sharing or system service changes require a separately defined user flow and review scope.
+
+See [Recorder and Screenshot Studio design notes](CAPTURE-UI-NOTES.md) for the proposed selection controls, settings and delivery order.

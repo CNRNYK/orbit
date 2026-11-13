@@ -56,17 +56,18 @@ struct MenuBarPanel: View {
                     } else { HStack(spacing: 8) { ProgressView().controlSize(.small); Text("You can follow the operation in Orbit.").font(.caption).foregroundStyle(.secondary) } }
                 }.padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Color.accentColor.opacity(0.07)).clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Text(store.shortcuts.label(.open)).font(.caption); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
+            Button { action(.open) } label: { HStack { Text("Open Orbit"); Spacer(); Text(store.shortcuts.badgeLabel(.open)).font(.caption); Image(systemName: "arrow.up.forward") }.padding(.vertical, 5).frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).controlSize(.large)
             VStack(alignment: .leading, spacing: 10) {
-                HStack { Label("Screen Capture", systemImage: "rectangle.dashed.badge.record").font(.subheadline.bold()); Spacer(); Text(store.shortcuts.label(.selector)).font(.caption2).foregroundStyle(.secondary); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
+                HStack { Label("Screen Capture", systemImage: "rectangle.dashed.badge.record").font(.subheadline.bold()); Spacer(); Text(store.shortcuts.badgeLabel(.selector)).font(.caption2).foregroundStyle(.secondary); Button("Settings") { action(.recorder) }.font(.caption).buttonStyle(.borderless) }
                 if recorder.phase == .recording || recorder.phase == .paused {
                     HStack { Circle().fill(recorder.phase == .paused ? .orange : .red).frame(width: 7, height: 7); Text(recorder.elapsedLabel).monospacedDigit().bold(); Spacer(); Button(recorder.phase == .paused ? "Resume" : "Pause") { action(.pauseRecord) }; Button("Stop") { action(.stopRecord) }.tint(.red) }
+                    RecorderLiveInputButtons(state:recorder)
                 } else if recorder.active {
                     HStack { ProgressView().controlSize(.small); Text(recorder.phase == .countdown ? "Starting in \(recorder.countdown)…" : "Preparing or saving…").font(.caption); Spacer(); if recorder.phase == .preparing || recorder.phase == .countdown { Button("Cancel") { recorder.cancelStart() } } }
                 } else {
                     Picker("", selection: Binding(get:{ recorder.options.mode },set:{ mode in store.setMenuCaptureMode(mode); if mode == "Window" { Task { await recorder.loadSources() } } })) { Text("Full screen").tag("Full screen"); Text("Area").tag("Selected area"); Text("Window").tag("Window") }.pickerStyle(.segmented).labelsHidden().frame(maxWidth:.infinity).fixedSize(horizontal:false,vertical:true).disabled(state.operating)
                     if recorder.options.mode == "Window" {
-                        CaptureWindowMenu(state:recorder).disabled(state.operating)
+                        CaptureWindowMenu(state:recorder,startAfterSelection:true).disabled(state.operating)
                         if recorder.windows.isEmpty {
                             Button("Refresh windows", systemImage: "arrow.clockwise") { Task { await recorder.loadSources() } }.disabled(state.operating)
                         }
@@ -76,14 +77,15 @@ struct MenuBarPanel: View {
                             action(recorder.options.mode == "Window" ? .screenshotWindow : recorder.options.mode == "Selected area" ? .screenshotArea : .screenshotFull)
                         }.buttonStyle(.bordered).disabled(!state.canNavigate)
                         Button("Start recording", systemImage: "record.circle") { action(.startRecord) }
-                            .buttonStyle(.borderedProminent).disabled(state.operating || (recorder.options.mode == "Window" && recorder.selectedWindow == nil))
+                            .buttonStyle(.borderedProminent).disabled(state.operating)
                     }
-                    HStack { Text(store.shortcuts.label(.screenshot)); Spacer(); Text(store.shortcuts.label(.recording)) }.font(.caption2).foregroundStyle(.secondary)
+                    HStack { Text(store.shortcuts.badgeLabel(.screenshot)); Spacer(); Text(store.shortcuts.badgeLabel(.recording)) }.font(.caption2).foregroundStyle(.secondary)
+                    Button("Open capture dock") { action(.record) }.font(.caption).buttonStyle(.borderless).disabled(!state.canNavigate)
                     Button("Open screenshot editor") { action(.screenshots) }.font(.caption).buttonStyle(.borderless).disabled(!state.canNavigate)
                 }
             }.padding(12).background(Color.red.opacity(0.06)).clipShape(RoundedRectangle(cornerRadius:12))
             VStack(spacing: 2) {
-                row("Writing Assistant " + store.shortcuts.label(.writing), symbol: "pencil.and.outline", enabled: state.canNavigate) { action(.writing) }
+                row("Writing Assistant " + store.shortcuts.badgeLabel(.writing), symbol: "pencil.and.outline", enabled: state.canNavigate) { action(.writing) }
                 row("Keyboard Shortcuts", symbol: "keyboard", enabled: state.canNavigate) { action(.shortcuts) }
                 row("Setup Center", symbol: "checkmark.shield", enabled: state.canNavigate) { action(.permissions) }
                 row("Login Items", symbol: "power", enabled: state.canNavigate) { action(.login) }
@@ -122,6 +124,37 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     private var subscriptions = Set<AnyCancellable>()
     private var eventMonitors = [Any]()
     private var windowDelegates = [ObjectIdentifier: OrbitWindowDelegate]()
+    private var recordingEditorWindow: NSWindow?
+    private var screenshotEditorWindow: NSWindow?
+
+    private func showCaptureEditor(recording: Bool) {
+        guard !store.preview else {
+            store.navigate(recording ? .recorder : .screenshots)
+            openWindow()
+            return
+        }
+        let window: NSWindow
+        if let existing = recording ? recordingEditorWindow : screenshotEditorWindow { window = existing }
+        else {
+            window = NSWindow(contentRect:CGRect(x:0,y:0,width:920,height:690),styleMask:[.titled,.closable,.miniaturizable,.resizable],backing:.buffered,defer:false)
+            window.title = recording ? "Orbit · Recording Editor" : "Orbit · Screenshot Studio"
+            window.minSize = CGSize(width:740,height:500)
+            window.isReleasedWhenClosed = false
+            window.isRestorable = false
+            if recording {
+                window.contentViewController = NSHostingController(rootView:StandaloneRecordingEditor(state:store.recorderState))
+                recordingEditorWindow = window
+            } else {
+                window.contentViewController = NSHostingController(rootView:ScreenshotView(state:store.screenshots,editorOnly:true))
+                screenshotEditorWindow = window
+            }
+            window.center()
+        }
+        popover.close()
+        NSApp.activate(ignoringOtherApps:true)
+        if window.isMiniaturized { window.deminiaturize(nil) }
+        window.makeKeyAndOrderFront(nil)
+    }
     private weak var mainWindow: NSWindow?
     private var recoveredWindow: NSWindow?
     var recoveryContent: (() -> NSViewController)?
@@ -144,8 +177,19 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             },open:{ [weak self] selection in self?.writing.show(selection:selection) })
         }
         guard statusItem == nil else { return }
-        store.recorderState.onRecordingSaved = { [weak self] in self?.store.navigate(.recorder); self?.openWindow() }
-        store.screenshots.onCaptured = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
+        store.recorderState.onCaptureSettings = { [weak self] in
+            guard let self else { return }
+            self.store.recorderState.closeControls()
+            self.perform(.recorder)
+        }
+        store.recorderState.onScreenshotControls = { [weak self] in
+            guard let self else { return }
+            let mode = self.store.recorderState.options.mode
+            self.store.recorderState.closeControls()
+            self.perform(mode == "Window" ? .screenshotWindow : mode == "Selected area" ? .screenshotArea : .screenshotFull)
+        }
+        store.recorderState.onRecordingSaved = { [weak self] in self?.showCaptureEditor(recording:true) }
+        store.screenshots.onCaptured = { [weak self] in self?.showCaptureEditor(recording:false) }
         store.screenshots.onCaptureFailed = { [weak self] in self?.store.navigate(.screenshots); self?.openWindow() }
         store.shortcuts.perform = { [weak self] action in self?.performShortcut(action) }
         if !store.preview { store.shortcuts.start(CarbonShortcutRegistrar()) }
@@ -253,7 +297,7 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
     }
     func performShortcut(_ action: OrbitShortcutAction) {
         let route = CaptureShortcutRoute.resolve(action,phase:store.recorderState.phase,blocked:!MenuBarState(store:store).canNavigate,dispatching:shortcutDispatching,screenshotMode:store.screenshots.source.options.mode,recordingMode:store.recorderState.options.mode)
-        switch route { case .writing: perform(.writing); return; case .ignore: return; case .open: openWindow(); return; case .stopRecording: perform(.stopRecord); return; case .selector: if !popover.isShown { togglePanel() }; return; default: break }
+        switch route { case .pauseRecording: store.recorderState.togglePause(); return; case .writing: perform(.writing); return; case .ignore: return; case .open: openWindow(); return; case .stopRecording: perform(.stopRecord); return; case .selector: if !popover.isShown { togglePanel() }; return; default: break }
         popover.close(); mainWindow?.orderOut(nil)
         shortcutDispatching = true
         Task {
@@ -262,10 +306,6 @@ final class OrbitWindowDelegate: NSObject, NSWindowDelegate {
             else if case let .startRecording(mode) = route {
                 let recorder = store.recorderState
                 if recorder.options.mode != mode { recorder.options.mode = mode; recorder.modeChanged() }
-                if recorder.options.mode == "Window" {
-                    guard await recorder.loadSources() else { recorder.showCompactControls(preserveNotice:true); return }
-                    guard recorder.selectedWindow != nil else { recorder.showCompactControls(); return }
-                }
                 if recorder.options.mode == "Selected area" { recorder.modeChanged() }
                 recorder.start(compact:true)
             }
